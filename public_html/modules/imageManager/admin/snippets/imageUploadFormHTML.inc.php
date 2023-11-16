@@ -68,7 +68,7 @@
                     </div>
                     <div class="imagePlaceholder">
                         <?php if ($this->oCoverImageImageFile) { ?>
-                            <img data-imageid="<?= $this->oCoverImageImageFile->imageId ?>" src="<?= $this->oCoverImageImageFile->link ?>" />
+                            <img data-imageid="<?= $this->oCoverImageImageFile->imageId ?>" src="<?= $this->oCoverImageImageFile->link ?>?t=<?= time()?>" />
                         <?php } ?>
                     </div>
                 </div>

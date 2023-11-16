@@ -1966,7 +1966,7 @@ function addImage(imageFile, settings) {
 
     html += '<div class="imagePlaceholder">';
     html += '<div class="centered">';
-    html += '<img src="' + imageFile.link + '" alt="' + (imageFile.title ? imageFile.title : '') + '" title="' + (imageFile.title ? imageFile.title : '') + '" />';
+    html += '<img src="' + imageFile.link + '?t=' + Math.random() + '" alt="' + (imageFile.title ? imageFile.title : '') + '" title="' + (imageFile.title ? imageFile.title : '') + '" />';
     html += '</div>';
     html += '</div>';
     html += '<div class="actionsPlaceholder"><span style="float:left; font-size:13px;">' + (imageFile.title ? imageFile.title : '') + '</span>';

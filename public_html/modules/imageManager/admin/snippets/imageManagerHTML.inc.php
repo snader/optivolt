@@ -53,14 +53,14 @@
                 ?>
                 <div class="imagePlaceholder">
                     <div class="centered">
-                        <img src="<?= $oImage->getImageFileByReference('cms_thumb')->link . '?' . time() ?>" alt="<?= $oImage->getImageFileByReference('cms_thumb')->title ?>" <?= $oImage->getImageFileByReference(
+                        <img src="<?= $oImage->getImageFileByReference('cms_thumb')->link . '?t=' . time() ?>" alt="<?= $oImage->getImageFileByReference('cms_thumb')->title ?>" <?= $oImage->getImageFileByReference(
                             'cms_thumb'
                         )->imageSizeAttr ?> title="<?= $oImage->getImageFileByReference('cms_thumb')->title ?>"/>
                     </div>
                 </div>
                 <div class="actionsPlaceholder">
                     <?php
-                echo '<span style="float:left; font-size:13px;">' . $oImage->getImageFileByReference('cms_thumb')->title . '</span>';
+                echo '<span style="float:left; font-size:13px;">' . $oImage->getImageFileByReference('cms_thumb')->title . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? ' (' . $oImage->getImageFileByReference('cms_thumb')->orgTitle . ')' : ' (' . $oImage->imageId . ')') . '</span>';
                     if (!$this->bListView && $this->onlineChangeable) {
                         if ($oImage->isOnlineChangeable()) {
                             echo '<a class="btn btn-success btn-xs action_icon ' . ($oImage->online ? 'online' : 'offline') . '_icon onlineOfflineBtn" onclick="setOnlineImage(this); return false;" online="' . ($oImage->getImageFileByReference(

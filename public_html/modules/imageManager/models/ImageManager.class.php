@@ -27,7 +27,7 @@ class ImageManager
         $sQuery = ' INSERT INTO
                         `images`
                         (
-                            `imageId`,
+                            `imageId`,                           
                             `order`,
                             `online`
                         )
@@ -85,6 +85,7 @@ class ImageManager
                             `mediaId`,
                             `link`,
                             `title`,
+                            `orgTitle`,
                             `type`,
                             `online`,
                             `order`,
@@ -95,12 +96,14 @@ class ImageManager
                             ' . db_int($oImageFile->mediaId) . ',
                             ' . db_str($oImageFile->link) . ',
                             ' . db_str($oImageFile->title) . ',
+                            ' . db_str($oImageFile->orgTitle) . ',
                             ' . db_str($oImageFile->type) . ',
                             ' . db_int($oImageFile->online) . ',
                             ' . db_int($oImageFile->order) . ',
                             NOW()
                         )ON DUPLICATE KEY UPDATE
                             `title` = VALUES(`title`),
+                            `orgTitle` = VALUES(`orgTitle`),
                             `online` = VALUES(`online`),
                             `order` = VALUES(`order`)
                         ;';
@@ -1434,7 +1437,7 @@ class ImageManager
      *
      * @return boolean|\Image
      */
-    public static function handleImageUpload(Upload $oUpload, array $aImageSettings, $sTitle = '', &$aErrorMsgs = '')
+    public static function handleImageUpload(Upload $oUpload, array $aImageSettings, $sTitle = '', &$aErrorMsgs = '', $sOriginalFlirName = '')
     {
 
         // check if images path settings exists
@@ -1502,6 +1505,7 @@ class ImageManager
 
         $oImageFile           = new ImageFile();
         $oImageFile->title    = $sTitle;
+        $oImageFile->orgTitle = $sOriginalFlirName;
         $oImageFile->mimeType = $oUpload->sMimeType;
         $oImageFile->name     = $oUpload->sNewFileBaseName;
 
