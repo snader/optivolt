@@ -1,0 +1,85 @@
+
+    /**
+     * get page to get controller part in path
+     *
+     * @param ACMS\Locale $oLocale
+     *
+     * @return Page
+     */
+    private function getControllerPage()
+    {
+        if ($this->oControllerPage === null) {
+            $this->oControllerPage = PageManager::getPageByName('{{pageSystemName}}', $this->languageId);
+        }
+
+        return $this->oControllerPage;
+    }
+
+    /**
+     * get url to item
+     *
+     * @return string
+     */
+    public function getUrlPath()
+    {
+        // get page for controller part
+        if ($this->getControllerPage()) {
+            $sUrlPath = $this->getControllerPage()
+                    ->getUrlPath() . '/' . $this->{{idName}}Id . '/' . prettyUrlPart($this->title);
+        } else {
+            $sUrlPath = null;
+        }
+
+        return $sUrlPath;
+    }
+
+    /**
+     * get url to page with base url
+     *
+     * @return string
+     */
+    public function getBaseUrlPath()
+    {
+        return getBaseUrl() . $this->getUrlPath();
+    }
+
+    /**
+     * return short title but fall back on title if short does not exists
+     *
+     * @return string
+     */
+    public function getShortTitle()
+    {
+        return $this->shortTitle ? $this->shortTitle : $this->title;
+    }
+
+    /**
+     * return the window title if there is one, otherwise return title
+     *
+     * @return string
+     */
+    public function getWindowTitle()
+    {
+        return $this->windowTitle ? $this->windowTitle : $this->title;
+    }
+
+    /**
+     * return meta description if exists or a
+     *
+     * @return string
+     */
+    public function getMetaDescription()
+    {
+        return $this->metaDescription ? $this->metaDescription : generateMetaDescription($this->content);
+    }
+
+    /**
+     * return meta keywords
+     *
+     * @return string
+     */
+    public function getMetaKeywords()
+    {
+        return $this->metaKeywords;
+    }
+    {{moduleGetCrumbles}}

@@ -1,0 +1,23 @@
+    # action = saveLink
+    if (Request::postVar("action") == 'saveLink' && CSRFSynchronizerToken::validate()) {
+
+        # load data in object
+        $oLink = new Link();
+        $oLink->_load($_POST);
+
+        # if object is valid, save
+        if ($oLink->isValid()) {
+            LinkManager::saveLink($oLink); //save link
+            {{classFileName}}Manager::save{{classFileName}}LinkRelation($o{{classFileName}}->{{idName}}Id, $oLink->mediaId);
+            Session::set('statusUpdate', sysTranslations::get('global_link_saved')); //save status update into session
+            Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id);
+        } else {
+            Debug::logError("", "{{classFileName}} module php validate error", __FILE__, __LINE__, "Tried to save Link with wrong values despite javascript check.<br />" . _d($_POST, 1, 1), Debug::LOG_IN_EMAIL);
+            $oPageLayout->sStatusUpdate = sysTranslations::get('global_link_not_saved');
+        }
+    }
+
+    # set link manager
+    $oLinkManagerHTML             = new LinkManagerHTML();
+    $oLinkManagerHTML->aLinks     = $o{{classFileName}}->getLinks('all');
+    $oLinkManagerHTML->sUploadUrl = ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id;

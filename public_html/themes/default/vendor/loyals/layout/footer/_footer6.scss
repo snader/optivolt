@@ -1,0 +1,150 @@
+// Footer layout
+
+#footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  .footer-container {
+    background: lighten($template-color, 5%);
+    color: #fff;
+    padding: 20px 0px;
+
+    .logo-container {
+      border-bottom: 1px solid #fff;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+
+      .logo {
+        width: 150px;
+        margin: 0 auto 20px auto;
+      }
+    }
+
+    .footer-col {
+
+      @include breakpoint(s) {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .title {
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+
+      .openings-hours {
+        margin-bottom: 20px;
+      }
+
+      .socials {
+
+        a {
+          display: inline-block;
+          text-align: center;
+          margin: 5px 5px 5px 0px;
+          background: $template-color;
+          color: #fff;
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          @include border-radius(100%);
+          @include transition(all 0.3s ease-in-out);
+
+          &:hover {
+            background: $template-cta-color;
+            color: #fff;
+          }
+
+        }
+      }
+
+      .address {
+        margin-bottom: 15px;
+      }
+
+      .contact {
+        a {
+          display: inline-block;
+          margin-bottom: 5px;
+          text-decoration: none;
+          @include transition(all 0.3s ease-in-out);
+
+          &:hover {
+            color: #fff;
+          }
+
+          i {
+            margin-right: 5px;
+          }
+
+        }
+      }
+    }
+  }
+
+  .footer-copyright {
+    color: #fff;
+    padding: 20px 0px;
+    background: $template-color-dark;
+    font-size: 12px;
+
+    @include breakpoint(s) {
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .links {
+      text-align: right;
+
+      @include breakpoint(s) {
+        margin: 10px;
+        text-align: center;
+      }
+
+      a {
+        display: inline-block;
+        text-decoration: none;
+        @include transition(all 0.3s ease-in-out);
+        padding-left: 10px;
+        margin-left: 10px;
+        border-left: 1px solid #fff;
+
+        &:hover {
+          color: #fff;
+        }
+
+        &:first-child {
+          border-left: 0px;
+          padding-left: 0px;
+          margin-left: 0px;
+        }
+      }
+    }
+
+    .copyright-landgoedvoorn {
+      text-align: center;
+    }
+  }
+}
+
+// Pusher (get's recalculated but needs default values)
+.footer-pusher {
+  height: 400px;
+  @include transition(height 0.3s ease-in-out);
+}
+
+.footer-header-pusher {
+  display: none;
+  height: 70px;
+
+  &.s-is-visible {
+    @include breakpoint(s) {
+      display: block;
+    }
+  }
+}

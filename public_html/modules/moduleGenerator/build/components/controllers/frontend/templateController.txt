@@ -1,0 +1,88 @@
+<?php
+
+class {{controllerFileNamePascalCased}}Controller extends PageController
+{
+
+    /**
+     * Init
+     */
+    public function init()
+    {
+        parent::init();
+
+        $oPageLayout = $this->getRenderEngine()
+            ->getLayout();
+
+    }
+
+    /**
+     * {{classFileName}} Index
+     *
+     * @param null $sRequestURL
+     *
+     * @return \CoreController|string
+     */
+    public function index($sRequestURL = null)
+    {
+        if ($mResult = parent::index($sRequestURL)) {
+            return $mResult;
+        }
+
+        // Check what kind of page to show.
+        if (is_numeric(Request::param('ID'))) {
+            // Show {{classFileName}} Detail
+            return $this->{{singleSystemFileName}}(Request::param('ID'));
+        }{{hasCategories}}
+
+        $iPerPage = 3;
+        $this->{{singleSystemFileName}}Overview($iPerPage, $this->oPage->getBaseUrlPath());
+        {{controllerCategoryIndex}}
+        $this->getRenderEngine()
+            ->getLayout()->sViewPath = getSiteView('{{multipleSystemFileName}}_overview', '{{moduleFolderName}}');
+    }
+
+    /**
+     * {{classFileName}} Detail Page
+     *
+     * @param $i{{classFileName}}Id
+     */
+    protected function {{singleSystemFileName}}($i{{classFileName}}Id)
+    {
+        $o{{classFileName}} = {{classFileName}}Manager::get{{classFileName}}ById($i{{classFileName}}Id);
+
+        $bPreviewMode = ((Request::getVar('preview') == 1 && UserManager::getCurrentUser()) ? true : false);
+
+        if (empty($o{{classFileName}}) || !$o{{classFileName}}->isOnline($bPreviewMode)) {
+            return Router::httpError('404');
+        }
+        {{controllerCategoryPage1}}
+
+        $oPageLayout = $this->getRenderEngine()
+            ->getLayout();
+
+        $oPageLayout->sWindowTitle     = $o{{classFileName}}->getWindowTitle();
+        $oPageLayout->sMetaDescription = $o{{classFileName}}->getMetaDescription();
+        $oPageLayout->sMetaKeywords    = $o{{classFileName}}->getMetaKeywords();
+        $oPageLayout->generateCustomCrumblePath($o{{classFileName}}->getCrumbles({{controllerCategoryPage2}}));
+        $oPageLayout->sCanonical      = $o{{classFileName}}->getBaseUrlPath();
+        $oPageLayout->sOGType         = 'article';
+        $oPageLayout->sOGTitle        = $o{{classFileName}}->getWindowTitle();
+        $oPageLayout->sOGDescription  = $o{{classFileName}}->getMetaDescription();
+        $oPageLayout->sOGUrl          = getCurrentUrl();
+
+        # Always set canonical to itself to prevent duplicate content
+        $oPageLayout->sCanonical = $o{{classFileName}}->getBaseUrlPath();
+
+        {{hasMedia}}
+
+        {{controllerCategoryPage3}}
+        $this->getRenderEngine()
+            ->setVariables(['o{{classFileName}}' => $o{{classFileName}}{{setRenderVariables}}, 'sBackLink' => $sBackLink]);
+        $oPageLayout->sViewPath = getSiteView('{{singleSystemFileName}}_details', '{{moduleFolderName}}');
+    }
+
+    {{controllerOverview}}
+
+    {{functionCategory}}
+
+}

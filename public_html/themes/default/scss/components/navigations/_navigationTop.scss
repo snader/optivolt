@@ -1,0 +1,55 @@
+.navigation-top {
+	width: 100%;
+    padding: 10px 0;
+    text-align: right;
+	display: inline-block;
+    background-color: $black;
+    @include transition(all .15s ease-in-out);
+
+	@include tablet {
+		padding-right: 20px;
+	}
+
+    .phone {
+
+        a {
+            color: #fff;
+            float: right;
+            text-decoration: none;
+            @include transition(all .15s ease-in-out);
+
+            &:hover {
+                color: $primary;
+            }
+
+            i {
+                font-size: 17px;
+            }
+        }
+    }
+
+    ul {
+        float: right;
+        list-style: none;
+        margin: 0 40px 0 0;
+
+        @include until(480px) {
+            display: none;
+        }
+
+        li {
+            margin: 0 10px;
+            display: inline-block;
+
+            a {
+                color: #fff;
+                text-decoration: none;
+                @include transition(all .15s ease-in-out);
+
+                &:hover {
+                    color: $primary;
+                }
+            }
+        }
+    }
+}

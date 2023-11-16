@@ -1,0 +1,4 @@
+            # get and delete files
+            foreach ($o{{classFileName}}->getFiles('all') AS $oFile) {
+                FileManager::deleteFile($oFile);
+            }

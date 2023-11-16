@@ -1,0 +1,87 @@
+.forum-categories {
+    li {    
+        background-color: #ddd;
+        &:hover {
+            background-color: $template-color;            
+        }        
+        a {
+            text-decoration: none;
+            padding:10px 20px;
+            &:hover {
+                color: #fff;
+            }
+        }                    
+    }    
+}    
+
+/* tables */
+table.forum {	
+	background-color: #dedede;        	
+	border: 1px solid #fff;
+	width: 100%;
+	text-align: left;
+}
+table.forum thead tr th, table.forum tfoot tr th {
+	background-color: #eeeeee;
+	border: 1px solid #ffffff;	
+	padding: 4px;
+}
+table.forum thead tr .header {
+
+}
+table.forum tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #ffffff;
+	vertical-align: top;
+}
+
+table.forum tbody tr {
+    border-bottom:1px solid #F0F0F6;
+}
+table.forum thead tr .headerSortUp {
+
+}
+table.forum thead tr .headerSortDown {
+
+}
+table.forum thead tr .headerSortDown, table.forum thead tr .headerSortUp {
+background-color: #dddddd;
+} 
+
+table.forum tfoot td {
+    padding:5px;
+}
+
+table.forum tbody tr:nth-child(odd) td { 
+    background-color: #f6f6f6;     
+} 
+
+table.forum tbody tr.static td {
+  background-color: #dedede;  
+}
+
+.topic-row {
+    padding-top: 10px;
+    
+    .topic-date {
+        background: #eeeeee;
+        padding: 5px;
+        font-size: 9pt;
+    }  
+    .topic-content {
+        padding:5px;
+    }
+}
+
+.isread {
+    font-weight:bold;
+}
+    
+.row.perpage {
+    padding:13px;
+}
+    
+.form-label-form.error {
+    color: #ff0000;
+}

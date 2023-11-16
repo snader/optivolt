@@ -1,0 +1,19 @@
+.item {
+
+	@include mobile {
+		max-width: 400px;
+		margin: 0 auto;
+	}
+
+	.date {
+		margin-bottom: 20px;
+	}
+
+	time {
+		display: block;
+
+		i {
+			margin-right: 6px;
+		}
+	}
+}

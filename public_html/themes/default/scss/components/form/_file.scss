@@ -1,0 +1,14 @@
+.file {
+
+	&.is-boxed {
+
+		&.has-name {
+
+			.error-message {
+				left: 15px;
+				bottom: 10px;
+				position: absolute;
+			}
+		}
+	}
+}

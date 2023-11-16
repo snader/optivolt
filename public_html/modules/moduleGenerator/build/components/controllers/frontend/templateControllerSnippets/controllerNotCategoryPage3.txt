@@ -1,0 +1,7 @@
+
+            $oControllerPage = PageManager::getPageByName('{{pageSystemName}}');
+            if ($oControllerPage) {
+                $sBackLink = $oControllerPage->getBaseUrlPath();
+            } else {
+                $sBackLink = null;
+            }

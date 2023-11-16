@@ -1,0 +1,4 @@
+ elseif (Request::param('ID')) {
+            // Show Category Page
+            return $this->category(Request::param('ID'));
+        }

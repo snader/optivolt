@@ -1,0 +1,52 @@
+                        <?php if ($oCurrentUser->isSEO()) { ?>
+                        <tr>
+                            <td colspan="3"><h2><?= sysTranslations::get('user_seo') ?></h2></td>
+                        </tr>
+                        <?php
+                        if ($o{{classFileName}}->{{idName}}Id) {
+                            $aLocales = $o{{classFileName}}->getLocales();
+                            ?>
+                            <tr>
+                                <td><?= sysTranslations::get('global_current_url') ?></td>
+                                <td>
+                                    <?php
+                                    foreach ($aLocales as $oLocale) {
+                                        echo getBaseUrl($oLocale) . $o{{classFileName}}->getUrlPath() . '<br />';
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        <tr>
+                            <td class="withLabel"><label for="windowTitle"><?= sysTranslations::get('global_window_title') ?></label>
+                                <div class="hasTooltip tooltip" title="<?= sysTranslations::get('global_title_seo') ?>">&nbsp;</div>
+                            </td>
+                            <td colspan="2">
+                                <div class="inline-block">
+                                    <input class="default charCounterWindowTitle" id="windowTitle" type="text" maxlength="255" name="windowTitle" value="<?= _e($o{{classFileName}}->windowTitle) ?>"/>
+                                    <div id="windowTitleCounter" style="text-align: right;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="metaDescription"><?= sysTranslations::get('global_description') ?></label>
+                                <div class="hasTooltip tooltip" title="<?= sysTranslations::get('global_description_seo') ?>">&nbsp;</div>
+                            </td>
+                            <td colspan="2">
+                                <div class="inline-block">
+                                    <textarea class="default charCounterMetaDescription" id="metaDescription" maxlength="255" name="metaDescription"><?= _e($o{{classFileName}}->metaDescription) ?></textarea>
+                                    <div id="metaDescriptionCounter" style="text-align: right;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="withLabel"><label for="metaKeywords"><?= sysTranslations::get('global_keywords') ?></label>
+                                <div class="hasTooltip tooltip" title="<?= sysTranslations::get('global_keywords_seo') ?>">&nbsp;</div>
+                            </td>
+                            <td colspan="2">
+                                <div class="inline-block"><input class="default charCounterMetaKeywords" id="metaKeywords" type="text" maxlength="255" name="metaKeywords" value="<?= _e($o{{classFileName}}->metaKeywords) ?>"/>
+                                    <div id="metaKeywordsCounter" style="text-align: right;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php } ?>

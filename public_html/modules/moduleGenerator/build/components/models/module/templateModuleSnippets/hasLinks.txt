@@ -1,0 +1,2 @@
+
+    private $aLinks = null; //array with different lists of links

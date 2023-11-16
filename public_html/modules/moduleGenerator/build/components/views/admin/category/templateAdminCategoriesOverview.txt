@@ -1,0 +1,95 @@
+<table class="sorted withActionIcons">
+    <thead>
+    <tr class="topRow">
+        <td colspan="6">
+            <?php include_once getAdminSnippet('localeSelect'); ?>
+        </td>
+    </tr>
+    <tr class="topRow">
+        <td colspan="3"><h2><?= sysTranslations::get('{{singleSystemFileName}}_all_categories') ?></h2>
+            <div class="right"><a class="addBtn textRight" href="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>/toevoegen" title="<?= sysTranslations::get('{{singleSystemFileName}}_category_add') ?>"
+                                  alt="<?= sysTranslations::get('{{singleSystemFileName}}_category_add') ?>"><?= sysTranslations::get('{{singleSystemFileName}}_category_add') ?></a><br/><a class="changeOrderBtn textRight"
+                                                                                                                                                     href="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>/volgorde-wijzigen"
+                                                                                                                                                     title="<?= sysTranslations::get('global_change_order') ?>"
+                                                                                                                                                     alt="<?= sysTranslations::get('global_change_order') ?>"><?= sysTranslations::get(
+                        'global_change_order'
+                    ) ?></a></div>
+        </td>
+    </tr>
+    <tr>
+        <th class="{sorter:false} nonSorted onlineOffline">&nbsp;</th>
+        <th><?= sysTranslations::get('{{singleSystemFileName}}_category_name') ?></th>
+        <th class="{sorter:false} nonSorted" style="width: 60px;">&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+
+    foreach ($a{{classFileName}}Categories AS $o{{classFileName}}Category) {
+        echo '<tr>';
+        echo '<td>';
+        # online offline button
+        echo '<a id="{{singleSystemFileName}}Category_' . $o{{classFileName}}Category->{{idName}}CategoryId . '_online_1" title="' . sysTranslations::get(
+                '{{singleSystemFileName}}_category_set_offline_tooltip'
+            ) . '" class="action_icon ' . ($o{{classFileName}}Category->online ? '' : 'hide') . ' online_icon" href="' . ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/ajax-setOnline/' . $o{{classFileName}}Category->{{idName}}CategoryId . '/?online=0&'. CSRFSynchronizerToken::query() .'"></a>';
+        echo '<a id="{{singleSystemFileName}}Category_' . $o{{classFileName}}Category->{{idName}}CategoryId . '_online_0" title="' . sysTranslations::get(
+                '{{singleSystemFileName}}_category_set_online_tooltip'
+            ) . '" class="action_icon ' . ($o{{classFileName}}Category->online ? 'hide' : '') . ' offline_icon" href="' . ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/ajax-setOnline/' . $o{{classFileName}}Category->{{idName}}CategoryId . '/?online=1&'. CSRFSynchronizerToken::query() .'"></a>';
+        echo '</td>';
+        echo '<td>' . _e($o{{classFileName}}Category->name) . '</td>';
+        echo '<td>';
+        echo '<a class="action_icon edit_icon" title="' . sysTranslations::get('{{singleSystemFileName}}_category_edit') . '" href="' . ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}Category->{{idName}}CategoryId . '"></a>';
+
+        if ($o{{classFileName}}Category->isDeletable()) {
+            echo '<a class="action_icon delete_icon" title="' . sysTranslations::get('{{singleSystemFileName}}_category_delete') . '" onclick="return confirmChoice(\'' . _e($o{{classFileName}}Category->name) . '\');" href="' . ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/verwijderen/' . $o{{classFileName}}Category->{{idName}}CategoryId . '?'. CSRFSynchronizerToken::query() .'"></a>';
+        } else {
+            echo '<span class="action_icon delete_icon grey" title="' . sysTranslations::get('{{singleSystemFileName}}_category_not_deletable') . '"></span>';
+        }
+
+        echo '</td>';
+        echo '</tr>';
+    }
+    if (empty($a{{classFileName}}Categories)) {
+        echo '<tr><td colspan="3"><i>' . sysTranslations::get('{{singleSystemFileName}}_no_categories') . '</i></td></tr>';
+    }
+    ?>
+    </tbody>
+</table>
+<?php
+
+# create necessary javascript
+$s{{classFileName}}CatOnlineMsg     = sysTranslations::get('{{singleSystemFileName}}_category_online');
+$s{{classFileName}}CatOfflineMsg    = sysTranslations::get('{{singleSystemFileName}}_category_offline');
+$s{{classFileName}}CatnotchangedMsg = sysTranslations::get('{{singleSystemFileName}}_category_not_changed');
+$sController           = Request::getControllerSegment();
+$sBottomJavascript     = <<<EOT
+<script>
+    $("a.online_icon, a.offline_icon").click(function(e){
+        $.ajax({
+            type: "GET",
+            url: $(this).prop('href'),
+            data: 'ajax=1',
+            async: true,
+            success: function(data){
+                var dataObj = eval('(' + data + ')');
+
+                /* On success */
+                if (dataObj.success == true){
+                    $("#{{singleSystemFileName}}Category_"+dataObj.{{idName}}CategoryId+"_online_0").hide(); // hide offline button
+                    $("#{{singleSystemFileName}}Category_"+dataObj.{{idName}}CategoryId+"_online_1").hide(); // hide online button
+                    $("#{{singleSystemFileName}}Category_"+dataObj.{{idName}}CategoryId+"_online_"+dataObj.online).css('display', 'inline-block'); // show button based on online value
+                    if(dataObj.online == 0)    
+                        showStatusUpdate("$s{{classFileName}}CatOfflineMsg");
+                    if(dataObj.online == 1)    
+                        showStatusUpdate("$s{{classFileName}}CatOnlineMsg");
+                } else {
+                    showStatusUpdate("$s{{classFileName}}CatnotchangedMsg");
+                }
+            }
+        });
+        e.preventDefault();
+    });
+</script>
+EOT;
+$oPageLayout->addJavascript($sBottomJavascript);
+?>

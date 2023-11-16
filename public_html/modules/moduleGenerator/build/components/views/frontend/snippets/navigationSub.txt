@@ -1,0 +1,24 @@
+<?php
+if (!empty($a{{classFileName}}CategoriesForMenu)) { ?>
+    <div class="col-30">
+        <nav class="navigation-sub animated cf">
+            <ul>
+                <?php
+                foreach ($a{{classFileName}}CategoriesForMenu as $o{{classFileName}}CategoryForMenu) {
+                    ?>
+                    <li>
+                        <a href="<?= $o{{classFileName}}CategoryForMenu->getBaseUrlPath() ?>"
+                           class="<?= (!empty($o{{classFileName}}Category) ? ($o{{classFileName}}Category->{{idName}}CategoryId == $o{{classFileName}}CategoryForMenu->{{idName}}CategoryId ? 'is-active' : '') : '') ?>">
+                            <?= $o{{classFileName}}CategoryForMenu->name ?>
+                        </a>
+                    </li>
+                <?php }
+                if (!empty($sArchiveLink)) { ?>
+                    <li>
+                        <a class="<?= ($sArchiveLink == getCurrentUrlPath() ? 'is-active' : '') ?>" href="<?= $sArchiveLink ?>"><?= _e(SiteTranslations::get('global_archive')) ?></a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </nav>
+    </div>
+<?php } ?>

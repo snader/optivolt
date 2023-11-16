@@ -1,0 +1,31 @@
+    /**
+     * Category Page
+     *
+     * @param $sCategory
+     */
+    protected function category($sCategory)
+    {
+        if (!class_exists('{{classFileName}}CategoryManager')) {
+            Router::redirect('/' . Request::getVar('controller'));
+        }
+
+        $oPageLayout = $this->getRenderEngine()
+            ->getLayout();
+
+        $o{{classFileName}}Category = {{classFileName}}CategoryManager::get{{classFileName}}CategoryByUrlPart($sCategory, Locales::language());
+        if (!$o{{classFileName}}Category || !$o{{classFileName}}Category->isOnline()) {
+            Router::redirect('/' . Request::getVar('controller'));
+        }
+
+        $iPerPage = 6;
+        $this->{{singleSystemFileName}}Overview($iPerPage, $o{{classFileName}}Category->getBaseUrlPath(), $o{{classFileName}}Category->{{idName}}CategoryId);
+
+        $oPageLayout->sWindowTitle     = $o{{classFileName}}Category->getWindowTitle();
+        $oPageLayout->sMetaDescription = $o{{classFileName}}Category->getMetaDescription();
+        $oPageLayout->sMetaKeywords    = $o{{classFileName}}Category->getMetaKeywords();
+        $oPageLayout->generateCustomCrumblePath($o{{classFileName}}Category->getCrumbles());
+        $oPageLayout->sViewPath = getSiteView('{{singleSystemFileName}}Category_overview', '{{moduleFolderName}}');
+
+        $this->getRenderEngine()
+            ->setVariables(['o{{classFileName}}Category' => $o{{classFileName}}Category,]);
+    }

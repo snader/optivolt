@@ -1,0 +1,50 @@
+// Tabs styling
+
+.tabs {
+  position: relative;
+  width: 100%;
+}
+.tabs .tabsHolder ul {
+  background-color: $template-color;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  color: #fff;
+}
+.tabs .tabsHolder ul li {
+  display: block;
+  float: left;
+  list-style-type: none;
+  margin: 0;
+}
+.tabs .tabsHolder ul li:hover {
+  cursor: pointer;
+}
+.tabs .tabsHolder ul li span.label {
+  display: block;
+  padding: 5px 10px;
+  @include transition(all 0.3s ease-in-out);
+}
+.tabs .tabsHolder ul li span.label:hover {
+  background: $template-color;
+  color: #fff;
+  transition: background 0.3s ease-in 0s;
+  @include transition(all 0.3s ease-in-out);
+}
+.tabs .tabsHolder ul li.active span.label {
+  background-color: #97bf0d;
+}
+.tabs .tabDetails .tabContent {
+  display: none;
+}
+.tabs .tabDetails .tabContent.opened {
+  background: #fff;
+  border: 1px solid $template-color;
+  color: #000000;
+  display: block;
+  padding: 10px;
+}
+.tabs .tabDetails .tabLabel {
+  display: none;
+}

@@ -1,0 +1,10 @@
+        if ($i{{classFileName}}CategoryId && ($o{{classFileName}}Category = {{classFileName}}CategoryManager::get{{classFileName}}CategoryById($i{{classFileName}}CategoryId))) {
+            $sBackLink = $o{{classFileName}}Category->getBaseUrlPath();
+        } else {
+            $oControllerPage = PageManager::getPageByName('{{pageSystemName}}');
+            if ($oControllerPage) {
+                $sBackLink = $oControllerPage->getBaseUrlPath();
+            } else {
+                $sBackLink = null;
+            }
+        }

@@ -1,0 +1,2 @@
+
+    $a{{classFileName}}Filter['{{idName}}CategoryId'] = '';

@@ -1,0 +1,25 @@
+    /**
+     * get all links by specific list name for a {{classFileName}}
+     *
+     * @param string $sList
+     *
+     * @return array Link
+     */
+    public function getLinks($sList = 'online')
+    {
+        if (!isset($this->aLinks[$sList])) {
+            switch ($sList) {
+                case 'online':
+                    $this->aLinks[$sList] = {{classFileName}}Manager::getLinksByFilter($this->{{idName}}Id);
+                    break;
+                case 'all':
+                    $this->aLinks[$sList] = {{classFileName}}Manager::getLinksByFilter($this->{{idName}}Id, ['showAll' => true]);
+                    break;
+                default:
+                    die('no option');
+                    break;
+            }
+        }
+
+        return $this->aLinks[$sList];
+    }

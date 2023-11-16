@@ -1,0 +1,2 @@
+
+        $aVideos = $o{{classFileName}}->getVideoLinks();

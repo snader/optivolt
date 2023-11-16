@@ -1,0 +1,60 @@
+{
+  "images": {
+    "imagesPath": "/uploads/images/user",
+    "originalReference": "original",
+    "sizes": {
+      "original": {
+        "adjustment": "resize",
+        "width": 2000,
+        "height": 2000,
+        "quality": 100
+      },
+      "crop_small": {
+        "adjustment": "autoCropAndResize",
+        "width": 200,
+        "height": 200,
+        "absoluteSize": true
+      },
+      "cms_thumb": {
+        "adjustment": "autoCropAndResize",
+        "width": 100,
+        "height": 100,
+        "absoluteSize": true
+      },
+      "user_image": {
+        "adjustment": "autoCropAndResize",
+        "width": 38,
+        "height": 38,
+        "absoluteSize": true
+      }
+    },
+    "neededImageFiles": [
+      "crop_small",
+      "cms_thumb",
+      "user_image"
+    ],
+    "cropSettings": [
+      {
+        "name": "global_crop_for_desktop",
+        "cropFromReference": "original",
+        "autoCropBoxSize": true,
+        "showPreview": true,
+        "aspectRatio": {
+          "width": 200,
+          "height": 200
+        },
+        "crops": {
+          "cms_thumb": {
+            "showUnderCropBox": false
+          },
+          "crop_small": {
+            "showUnderCropBox": false
+          },
+          "user_image": {
+            "showUnderCropBox": true
+          }
+        }
+      }
+    ]
+  }
+}

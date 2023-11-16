@@ -1,0 +1,34 @@
+// start youtube link relations
+if (!$oDb->tableExists('{{tableName}}_video_links')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `{{tableName}}_video_links`';
+    if ($bInstall) {
+
+        // add table
+        $sQuery = '
+            CREATE TABLE `{{tableName}}_video_links` (
+              `{{idName}}Id` int(11) NOT NULL,
+              `mediaId` int(11) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+}
+
+if ($oDb->tableExists('{{tableName}}_video_links') && $oDb->tableExists('{{tableName}}')) {
+
+    // check photo albums constraint
+    if (!$oDb->constraintExists('{{tableName}}_video_links', '{{idName}}Id', '{{tableName}}', '{{idName}}Id')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{tableName}}_video_links`.`{{idName}}Id` => `{{tableName}}`.`{{idName}}Id`';
+        if ($bInstall) {
+            $oDb->addConstraint('{{tableName}}_video_links', '{{idName}}Id', '{{tableName}}', '{{idName}}Id', 'RESTRICT', 'CASCADE');
+        }
+    }
+
+    // check video_links constraint
+    if (!$oDb->constraintExists('{{tableName}}_video_links', 'mediaId', 'media', 'mediaId')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{tableName}}_video_links`.`mediaId` => `media`.`mediaId`';
+        if ($bInstall) {
+            $oDb->addConstraint('{{tableName}}_video_links', 'mediaId', 'media', 'mediaId', 'CASCADE', 'CASCADE');
+        }
+    }
+}

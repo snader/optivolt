@@ -1,0 +1,117 @@
+// {{classFileName}} categories
+if (!$oDb->tableExists('{{relationTableNamePrefix}}_categories')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `{{relationTableNamePrefix}}_categories`';
+    if ($bInstall) {
+
+        // add table
+        $sQuery = '
+        CREATE TABLE `{{relationTableNamePrefix}}_categories` (
+          `{{idName}}CategoryId` int(11) NOT NULL AUTO_INCREMENT,
+          `languageId` int(11) NOT NULL DEFAULT \'1\',
+          `windowTitle` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `metaKeywords` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `metaDescription` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `urlPart` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          `urlPartText` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `online` tinyint(1) NOT NULL DEFAULT \'1\',
+          `order` int(11) NOT NULL DEFAULT \'9999\',
+          `created` timestamp NULL DEFAULT NULL,
+          `modified` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+          PRIMARY KEY (`{{idName}}CategoryId`),
+          KEY (`languageId`),
+          UNIQUE KEY `u_{{controllerFileName}}Categories_urlPart` (`urlPart`, `languageId`)
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+
+    // check languages constraint
+    if (!$oDb->constraintExists('{{relationTableNamePrefix}}_categories', 'languageId', 'languages', 'languageId')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{relationTableNamePrefix}}_categories`.`languageId` => `languages`.`languageId`';
+        if ($bInstall) {
+            $oDb->addConstraint('{{relationTableNamePrefix}}_categories', 'languageId', 'languages', 'languageId', 'RESTRICT', 'CASCADE');
+        }
+    }
+}
+
+if ($oDb->tableExists('{{tableName}}') && $oDb->tableExists('{{relationTableNamePrefix}}_categories')) {
+    // start category relations
+    if (!$oDb->tableExists('{{relationTableNamePrefix}}_categories_{{tableName}}')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing table `{{relationTableNamePrefix}}_categories_{{tableName}}`';
+        if ($bInstall) {
+
+            // add table
+            $sQuery = '
+            CREATE TABLE `{{relationTableNamePrefix}}_categories_{{tableName}}` (
+              `{{idName}}CategoryId` int(11) NOT NULL,
+              `{{idName}}Id` int(11) NOT NULL,
+              PRIMARY KEY (`{{idName}}CategoryId`,`{{idName}}Id`),
+              KEY `{{idName}}CategoryId` (`{{idName}}CategoryId`),
+              KEY `{{idName}}Id` (`{{idName}}Id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            ';
+            $oDb->query($sQuery, QRY_NORESULT);
+        }
+    }
+
+    if ($oDb->tableExists('{{relationTableNamePrefix}}_categories_{{tableName}}')) {
+
+        // check photo albums constraint
+        if (!$oDb->constraintExists('{{relationTableNamePrefix}}_categories_{{tableName}}', '{{idName}}Id', '{{tableName}}', '{{idName}}Id')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{relationTableNamePrefix}}_categories_{{tableName}}`.`{{idName}}Id` => `{{tableName}}`.`{{idName}}Id`';
+            if ($bInstall) {
+                $oDb->addConstraint('{{relationTableNamePrefix}}_categories_{{tableName}}', '{{idName}}Id', '{{tableName}}', '{{idName}}Id', 'CASCADE', 'CASCADE');
+            }
+        }
+
+        // check images constraint
+        if (!$oDb->constraintExists('{{relationTableNamePrefix}}_categories_{{tableName}}', '{{idName}}CategoryId', '{{relationTableNamePrefix}}_categories', '{{idName}}CategoryId')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{relationTableNamePrefix}}_categories_{{relationTableNamePrefix}}`.`{{idName}}CategoryId` => `{{relationTableNamePrefix}}_categories`.`{{idName}}CategoryId`';
+            if ($bInstall) {
+                $oDb->addConstraint('{{relationTableNamePrefix}}_categories_{{tableName}}', '{{idName}}CategoryId', '{{relationTableNamePrefix}}_categories', '{{idName}}CategoryId', 'CASCADE', 'CASCADE');
+            }
+        }
+    }
+}
+
+// Add category 'default' as standard
+if (class_exists('{{classFileName}}CategoryManager') && $oDb->tableExists('{{relationTableNamePrefix}}_categories')) {
+    $a{{classFileName}}Categories = {{classFileName}}CategoryManager::get{{classFileName}}CategoriesByFilter(['showAll' => true, 'languageId' => DEFAULT_LANGUAGE_ID]);
+    if (count($a{{classFileName}}Categories) == 0) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing category `default`';
+        if ($bInstall) {
+            $o{{classFileName}}Category             = new {{classFileName}}Category();
+            $o{{classFileName}}Category->name       = "Default";
+            $o{{classFileName}}Category->languageId = DEFAULT_LANGUAGE_ID;
+            $o{{classFileName}}Category->online     = 1;
+
+            if ($o{{classFileName}}Category->isValid()) {
+                {{classFileName}}CategoryManager::save{{classFileName}}Category($o{{classFileName}}Category);
+            } else {
+                _d($o{{classFileName}}Category->getInvalidProps());
+                die('Can\'t create category `default`');
+            }
+        }
+    }
+
+    foreach (LocaleManager::getLocalesByFilter(['showAll' => true, 'NOTlanguageId' => DEFAULT_LANGUAGE_ID]) as $oLocale) {
+        $a{{classFileName}}Categories = {{classFileName}}CategoryManager::get{{classFileName}}CategoriesByFilter(['showAll' => true, 'languageId' => $oLocale->languageId]);
+        if (count($a{{classFileName}}Categories) == 0) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing category `default` for language `' . strtoupper($oLocale->getLanguage()->code) . '`';
+            if ($bInstall) {
+                $o{{classFileName}}Category             = new {{classFileName}}Category();
+                $o{{classFileName}}Category->name       = "Default";
+                $o{{classFileName}}Category->languageId = $oLocale->languageId;
+                $o{{classFileName}}Category->online     = 1;
+
+                if ($o{{classFileName}}Category->isValid()) {
+                    {{classFileName}}CategoryManager::save{{classFileName}}Category($o{{classFileName}}Category);
+                } else {
+                    _d($o{{classFileName}}Category->getInvalidProps());
+                    die('Can\'t create category `default`');
+                }
+            }
+        }
+    }
+}

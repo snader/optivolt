@@ -1,0 +1,188 @@
+// Grid layout, release 2016 by Cornee
+
+// Border box everything
+*, *:after, *:before {
+    margin: 0;
+    padding: 0;
+    @include box-sizing(border-box);
+}
+
+// General template container
+
+#template-container {
+    min-height: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+// Container width
+.container{
+    width: $grid-width - $grid-margin;
+    max-width: $grid-max-width;
+    @include center-element;
+    @extend %clearfix;
+}
+
+// Row
+.row{
+    width: 100% + $grid-margin;
+    margin-left: - $grid-margin/2;
+    margin-right: - $grid-margin/2;
+    margin-top: 0;
+    margin-bottom: 0;
+    @extend %clearfix;
+    &-custom {
+        width: 100% + $custom-grid-margin;
+        margin-left: - $custom-grid-margin/2;
+        margin-right: - $custom-grid-margin/2;
+        @extend %clearfix;
+    }
+    &-full{
+        @extend %clearfix;
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}
+
+// Grid colums
+[class*='col-'] {
+    @include float;
+    width: 100%;
+    @extend %clearfix;
+}
+
+// Normal grid cols
+@each $i in $grid-cols {
+
+    $name: floor($i);
+
+    .col-#{$name} {
+        width: $i - $grid-margin;
+        margin: 0 $grid-margin/2 $grid-margin-bottom $grid-margin/2;
+
+        &-full{
+            width: $i - 0%;
+            margin: 0 0 $grid-margin-bottom 0;
+        }
+    }
+
+}
+
+// Custom grid cols
+@each $i in $custom-grid-cols {
+
+    $name: floor($i);
+
+    .col-custom-#{$name} {
+        width: $i - $custom-grid-margin;
+        margin: 0 $custom-grid-margin/2 $custom-grid-margin-bottom $custom-grid-margin/2;
+    }
+}
+
+// Breakpoints
+@each $breakpoint in $breakpoints{
+
+    @include breakpoint($breakpoint) {
+
+        .container{
+            @if($breakpoint == 'xl'){
+                @if ($xl-grid-width != null){
+                    width: $xl-grid-width - $grid-margin;
+                }
+            }
+            @if($breakpoint == 'l'){
+                @if ($l-grid-width != null){
+                    width: $l-grid-width - $grid-margin;
+                }
+            }
+            @if($breakpoint == 'm'){
+                @if ($m-grid-width != null){
+                    width: $m-grid-width - $grid-margin;
+                }
+            }
+            @if($breakpoint == 's'){
+                @if ($s-grid-width != null){
+                    width: $s-grid-width - $grid-margin;
+                }
+            }
+            @if($breakpoint == 'xs'){
+                @if ($xs-grid-width != null){
+                    width: $xs-grid-width - $grid-margin;
+                }
+            }
+        }
+
+        // Usefull hide/show classes
+        .#{$breakpoint}-hide {
+            @include visibility(none, hidden);
+        }
+
+        .#{$breakpoint}-show{
+            @include visibility;
+        }
+
+        // Tablet (s) grid
+        @if ($breakpoint == 's'){
+
+            //Mobile (S) grid
+            @include breakpoint(s) {
+
+                // Set all the columns to max width on mobile (S)
+                @each $i in $grid-cols {
+
+                    $name: floor($i);
+
+                    .col-#{$name} {
+                        width: 100% - $grid-margin;
+
+                        &-full{
+                            width: 100%;
+                        }
+
+                    }
+                }
+
+                // Set all the custom columns to max width on mobile (S)
+                @each $i in $custom-grid-cols {
+
+                    $name: floor($i);
+
+                    .col-custom-#{$name} {
+                        width: 100% - $custom-grid-margin;
+                    }
+                }
+
+            }
+        }
+
+        @if ($breakpoint != 'xl'){
+            @each $i in $grid-cols {
+
+                $name: floor($i);
+
+                .#{$breakpoint}-col-#{$name} {
+                    width: $i - $grid-margin;
+                    margin: 0 $grid-margin/2 $grid-margin-bottom $grid-margin/2;
+
+                    &-full{
+                        width: $i - 0%;
+                        margin: 0 0 $grid-margin-bottom 0;
+                    }
+
+                }
+            }
+
+            // Custom columns
+            @each $i in $custom-grid-cols {
+
+                $name: floor($i);
+
+                .#{$breakpoint}-col-custom-#{$name} {
+                    width: $i - $custom-grid-margin;
+                    margin: 0 $custom-grid-margin/2 $custom-grid-margin-bottom $custom-grid-margin/2;
+                }
+            }
+        }
+    }
+}

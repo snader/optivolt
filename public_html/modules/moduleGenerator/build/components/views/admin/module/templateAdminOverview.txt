@@ -1,0 +1,124 @@
+<form action="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>" method="POST">
+    <input type="hidden" name="filterForm" value="1"/>
+    <fieldset style="margin-bottom: 20px;">
+        <legend><?= sysTranslations::get('global_filter') ?></legend>
+        <table class="withForm">
+            <tr>
+                <td class="withLabel" style="width: 116px;"><?= sysTranslations::get('global_search_word') ?></td>
+                <td><input type="text" name="{{moduleFolderName}}Filter[q]" value="<?= _e($a{{classFileName}}Filter['q']) ?>"/></td>
+            </tr>{{categoryFilter}}
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" name="filter{{classFileName}}s" value="<?= sysTranslations::get('{{singleSystemFileName}}_filter') ?>"/> <input type="submit" name="resetFilter" value="<?= sysTranslations::get('global_reset_filter') ?>"/></td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+<table class="sorted">
+    <thead>
+        <tr class="topRow">
+            <td colspan="6">
+                <?php include_once getAdminSnippet('localeSelect'); ?>
+            </td>
+        </tr>
+        <tr class="topRow">
+            <td colspan="3"><h2><?= sysTranslations::get('{{singleSystemFileName}}_all') ?></h2>
+                <div class="right">
+                    <a class="addBtn textRight" href="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>/toevoegen" title="<?= sysTranslations::get('{{singleSystemFileName}}_add_tooltip') ?>" alt="<?= sysTranslations::get('{{singleSystemFileName}}_add_tooltip') ?>"><?= sysTranslations::get('{{singleSystemFileName}}_add') ?></a>
+                    <a class="changeOrderBtn textRight" href="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>/volgorde-wijzigen" title="<?= sysTranslations::get('global_change_order') ?>" alt="<?= sysTranslations::get('global_change_order') ?>"><?= sysTranslations::get('global_change_order') ?></a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th class="{sorter:false} nonSorted" style="width: 30px;">&nbsp;</th>
+            <th class="{sorter:false} nonSorted"><?= sysTranslations::get('global_title') ?></th>
+            <th class="{sorter:false} nonSorted" style="width: 60px;">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
+
+    foreach ($a{{classFileName}}s AS $o{{classFileName}}) {
+        echo '<tr>';
+            echo '<td>';
+
+                # online offline button
+                echo '<a id="{{moduleFolderName}}_' . $o{{classFileName}}->{{idName}}Id . '_online_1" title="' . sysTranslations::get(
+                        '{{singleSystemFileName}}_set_online'
+                    ) . '" class="action_icon ' . ($o{{classFileName}}->online ? '' : 'hide') . ' online_icon" href="' . ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/ajax-setOnline/' . $o{{classFileName}}->{{idName}}Id . '/?online=0&'. CSRFSynchronizerToken::query() .'"></a>';
+                echo '<a id="{{moduleFolderName}}_' . $o{{classFileName}}->{{idName}}Id . '_online_0" title="' . sysTranslations::get(
+                        '{{singleSystemFileName}}_set_offline'
+                    ) . '" class="action_icon ' . ($o{{classFileName}}->online ? 'hide' : '') . ' offline_icon" href="' . ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/ajax-setOnline/' . $o{{classFileName}}->{{idName}}Id . '/?online=1&'. CSRFSynchronizerToken::query() .'"></a>';
+
+            echo '</td>';
+            echo '<td>' . _e($o{{classFileName}}->title) . '</td>';
+            echo '<td>';
+                echo '<a class="action_icon edit_icon" title="' . sysTranslations::get('{{singleSystemFileName}}_edit') . '" href="' . ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id . '"></a>';
+                # delete button
+                if ($o{{classFileName}}->isDeletable()) {
+                    echo '<a onclick="return confirmChoice(\'' . $o{{classFileName}}->title . '\');" title="' . sysTranslations::get('{{singleSystemFileName}}_delete') . '" class="action_icon delete_icon" href="' . ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $o{{classFileName}}->{{idName}}Id . '?' . CSRFSynchronizerToken::query() . '"></a>';
+                } else {
+                    echo '<a class="action_icon delete_icon grey" href="javascript:void(0);" title="' . sysTranslations::get('{{singleSystemFileName}}_not_deletable') . '"></a>';
+                }
+            echo '</td>';
+        echo '</tr>';
+    }
+    if (count($a{{classFileName}}s) == 0) {
+        echo '<tr><td colspan="6"><i>' . sysTranslations::get('{{singleSystemFileName}}_no_{{singleSystemFileName}}') . '</i></td></tr>';
+    }
+    ?>
+    </tbody>
+    <tfoot>
+    <tr class="bottomRow">
+        <td colspan="3">
+            <form method="POST">
+                <?= generatePaginationHTML($iPageCount, $iCurrPage) ?>
+                <input type="hidden" name="setPerPage" value="1"/>
+                <select name="perPage" onchange="$(this).closest('form').submit();">
+                    <option value="<?= $iNrOfRecords ?>"><?= sysTranslations::get('global_all') ?></option>
+                    <option <?= $iPerPage == 10 ? 'SELECTED' : '' ?> value="10">10</option>
+                    <option <?= $iPerPage == 25 ? 'SELECTED' : '' ?> value="25">25</option>
+                    <option <?= $iPerPage == 50 ? 'SELECTED' : '' ?> value="50">50</option>
+                    <option <?= $iPerPage == 100 ? 'SELECTED' : '' ?> value="100">100</option>
+                </select> <?= sysTranslations::get('global_per_page') ?>
+            </form>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+<?php
+
+$sIsOnlineMsg   = sysTranslations::get('{{singleSystemFileName}}_is_online');
+$sIsOfflineMsg  = sysTranslations::get('{{singleSystemFileName}}_is_offline');
+$sNotChangedMsg = sysTranslations::get('{{singleSystemFileName}}_not_changed');
+# add ajax code for online/offline handling
+$sOnlineOfflineJavascript = <<<EOT
+<script>
+    $("a.online_icon, a.offline_icon").click(function(e){
+        $.ajax({
+            type: "GET",
+            url: this.href,
+            data: "ajax=1",
+            async: true,
+            success: function(data){
+                var dataObj = eval('(' + data + ')');
+
+                /* On success */
+                if(dataObj.success == true){
+                    $("#{{moduleFolderName}}_"+dataObj.{{idName}}Id+"_online_0").hide(); // hide offline button
+                    $("#{{moduleFolderName}}_"+dataObj.{{idName}}Id+"_online_1").hide(); // hide online button
+                    $("#{{moduleFolderName}}_"+dataObj.{{idName}}Id+"_online_"+dataObj.online).css('display', 'inline-block'); // show button based on online value
+                    if(dataObj.online == 0)
+                        showStatusUpdate("$sIsOfflineMsg");
+                    if(dataObj.online == 1)
+                        showStatusUpdate("$sIsOnlineMsg");
+                }else{
+                        showStatusUpdate("$sNotChangedMsg");
+                }
+            }
+        });
+        e.preventDefault();
+    });
+</script>
+EOT;
+$oPageLayout->addJavascript($sOnlineOfflineJavascript);

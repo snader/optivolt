@@ -1,0 +1,39 @@
+} elseif (Request::param('ID') == 'crop-image' && is_numeric(Request::getVar("imageId"))) {
+    $oImage = ImageManager::getImageById(Request::getVar("imageId"));
+
+    if (!$oImage) {
+        Session::set('statusUpdate', sysTranslations::get('global_image_not_available')); //error getting image
+        Router::redirect(Session::get('cropReferrer'));
+    }
+
+    $aImageSettings = TemplateSettings::get('{{moduleFolderName}}', 'images');
+    $sReferrer      = Session::get('cropReferrer');
+    $sReferrerText  = 'item bewerken';
+    $aCropSettings  = ImageManager::handleImageCropSettings($oImage, $aImageSettings, $sReferrer, $sReferrerText);
+
+    // add setting to session in an array
+    Session::set('aCropSettings', $aCropSettings);
+
+    Router::redirect(ADMIN_FOLDER . '/crop');
+} elseif (Request::param('ID') == 'image-list') {
+    $o{{classFileName}} = {{classFileName}}Manager::get{{classFileName}}ById(Request::param('OtherID'));
+
+    if (!$o{{classFileName}}) {
+        die;
+    }
+
+    $aImages     = $o{{classFileName}}->getImages('all');
+    $aImageFiles = [];
+    $aLinks      = [];
+    foreach ($aImages AS $oImage) {
+        $oImageFile = $oImage->getImageFileByReference('detail');
+        if (!$oImageFile) {
+            continue;
+        }
+        $oLink        = new stdClass();
+        $oLink->title = $oImageFile->title ? $oImageFile->title : $oImageFile->name;
+        $oLink->value = CLIENT_HTTP_URL . $oImageFile->link;
+        $aLinks[]     = $oLink;
+    }
+
+    die(json_encode($aLinks));

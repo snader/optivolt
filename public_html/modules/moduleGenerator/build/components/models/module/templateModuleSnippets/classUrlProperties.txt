@@ -1,0 +1,5 @@
+
+    public  $windowTitle; //browser window title
+    public  $metaKeywords;
+    public  $metaDescription;
+    public  $shortTitle;

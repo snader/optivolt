@@ -1,0 +1,86 @@
+// Appear effect
+
+.fade-left{
+    opacity: 0;
+    left: -60px;
+    position: relative;
+
+    @include breakpoint(m) {
+        opacity: 1;
+        left: 0px!important;
+        position: relative!important;
+    }
+
+    @include breakpoint(s) {
+        opacity: 1;
+        left: 0px!important;
+        position: relative!important;
+    }
+
+}
+
+.fade-right{
+    opacity: 0;
+    right: -60px;
+    position: relative;
+
+    @include breakpoint(m) {
+        opacity: 1;
+        right: 0px!important;
+        position: relative!important;
+    }
+
+    @include breakpoint(s) {
+        opacity: 1;
+        right: 0px!important;
+        position: relative!important;
+    }
+
+}
+
+.fade-top{
+    opacity: 0;
+    top: -60px;
+    position: relative;
+
+    @include breakpoint(m) {
+        opacity: 1;
+        top: 0px!important;
+        position: relative!important;
+    }
+
+    @include breakpoint(s) {
+        opacity: 1;
+        top: 0px!important;
+        position: relative!important;
+    }
+
+}
+
+.fade-bottom{
+    opacity: 0;
+    bottom: -60px;
+    position: relative;
+
+
+    @include breakpoint(m) {
+        opacity: 1;
+        bottom: 0px!important;
+        position: relative!important;
+    }
+
+    @include breakpoint(s) {
+        opacity: 1;
+        bottom: 0px!important;
+        position: relative!important;
+    }
+
+}
+
+.fade{
+    opacity: 0;
+
+    @include breakpoint(s) {
+        opacity: 1;
+    }
+}

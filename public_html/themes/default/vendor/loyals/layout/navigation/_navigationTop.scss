@@ -1,0 +1,49 @@
+.navigation-top {
+    padding: 10px 0;
+    text-align: right;
+    background-color: $template-color;
+    @include transition(all .15s ease-in-out);
+
+    .phone {
+
+        a {
+            color: #fff;
+            float: right;
+            text-decoration: none;
+            @include transition(all .15s ease-in-out);
+
+            &:hover {
+                color: $template-link-color;
+            }
+
+            i {
+                font-size: 17px;
+            }
+        }
+    }
+
+    ul {
+        float: right;
+        list-style: none;
+        margin: 0 40px 0 0;
+
+        @include breakpoint(xs) {
+            display: none;
+        }
+
+        li {
+            margin: 0 10px;
+            display: inline-block;
+
+            a {
+                color: #fff;
+                text-decoration: none;
+                @include transition(all .15s ease-in-out);
+
+                &:hover {
+                    color: $template-link-color;
+                }
+            }
+        }
+    }
+}

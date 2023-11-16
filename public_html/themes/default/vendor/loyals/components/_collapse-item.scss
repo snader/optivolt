@@ -1,0 +1,68 @@
+// Import global config file
+@import "../config";
+
+// Component styles
+
+.collapse-wrapper {
+    margin-bottom: 0px;
+
+    ul {
+        list-style: none;
+        margin: 0px;
+    }
+}
+.collapse-item {
+
+}
+.collapse-title {
+    text-decoration: none;
+    margin-bottom: 10px;
+    margin-left: 23px;
+    display: inline-block;
+    font-family: $template-font-family;
+    color: #000;
+    cursor: pointer;
+    font-size: 21px;
+    border-bottom: 1px solid #DDE3ED;
+    display: block;
+    position: relative;
+    @include transition(all 0.3s ease-in-out);
+
+    &:hover {
+        color: $template-color;
+        text-decoration: none;
+    }
+
+    @include breakpoint(m){
+        font-size: 18px;
+    }
+
+    @include breakpoint(s){
+        font-size: 16px;
+    }
+
+    span {
+        margin-right: 0px;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+
+        display: none;
+
+        line-height: 22px;
+        text-align: center;
+        font-size: 12px;
+        color: #000;
+        top: -2px;
+        position: relative;
+        margin-left: -26px;
+        &.on {
+            display: inline-block;
+        }
+    }
+
+}
+.collapse-info {
+    display: none;
+    margin-left: 23px;
+}

@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-weight: 400;
+  src: url("/modules/core/site/default/fonts/fa-regular-400.eot");
+  src: url("/modules/core/site/default/fonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("/modules/core/site/default/fonts/fa-regular-400.woff2") format("woff2"), url("/modules/core/site/default/fonts/fa-regular-400.woff") format("woff"), url("/modules/core/site/default/fonts/fa-regular-400.ttf") format("truetype"), url("/modules/core/site/default/fonts/fa-regular-400.svg#fontawesome") format("svg");
+}
+
+.far {
+  font-family: 'FontAwesome';
+  font-weight: 400;
+}
+/*# sourceMappingURL=fa-regular.css.map */

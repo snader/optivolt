@@ -1,0 +1,182 @@
+// Footer layout
+
+#footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  .footer-cta {
+    padding: 20px 0px;
+    background: $template-color-dark;
+    color: #fff;
+
+    a {
+      text-decoration: none;
+      @include transition(all 0.3s ease-in-out);
+
+      i {
+        margin-right: 5px;
+      }
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    .cta {
+      float: left;
+      width: 25%;
+      display: inline-block;
+
+      span {
+        @include breakpoint(s) {
+          display: none;
+        }
+      }
+    }
+
+    @include breakpoint(s) {
+      text-align: center;
+    }
+  }
+
+  .footer-container {
+    background: lighten($template-color, 5%);
+    color: #fff;
+    padding: 40px 0px 20px 0px;
+
+    @include breakpoint(s) {
+      padding: 20px 0px 20px 0px;
+    }
+
+    .footer-col {
+
+      @include breakpoint(s) {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .title {
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+
+      .logo {
+        width: 150px;
+        margin-bottom: 20px;
+
+        @include breakpoint(s) {
+          margin: 0 auto 20px auto;
+        }
+
+      }
+
+      .openings-hours {
+        margin-bottom: 20px;
+      }
+
+      .socials {
+
+        a {
+          display: inline-block;
+          text-align: center;
+          margin: 5px 5px 5px 0px;
+          background: $template-color;
+          color: #fff;
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          @include border-radius(100%);
+          @include transition(all 0.3s ease-in-out);
+
+          &:hover {
+            background: $template-cta-color;
+            color: #fff;
+          }
+
+        }
+      }
+
+      .address {
+        margin-bottom: 15px;
+      }
+
+      .contact {
+        a {
+          display: inline-block;
+          margin-bottom: 5px;
+          text-decoration: none;
+          @include transition(all 0.3s ease-in-out);
+
+          &:hover {
+            color: #fff;
+          }
+
+          i {
+            margin-right: 5px;
+          }
+
+        }
+      }
+    }
+  }
+
+  .footer-copyright {
+    margin-top: 40px;
+    font-size: 12px;
+
+    @include breakpoint(s) {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .links {
+      text-align: center;
+
+      @include breakpoint(s) {
+        margin: 10px;
+      }
+
+      a {
+        display: inline-block;
+        text-decoration: none;
+        @include transition(all 0.3s ease-in-out);
+        padding: 0px 5px;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+
+    .copyright-landgoedvoorn {
+      text-align: right;
+
+      @include breakpoint(s) {
+        text-align: center;
+      }
+    }
+  }
+}
+
+// Pusher (get's recalculated but needs default values)
+.footer-pusher {
+  height: 400px;
+  @include transition(height 0.3s ease-in-out);
+}
+
+.footer-header-pusher {
+  display: none;
+  height: 70px;
+
+  &.s-is-visible {
+    @include breakpoint(s) {
+      display: block;
+    }
+  }
+}

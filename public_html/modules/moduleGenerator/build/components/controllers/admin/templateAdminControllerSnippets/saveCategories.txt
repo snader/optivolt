@@ -1,0 +1,10 @@
+        $a{{classFileName}}Categories = [];
+        $aPostCategoryIds = Request::postVar('{{idName}}CategoryIds') ? Request::postVar('{{idName}}CategoryIds') : [];
+        foreach ($aPostCategoryIds AS $i{{classFileName}}CategoryId) {
+            $o{{classFileName}}Category = {{classFileName}}CategoryManager::get{{classFileName}}CategoryById($i{{classFileName}}CategoryId);
+            if (!$o{{classFileName}}Category) {
+                continue;
+            }
+            $a{{classFileName}}Categories[] = $o{{classFileName}}Category;
+        }
+        $o{{classFileName}}->setCategories($a{{classFileName}}Categories, 'all'); // set in list all for saving properly

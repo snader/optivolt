@@ -1,0 +1,267 @@
+// Forms layout
+
+// Set variables
+$form-item-width: 60%;
+$form-label-focus-offset: -13px;
+$form-label-focus-size: 12px;
+$form-label-background: #fff;
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+input[type="button"] {
+  padding: 3px 4px;
+  border: 1px solid #CCC;
+}
+
+input[type="submit"] {
+  padding: 3px 4px;
+  border: 1px solid #CCC;
+}
+
+select {
+  padding: 2px 4px;
+}
+
+select.error,
+textarea.error,
+input[type="text"].error,
+input[type="password"].error,
+input[type="datetime"].error,
+input[type="datetime-local"].error,
+input[type="date"].error,
+input[type="month"].error,
+input[type="time"].error,
+input[type="week"].error,
+input[type="number"].error,
+input[type="email"].error,
+input[type="url"].error,
+input[type="search"].error,
+input[type="tel"].error,
+input[type="color"].error {
+  background-color: #FEDFDF;
+}
+
+// Validation / Errorbox
+.form-errors {
+  display: none;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background: #fedfdf;
+  border: 1px solid $template-color-error;
+  color: $template-font-color;
+
+  .title {
+    color: $template-color-error;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  label {
+    float: none;
+    width: 100%;
+    height: auto;
+  }
+
+  ul {
+    margin-left: 15px;
+
+    li {
+      background: none !important;
+      list-style: square;
+      padding: 0;
+    }
+  }
+
+}
+
+// Status update
+
+.statusUpdate {
+  background: #fedfdf;
+  padding: 5px;
+  margin: 5px 0;
+  display: none;
+}
+
+// Form styling
+
+.form-input, .form-select, .form-text {
+  padding: 5px 10px !important;
+  color: $template-font-color;
+  font-family: $template-font-family !important;
+  font-weight: $template-font-weight !important;
+  line-height: $template-line-height !important;
+  font-size: $template-font-size;
+  border: 1px solid #ccc;
+  @include transition(all 0.3s ease-in-out);
+
+  @include breakpoint(m) {
+    font-size: $template-font-size-m;
+  }
+
+  @include breakpoint(s) {
+    font-size: $template-font-size-s;
+  }
+
+  &.error {
+    background: #fff !important;
+    border: 1px solid $template-color-error !important;
+    @include transition(all 0.3s ease-in-out);
+  }
+
+  &.valid {
+    background: #fff !important;;
+    border: 1px solid $template-color-succes !important;
+    @include transition(all 0.3s ease-in-out);
+  }
+
+  &:focus {
+    border: 1px solid $template-color !important;
+    @include transition(all 0.3s ease-in-out);
+  }
+
+  &.no-border {
+    border: 0px !important;
+  }
+
+}
+
+.form-submit {
+  background: $template-cta-color;
+  padding: 10px !important;
+  color: #fff;
+  @include transition(all 0.3s ease-in-out);
+
+  &:hover {
+    color: #fff;
+    background: $template-cta-color-hover;
+    @include transition(all 0.3s ease-in-out);
+  }
+
+  &.no-border {
+    border: 0px !important;
+  }
+}
+
+.form-label {
+  display: inline-block;
+}
+
+.form-item-container {
+  position: relative;
+  margin-bottom: 15px;
+
+  .form-input, .form-select, .form-text {
+    width: $form-item-width;
+    float: right;
+
+    @include breakpoint(s) {
+      width: 100%;
+    }
+  }
+
+  .form-label {
+    width: calc(100% - #{$form-item-width});
+    float: left;
+
+    @include breakpoint(s) {
+      display: none;
+    }
+  }
+
+}
+
+.form-error-icon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  color: $template-color-error;
+  padding: 5px;
+}
+
+.form-error-message {
+  color: $template-color-error;
+  font-size: 12px;
+  padding-top: 5px;
+  width: 100%;
+  text-align: right;
+  display: inline-block;
+}
+
+form.floating-labels {
+
+  .form-input, .form-select, .form-text {
+    width: 100%;
+
+    // Set placeholders to white
+    &::-webkit-input-placeholder {
+      color: #fff;
+    }
+    &:-moz-placeholder {
+      color: #fff;
+    }
+    &::-moz-placeholder {
+      color: #fff;
+    }
+    &:-ms-input-placeholder {
+      color: #fff;
+    }
+
+    &:focus {
+
+      + .form-label {
+        top: $form-label-focus-offset;
+        font-size: $form-label-focus-size;
+        background: $form-label-background;
+      }
+    }
+  }
+
+  .form-label {
+    display: inline-block;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    padding: 0px 5px;
+    width: auto;
+    @include transition(all 0.3s ease-in-out);
+
+    &.is-focussed {
+      top: $form-label-focus-offset;
+      font-size: $form-label-focus-size;
+      background: $form-label-background;
+    }
+  }
+}
+
+// Buttons
+
+.btn {
+  background: $template-cta-color;
+  padding: 5px 10px !important;
+  color: $template-color;
+  text-decoration: none;
+  display: inline-block;
+  @include transition(all 0.3s ease-in-out);
+
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: $template-cta-color-hover;
+  }
+}

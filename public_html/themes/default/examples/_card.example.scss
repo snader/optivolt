@@ -1,0 +1,64 @@
+// Cards module layout
+
+.cards-container {
+
+  .card-container {
+    a {
+      color: #fff;
+      text-decoration: none;
+
+      &:hover {
+        cursor: pointer;
+
+        .card {
+          .card-content-container {
+            background: rgba($template-cta-color, 0.5);
+          }
+        }
+      }
+    }
+
+    .card {
+      height: 50vh;
+      min-height: 400px;
+      background-size: cover;
+      background-position: center center;
+      background-color: $template-color;
+      color: #fff;
+
+      @include breakpoint(s){
+        height: 400px;
+      }
+
+      .card-content-container {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        background: rgba($template-color, 0.5);
+        @include transition(all 0.3s ease-in-out);
+
+        .card-content {
+          position: relative;
+          text-align: center;
+          top: 50%;
+          transform: perspective(1px) translateY(-50%);
+
+          .card-content-title {
+            font-family: $template-font-family-h2;
+            font-size: $template-font-size-h2;
+            font-weight: $template-font-weight-h2;
+            margin-bottom: 20px;
+
+            @include breakpoint(m) {
+              font-size: $template-font-size-h2-m;
+            }
+
+            @include breakpoint(s) {
+              font-size: $template-font-size-h2-s;
+            }
+          }
+        }
+      }
+    }
+  }
+}

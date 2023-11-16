@@ -1,0 +1,17 @@
+    # action = saveVideoLink
+    if (Request::postVar("action") == 'saveVideoLink' && CSRFSynchronizerToken::validate()) {
+        # if object is valid, save
+        if ($oVideoLink = VideoLinkManager::saveVideoLink(Request::postVars())) {
+            {{classFileName}}Manager::save{{classFileName}}VideoLinkRelation($o{{classFileName}}->{{idName}}Id, $oVideoLink->mediaId);
+            Session::set('statusUpdate', sysTranslations::get('global_video_saved')); //save status update into session
+            Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id);
+        } else {
+            Debug::logError("", "{{classFileName}} module php validate error", __FILE__, __LINE__, "Tried to save Link with wrong values despite javascript check.<br />" . _d($_POST, 1, 1), Debug::LOG_IN_EMAIL);
+            $oPageLayout->sStatusUpdate = sysTranslations::get('global_video_not_saved');
+        }
+    }
+
+    # set youtube manager
+    $oVideoLinkManagerHTML                = new VideoLinkManagerHTML();
+    $oVideoLinkManagerHTML->aVideoLinks = $o{{classFileName}}->getVideoLinks('all');
+    $oVideoLinkManagerHTML->sUploadUrl    = ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id;

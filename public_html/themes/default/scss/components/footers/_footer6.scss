@@ -1,0 +1,141 @@
+#footer {
+
+	@include mobile {
+		overflow: hidden;
+	}
+
+	.footer-container {
+		color: #fff;
+		padding: 20px 0;
+		background: lighten($black, 5%);
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		.logo-container {
+			margin-bottom: 20px;
+			padding-bottom: 20px;
+			border-bottom: 1px solid #fff;
+
+			.logo {
+				width: 150px;
+				background: #fff;
+				margin: 0 auto 20px auto;
+			}
+		}
+
+		.footer-col {
+
+			@include mobile {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.title {
+				color: #fff;
+				font-size: 20px;
+				margin-bottom: 20px;
+			}
+
+			.openings-hours {
+				margin-bottom: 20px;
+			}
+
+			.socials {
+
+				a {
+					color: #fff;
+					width: 30px;
+					height: 30px;
+					line-height: 30px;
+					text-align: center;
+					background: $orange;
+					display: inline-block;
+					margin: 5px 5px 5px 0;
+					@include border-radius(100%);
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+						background: $primary;
+					}
+
+				}
+			}
+
+			.address {
+				margin-bottom: 15px;
+			}
+
+			.contact {
+
+				a {
+					display: inline-block;
+					margin-bottom: 5px;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+
+					i {
+						margin-right: 5px;
+					}
+				}
+			}
+		}
+	}
+
+	.footer-copyright {
+		color: #fff;
+		padding: 20px 0;
+		font-size: 12px;
+		background: $black;
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			text-align: center;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.links {
+			text-align: right;
+
+			@include mobile {
+				margin: 10px;
+				text-align: center;
+			}
+
+			a {
+				margin-left: 10px;
+				padding-left: 10px;
+				display: inline-block;
+				text-decoration: none;
+				border-left: 1px solid #fff;
+				@include transition(all 0.3s ease-in-out);
+
+				&:hover {
+					color: #fff;
+				}
+
+				&:first-child {
+					margin-left: 0;
+					border-left: 0;
+					padding-left: 0;
+				}
+			}
+		}
+
+		.copyright-landgoedvoorn
+			text-align: center;
+		}
+	}
+}

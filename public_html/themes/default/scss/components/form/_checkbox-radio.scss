@@ -1,0 +1,83 @@
+.checkbox, .radio {
+	visibility: hidden;
+
+	+ label {
+		cursor: pointer;
+		margin-right: 10px;
+
+		span {
+			width: 15px;
+			height: 15px;
+			user-select: none;
+			position: relative;
+			display: inline-block;
+			vertical-align: middle;
+			background-color: #fff;
+			margin: -2px 10px 0 -17px;
+			border: 1px solid $grey-lighter;
+			@include transition($base-transition);
+
+			&:before {
+				top: -2px;
+				left: -2px;
+				content: '';
+				width: 17px;
+				height: 17px;
+				position: absolute;
+				display: inline-block;
+				transform-origin: center;
+				background-color: $primary;
+				@include transform(scale(0));
+				@include border-radius(inherit);
+				@include transition($base-transition);
+			}
+		}
+	}
+
+	&:checked {
+
+		+ label span {
+			border-color: $primary;
+
+			&:before {
+				@include transform(scale(1));
+			}
+		}
+	}
+
+	&:hover {
+
+		+ label span {
+			border-color: $black;
+		}
+	}
+
+	&.has-errors {
+
+		.error-icon {
+			display: none;
+		}
+	}
+}
+
+.radio {
+
+	+ label {
+
+		span {
+			@include border-radius(50%);
+
+		}
+	}
+}
+
+.checkbox {
+
+	+ label {
+
+		span {
+			@include border-radius(3px);
+
+		}
+	}
+}

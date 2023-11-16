@@ -1,0 +1,2 @@
+
+        $aLinks = $o{{classFileName}}->getLinks();

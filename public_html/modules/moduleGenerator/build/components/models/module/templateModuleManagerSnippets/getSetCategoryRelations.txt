@@ -1,0 +1,73 @@
+    /**
+     * save {{classFileName}}'s relations with {{classFileName}}Category objects
+     *
+     * @param {{classFileName}} $o{{classFileName}}
+     */
+    private static function save{{classFileName}}CategoryRelations({{classFileName}} $o{{classFileName}})
+    {
+        $oDb = DBConnections::get();
+
+        # define the NOT IT and VALUES part of the DELETE and INSERT query
+        $sDeleteNotIn  = '';
+        $sInsertValues = '';
+        foreach ($o{{classFileName}}->getCategories('all') as $o{{classFileName}}Category) {
+            $sDeleteNotIn  .= ($sDeleteNotIn == '' ? '' : ',') . db_int($o{{classFileName}}Category->{{idName}}CategoryId);
+            $sInsertValues .= ($sInsertValues == '' ? '' : ', ') . '(' . db_int($o{{classFileName}}->{{idName}}Id) . ', ' . db_int($o{{classFileName}}Category->{{idName}}CategoryId) . ')';
+        }
+
+        # delete the old objects
+        $sQuery = ' DELETE FROM
+                        `{{relationTableNamePrefix}}_categories_{{tableName}}`
+                    WHERE
+                        `{{idName}}Id` = ' . db_int($o{{classFileName}}->{{idName}}Id) . '
+                        ' . ($sDeleteNotIn != '' ? 'AND `{{idName}}CategoryId` NOT IN (' . $sDeleteNotIn . ')' : '') . '
+                    ;';
+        $oDb->query($sQuery, QRY_NORESULT);
+
+        if (!empty($sInsertValues)) {
+            # save the objects
+            $sQuery = ' INSERT IGNORE INTO `{{relationTableNamePrefix}}_categories_{{tableName}}`(
+                        `{{idName}}Id`,
+                        `{{idName}}CategoryId`
+                    )
+                    VALUES ' . $sInsertValues . '
+                    ;';
+
+            $oDb->query($sQuery, QRY_NORESULT);
+        }
+    }
+
+    /**
+     * get categories for {{classFileName}} by filter
+     *
+     * @param int   $i{{classFileName}}Id
+     * @param array $aFilter
+     * @param int   $iLimit
+     *
+     * @return array {{classFileName}}Category
+     */
+    public static function getCategoriesByFilter($i{{classFileName}}Id, array $aFilter = [], $iLimit = null)
+    {
+
+        $sWhere = '';
+        if (empty($aFilter['showAll'])) {
+            $sWhere .= ' AND `{{databaseAlias}}c`.`online` = 1';
+        }
+
+        $sQuery = ' SELECT
+                        `{{databaseAlias}}c`.*
+                    FROM
+                        `{{relationTableNamePrefix}}_categories` AS `{{databaseAlias}}c`
+                    JOIN
+                        `{{relationTableNamePrefix}}_categories_{{tableName}}` AS `{{databaseAlias}}cni` USING (`{{idName}}CategoryId`)
+                    WHERE
+                        `{{databaseAlias}}cni`.`{{idName}}Id` = ' . db_int($i{{classFileName}}Id) . '
+                    ' . $sWhere . '
+                    ORDER BY
+                        `{{databaseAlias}}c`.`order` ASC, `{{databaseAlias}}c`.`{{idName}}CategoryId` ASC
+                    ' . ($iLimit ? 'LIMIT ' . db_int($iLimit) : '') . '
+                    ;';
+        $oDb    = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_OBJECT, '{{classFileName}}Category');
+    }

@@ -1,0 +1,16 @@
+
+            <?php if (class_exists('{{classFileName}}CategoryManager')) { ?>
+                <tr>
+                    <td class="withLabel"><label><?= ucfirst(sysTranslations::get('global_category')) ?></label></td>
+                    <td>
+                        <select name="{{moduleFolderName}}Filter[{{moduleFolderName}}CategoryId]">
+                            <option value="">-- <?= sysTranslations::get('global_all_categories') ?> --</option>
+                            <?php
+                            foreach ({{classFileName}}CategoryManager::get{{classFileName}}CategoriesByFilter(['showAll' => true, 'languageId' => AdminLocales::language()]) AS $o{{classFileName}}Category) {
+                                echo '<option ' . ($a{{classFileName}}Filter['{{moduleFolderName}}CategoryId'] == $o{{classFileName}}Category->{{moduleFolderName}}CategoryId ? 'selected' : '') . ' value="' . $o{{classFileName}}Category->{{moduleFolderName}}CategoryId . '">' . $o{{classFileName}}Category->name . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+            <?php } ?>

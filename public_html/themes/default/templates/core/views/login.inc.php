@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="noindex">
+  <link rel="shortcut icon" href="/themes/default/images/icons/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/themes/default/images/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/themes/default/images/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/themes/default/images/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/themes/default/images/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/themes/default/images/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/themes/default/images/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/themes/default/images/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/themes/default/images/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/themes/default/images/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/themes/default/images/icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/themes/default/images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/themes/default/images/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/themes/default/images/icons/favicon-16x16.png">
+  <link rel="manifest" href="/themes/default/images/icons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/themes/default/images/icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <title><?= _e($oPageLayout->sWindowTitle) ?> | <?= _e(CLIENT_NAME) ?></title>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="/plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+
+</head>
+
+<body class="hold-transition login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <a href="/"><img style="width:auto; max-height:100px;margin-top:10px;margin-bottom:20px;" src="<?= getSiteImage('optivolt-logo.png') ?>" alt="<?= CLIENT_NAME ?>" /></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">
+
+         
+      <?php      
+      $aErrors = [];
+      if (!empty($aErrorsLogin)) {
+          ?>
+          <div class="alert alert-danger errorColor" role="alert">
+            > <?php
+            foreach ($aErrorsLogin as $sError) {
+              echo $sError . '</br>';
+            }
+            ?>
+          </div>
+          <?php
+      }
+      
+      ?>
+
+      <strong><?= _e(SiteTranslations::get('customer_login')) ?> klanten</strong></p>
+     
+
+          <form action="" method="post">
+          <?= CustomerCSRFSynchronizerToken::field() ?>
+              <input type="hidden" name="action" value="login">
+                            
+            <div class="input-group mb-3">
+            <input placeholder="<?= _e(SiteTranslations::get('site_debnr')) ?> *" class="form-control input-lg" autocomplete="off"
+                  required data-rule-required="true" data-msg-required="<?= _e(SiteTranslations::get('site_fill_in_your_debnr')) ?>"
+                                           id="signup-login-debnr" name="debnr" type="text" value="<?= _e(http_post('debnr')) ?>">
+              
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-hashtag"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" name="password" id="password" class="form-control" placeholder="<?= sysTranslations::get('user_password') ?>">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+              <a href="<?= PageManager::getPageByName('account_forgot_password')->getBaseUrlPath() ?>" class="text-blue"><?= _e(SiteTranslations::get('site_forgot_your_password_short')) ?></a>
+              </div>
+              <!-- /.col -->
+              <div class="col-4">
+                <button type="submit" value="Login" name="verzendBtn" class="btn btn-primary btn-block"><?= _e(SiteTranslations::get('customer_login')) ?></button>
+              </div>
+              <!-- /.col -->
+            </div>
+          </form>
+        
+
+      
+      <p class="mb-1">
+      
+      </p>
+      <!--<p class="mb-0">
+        <a href="register.html" class="text-center">Register a new membership</a>
+      </p>-->
+      </div>
+      <!-- /.login-card-body -->
+    </div>
+  </div>
+  <!-- /.login-box -->
+
+  <!-- jQuery -->
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/dist/js/adminlte.min.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+// Components module layout
+
+.component-container {
+  padding-top: 30px;
+  margin-bottom: 0px;
+  border-top: 1px solid #e8e8e8;
+
+  .info {
+
+    .title {
+      margin-bottom: 10px;
+
+      h3 {
+        float: left;
+      }
+
+      a {
+        float: right;
+        text-decoration: none;
+        padding: 5px;
+        @include transition(all 0.3s ease-in-out);
+
+        &.is-active {
+          background: $template-color-dark;
+          color: #fff;
+        }
+
+        &:hover {
+          @include opacity(0.5);
+        }
+      }
+    }
+  }
+
+  .example {
+    margin-bottom: 30px;
+  }
+
+  .code {
+    background: #272822;
+    display: none;
+
+    &.is-visible {
+      display: block;
+    }
+  }
+
+}
+
+.components-nav {
+  margin-bottom: 20px;
+
+  .component-btn {
+    background: $template-color-dark;
+    padding: 5px;
+    text-decoration: none;
+    color: #fff;
+    @include transition(all 0.3s ease-in-out);
+
+    &:hover {
+      @include opacity(0.5);
+    }
+  }
+}

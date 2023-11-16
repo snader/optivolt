@@ -1,0 +1,3 @@
+                                <div class="col-33">
+                                    <?= !empty($oImageFile) ? '<a href="' . $o{{classFileName}}->getBaseUrlPath() . '"><img src="' . $oImageFile->link . '" alt="' . _e($oImageFile->title) . '" /></a>' : '' ?>
+                                </div>

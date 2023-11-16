@@ -1,0 +1,2 @@
+
+    private $aVideoLinks = null; //array with different lists of youtube links

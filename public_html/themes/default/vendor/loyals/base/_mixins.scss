@@ -1,0 +1,217 @@
+// Generate prefixes
+@mixin prefix($property, $value, $prefixes: ()) {
+  @each $prefix in $prefixes {
+    -#{$prefix}-#{$property}: $value;
+  }
+
+  #{$property}: $value;
+}
+
+// Clearfix
+%clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// Breakpoints
+
+@mixin breakpoint($min: 0, $max: 0) {
+  $type: type-of($min);
+
+  @if $type == string {
+    @each $breakpoint in $breakpoints {
+      @if ($breakpoint == xl) {
+        @if $min == xl {
+          @media screen and #{$breakpoint-xl} {
+            @content;
+          }
+        }
+      }
+      @if ($breakpoint == l) {
+        @if $min == l {
+          @media screen and #{$breakpoint-l} {
+            @content;
+          }
+        }
+      }
+      @if ($breakpoint == m) {
+        @if $min == m {
+          @media screen and #{$breakpoint-m} {
+            @content;
+          }
+        }
+      }
+      @if ($breakpoint == s) {
+        @if $min == s {
+          @media screen and #{$breakpoint-s} {
+            @content;
+          }
+        }
+      }
+      @if ($breakpoint == xs) {
+        @if $min == xs {
+          @media screen and #{$breakpoint-xs} {
+            @content;
+          }
+        }
+      }
+    }
+
+  } @else if $type == number {
+    $query: "all" !default;
+    @if $min != 0 and $max != 0 {
+      $query: "(min-width: #{$min}) and (max-width: #{$max})";
+    } @else if $min != 0 and $max == 0 {
+      $query: "(min-width: #{$min})";
+    } @else if $min == 0 and $max != 0 {
+      $query: "(max-width: #{$max})";
+    }
+
+    @media screen and #{$query} {
+      @content;
+    }
+  }
+}
+
+// Border-box
+@mixin box-sizing($type) {
+  @include prefix(box-sizing, $type, 'moz' 'webkit');
+}
+
+// Transition
+@mixin transition($arguments) {
+  @include prefix(transition, $arguments, 'webkit' 'moz' 'ms' 'o');
+}
+
+// Opacity
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+// Background size
+@mixin background-size($width, $height : $width) {
+  @include prefix(background-size, $width $height, 'webkit' 'moz');
+}
+
+// Background position
+@mixin background-position($x, $y) {
+  @include prefix(background-position, $x $y, 'webkit' 'moz');
+}
+
+// Border radius
+@mixin border-radius($value) {
+  @include prefix(border-radius, $value, 'webkit' 'moz');
+}
+
+// Rotate
+@mixin transform($value) {
+  @include prefix(transform, $value, 'webkit' 'ms');
+}
+
+// Center a element
+@mixin center-element {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Position an element
+@mixin position($type, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $type;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+// Sets a text shadow
+@mixin text-shadow($value) {
+  text-shadow: rgba(255, 255, 255, $value) 0 1px 0;
+}
+
+// Set the size of an element
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+// Set the float value of an element, default: left
+@mixin float($value : left) {
+  float: $value;
+}
+
+// Set the display value of an element, default: block
+@mixin display($value : block) {
+  display: $value;
+}
+
+// Set the visibility of an element
+@mixin visibility($display : block, $visibility : visible) {
+  display: $display;
+  visibility: $visibility;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculate-rem($size);
+}
+
+// Buttons
+
+@mixin button($bg, $bghover, $bgactive, $color, $hover-color : $color) {
+  background: $bg;
+  color: $color;
+  &:hover {
+    color: $hover-color;
+    background: $bghover;
+    @include transition(all .3s ease);
+  }
+  &:active {
+    background: $bgactive;
+    @include transition(all .3s ease);
+  }
+}
+
+// Fonts
+
+@mixin font-face($font-family, $file-path, $font-weight, $font-style) {
+  @font-face {
+    font-family: $font-family;
+    src: url('#{$file-path}.eot');
+    src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+    url('#{$file-path}.woff') format('woff'),
+    url('#{$file-path}.ttf') format('truetype'),
+    url('#{$file-path}.svg##{$font-family}') format('svg');
+    font-weight: $font-weight;
+    font-style: $font-style;
+  }
+  // Chrome for Windows rendering fix
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    @font-face {
+      font-family: $font-family;
+      src: url('#{$file-path}.svg##{$font-family}') format('svg');
+    }
+  }
+}
+
+// Background
+
+@mixin background($image, $repeat : 'no-repeat', $color : '', $module : core, $template : 'default') {
+  $string: 'url(/modules/'#{$module}'/site/'#{$template}'/images/'#{$image}')' #{$repeat} #{$color};
+  background: str-replace($string, '"', '');
+}
+
+// Aspect ratio padding fix for fluid video
+
+@mixin aspect-ratio-padding($width, $height) {
+  padding-top: ($height / $width) * 100%;
+}

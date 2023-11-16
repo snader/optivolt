@@ -1,0 +1,41 @@
+.locations-map {
+	width: 100%;
+	height: 300px;
+
+	& img {
+		max-width: none;
+	}
+}
+
+.location {
+
+	@include mobile {
+		max-width: 400px;
+		margin: 0 auto;
+	}
+
+	.address {
+		margin-bottom: 15px;
+
+		span {
+			display: block;
+		}
+	}
+
+	a {
+		display: block;
+	}
+
+	.location-oh-container {
+		display: none;
+	}
+}
+
+.location-oh-container {
+	min-width: 300px;
+
+	.content {
+		margin: 0;
+		padding: 20px;
+	}
+}

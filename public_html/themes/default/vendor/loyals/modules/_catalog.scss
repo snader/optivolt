@@ -1,0 +1,112 @@
+// Catalog module layout
+
+.catalog-filter-filter {
+  margin-top: 20px;
+}
+
+.catalog-filter-categories {
+  border: 1px solid #CCC;
+  padding: 10px;
+}
+
+catalog-filter-filter {
+  border: 1px solid #CCC;
+}
+
+.catalog-filter-filter-head, .catalog-filter .catalog-filter-category-active {
+  background: #CCCCCC;
+  color: #FFFFFF;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.catalog-filter-category-active a {
+  color: #FFFFFF;
+  float: right;
+}
+
+.catalog-filter-filter-content {
+  padding: 5px;
+}
+
+.catalog-filter-filter form > div, .catalog-filter .catalog-filter-filter form > div .min {
+  margin-bottom: 7px;
+}
+
+.catalog-filter-filter label.property {
+  font-style: italic;
+  display: block;
+}
+
+.catalog-filter-filter input[type="text"] {
+  width: 100%;
+}
+
+.catalog-filter-filter select {
+  width: 100%;
+}
+
+.catalog-filter-filter input[name="resetProductFilter"] {
+  margin-left: 5px;
+}
+
+// Tabs
+
+.tabs {
+  position: relative;
+  width: 100%;
+
+  .tabsHolder {
+    ul {
+      position: relative;
+      margin: 0px;
+
+      li {
+        display: block;
+        float: left;
+        list-style-type: none;
+        margin: 0;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        span.label {
+          display: block;
+          padding: 5px 10px;
+          @include transition(all 0.3s ease-in-out);
+
+          &:hover {
+            background: $template-color;
+            color: #fff;
+          }
+        }
+
+        &.active span.label {
+          background-color: #97bf0d;
+        }
+
+      }
+    }
+  }
+
+  .tabDetails {
+    .tabContent {
+      display: none;
+
+      &.opened {
+        background: #fff;
+        border: 1px solid $template-color;
+        color: #000000;
+        display: block;
+        padding: 10px;
+      }
+    }
+
+    .tabLabel {
+      display: none;
+
+    }
+  }
+
+}

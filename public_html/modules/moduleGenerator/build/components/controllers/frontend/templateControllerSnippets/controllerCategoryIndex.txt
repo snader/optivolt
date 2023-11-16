@@ -1,0 +1,8 @@
+
+        $a{{classFileName}}CategoriesForMenu = [];
+        if (class_exists('{{classFileName}}CategoryManager')) {
+            $a{{classFileName}}CategoriesForMenu = {{classFileName}}CategoryManager::get{{classFileName}}CategoriesByFilter(['languageId' => Locales::language()]);
+        }
+
+        $this->getRenderEngine()
+            ->setVariables(['a{{classFileName}}CategoriesForMenu' => $a{{classFileName}}CategoriesForMenu]);

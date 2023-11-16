@@ -1,0 +1,6 @@
+                        $oImage = $o{{classFileName}}->getImages('first-online');
+                        if (!empty($oImage)) {
+                            $oImageFile = ImageManager::getImageFileByImageAndReference($oImage->imageId, 'crop_small');
+                        } else {
+                            $oImageFile = null; // reset for next item
+                        }

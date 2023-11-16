@@ -1,0 +1,180 @@
+#footer {
+
+	@include mobile {
+		overflow: hidden;
+		padding-bottom: 100px;
+	}
+
+	.footer-container {
+		color: #fff;
+		padding: 20px 0;
+		background: lighten($black, 5%);
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		.footer-col {
+			padding: 40px 0;
+
+			@include mobile {
+				padding: 20px;
+			}
+
+			&.has-background {
+				padding: 40px;
+				background: $black;
+
+				@include mobile {
+					padding: 20px;
+				}
+			}
+
+			h3 {
+				font-size: 20px;
+				margin-bottom: 20px;
+			}
+
+			.news {
+
+				.item {
+					font-size: 12px;
+					margin-bottom: 15px;
+
+					a {
+						text-decoration: none;
+						@include transition(all .15s ease-in-out);
+
+						&:hover {
+							color: #fff;
+
+							i {
+								left: 10px;
+							}
+						}
+
+						i {
+							left: 5px;
+							font-size: 9px;
+							position: relative;
+						}
+					}
+
+					.item-title {
+						color: #fff;
+						display: block;
+						font-size: 16px;
+						text-decoration: none;
+					}
+
+					.item-date {
+						display: block;
+						margin-bottom: 10px;
+						color: darken(#fff, 40%);
+					}
+				}
+			}
+
+			.links {
+				column-count: 2;
+
+				@include until(480px) {
+					column-count: 1;
+				}
+
+				a {
+					display: block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+				}
+			}
+
+			.newsletter {
+				position: relative;
+
+				@include mobile {
+					margin-bottom: 10px;
+				}
+
+				.error-message {
+					bottom: -20px;
+					position: absolute;
+				}
+			}
+
+			.address {
+				margin-bottom: 15px;
+			}
+
+			.contact {
+
+				a {
+					margin-bottom: 5px;
+					display: inline-block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+
+					i {
+						margin-right: 5px;
+					}
+
+				}
+			}
+		}
+	}
+
+	.footer-copyright {
+		color: #fff;
+		background: $black;
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			text-align: center;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.copyright-landgoedvoorn {
+			text-align: center;
+		}
+
+		.socials {
+			text-align: center;
+
+			@include mobile {
+				margin-top: 20px;
+			}
+
+			a {
+				margin: 5px;
+				color: #fff;
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				display: inline-block;
+				background: lighten($black, 5%);
+				@include border-radius(100%);
+				@include transition(all 0.3s ease-in-out);
+
+				&:hover {
+					color: #fff;
+					background: $primary;
+				}
+			}
+		}
+	}
+}

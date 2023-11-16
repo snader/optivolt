@@ -1,0 +1,170 @@
+#footer {
+
+	@include mobile {
+		overflow: hidden;
+	}
+
+	.footer-cta {
+		color: #fff;
+		padding: 20px 0;
+		background: $black;
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			text-align: center;
+		}
+
+		a {
+			text-decoration: none;
+			@include transition(all 0.3s ease-in-out);
+
+			i {
+				margin-right: 5px;
+			}
+
+			&:hover {
+				color: #fff;
+			}
+		}
+
+		.cta {
+
+			span {
+
+				@include mobile {
+					display: none;
+				}
+			}
+		}
+	}
+
+	.footer-container {
+		color: #fff;
+		padding: 40px 0 20px 0;
+		background: lighten($black, 5%);
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			padding: 20px 0 20px 0;
+		}
+
+		.footer-col {
+
+			@include mobile {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.title {
+				color: #fff;
+				font-size: 20px;
+				margin-bottom: 20px;
+			}
+
+			.logo {
+				width: 150px;
+				background: #fff;
+				margin-bottom: 20px;
+
+				@include mobile {
+					margin: 0 auto 20px auto;
+				}
+			}
+
+			.openings-hours {
+				margin-bottom: 20px;
+			}
+
+			.socials {
+
+				a {
+					color: #fff;
+					width: 30px;
+					height: 30px;
+					line-height: 30px;
+					background: $black;
+					text-align: center;
+					display: inline-block;
+					margin: 5px 5px 5px 0;
+					@include border-radius(100%);
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+						background: $primary;
+					}
+				}
+			}
+
+			.address {
+				margin-bottom: 15px;
+			}
+
+			.contact {
+
+				a {
+					margin-bottom: 5px;
+					display: inline-block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+
+					i {
+						margin-right: 5px;
+					}
+
+				}
+			}
+		}
+	}
+
+	.footer-copyright {
+		font-size: 12px;
+		margin-top: 40px;
+
+		@include mobile {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.links {
+			text-align: center;
+
+			@include mobile {
+				margin: 10px;
+			}
+
+			a {
+				padding: 0 5px;
+				display: inline-block;
+				text-decoration: none;
+				@include transition(all 0.3s ease-in-out);
+
+				&:hover {
+					color: #fff;
+				}
+			}
+		}
+
+		.copyright-landgoedvoorn {
+			text-align: right;
+
+			@include mobile {
+				text-align: center;
+			}
+		}
+	}
+}

@@ -1,0 +1,40 @@
+if (moduleExists('{{moduleFolderName}}')) {
+    $aCheckRightFolders = [
+        {{classFileName}}::FILES_PATH => true,
+    ];
+}
+
+// start file relations
+if (!$oDb->tableExists('{{tableName}}_files')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `{{tableName}}_files`';
+    if ($bInstall) {
+
+        // add table
+        $sQuery = '
+            CREATE TABLE `{{tableName}}_files` (
+              `{{idName}}Id` int(11) NOT NULL,
+              `mediaId` int(11) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+}
+
+if ($oDb->tableExists('{{tableName}}_files') && $oDb->tableExists('{{tableName}}')) {
+
+    // check constraint
+    if (!$oDb->constraintExists('{{tableName}}_files', '{{idName}}Id', '{{tableName}}', '{{idName}}Id')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{tableName}}_files`.`{{idName}}Id` => `{{tableName}}`.`{{idName}}Id`';
+        if ($bInstall) {
+            $oDb->addConstraint('{{tableName}}_files', '{{idName}}Id', '{{tableName}}', '{{idName}}Id', 'RESTRICT', 'CASCADE');
+        }
+    }
+
+    // check files constraint
+    if (!$oDb->constraintExists('{{tableName}}_files', 'mediaId', 'files', 'mediaId')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{tableName}}_files`.`mediaId` => `files`.`mediaId`';
+        if ($bInstall) {
+            $oDb->addConstraint('{{tableName}}_files', 'mediaId', 'files', 'mediaId', 'CASCADE', 'CASCADE');
+        }
+    }
+}

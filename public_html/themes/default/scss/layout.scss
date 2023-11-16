@@ -1,0 +1,23 @@
+// Base
+@import "base/all";
+
+@import "config/all";
+
+// Vendors
+@import "../vendor/bulma/bulma";
+@import '../vendor/fa/fontawesome.scss';
+@import '../vendor/fa/solid.scss';
+@import '../vendor/fa/regular.scss';
+@import '../vendor/fa/light.scss';
+@import '../vendor/fa/brands.scss';
+@import '../vendor/hamburger/hamburgers';
+@import '../vendor/slickslider/slick';
+
+// Headers (options: 1 / 4)
+@import 'components/headers/header4';
+
+// Footers (options: 1 / 11)
+@import 'components/footers/footer2';
+
+// Components
+@import "components/all";

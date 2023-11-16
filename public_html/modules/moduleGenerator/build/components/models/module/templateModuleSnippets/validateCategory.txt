@@ -1,0 +1,7 @@
+
+        // check or at least 1 category is set
+        if (class_exists('{{classFileName}}CategoryManager')) {
+            if (count($this->getCategories('all')) == 0) {
+                $this->setPropInvalid('categories');
+            }
+        }

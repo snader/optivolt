@@ -1,0 +1,25 @@
+    /**
+     * get all files by specific list name for a {{classFileName}}
+     *
+     * @param string $sList
+     *
+     * @return array File
+     */
+    public function getFiles($sList = 'online')
+    {
+        if (!isset($this->aFiles[$sList])) {
+            switch ($sList) {
+                case 'online':
+                    $this->aFiles[$sList] = {{classFileName}}Manager::getFilesByFilter($this->{{idName}}Id);
+                    break;
+                case 'all':
+                    $this->aFiles[$sList] = {{classFileName}}Manager::getFilesByFilter($this->{{idName}}Id, ['showAll' => true]);
+                    break;
+                default:
+                    die('no option');
+                    break;
+            }
+        }
+
+        return $this->aFiles[$sList];
+    }

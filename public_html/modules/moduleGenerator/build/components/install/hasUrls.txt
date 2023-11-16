@@ -1,0 +1,81 @@
+$aNeededSiteControllerRoutes = [
+    '{{controllerRoute}}' => [
+        'module'     => '{{moduleFolderName}}',
+        'controller' => '{{controllerFileName}}',
+    ]
+];
+
+// check if needed controllers exist
+$aLocales = LocaleManager::getLocalesByFilter(['showAll' => true, 'NOTlanguageId' => DEFAULT_LANGUAGE_ID]);
+if (count($aLocales) > 0) {
+    foreach ($aLocales as $oLocale) {
+        $aNeededSiteTranslations[$oLocale->getLanguage()->code] = [
+            ['label' => 'controller_{{controllerRoute}}', 'text' => '{{controllerRoute}}', 'editable' => 0],
+        ];
+    }
+}
+
+// add page
+if (moduleExists('pages') && $oDb->tableExists('pages')) {
+    if (!($oPage = PageManager::getPageByName('{{pageSystemName}}', DEFAULT_LANGUAGE_ID))) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing page `{{pageSystemName}}`';
+        if ($bInstall) {
+            $oPage             = new Page();
+            $oPage->languageId = DEFAULT_LANGUAGE_ID;
+            $oPage->name       = '{{pageSystemName}}';
+            $oPage->title      = '{{defaultLocalePageTitle}}';
+            $oPage->content    = '';
+            $oPage->shortTitle = '{{defaultLocalePageTitle}}';
+            $oPage->forceUrlPath('/{{defaultLocalePageControllerRoute}}');
+            $oPage->setControllerPath('/modules/{{moduleFolderName}}/site/controllers/{{controllerFileName}}.cont.php');
+            $oPage->setOnlineChangeable(0);
+            $oPage->setDeletable(0);
+            $oPage->setMayHaveSub(0);
+            $oPage->setLockUrlPath(1);
+            $oPage->setLockParent(1);
+            $oPage->setHideImageManagement(1);
+            $oPage->setHideFileManagement(1);
+            $oPage->setHideLinkManagement(1);
+            $oPage->setHideVideoLinkManagement(1);
+            if ($oPage->isValid()) {
+                PageManager::savePage($oPage);
+            } else {
+                _d($oPage->getInvalidProps());
+                die('Can\'t create page `{{pageSystemName}}`');
+            }
+        }
+    }
+
+    foreach (LocaleManager::getLocalesByFilter(['showAll' => true, 'NOTlanguageId' => DEFAULT_LANGUAGE_ID]) as $oLocale) {
+        if (!($oNewPage = PageManager::getPageByName('{{pageSystemName}}', $oLocale->languageId))) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing page `{{pageSystemName}}` for language `' . strtoupper($oLocale->getLanguage()->code) . '`';
+            if ($bInstall) {
+                # create agenda page
+                $oNewPage             = new Page();
+                $oNewPage->languageId = $oLocale->languageId;
+                $oNewPage->name       = '{{pageSystemName}}';
+                $oNewPage->title      = '{{notDefaultLocalePageTitle}}';
+                $oNewPage->content    = '<p>This is the page where the last x items are displayed.</p>';
+                $oNewPage->shortTitle = '{{notDefaultLocalePageTitle}}';
+                $oNewPage->forceUrlPath('/{{notDefaultLocalePageControllerRoute}}');
+                $oNewPage->setControllerPath('/modules/{{moduleFolderName}}/site/controllers/{{controllerFileName}}.cont.php');
+                $oNewPage->setOnlineChangeable(0);
+                $oNewPage->setDeletable(0);
+                $oNewPage->setMayHaveSub(0);
+                $oNewPage->setLockUrlPath(1);
+                $oNewPage->setLockParent(1);
+                $oNewPage->setHideImageManagement(1);
+                $oNewPage->setHideFileManagement(1);
+                $oNewPage->setHideLinkManagement(1);
+                $oNewPage->setHideVideoLinkManagement(1);
+                if ($oNewPage->isValid()) {
+                    PageManager::savePage($oNewPage);
+                } else {
+                    _d($oNewPage->getInvalidProps());
+                    die('Can\'t create page `{{pageSystemName}}`');
+                }
+            }
+        }
+    }
+}
+

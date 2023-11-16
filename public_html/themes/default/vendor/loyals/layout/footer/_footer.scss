@@ -1,0 +1,80 @@
+// Footer layout
+
+#footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  .footer-container {
+    padding: 20px 0px;
+    background: $template-color;
+    color: #fff;
+
+    .footer-address {
+      margin-bottom: 20px;
+    }
+
+    .footer-contact {
+      margin-bottom: 20px;
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    .footer-socials {
+      margin-bottom: 20px;
+
+      a {
+        padding: 5px;
+        font-size: 22px;
+        text-decoration: none;
+        display: inline-block;
+      }
+    }
+
+  }
+
+  .footer-links {
+
+    a {
+      display: block;
+      text-decoration: none;
+    }
+  }
+
+  .footer-copyright {
+    color: $template-color;
+    padding: 20px 0px;
+
+    @include breakpoint(s) {
+      text-align: center;
+    }
+
+    .footer-copyright-landgoedvoorn {
+      text-align: right;
+
+      @include breakpoint(s) {
+        text-align: center;
+      }
+    }
+  }
+}
+
+// Pusher (get's recalculated but needs default values)
+.footer-pusher {
+  height: 129px;
+  @include transition(height 0.3s ease-in-out);
+}
+
+.footer-header-pusher {
+  display: none;
+  height: 70px;
+
+  &.s-is-visible {
+    @include breakpoint(s) {
+      display: block;
+    }
+  }
+}

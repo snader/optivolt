@@ -1,0 +1,20 @@
+.navigation-breadcrumbs {
+    color: #fff;
+    padding: 7px 0;
+    background: $template-color;
+
+    a {
+        color: #fff;
+        text-decoration: none;
+        @include transition(all 0.3s ease-in-out);
+
+        &:hover {
+            text-decoration: none;
+            color: $template-cta-color;
+        }
+
+        &.last{
+            color: $template-cta-color;
+        }
+    }
+}

@@ -1,0 +1,66 @@
+navigation-bottom {
+    width: 100%;
+    display: inline-block;
+    background-color: $template-color;
+    @include transition(all 0.3s ease-in-out);
+
+    @include breakpoint(s) {
+        display: none;
+    }
+
+    #navigation {
+        width: 100%;
+        margin-top: 0;
+
+        ul {
+
+            li {
+
+                &:hover {
+
+                    // submenu
+                    > ul {
+
+                        li {
+
+                            &:hover {
+
+                                a {
+                                    color: $template-link-color;
+
+                                    &:after {
+                                        color: $template-link-color;
+                                    }
+                                }
+                            }
+
+                            a {
+                                color: $template-color;
+
+                                &:after {
+                                    color: $template-color;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                a {
+                    color: #fff;
+
+                    &:after {
+                        color: #fff;
+                    }
+
+                    &:hover {
+                        color: $template-link-color;
+
+                        &:after {
+                            color: $template-link-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

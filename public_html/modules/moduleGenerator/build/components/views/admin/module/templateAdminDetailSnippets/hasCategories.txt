@@ -1,0 +1,43 @@
+                    <?php
+                    if (class_exists('{{classFileName}}CategoryManager')) {
+                        $a{{classFileName}}Categories = {{classFileName}}CategoryManager::get{{classFileName}}CategoriesByFilter(['showAll' => true, 'languageId' => AdminLocales::language()]);
+                        ?>
+                        <tr>
+                            <td colspan="3">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><h2><?= sysTranslations::get('{{singleSystemFileName}}_related_categories') ?></h2></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <?php
+
+                                # set current categories in an array to check whether to select/check the options
+                                $a{{classFileName}}CategoryIds = [];
+                                if (empty($a{{classFileName}}Categories)) {
+                                    echo '<i>' . sysTranslations::get('{{singleSystemFileName}}_add_categories') . '</i>';
+                                } else {
+                                    foreach ($o{{classFileName}}->getCategories('all') AS $o{{classFileName}}Category) {
+                                        $a{{classFileName}}CategoryIds[] = $o{{classFileName}}Category->{{idName}}CategoryId;
+                                    }
+
+                                    echo '<ul style="list-style: none; margin: 0; padding: 0;">';
+                                    foreach ($a{{classFileName}}Categories as $o{{classFileName}}Category) {
+                                        echo '<li><input class="alignCheckbox required" title="' . sysTranslations::get(
+                                                '{{singleSystemFileName}}_related_categories_tooltip'
+                                            ) . '" id="{{idName}}Category_' . $o{{classFileName}}Category->{{idName}}CategoryId . '" type="checkbox" name="{{idName}}CategoryIds[]" value="' . $o{{classFileName}}Category->{{idName}}CategoryId . '" ' . ((count(
+                                                    $a{{classFileName}}Categories
+                                                ) == 1 || in_array($o{{classFileName}}Category->{{idName}}CategoryId, $a{{classFileName}}CategoryIds)) ? 'checked' : '') . ' /> <label for="{{idName}}Category_' . $o{{classFileName}}Category->{{idName}}CategoryId . '">' . _e(
+                                                $o{{classFileName}}Category->name
+                                            ) . '</label>';
+                                    }
+                                    echo '</ul>';
+                                }
+                                ?>
+                            </td>
+                            <td><span class="error"><?= $o{{classFileName}}->isPropValid("categories") ? '' : sysTranslations::get('global_field_not_completed') ?></span></td>
+                        </tr>
+                        <?php
+
+                    }
+                    ?>

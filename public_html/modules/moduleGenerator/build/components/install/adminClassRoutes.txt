@@ -1,0 +1,7 @@
+,
+    '{{classFileName}}Category' => [
+        'module' => '{{moduleFolderName}}',
+    ],
+    '{{classFileName}}CategoryManager' => [
+        'module' => '{{moduleFolderName}}',
+    ],

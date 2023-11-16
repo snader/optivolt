@@ -1,0 +1,27 @@
+.videos {
+	margin: 30px 0;
+
+	.video {
+		line-height: 1;
+		overflow: hidden;
+		position: relative;
+		display: inline-block;
+
+		&:after {
+			top: 50%;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			color: #fff;
+			height: 21px;
+			font-size: 21px;
+			content: '\f144';
+			font-weight: bold;
+			position: absolute;
+			text-align: center;
+			display: inline-block;
+			font-family: 'FontAwesome';
+			@include transform(translateY(-50%));
+		}
+	}
+}

@@ -1,0 +1,33 @@
+$family-primary: "Segoe UI", "Roboto", "Arial", sans-serif;
+$family-secondary: "Segoe UI", "Roboto", "Arial", sans-serif;
+
+$body-size: 16px;
+$body-family: $family-primary;
+$header-family: $family-secondary;
+
+$size-1: 48px;
+$size-2: 40px;
+$size-3: 32px;
+$size-4: 24px;
+$size-5: 20px;
+$size-6: 16px;
+$size-7: 12px;
+
+$weight-light: 300;
+$weight-normal: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+$size-small: $size-7;
+$size-normal: $size-6;
+$size-medium: $size-5;
+$size-large: $size-4;
+
+$text: $grey-darker;
+$text-light: $grey;
+$text-strong: $grey-darker;
+
+$body-color: $text;
+$body-weight: $weight-normal;
+$body-line-height: 2;

@@ -1,0 +1,6 @@
+
+            // check if items have at least 1 online category
+            if (class_exists('{{classFileName}}CategoryManager')) {
+                $sFrom  .= 'JOIN `{{relationTableNamePrefix}}_categories` AS `{{databaseAlias}}c` ON `{{databaseAlias}}c`.`{{idName}}CategoryId` = `{{databaseAlias}}cni`.`{{idName}}CategoryId`';
+                $sWhere .= ($sWhere != '' ? ' AND ' : '') . '`{{databaseAlias}}c`.`online` = 1';
+            }

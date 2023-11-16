@@ -1,0 +1,2 @@
+
+    private $aCategories = null; //array with different lists of categories

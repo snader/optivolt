@@ -1,0 +1,50 @@
+<!-- Navigation Breadcrumbs -->
+<?php include getSiteSnippet('navigationBreadcrumbs'); ?>
+<!-- /Navigation Breadcrumbs -->
+
+<br class="clear">
+<div class="container">
+    <div class="row">
+        <!-- Navigation sub -->
+        <?php include getSiteSnippet('navigationSub', '{{moduleFolderName}}'); ?>
+        <!-- Navigation sub -->
+        <div class="<?= !empty($a{{classFileName}}CategoriesForMenu) ? 'col-66' : 'col-100' ?> float-right">
+            <div class="row">
+                <article class="col-100">
+                    <div class="content-title cf">
+                        <h1><?= _e($o{{classFileName}}Category->name) ?></h1>
+                    </div>
+                </article>
+                <!-- {{classFileName}} -->
+                <?php
+
+                if (!empty($a{{classFileName}}s)) {
+                    foreach ($a{{classFileName}}s AS $o{{classFileName}}) {
+                        {{getImages}}
+                        ?>
+                        <div class="col-100">
+                            <div class="row">
+                                <div class="col-66">
+                                    <div><a href="<?= $o{{classFileName}}->getBaseUrlPath() ?>?categoryId=<?= $o{{classFileName}}Category->{{idName}}CategoryId ?>"><?= _e($o{{classFileName}}->title) ?></a></div>
+                                    <div style="margin-top: 10px;"><?= $o{{classFileName}}->intro ?></div>
+                                    <div><a href="<?= $o{{classFileName}}->getBaseUrlPath() ?>?categoryId=<?= $o{{classFileName}}Category->{{idName}}CategoryId ?>"><?= _e(SiteTranslations::get('site_read_more')) ?></a></div>
+                                </div>
+                                {{writeImage}}
+                            </div>
+                        </div>
+                        <hr/>
+                    <?php }
+                    ?>
+                    <!-- Pagination -->
+                    <div class="col-100">
+                        <?= generatePaginationHTML($iPageCount, $iCurrPage) ?>
+                    </div>
+                    <!-- /Pagination -->
+                <?php }
+                ?>
+                <!-- /{{classFileName}} -->
+            </div>
+        </div>
+    </div>
+</div>
+<br class="clear">

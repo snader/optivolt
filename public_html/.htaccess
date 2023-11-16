@@ -1,0 +1,135 @@
+Options +FollowSymLinks -Indexes
+
+<IfModule mod_php5.c>
+# upgrade memory limit
+php_value memory_limit 320M
+php_value max_input_vars 6000
+
+# upgrade post limits
+php_value post_max_size 50M
+php_value upload_max_filesize 20M
+</IfModule>
+
+# let IE use the correct version
+Header set X-UA-Compatible "IE=edge"
+
+# set security headers
+Header always set Strict-Transport-Security: "max-age=31536000"
+Header always set X-Frame-Options: "SAMEORIGIN"
+Header always set X-XSS-Protection: "1; mode=block"
+Header always set X-Content-Type-Options: "nosniff"
+Header always set Referrer-Policy: "same-origin"
+Header always set Content-Security-Policy "script-src https: 'self' 'unsafe-inline' 'unsafe-eval'; style-src https: 'self' 'unsafe-inline'; report-uri /csp-reports"
+Header unset "X-Powered-By"
+
+# utf-8 encoding by default
+AddDefaultCharset UTF-8
+
+# let the documents be documents and not ZIP files
+AddType application/vnd.ms-word.document.macroEnabled.12 docm
+AddType application/vnd.openxmlformats-officedocument.wordprocessingml.document docx
+AddType application/vnd.openxmlformats-officedocument.wordprocessingml.template dotx
+AddType application/vnd.ms-powerpoint.template.macroEnabled.12 potm
+AddType application/vnd.openxmlformats-officedocument.presentationml.template potx
+AddType application/vnd.ms-powerpoint.addin.macroEnabled.12 ppam
+AddType application/vnd.ms-powerpoint.slideshow.macroEnabled.12 ppsm
+AddType application/vnd.openxmlformats-officedocument.presentationml.slideshow ppsx
+AddType application/vnd.ms-powerpoint.presentation.macroEnabled.12 pptm
+AddType application/vnd.openxmlformats-officedocument.presentationml.presentation pptx
+AddType application/vnd.ms-excel.addin.macroEnabled.12 xlam
+AddType application/vnd.ms-excel.sheet.binary.macroEnabled.12 xlsb
+AddType application/vnd.ms-excel.sheet.macroEnabled.12 xlsm
+AddType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet xlsx
+AddType application/vnd.ms-excel.template.macroEnabled.12 xltm
+AddType application/vnd.openxmlformats-officedocument.spreadsheetml.template xltx
+AddType font/woff2 .woff2
+
+RewriteEngine on
+RewriteBase /
+
+# redirect requests with WWW to without WWW
+RewriteCond %{HTTP_HOST} ^www\.(.*)(/|$) [NC]
+RewriteRule ^(.*)$ http://%1/$1 [L,R=301]
+
+# force ssl on certain domains, be aware of the right use of [OR]
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} ^livedomain\.ext$ [OR]
+RewriteCond %{HTTP_HOST} ^livedomain2\.ext$
+RewriteRule ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]
+
+ErrorDocument 403 /404
+ErrorDocument 404 /404
+
+#deny access to all files inside folders
+SetEnvIf Request_URI "^/.+\.[a-z]+$" deny
+SetEnvIf Request_URI "(\.gitignore|\.htaccess)" deny
+# set access to public accessible files in main admin folder
+SetEnvIf Request_URI "^/tmp" allow
+# set access to public accessible files in module folders Admin and Site
+SetEnvIf Request_URI "^/modules/[^/]+/(admin/)(css|js|plugins|images|files|fonts)/" allow
+SetEnvIf Request_URI "^/plugins" allow
+SetEnvIf Request_URI "^/dist" allow
+SetEnvIf Request_URI "^/themes/[^/]+/(css|js|plugins|images|files|cache|fonts|vendor)/" allow
+# set access to public accessible files in uploads folder
+SetEnvIf Request_URI "^/uploads" allow
+# allow access to folder to read private_file images
+SetEnvIf Request_URI "^/(favicon\.ico|robots\.txt|index\.php|sitemap-?([a-z]+)?\.xml\.?(gz)?$)" allow
+Order deny,allow
+Deny from env=deny
+Allow from env=allow
+
+AddType text/css .css
+
+# rewrite png/jpg to .webp when possible
+RewriteCond %{HTTP_ACCEPT} image/webp
+RewriteCond %{REQUEST_URI}  (?i)(.*\.jpe?g|.*\.png)$
+RewriteCond %{DOCUMENT_ROOT}%1.webp -f
+RewriteRule (?i)(.*\.jpe?g|.*\.png)$ %1\.webp [L,T=image/webp]
+#RewriteRule (?i)(.*\.jpe?g|.*\.png)$ %1\.webp [L,T=image/webp,r] //Cloudflare site? use this rule instead of the one above
+AddType image/webp .webp
+
+# custom robots handling
+RewriteRule ^robots\.txt$ index.php?controller=robots [L,QSA]
+
+#do not rewrite existing files!
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.*?)$ $1 [L]
+
+# handle missing uploads
+RewriteRule ^(uploads/.*)$ index.php?controller=uploads&file=$1 [L,QSA]
+
+# everything else goes through the allmighty index
+RewriteRule ^(.*)$ index.php [L,QSA]
+
+########################## CACHING ##########################
+
+# enable expire module
+ExpiresActive On
+
+# define expire time for certain filetypes
+ExpiresByType image/x-icon                  "access plus 1 month"
+ExpiresByType image/gif                     "access plus 1 month"
+ExpiresByType image/png                     "access plus 1 month"
+ExpiresByType image/jpg                     "access plus 1 month"
+ExpiresByType image/jpeg                    "access plus 1 month"
+ExpiresByType text/css                      "access plus 1 week"
+ExpiresByType text/html                     "access plus 0 seconds"
+ExpiresByType text/xml                      "access plus 0 seconds"
+ExpiresByType application/xml               "access plus 0 seconds"
+ExpiresByType application/json              "access plus 0 seconds"
+ExpiresByType text/javascript               "access plus 1 week"
+ExpiresByType application/javascript        "access plus 1 week"
+ExpiresByType text/x-component              "access plus 1 week"
+ExpiresByType video/ogg                     "access plus 1 month"
+ExpiresByType audio/ogg                     "access plus 1 month"
+ExpiresByType video/mp4                     "access plus 1 month"
+ExpiresByType video/webm                    "access plus 1 month"
+ExpiresByType font/truetype                 "access plus 1 month"
+ExpiresByType font/opentype                 "access plus 1 month"
+ExpiresByType application/x-font-woff       "access plus 1 month"
+ExpiresByType font/woff2			        "access plus 1 month"
+ExpiresByType image/svg+xml                 "access plus 1 month"
+ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+ExpiresByType image/webp                    "access plus 1 month"
+

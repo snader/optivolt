@@ -1,0 +1,61 @@
+.components-nav {
+	z-index: 1;
+	display: none;
+	background-color: #fff;
+
+	@include desktop {
+		display: flex;
+	}
+
+	&.sticky {
+		top: 100px;
+	}
+
+	.button {
+		margin-bottom: 5px;
+	}
+}
+
+.component-container {
+	margin-bottom: 0;
+	padding-top: 30px;
+	border-top: 1px solid #e8e8e8;
+
+	.info {
+		margin-bottom: 10px;
+
+		h3 {
+			float: left;
+		}
+
+		a {
+			float: right;
+			text-decoration: none;
+			padding: 5px;
+			@include transition(all 0.3s ease-in-out);
+
+			&.is-active {
+				color: #fff;
+				background: $black;
+			}
+
+			&:hover {
+				@include opacity(0.5);
+			}
+		}
+	}
+
+	.example {
+		clear: both;
+		margin-bottom: 30px;
+	}
+
+	.code {
+		display: none;
+		background: #272822;
+
+		&.is-visible {
+			display: block;
+		}
+	}
+}
