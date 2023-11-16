@@ -1,0 +1,11 @@
+.pagination {}
+
+.pagination-previous,
+.pagination-next,
+.pagination-link,
+.pagination-ellipsis {
+
+	@include mobile {
+		margin: 0.22rem;
+	}
+}

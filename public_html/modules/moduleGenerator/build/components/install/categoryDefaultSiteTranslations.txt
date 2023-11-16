@@ -1,0 +1,2 @@
+
+        ['label' => 'site_categories', 'text' => 'Categorieën', 'editable' => 1],

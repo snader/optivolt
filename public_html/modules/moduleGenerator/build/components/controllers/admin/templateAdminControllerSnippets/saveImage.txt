@@ -1,0 +1,70 @@
+    # action saveImage
+    if (Request::postVar("action") == 'saveImage') {
+        if (CSRFSynchronizerToken::validate()) {
+
+            $bCheckMime = true;
+
+            // for upload from MFUpload
+            if (Request::postVar("MFUpload")) {
+                $oResObj          = new stdClass();
+                $oResObj->success = false;
+                $bCheckMime       = true;
+            }
+
+            $aImageSettings = TemplateSettings::get('{{moduleFolderName}}', 'images');
+
+            // upload file or return error
+            $oUpload = new Upload($_FILES['image'], $aImageSettings['imagesPath'] . "/" . $aImageSettings['originalReference'] . "/", (Request::postVar('title') != '' ? Request::postVar('title') : null), ['jpg', 'png', 'gif', 'jpeg'], $bCheckMime);
+
+            // save image to database on success
+            if ($oUpload->bSuccess === true) {
+                $sTitle = Request::postVar('title') ? Request::postVar('title') : '';
+                $oImage = ImageManager::handleImageUpload($oUpload, $aImageSettings, $sTitle, $aErrorMsgs);
+
+                if ($oImage) {
+                    # save image relation
+                    {{classFileName}}Manager::save{{classFileName}}ImageRelation($o{{classFileName}}->{{idName}}Id, $oImage->imageId);
+                }
+
+                // for MFUpload
+                if (Request::postVar("MFUpload")) {
+                    $oResObj->success = true;
+                    $oImageFileThumb  = $oImage->getImageFileByReference('cms_thumb');
+                    // add some extra values
+                    $oImageFileThumb->isOnlineChangeable  = $oImage->isOnlineChangeable();
+                    $oImageFileThumb->isCropable          = $oImage->isCropable();
+                    $oImageFileThumb->isEditable          = $oImage->isEditable();
+                    $oImageFileThumb->isDeletable         = $oImage->isDeletable();
+                    $oImageFileThumb->hasNeededImageFiles = $oImage->hasImageFiles(TemplateSettings::get('{{moduleFolderName}}', 'images/neededImageFiles'));
+
+                    $oResObj->imageFile = $oImageFileThumb; // for adding image to list (last imageFile object)
+                    print json_encode($oResObj);
+                    die;
+                }
+
+                // back to edit
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id);
+            } else {
+
+                // for MFUpload
+                if (Request::postVar("MFUpload")) {
+                    $oResObj->errorMsg = $oUpload->getErrorMessage();
+                    print json_encode($oResObj);
+                    die;
+                }
+
+                Session::set('statusUpdate', sysTranslations::get('global_image_not_uploaded') . $oUpload->getErrorMessage()); //error uploading file
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id);
+            }
+        }
+    }
+
+    # set settings for image management
+    $oImageManagerHTML                                       = new ImageManagerHTML();
+    $oImageManagerHTML->bMultipleFileUpload                  = true;
+    $oImageManagerHTML->aMultipleFileUploadAllowedExtensions = ['png', 'jpg', 'gif', 'jpeg'];
+    $oImageManagerHTML->aImages                              = $o{{classFileName}}->getImages('all');
+    $oImageManagerHTML->cropLink                             = ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/crop-image';
+    $oImageManagerHTML->sUploadUrl                           = ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id;
+    $oImageManagerHTML->aNeededImageFileReferences           = TemplateSettings::get('{{moduleFolderName}}', 'images/neededImageFiles');
+    $oImageManagerHTML->bShowCropAfterUploadOption           = false;

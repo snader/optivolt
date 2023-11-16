@@ -1,0 +1,8 @@
+
+        $iCategoryId = Request::getVar('categoryId');
+
+        if (is_numeric($iCategoryId)) {
+            $i{{classFileName}}CategoryId = $iCategoryId;
+        } else {
+            $i{{classFileName}}CategoryId = null;
+        }

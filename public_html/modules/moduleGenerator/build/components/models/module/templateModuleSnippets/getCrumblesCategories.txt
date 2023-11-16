@@ -1,0 +1,24 @@
+
+    /**
+     *
+     * get an array of the breadcrumbs
+     *
+     * @param type $i{{classFileName}}CategoryId
+     *
+     * @return array
+     */
+    public function getCrumbles($i{{classFileName}}CategoryId = null)
+    {
+        $aCrumbles = [];
+        if ($this->getControllerPage()) {
+            $aCrumbles[$this->getControllerPage()
+                ->getShortTitle()] = $this->getControllerPage()
+                ->getBaseUrlPath();
+            if ($i{{classFileName}}CategoryId && ($o{{classFileName}}Category = {{classFileName}}CategoryManager::get{{classFileName}}CategoryById($i{{classFileName}}CategoryId))) {
+                $aCrumbles[$o{{classFileName}}Category->name] = $o{{classFileName}}Category->getBaseUrlPath();
+            }
+            $aCrumbles[$this->getShortTitle()] = $this->getBaseUrlPath();
+        }
+
+        return $aCrumbles;
+    }

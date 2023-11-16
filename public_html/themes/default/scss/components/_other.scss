@@ -1,0 +1,21 @@
+[data-link] {
+	cursor: pointer;
+}
+
+.block {
+	@extend %block;
+}
+
+.delete {
+	@extend %delete;
+}
+
+.heading {}
+
+.highlight {}
+
+.loader {
+	@extend %loader;
+}
+
+.number {}

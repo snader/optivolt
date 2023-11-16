@@ -1,0 +1,7 @@
+
+        $aImages = $o{{classFileName}}->getImages();
+        if (($oImage = $o{{classFileName}}->getImages('first-online')) && ($oImageFile = $oImage->getImageFileByReference('crop_small'))) {
+            $oPageLayout->sOGImage       = getBaseUrl() . $oImageFile->link;
+            $oPageLayout->sOGImageWidth  = $oImageFile->getWidth();
+            $oPageLayout->sOGImageHeight = $oImageFile->getHeight();
+        }

@@ -1,0 +1,2 @@
+
+    ['label' => 'controller_{{controllerRoute}}', 'text' => '{{controllerRoute}}', 'editable' => 0],

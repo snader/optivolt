@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-weight: normal;
+  src: url("/modules/core/site/default/fonts/fa-brands-400.eot");
+  src: url("/modules/core/site/default/fonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("/modules/core/site/default/fonts/fa-brands-400.woff2") format("woff2"), url("/modules/core/site/default/fonts/fa-brands-400.woff") format("woff"), url("/modules/core/site/default/fonts/fa-brands-400.ttf") format("truetype"), url("/modules/core/site/default/fonts/fa-brands-400.svg#fontawesome") format("svg");
+}
+
+.fab {
+  font-family: 'FontAwesome';
+}
+/*# sourceMappingURL=fa-brands.css.map */

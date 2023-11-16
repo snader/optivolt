@@ -1,0 +1,18 @@
+.partners {
+	display: flex;
+	margin: 20px 0;
+	justify-content: space-evenly;
+
+	@include mobile {
+		display: block;
+	}
+
+	.partner {
+
+		@include mobile {
+			max-width: 128px;
+			margin: 20px auto;
+			text-align: center;
+		}
+	}
+}

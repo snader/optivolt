@@ -1,0 +1,70 @@
+    # action saveFile
+    if (Request::postVar("action") == 'saveFile') {
+        if (CSRFSynchronizerToken::validate()) {
+
+            $bCheckMime = true;
+
+            // for upload from MFUpload
+            if (Request::postVar("MFUpload")) {
+                $oResObj          = new stdClass();
+                $oResObj->success = false;
+                $bCheckMime       = true;
+            }
+
+            // upload file or return error
+            $oUpload = new Upload($_FILES['file'], {{classFileName}}::FILES_PATH . '/', (Request::postVar('file_title') != '' ? Request::postVar('file_title') : null), null, $bCheckMime);
+
+            // save file to database on success
+            if ($oUpload->bSuccess === true) {
+
+                // make File object and save
+                $oFile           = new File();
+                $oFile->name     = $oUpload->sNewFileBaseName;
+                $oFile->mimeType = $oUpload->sMimeType;
+                $oFile->size     = $oUpload->iSize;
+                $oFile->link     = $oUpload->sNewFilePath;
+                $oFile->title    = Request::postVar('title') == '' ? $oUpload->sFileName : Request::postVar('title');
+
+                // save file
+                FileManager::saveFile($oFile);
+
+                // save page file relation
+                {{classFileName}}Manager::save{{classFileName}}FileRelation($o{{classFileName}}->{{idName}}Id, $oFile->mediaId);
+
+                // for MFUpload
+                if (Request::postVar("MFUpload")) {
+                    $oResObj->success = true;
+                    // add some extra values
+                    $oFile->isOnlineChangeable = $oFile->isOnlineChangeable();
+                    $oFile->isEditable         = $oFile->isEditable();
+                    $oFile->isDeletable        = $oFile->isDeletable();
+                    $oFile->extension          = $oFile->getExtension();
+
+                    $oResObj->file = $oFile; // for adding file to list
+                    print json_encode($oResObj);
+                    die;
+                }
+
+                // back to edit
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id);
+            } else {
+
+                // for MFUpload
+                if (Request::postVar("MFUpload")) {
+                    $oResObj->errorMsg = $oUpload->getErrorMessage();
+                    print json_encode($oResObj);
+                    die;
+                }
+
+                Session::set('statusUpdate', sysTranslations::get('global_file_not_uploaded') . $oUpload->getErrorMessage()); //error uploading file
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id);
+            }
+        }
+    }
+
+    # set settings for file management
+    $oFileManagerHTML                      = new FileManagerHTML();
+    $oFileManagerHTML->aFiles              = $o{{classFileName}}->getFiles('all');
+    $oFileManagerHTML->sUploadUrl          = ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $o{{classFileName}}->{{idName}}Id;
+    $oFileManagerHTML->bMultipleFileUpload = true;
+    $oFileManagerHTML->bTitleRequired      = false;

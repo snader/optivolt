@@ -1,0 +1,66 @@
+.navigation-bottom {
+    width: 100%;
+    display: inline-block;
+    background-color: $black;
+    @include transition(all 0.3s ease-in-out);
+
+    @include mobile {
+        display: none;
+    }
+
+    #navigation {
+        width: 100%;
+        margin-top: 0;
+
+        ul {
+
+            li {
+
+                &:hover {
+
+                    // submenu
+                    > ul {
+
+                        li {
+
+                            &:hover {
+
+                                a {
+                                    color: $primary;
+
+                                    &:after {
+                                        color: $primary;
+                                    }
+                                }
+                            }
+
+                            a {
+                                color: $black;
+
+                                &:after {
+                                    color: $black;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                a {
+                    color: #fff;
+
+                    &:after {
+                        color: #fff;
+                    }
+
+                    &:hover {
+                        color: $primary;
+
+                        &:after {
+                            color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

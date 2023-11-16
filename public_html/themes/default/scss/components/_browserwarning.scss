@@ -1,0 +1,44 @@
+body {
+
+	&.browser-warning {
+		background: #f4f3f3;
+
+		.browserwarning-info {
+			margin-top: 100px;
+			margin-bottom: 50px;
+		}
+
+		.browserwarning-tile {
+			width: 100%;
+			padding: 20px;
+			background: #fff;
+			text-align: center;
+			display: inline-block;
+			text-decoration: none;
+
+			img {
+				border: 0;
+				width: 100px;
+			}
+
+			.browser-name {
+				margin-top: 20px;
+			}
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+
+		.button-browserwarning {
+			padding: 20px;
+			background: #f4f3f3;
+			text-decoration: none;
+			display: inline-block;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+}

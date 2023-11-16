@@ -1,0 +1,58 @@
+    /**
+     * save connection between a {{classFileName}} and a VideoLink
+     *
+     * @param int $i{{classFileName}}Id
+     * @param int $iMediaId
+     */
+    public static function save{{classFileName}}VideoLinkRelation($i{{classFileName}}Id, $iMediaId)
+    {
+        $sQuery = ' INSERT IGNORE INTO
+                        `{{tableName}}_video_links`
+                    (
+                        `{{idName}}Id`,
+                        `mediaId`
+                    )
+                    VALUES
+                    (
+                        ' . db_int($i{{classFileName}}Id) . ',
+                        ' . db_int($iMediaId) . '
+                    )
+                    ;';
+        $oDb    = DBConnections::get();
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+
+    /**
+     * get youtube links for {{classFileName}} by filter
+     *
+     * @param int   $i{{classFileName}}Id
+     * @param array $aFilter
+     * @param int   $iLimit
+     *
+     * @return array VideoLink
+     */
+    public static function getVideoLinksByFilter($i{{classFileName}}Id, array $aFilter = [], $iLimit = null)
+    {
+
+        $sWhere = '';
+        if (empty($aFilter['showAll'])) {
+            $sWhere .= ' AND `m`.`online` = 1';
+        }
+
+        $sQuery = ' SELECT
+                        `m`.*
+                    FROM
+                        `media` AS `m`
+                    JOIN
+                        `{{tableName}}_video_links` AS `py` USING (`mediaId`)
+                    WHERE
+                        `py`.`{{idName}}Id` = ' . db_int($i{{classFileName}}Id) . '
+                    ' . $sWhere . '
+                    ORDER BY
+                        `m`.`order` ASC, `m`.`mediaId` ASC
+                    ' . ($iLimit ? 'LIMIT ' . db_int($iLimit) : '') . '
+                    ;';
+
+        return VideoLinkManager::getVideoLinkByQuery($sQuery);
+
+    }

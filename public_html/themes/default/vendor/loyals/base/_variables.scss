@@ -1,0 +1,64 @@
+// Core variables
+
+// Template styling
+$template-color: #222121;
+$template-background: #fff;
+$template-ul-margin: 0 0 0 30px;
+$template-p-margin: 0 0 12px 0;
+
+// Link colors
+$template-link-color: #e5104c;
+$template-link-color-hover: #e5104c;
+
+// Link hover decoration
+$template-link-hover-decoration: underline;
+
+// Headers font styling
+$template-font-family-headers: Verdana, sans-serif;
+
+// General Font styling
+$template-font-family: Verdana, sans-serif;
+$template-line-height: 1.6;
+$template-font-size: 14px;
+$template-font-size-m: 14px;
+$template-font-size-s: 14px;
+$template-font-weight: normal;
+$template-font-color: #222121;
+
+// Headers styling
+$template-font-size-h1: 30px;
+$template-font-size-h1-m: 24px;
+$template-font-size-h1-s: 22px;
+$template-font-family-h1: $template-font-family-headers;
+$template-font-weight-h1: normal;
+$template-font-color-h1: #222121;
+$template-font-margin-h1: 10px;
+
+$template-font-size-h2: 24px;
+$template-font-size-h2-m: 22px;
+$template-font-size-h2-s: 18px;
+$template-font-family-h2: $template-font-family-headers;
+$template-font-weight-h2: normal;
+$template-font-color-h2: #222121;
+$template-font-margin-h2: 10px;
+
+$template-font-size-h3: 22px;
+$template-font-size-h3-m: 20px;
+$template-font-size-h3-s: 18px;
+$template-font-family-h3: $template-font-family-headers;
+$template-font-weight-h3: normal;
+$template-font-color-h3: #222121;
+$template-font-margin-h3: 10px;
+
+$template-font-size-h4: 18px;
+
+// Validation colors
+$template-color-succes: #97bf0d;
+$template-color-error: #f93a3a;
+
+// Template CTA colors
+$template-cta-color: #e5104c;
+$template-cta-color-hover: #222121;
+
+// OTHER
+$template-color-dark: #222121;

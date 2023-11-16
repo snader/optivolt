@@ -1,0 +1,51 @@
+// check folders existance and writing rights
+if (moduleExists('{{moduleFolderName}}')) {
+    // get settings for module and template and create all images folders
+    $aImageSettings = TemplateSettings::get('{{moduleFolderName}}', 'images');
+    if (!empty($aImageSettings['imagesPath'])) {
+        // set main images folder
+        $aCheckRightFolders[$aImageSettings['imagesPath']] = true;
+        if (!empty($aImageSettings['sizes'])) {
+            foreach ($aImageSettings['sizes'] AS $sReference => $aSizeData) {
+                // set image file folders
+                $aCheckRightFolders[$aImageSettings['imagesPath'] . '/' . $sReference] = true;
+            }
+        }
+    }
+}
+
+
+// start image relations
+if (!$oDb->tableExists('{{tableName}}_images')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `{{tableName}}_images`';
+    if ($bInstall) {
+
+        // add table
+        $sQuery = '
+            CREATE TABLE `{{tableName}}_images` (
+              `{{idName}}Id` int(11) NOT NULL,
+              `imageId` int(11) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+}
+
+if ($oDb->tableExists('{{tableName}}_images') && $oDb->tableExists('{{tableName}}')) {
+
+    // check photo albums constraint
+    if (!$oDb->constraintExists('{{tableName}}_images', '{{idName}}Id', '{{tableName}}', '{{idName}}Id')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{tableName}}_images`.`{{idName}}Id` => `{{tableName}}`.`{{idName}}Id`';
+        if ($bInstall) {
+            $oDb->addConstraint('{{tableName}}_images', '{{idName}}Id', '{{tableName}}', '{{idName}}Id', 'RESTRICT', 'CASCADE');
+        }
+    }
+
+    // check images constraint
+    if (!$oDb->constraintExists('{{tableName}}_images', 'imageId', 'images', 'imageId')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `{{tableName}}_images`.`imageId` => `images`.`imageId`';
+        if ($bInstall) {
+            $oDb->addConstraint('{{tableName}}_images', 'imageId', 'images', 'imageId', 'CASCADE', 'CASCADE');
+        }
+    }
+}

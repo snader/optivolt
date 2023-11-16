@@ -1,0 +1,14 @@
+
+    <!-- Video link -->
+    <div class="contentColumn">
+        <fieldset>
+            <legend><?= sysTranslations::get('global_videolinks') ?></legend>
+            <?php if ($o{{classFileName}}->{{idName}}Id !== null) { ?>
+                <br/><small><?= sysTranslations::get('global_videolinks_info') ?></small><br/><br/>
+                <?php $oVideoLinkManagerHTML->includeTemplate(); ?>
+            <?php } else { ?>
+                <p><i><?= sysTranslations::get('{{singleSystemFileName}}_video_warning') ?></i></p>
+            <?php } ?>
+        </fieldset>
+    </div>
+    <!-- /Video link -->

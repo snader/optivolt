@@ -1,0 +1,4 @@
+'{{adminUrlPath}}-categorieen' => [
+    'module'     => '{{moduleFolderName}}',
+    'controller' => '{{controllerFileName}}Category',
+]

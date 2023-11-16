@@ -1,0 +1,5 @@
+# ignore everything in this folder
+*
+# do no ignore this file
+!.gitignore
+!.htaccess

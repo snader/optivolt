@@ -1,0 +1,163 @@
+// Orders module layout
+
+// Basket
+
+.basket {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  width: 400px;
+  background: #fff;
+  z-index: 999999;
+  right: -400px;
+  border-left: 1px solid #ccc;
+  @include transition(all 0.5s ease-in-out);
+
+  &.is-opened {
+    right: 0px;
+    @include transition(all 0.5s ease-in-out);
+  }
+
+  @include breakpoint(s) {
+    width: 300px;
+    right: -300px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+
+    .icon {
+      float: left;
+      width: 30px;
+      height: 30px;
+      margin-right: 20px;
+      position: relative;
+
+      .amount {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        color: #fff;
+        background-color: $template-cta-color;
+        width: 15px;
+        height: 15px;
+        font-size: 10px;
+        line-height: 15px;
+        text-align: center;
+        @include border-radius(100%);
+      }
+    }
+
+    .close {
+      float: right;
+      color: $template-color-dark;
+      @include transition(all 0.3s ease-in-out);
+
+      &:hover {
+        color: $template-cta-color;
+      }
+    }
+
+  }
+
+  .basket-more {
+    margin: 0px 20px 20px 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+  }
+
+  .basket-inner {
+    height: calc(100vh - 250px);
+    overflow-y: auto;
+
+    .info {
+      padding: 20px;
+    }
+  }
+
+  .product {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-top: 0px;
+    margin-top: 0px;
+    padding-top: 20px;
+
+    .name {
+      font-size: 18px;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+      @include transition(all 0.3s ease-in-out);
+    }
+
+    .info {
+      font-size: 12px;
+    }
+
+    .spec {
+      color: #ccc;
+    }
+
+    .price {
+      color: $template-cta-color;
+      font-size: 18px;
+      text-align: right;
+    }
+  }
+
+  .sub-total {
+    color: $template-cta-color;
+    font-size: 18px;
+    text-align: right;
+
+    .sub-total-label {
+      font-size: 16px;
+      color: $template-color-dark;
+    }
+  }
+
+}
+
+// Order steps
+
+.order-steps .order-step {
+  background: $template-color;
+  color: #FFF;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.order-steps .order-step.first {
+  margin-top: 0;
+}
+
+.order-steps .order-step span, .order-steps .order-step a {
+  display: inline-block;
+}
+
+.order-steps .order-step .order-step-label {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.order-steps .order-step .order-step-number, .order-steps .order-step .order-step-label {
+  display: block;
+  float: left;
+}
+
+.order-steps .order-step .order-step-label {
+  padding: 3px 5px;
+}
+
+.order-steps .order-step .order-step-number {
+  background: $template-color;
+  padding: 3px 9px;
+}
+
+.order-steps .order-step.active {
+  background: #97bf0d;
+}

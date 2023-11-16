@@ -1,0 +1,2 @@
+
+    private $aFiles = null; //array with different lists of files

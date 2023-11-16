@@ -1,0 +1,137 @@
+#footer {
+
+	@include mobile {
+		overflow: hidden;
+	}
+
+	.footer-copyright {
+		color: #fff;
+		padding: 20px 0;
+		background: $black;
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			text-align: center;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.copyright-landgoedvoorn {
+			font-size: 12px;
+			text-align: right;
+
+			@include mobile {
+				text-align: center;
+			}
+		}
+	}
+
+	.footer-container {
+		color: #fff;
+		padding: 40px 0;
+		background: lighten($black, 5%);
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			padding: 20px 0 80px;
+		}
+
+		.footer-col {
+
+			@include mobile {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.title {
+				color: #fff;
+				font-size: 20px;
+				margin-bottom: 20px;
+			}
+
+			.logo {
+				width: 150px;
+				background: #fff;
+				margin-bottom: 20px;
+
+				@include mobile {
+					margin: 0 auto 20px auto;
+				}
+
+			}
+
+			.links {
+				column-count: 2;
+
+				@include tablet {
+					column-count: 1;
+				}
+
+				@include mobile {
+					margin-bottom: 20px;
+				}
+
+				a {
+					display: block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+				}
+			}
+
+			.socials {
+
+				a {
+					color: #fff;
+					width: 30px;
+					height: 30px;
+					line-height: 30px;
+					background: $black;
+					text-align: center;
+					margin: 5px 5px 5px 0;
+					display: inline-block;
+					@include border-radius(100%);
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+						background: $primary;
+					}
+				}
+			}
+
+			.address {
+				margin-bottom: 15px;
+			}
+
+			.contact {
+
+				a {
+					margin-bottom: 5px;
+					display: inline-block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+
+					i {
+						margin-right: 5px;
+					}
+				}
+			}
+		}
+	}
+}

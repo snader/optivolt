@@ -1,0 +1,303 @@
+<?php
+
+class {{classFileName}}CategoryManager
+{
+
+    /**
+     * get the full {{classFileName}}Category object by id
+     *
+     * @param int $i{{classFileName}}CategoryId
+     *
+     * @return {{classFileName}}Category
+     */
+    public static function get{{classFileName}}CategoryById($i{{classFileName}}CategoryId)
+    {
+        $sQuery = ' SELECT
+                        `{{databaseAlias}}c`.*
+                    FROM
+                        `{{relationTableNamePrefix}}_categories` `{{databaseAlias}}c`
+                    WHERE
+                        `{{databaseAlias}}c`.`{{idName}}CategoryId` = ' . db_int($i{{classFileName}}CategoryId) . '
+                    LIMIT 1
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_UNIQUE_OBJECT, "{{classFileName}}Category");
+    }
+
+    /**
+     * get the full {{classFileName}}Category object by urlPart
+     *
+     * @param string $sUrlPart
+     * @param int    $iLanguageId
+     *
+     * @return {{classFileName}}Category
+     */
+    public static function get{{classFileName}}CategoryByUrlPart($sUrlPart, $iLanguageId)
+    {
+        $sQuery = ' SELECT
+                        `{{databaseAlias}}c`.*
+                    FROM
+                        `{{relationTableNamePrefix}}_categories` AS `{{databaseAlias}}c`
+                    WHERE
+                        `{{databaseAlias}}c`.`urlPart` = ' . db_str($sUrlPart) . '
+                    AND
+                        `{{databaseAlias}}c`.`languageId` = ' . db_int($iLanguageId) . '
+                    LIMIT 1
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_UNIQUE_OBJECT, "{{classFileName}}Category");
+    }
+
+    /**
+     * check if urlPart exists excluding given {{classFileName}}Category
+     *
+     * @param string $sPartToCheck
+     * @param int    $i{{classFileName}}CategoryId
+     * @param int    $iLanguageId
+     *
+     * @return bool
+     */
+    private static function urlPartExists($sPartToCheck, $i{{classFileName}}CategoryId, $iLanguageId)
+    {
+        $o{{classFileName}}Category = self::get{{classFileName}}CategoryByUrlPart($sPartToCheck, $iLanguageId);
+        if ($o{{classFileName}}Category) {
+            if ($o{{classFileName}}Category->{{idName}}CategoryId != $i{{classFileName}}CategoryId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * save {{classFileName}}Category object
+     *
+     * @param {{classFileName}}Category $o{{classFileName}}Category
+     */
+    public static function save{{classFileName}}Category({{classFileName}}Category $o{{classFileName}}Category)
+    {
+
+        $sGeneratedUrlPart = $o{{classFileName}}Category->generateUrlPart();
+        $iT                = 0;
+        $sPartToCheck      = $sGeneratedUrlPart;
+
+        # while urlPath is not unique, excluding this page, make unique
+        while (self::urlPartExists($sPartToCheck, $o{{classFileName}}Category->{{idName}}CategoryId, $o{{classFileName}}Category->languageId)) {
+            $iT++;
+            $sPartToCheck = $sGeneratedUrlPart . "-$iT";
+        }
+
+        # part is last unique part
+        $sGeneratedUrlPart = $sPartToCheck;
+
+        # save {{classFileName}} item
+        $sQuery = ' INSERT INTO `{{relationTableNamePrefix}}_categories` (
+                        `{{idName}}CategoryId`,
+                        `languageId`,
+                        `windowTitle`,
+                        `metaKeywords`,
+                        `metaDescription`,
+                        `name`,
+                        `urlPart`,
+                        `urlPartText`,
+                        `online`,
+                        `order`,
+                        `created`
+                    )
+                    VALUES (
+                        ' . db_int($o{{classFileName}}Category->{{idName}}CategoryId) . ',
+                        ' . db_int($o{{classFileName}}Category->languageId) . ',
+                        ' . db_str($o{{classFileName}}Category->windowTitle) . ',
+                        ' . db_str($o{{classFileName}}Category->metaKeywords) . ',
+                        ' . db_str($o{{classFileName}}Category->metaDescription) . ',
+                        ' . db_str($o{{classFileName}}Category->name) . ',
+                        ' . db_str($sGeneratedUrlPart) . ',
+                        ' . db_str($o{{classFileName}}Category->getUrlPartText()) . ',
+                        ' . db_int($o{{classFileName}}Category->online) . ',
+                        ' . db_int($o{{classFileName}}Category->order) . ',
+                        ' . 'NOW()' . '
+                    )
+                    ON DUPLICATE KEY UPDATE
+                        `languageId`=VALUES(`languageId`),
+                        `windowTitle`=VALUES(`windowTitle`),
+                        `metaKeywords`=VALUES(`metaKeywords`),
+                        `metaDescription`=VALUES(`metaDescription`),
+                        `name`=VALUES(`name`),
+                        `urlPart`=VALUES(`urlPart`),
+                        `urlPartText`=VALUES(`urlPartText`),
+                        `online`=VALUES(`online`),
+                        `order`=VALUES(`order`)
+                    ;';
+
+        $oDb = DBConnections::get();
+        $oDb->query($sQuery, QRY_NORESULT);
+
+        if ($o{{classFileName}}Category->{{idName}}CategoryId === null) {
+            $o{{classFileName}}Category->{{idName}}CategoryId = $oDb->insert_id;
+        }
+    }
+
+    /**
+     * delete item and all media
+     *
+     * @param {{classFileName}}Category $o{{classFileName}}Category
+     *
+     * @return Boolean
+     */
+    public static function delete{{classFileName}}Category({{classFileName}}Category $o{{classFileName}}Category)
+    {
+        /* check if item exists and is deletable */
+        if ($o{{classFileName}}Category->isDeletable()) {
+            $sQuery = "DELETE FROM `{{relationTableNamePrefix}}_categories` WHERE `{{idName}}CategoryId` = " . db_int($o{{classFileName}}Category->{{idName}}CategoryId) . ";";
+
+            $oDb = DBConnections::get();
+            $oDb->query($sQuery, QRY_NORESULT);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * update online by item id
+     *
+     * @param int $bOnline
+     * @param int $i{{classFileName}}CategoryId
+     *
+     * @return boolean
+     */
+    public static function updateOnlineBy{{classFileName}}CategoryId($bOnline, $i{{classFileName}}CategoryId)
+    {
+        $sQuery = ' UPDATE
+                        `{{relationTableNamePrefix}}_categories`
+                    SET
+                        `online` = ' . db_int($bOnline) . '
+                    WHERE
+                        `{{idName}}CategoryId` = ' . db_int($i{{classFileName}}CategoryId) . '
+                    ;';
+        $oDb    = DBConnections::get();
+
+        $oDb->query($sQuery, QRY_NORESULT);
+
+        # check if something happened
+        return $oDb->affected_rows > 0;
+    }
+
+    /**
+     * return categories filtered by a few options
+     *
+     * @param array $aFilter    filter properties
+     * @param int   $iLimit     limit number of records returned
+     * @param int   $iStart     start from this record
+     * @param int   $iFoundRows foundRows when there was no limit (default = false so doesn't check by default)
+     * @param array $aOrderBy   array(database coloumn name => order) add order by columns and orders
+     *
+     * @return array Module
+     */
+    public static function get{{classFileName}}CategoriesByFilter(array $aFilter = [], $iLimit = null, $iStart = 0, &$iFoundRows = false, $aOrderBy = ['`{{databaseAlias}}c`.`order`' => 'ASC', '`{{databaseAlias}}c`.`{{idName}}CategoryId`' => 'ASC'])
+    {
+        $sFrom  = '';
+        $sWhere = '';
+
+        if (empty($aFilter['showAll'])) {
+            $sFrom  .= 'JOIN `{{relationTableNamePrefix}}_categories_{{tableName}}` AS `{{databaseAlias}}cni` USING(`{{idName}}CategoryId`)';
+            $sFrom  .= 'JOIN `{{tableName}}` AS `{{databaseAlias}}` USING(`{{idName}}Id`)';
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '`{{databaseAlias}}c`.`online` = 1';
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '
+                            `{{databaseAlias}}`.`online` = 1
+                        ';
+        }
+
+        # get by languageId
+        if (isset($aFilter['languageId'])) {
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '`{{databaseAlias}}c`.`languageId` = ' . db_int($aFilter['languageId']);
+        }
+
+        # get categories that changed last hour
+        if (isset($aFilter['lastHourOnly'])) {
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . 'IFNULL(`{{databaseAlias}}c`.`modified`, `{{databaseAlias}}c`.`created`) > DATE_ADD(NOW(), INTERVAL -1 HOUR)';
+        }
+
+        # handle order by
+        $sOrderBy = '';
+        if (count($aOrderBy) > 0) {
+            foreach ($aOrderBy AS $sColumn => $sOrder) {
+                $sOrderBy .= ($sOrderBy !== '' ? ',' : '') . $sColumn . ' ' . $sOrder;
+            }
+        }
+        $sOrderBy = ($sOrderBy !== '' ? 'ORDER BY ' : '') . $sOrderBy;
+
+        # handle start,limit
+        $sLimit = '';
+        if (is_numeric($iLimit)) {
+            $sLimit .= $iLimit;
+        }
+        if ($sLimit !== '') {
+            $sLimit = (is_numeric($iStart) ? $iStart . ',' : '0,') . $sLimit;
+        }
+        $sLimit = ($sLimit !== '' ? 'LIMIT ' : '') . $sLimit;
+
+        $sQuery = ' SELECT ' . ($iFoundRows !== false ? 'SQL_CALC_FOUND_ROWS' : '') . '
+                        `{{databaseAlias}}c`.*
+                    FROM
+                        `{{relationTableNamePrefix}}_categories` AS `{{databaseAlias}}c`
+                    ' . $sFrom . '
+                    ' . ($sWhere != '' ? 'WHERE ' . $sWhere : '') . '
+                    GROUP BY
+                        `{{databaseAlias}}c`.`{{idName}}CategoryId`
+                    ' . $sOrderBy . '
+                    ' . $sLimit . '
+                    ;';
+
+        $oDb                 = DBConnections::get();
+        $a{{classFileName}}Categories = $oDb->query($sQuery, QRY_OBJECT, "{{classFileName}}Category");
+        if ($iFoundRows !== false) {
+            $iFoundRows = $oDb->query('SELECT FOUND_ROWS() AS `found_rows`;', QRY_UNIQUE_OBJECT)->found_rows;
+        }
+
+        return $a{{classFileName}}Categories;
+    }
+
+    /**
+     * get items for category by filter
+     *
+     * @param int   $i{{classFileName}}CategoryId
+     * @param array $aFilter
+     * @param int   $iLimit
+     *
+     * @return array {{classFileName}}
+     */
+    public static function get{{classFileName}}sByFilter($i{{classFileName}}CategoryId, array $aFilter = [], $iLimit = null)
+    {
+        $sWhere = '';
+        if (empty($aFilter['showAll'])) {
+            $sWhere .= 'AND
+                            `{{databaseAlias}}`.`online` = 1
+                        ';
+        }
+
+        $sQuery = ' SELECT
+                        `{{databaseAlias}}`.*
+                    FROM
+                        `{{tableName}}` AS `{{databaseAlias}}`
+                    JOIN
+                        `{{relationTableNamePrefix}}_categories_{{tableName}}` AS `{{databaseAlias}}cni` USING (`{{idName}}Id`)
+                    WHERE
+                        `{{databaseAlias}}cni`.`{{idName}}CategoryId` = ' . db_int($i{{classFileName}}CategoryId) . '
+                    ' . $sWhere . '
+                    ORDER BY
+                        `{{databaseAlias}}`.`{{idName}}Id` DESC
+                    ' . ($iLimit ? 'LIMIT ' . $iLimit : '') . '
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_OBJECT, '{{classFileName}}');
+    }
+
+}

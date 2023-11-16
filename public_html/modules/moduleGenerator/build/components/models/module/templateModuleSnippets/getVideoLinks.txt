@@ -1,0 +1,25 @@
+    /**
+     * get all youtube links by specific list name for a {{classFileName}}
+     *
+     * @param string $sList
+     *
+     * @return array VideoLink
+     */
+    public function getVideoLinks($sList = 'online')
+    {
+        if (!isset($this->aVideoLinks[$sList])) {
+            switch ($sList) {
+                case 'online':
+                    $this->aVideoLinks[$sList] = {{classFileName}}Manager::getVideoLinksByFilter($this->{{idName}}Id);
+                    break;
+                case 'all':
+                    $this->aVideoLinks[$sList] = {{classFileName}}Manager::getVideoLinksByFilter($this->{{idName}}Id, ['showAll' => true]);
+                    break;
+                default:
+                    die('no option');
+                    break;
+            }
+        }
+
+        return $this->aVideoLinks[$sList];
+    }

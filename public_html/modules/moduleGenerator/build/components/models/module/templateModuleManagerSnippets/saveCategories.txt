@@ -1,0 +1,5 @@
+
+        if (class_exists('{{classFileName}}CategoryManager')) {
+            // save categories
+            self::save{{classFileName}}CategoryRelations($o{{classFileName}});
+        }

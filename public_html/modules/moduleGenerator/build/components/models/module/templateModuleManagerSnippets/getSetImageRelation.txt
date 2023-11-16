@@ -1,0 +1,59 @@
+
+    /**
+     * save connection between a {{classFileName}} and an image
+     *
+     * @param int $i{{classFileName}}Id
+     * @param int $iImageId
+     */
+    public static function save{{classFileName}}ImageRelation($i{{classFileName}}Id, $iImageId)
+    {
+        $sQuery = ' INSERT IGNORE INTO
+                        `{{tableName}}_images`
+                    (
+                        `{{idName}}Id`,
+                        `imageId`
+                    )
+                    VALUES
+                    (
+                        ' . db_int($i{{classFileName}}Id) . ',
+                        ' . db_int($iImageId) . '
+                    )
+                    ;';
+        $oDb    = DBConnections::get();
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+
+    /**
+     * get images for {{classFileName}} by filter
+     *
+     * @param int   $i{{classFileName}}Id
+     * @param array $aFilter
+     * @param int   $iLimit
+     *
+     * @return array Image
+     */
+    public static function getImagesByFilter($i{{classFileName}}Id, array $aFilter = [], $iLimit = null)
+    {
+        $sWhere = '';
+        if (empty($aFilter['showAll'])) {
+            $sWhere .= ' AND `i`.`online` = 1';
+        }
+
+        $sQuery = ' SELECT
+                        `i`.*
+                    FROM
+                        `images` AS `i`
+                    JOIN
+                        `{{tableName}}_images` AS `pi` USING (`imageId`)
+                    WHERE
+                        `pi`.`{{idName}}Id` = ' . db_int($i{{classFileName}}Id) . '
+                    ' . $sWhere . '
+                    ORDER BY
+                        `i`.`order` ASC, `i`.`imageId` ASC
+                    ' . ($iLimit ? 'LIMIT ' . db_int($iLimit) : '') . '
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_OBJECT, 'Image');
+    }

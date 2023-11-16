@@ -1,0 +1,7 @@
+SetEnvIf Request_URI "^/private_files/crm/relations/images/" allow
+SetEnvIf Request_URI "^/private_files/crm/relations/files/" allow
+SetEnvIf Request_URI "^/private_files/crm/contactMoments/files/" allow
+
+Order deny,allow
+Deny from all
+Allow from env=allow

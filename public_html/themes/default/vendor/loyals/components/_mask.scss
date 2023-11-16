@@ -1,0 +1,46 @@
+// Import global config file
+@import "../config";
+
+// Component styles
+
+.mask-wrapper-example {
+    height: 900px;
+    position: relative;
+
+    background: #03001e;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #03001e, #7303c0, #ec38bc, #fdeff9);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #03001e, #7303c0, #ec38bc, #fdeff9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+}
+.mask-top {
+    top: -2px;
+    left: -3px;
+    right: -3px;
+    position: absolute;
+    pointer-events: none;
+    width: calc(100% + 6px);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: top -1px center;
+    // background-image: url(/modules/core/site/default/images/mask-top.svg);
+
+    img {
+        visibility: hidden;
+    }
+}
+.mask-bottom {
+    bottom: -2px;
+    left: -3px;
+    right: -3px;
+    position: absolute;
+    pointer-events: none;
+    width: calc(100% + 6px);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: bottom -1px center;
+    // background-image: url(/modules/core/site/default/images/mask.svg);
+
+    img {
+        visibility: hidden;
+    }
+}

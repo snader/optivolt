@@ -1,0 +1,607 @@
+// Core layout, release 2016 by Cornee
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  background: $template-background;
+  -webkit-font-smoothing: antialiased;
+
+  &.is-locked {
+    overflow-y: hidden;
+  }
+}
+
+body {
+  height: 100%;
+  color: $template-font-color;
+  font-family: $template-font-family;
+  font-weight: $template-font-weight;
+  line-height: $template-line-height;
+  font-size: $template-font-size;
+
+  @include breakpoint(m) {
+    font-size: $template-font-size-m;
+  }
+
+  @include breakpoint(s) {
+    font-size: $template-font-size-s;
+  }
+}
+
+a {
+  color: $template-link-color;
+
+  &:hover {
+    color: $template-link-color-hover;
+    text-decoration: $template-link-hover-decoration;
+  }
+}
+
+ol,
+ul {
+  margin: $template-ul-margin;
+}
+
+p {
+  margin: $template-p-margin;
+}
+
+hr {
+  border-bottom: 1px solid $template-color;
+}
+
+h1 {
+  font-family: $template-font-family-h1;
+  font-size: $template-font-size-h1;
+  color: $template-font-color-h1;
+  font-weight: $template-font-weight-h1;
+  margin-bottom: $template-font-margin-h1;
+
+  @include breakpoint(m) {
+    font-size: $template-font-size-h1-m;
+  }
+
+  @include breakpoint(s) {
+    font-size: $template-font-size-h1-s;
+  }
+}
+
+h2 {
+  font-family: $template-font-family-h2;
+  font-size: $template-font-size-h2;
+  color: $template-font-color-h2;
+  font-weight: $template-font-weight-h2;
+  margin-bottom: $template-font-margin-h2;
+
+  @include breakpoint(m) {
+    font-size: $template-font-size-h2-m;
+  }
+
+  @include breakpoint(s) {
+    font-size: $template-font-size-h2-s;
+  }
+}
+
+h3 {
+  font-family: $template-font-family-h3;
+  font-size: $template-font-size-h3;
+  color: $template-font-color-h3;
+  font-weight: $template-font-weight-h3;
+  margin-bottom: $template-font-margin-h3;
+
+  @include breakpoint(m) {
+    font-size: $template-font-size-h3-m;
+  }
+
+  @include breakpoint(s) {
+    font-size: $template-font-size-h3-s;
+  }
+}
+
+// Table styling
+
+table.withForm tr td {
+  padding-bottom: 5px;
+  vertical-align: top;
+
+  &.withLabel {
+    padding-top: 6px;
+    padding-right: 10px;
+  }
+}
+
+.alignCheckbox {
+  position: relative;
+  top: 2px;
+}
+
+.alignRadio {
+  position: relative;
+  top: 1px;
+}
+
+// Pagination
+
+.pagination {
+  float: left;
+
+  span, a {
+    background: none repeat scroll 0 0 #CCC;
+    color: #FFF;
+    margin-right: 5px;
+    padding: 2px 5px;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  &.currPage {
+    background: $template-cta-color;
+  }
+}
+
+.perPage {
+  float: left;
+}
+
+// Custom selection color
+
+::selection {
+  color: #fff;
+  background: $template-cta-color;
+}
+
+::-moz-selection {
+  color: #fff;
+  background: $template-cta-color;
+}
+
+// Scrollbar styling (webkit)
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 0px;
+  @include transition(all 0.3s ease-in-out);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $template-color-dark;
+  @include transition(all 0.3s ease-in-out);
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: $template-color-dark;
+  @include transition(all 0.3s ease-in-out);
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border: 0px;
+  border-radius: 0px;
+  @include transition(all 0.3s ease-in-out);
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #ffffff;
+  @include transition(all 0.3s ease-in-out);
+}
+
+::-webkit-scrollbar-track:active {
+  background: #ffffff;
+  @include transition(all 0.3s ease-in-out);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+// Social share
+.social-share {
+  margin-bottom: 20px;
+
+  .social-share-header {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  a {
+    display: inline-block;
+    font-size: 26px;
+    text-decoration: none;
+    padding: 5px;
+    color: $template-cta-color;
+    @include transition(all 0.3s ease-in-out);
+
+    &:hover {
+      color: $template-cta-color-hover;
+    }
+
+    &.whatsapp {
+      display: none;
+
+      @include breakpoint(s) {
+        display: inline-block;
+      }
+    }
+  }
+
+}
+
+// Content
+
+.content-container {
+
+  iframe {
+    max-width: 100%;
+  }
+
+  table {
+    width: 100%;
+  }
+}
+
+// Header images
+
+.header-images-container {
+  position: relative;
+  z-index: 9;
+  overflow: hidden;
+
+  .header-images {
+    display: none;
+  }
+
+  .header-image {
+    height: 400px;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    @include opacity(0.5);
+    @include transition(all 1s ease-in-out);
+
+    @include breakpoint(s) {
+      height: 300px;
+    }
+
+    &.large {
+      display: block;
+
+      @include breakpoint(s) {
+        display: none;
+      }
+    }
+
+    &.small {
+      display: none;
+
+      @include breakpoint(s) {
+        display: block;
+      }
+    }
+
+    &.has-effect {
+    }
+
+  }
+
+  .slick-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    right: 10px;
+    margin: 0px;
+    text-align: center;
+    @include transition(opacity 0.5s ease-in-out);
+    @include opacity(0);
+
+    &.is-visible {
+      @include opacity(1);
+      @include transition(opacity 0.5s ease-in-out);
+
+    }
+
+    li {
+      list-style: none;
+      display: inline-block;
+
+      &.slick-active button {
+        background: $template-cta-color;
+        @include transition(all 0.3s ease-in-out);
+      }
+
+      button {
+        background: none;
+        text-indent: -9999px;
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+        outline: 0;
+        margin: 0px 5px;
+        font-size: 0px;
+        background: #fff;
+        border: 0px;
+        @include transition(all 0.3s ease-in-out);
+
+        &:hover {
+          background: $template-cta-color;
+        }
+      }
+    }
+  }
+}
+
+// Media slider
+
+.media-slider-container {
+  margin-bottom: 50px;
+
+  @include breakpoint(s) {
+    margin-bottom: 25px;
+  }
+
+  .media-slide {
+    height: 40vh;
+    min-height: 400px;
+    max-height: 450px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    @include breakpoint(s) {
+      min-height: 300px;
+      max-height: 300px;
+      height: 300px;
+    }
+
+    .media-play {
+      margin: auto auto;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      color: #fff;
+      @include position(absolute, 0, 0, 0, 0);
+      @include transition(all 0.3s ease-in-out);
+
+      &:before {
+        font-family: FontAwesome;
+        content: '\f04b';
+        font-size: 22px;
+        line-height: 40px;
+      }
+
+      &:hover {
+        color: $template-cta-color;
+      }
+    }
+  }
+
+  .media-slider {
+    display: none;
+    position: relative;
+
+    .slick-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+      right: 10px;
+      margin: 0px;
+      text-align: center;
+      @include transition(opacity 0.5s ease-in-out);
+      @include opacity(0);
+
+      &.is-visible {
+        @include opacity(1);
+        @include transition(opacity 0.5s ease-in-out);
+
+      }
+
+      li {
+        list-style: none;
+        display: inline-block;
+
+        &.slick-active button {
+          background: $template-cta-color;
+          @include transition(all 0.3s ease-in-out);
+        }
+
+        button {
+          background: none;
+          text-indent: -9999px;
+          width: 15px;
+          height: 15px;
+          display: inline-block;
+          outline: 0;
+          margin: 0px 5px;
+          font-size: 0px;
+          background: #fff;
+          border: 0px;
+          @include transition(all 0.3s ease-in-out);
+
+          &:hover {
+            background: $template-cta-color;
+          }
+        }
+      }
+    }
+
+  }
+
+  .media-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    transform: scale(1.1);
+    @include transition(all 0.3s ease-in-out);
+
+    &.has-effect {
+      transform: scale(1.0);
+      @include transition(all 4s ease-in-out);
+    }
+
+  }
+}
+
+// Media lists
+
+.media-list {
+  color: $template-color-dark;
+  background: #fff;
+  padding: 25px;
+  margin-bottom: 20px;
+
+  .media-list-title {
+    margin-bottom: 10px;
+  }
+
+  ul {
+    li {
+      list-style: square;
+
+      a {
+        color: $template-color-dark;
+        text-decoration: none;
+        @include transition(all 0.3s ease-in-out);
+
+        &:hover {
+          color: $template-cta-color;
+        }
+      }
+    }
+  }
+}
+
+// Environment notification
+
+.environment-notification {
+  position: fixed;
+  z-index: 99999;
+  bottom: 10px;
+  right: 10px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+  background: #F00;
+  @include opacity(0.9);
+  @include transition(all 0.5s ease-in-out);
+
+  &.is-hidden {
+    bottom: -200px;
+  }
+
+  .actions {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 18px;
+    line-height: 18px;
+
+    a {
+      color: #fff;
+      @include opacity(1);
+      @include transition(all 0.3s ease-in-out);
+
+      &:hover {
+        @include opacity(0.8);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .message {
+    padding: 10px 40px 0px 20px;
+  }
+
+  .environment {
+    font-weight: bold;
+    padding: 0px 40px 10px 20px;
+  }
+}
+
+
+// Template overlay
+
+.template-overlay {
+  background: rgba($template-color-dark, 0.5);
+  position: fixed;
+  z-index: 99999;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  visibility: hidden;
+  @include opacity(0);
+  @include transition(all 0.3s ease-in-out);
+
+  &.is-visible {
+    visibility: visible;
+    @include opacity(1);
+    @include transition(all 0.3s ease-in-out);
+  }
+}
+
+// Tabs
+
+
+
+.tabs {
+  position: relative;
+  width: 100%;
+}
+.tabs .tabsHolder ul {
+  background-color: $template-color;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  color: #fff;
+}
+.tabs .tabsHolder ul li {
+  display: block;
+  float: left;
+  list-style-type: none;
+  margin: 0;
+}
+.tabs .tabsHolder ul li:hover {
+  cursor: pointer;
+}
+.tabs .tabsHolder ul li span.label {
+  display: block;
+  padding: 5px 10px;
+  @include transition(all 0.3s ease-in-out);
+}
+.tabs .tabsHolder ul li span.label:hover {
+  background: $template-color;
+  color: #fff;
+  transition: background 0.3s ease-in 0s;
+  @include transition(all 0.3s ease-in-out);
+}
+.tabs .tabsHolder ul li.active span.label {
+  background-color: #97bf0d;
+}
+.tabs .tabDetails .tabContent {
+  display: none;
+}
+.tabs .tabDetails .tabContent.opened {
+  background: #fff;
+  border: 1px solid $template-color;
+  color: #000000;
+  display: block;
+  padding: 10px;
+}
+.tabs .tabDetails .tabLabel {
+  display: none;
+}

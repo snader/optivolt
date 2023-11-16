@@ -1,0 +1,39 @@
+Plugin to show fancy alerts.
+
+Usage examples:
+
+
+// alert dialog
+alertify.alert("Message");
+
+// confirm dialog
+alertify.confirm("Message", function (e) {
+    if (e) {
+        // user clicked "ok"
+    } else {
+        // user clicked "cancel"
+    }
+});
+
+// prompt dialog
+alertify.prompt("Message", function (e, str) {
+    // str is the input text
+    if (e) {
+        // user clicked "ok"
+    } else {
+        // user clicked "cancel"
+    }
+}, "Default Value");
+
+// standard notification
+// setting the wait property to 0 will
+// keep the log message until it's clicked
+alertify.log("Notification", type, wait);
+
+// success notification
+// shorthand for alertify.log("Notification", "success");
+alertify.success("Success notification");
+
+// error notification
+// shorthand for alertify.log("Notification", "error");
+alertify.error("Error notification");

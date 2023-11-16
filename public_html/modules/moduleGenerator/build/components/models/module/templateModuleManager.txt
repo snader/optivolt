@@ -1,0 +1,214 @@
+<?php
+
+class {{classFileName}}Manager
+{
+
+    /**
+     * get the full {{classFileName}} object by id
+     *
+     * @param int $i{{classFileName}}Id
+     * @param int $iLocaleId
+     *
+     * @return {{classFileName}}
+     */
+    public static function get{{classFileName}}ById($i{{classFileName}}Id)
+    {
+        $sQuery = ' SELECT
+                        `{{databaseAlias}}`.*
+                    FROM
+                        `{{tableName}}` AS `{{databaseAlias}}`
+                    WHERE
+                        `{{databaseAlias}}`.`{{idName}}Id` = ' . db_int($i{{classFileName}}Id) . '
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_UNIQUE_OBJECT, "{{classFileName}}");
+    }
+
+    /**
+     * save {{classFileName}} object
+     *
+     * @param {{classFileName}} $o{{classFileName}}
+     */
+    public static function save{{classFileName}}({{classFileName}} $o{{classFileName}})
+    {
+        # save item
+        $sQuery = ' INSERT INTO `{{tableName}}` (
+                        `{{idName}}Id`,
+                        `languageId`,
+                        {{hasUrlsInsertProperties}}
+                        `title`,
+                        `intro`,
+                        `content`,
+                        `online`,
+                        `order`,
+                        `created`
+                    )
+                    VALUES (
+                        ' . db_int($o{{classFileName}}->{{idName}}Id) . ',
+                        ' . db_int($o{{classFileName}}->languageId) . ',
+                        {{hasUrlsValuesProperties}}
+                        ' . db_str($o{{classFileName}}->title) . ',
+                        ' . db_str($o{{classFileName}}->intro) . ',
+                        ' . db_str($o{{classFileName}}->content) . ',
+                        ' . db_int($o{{classFileName}}->online) . ',
+                        ' . db_int($o{{classFileName}}->order) . ',
+                        ' . 'NOW()' . '
+                    )
+                    ON DUPLICATE KEY UPDATE
+                        `languageId`=VALUES(`languageId`),
+                        {{hasUrlsUpdateProperties}}
+                        `title`=VALUES(`title`),
+                        `intro`=VALUES(`intro`),
+                        `content`=VALUES(`content`),
+                        `order`=VALUES(`order`),
+                        `online`=VALUES(`online`)
+                    ;';
+
+        $oDb = DBConnections::get();
+        $oDb->query($sQuery, QRY_NORESULT);
+
+        if ($o{{classFileName}}->{{idName}}Id === null) {
+            $o{{classFileName}}->{{idName}}Id = $oDb->insert_id;
+        }
+
+        {{moduleSaveCategories}}
+    }
+
+    /**
+     * delete item and all media
+     *
+     * @param {{classFileName}} $o{{classFileName}}
+     *
+     * @return Boolean
+     */
+    public static function delete{{classFileName}}({{classFileName}} $o{{classFileName}})
+    {
+        $oDb = DBConnections::get();
+
+        /* check if item exists and is deletable */
+        if ($o{{classFileName}}->isDeletable()) {
+
+            {{deleteCode}}
+
+            $sQuery = "DELETE FROM `{{tableName}}` WHERE `{{idName}}Id` = " . db_int($o{{classFileName}}->{{idName}}Id) . ";";
+            $oDb->query($sQuery, QRY_NORESULT);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * update online by {{classFileName}} item id
+     *
+     * @param int $bOnline
+     * @param int $i{{classFileName}}Id
+     *
+     * @return boolean
+     */
+    public static function updateOnlineBy{{classFileName}}Id($bOnline, $i{{classFileName}}Id)
+    {
+        $sQuery = ' UPDATE
+                        `{{tableName}}`
+                    SET
+                        `online` = ' . db_int($bOnline) . '
+                    WHERE
+                        `{{idName}}Id` = ' . db_int($i{{classFileName}}Id) . '
+                    ;';
+        $oDb    = DBConnections::get();
+
+        $oDb->query($sQuery, QRY_NORESULT);
+
+        # check if something happened
+        return $oDb->affected_rows > 0;
+    }
+
+    /**
+     * return {{classFileName}} items filtered by a few options
+     *
+     * @param array $aFilter    filter properties (checkOnline)
+     * @param int   $iLimit     limit number of records returned
+     * @param int   $iStart     start from this record
+     * @param int   $iFoundRows foundRows when there was no limit (default = false so doesn't check by default)
+     * @param array $aOrderBy   array(database column name => order) add order by columns and orders
+     *
+     * @return array {{classFileName}}
+     */
+    public static function get{{classFileName}}sByFilter(array $aFilter = [], $iLimit = null, $iStart = 0, &$iFoundRows = false, $aOrderBy = ['`{{databaseAlias}}`.`order`' => 'ASC', '`{{databaseAlias}}`.`{{idName}}Id`' => 'DESC'])
+    {
+        $sFrom    = '';
+        $sWhere   = '';
+        $sGroupBy = '';
+
+        {{manager_category_get_by1}}
+
+        // no show all? only show online items
+        if (empty($aFilter['showAll'])) {
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '
+                            `{{databaseAlias}}`.`online` = 1
+                        ';
+            {{manager_category_get_by2}}
+        }
+
+        # get by languageId
+        if (isset($aFilter['languageId'])) {
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '`{{databaseAlias}}`.`languageId` = ' . db_int($aFilter['languageId']);
+        }
+
+        # search for q
+        if (!empty($aFilter['q'])) {
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`{{databaseAlias}}`.`title` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `{{databaseAlias}}`.`intro` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `{{databaseAlias}}`.`content` LIKE ' . db_str(
+                    '%' . $aFilter['q'] . '%'
+                ) . ')';
+        }
+
+        # get items with that changed last hour
+        if (isset($aFilter['lastHourOnly'])) {
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . 'IFNULL(`{{databaseAlias}}`.`modified`, `{{databaseAlias}}`.`created`) > DATE_ADD(NOW(), INTERVAL -1 HOUR)';
+        }
+
+        # handle order by
+        $sOrderBy = '';
+        if (count($aOrderBy) > 0) {
+            foreach ($aOrderBy AS $sColumn => $sOrder) {
+                $sOrderBy .= ($sOrderBy !== '' ? ',' : '') . $sColumn . ' ' . $sOrder;
+            }
+        }
+        $sOrderBy = ($sOrderBy !== '' ? 'ORDER BY ' : '') . $sOrderBy;
+
+        # handle start,limit
+        $sLimit = '';
+        if (is_numeric($iLimit)) {
+            $sLimit .= db_int($iLimit);
+        }
+        if ($sLimit !== '') {
+            $sLimit = (is_numeric($iStart) ? db_int($iStart) . ',' : '0,') . $sLimit;
+        }
+        $sLimit = ($sLimit !== '' ? 'LIMIT ' : '') . $sLimit;
+
+        $sQuery = ' SELECT ' . ($iFoundRows !== false ? 'SQL_CALC_FOUND_ROWS' : '') . '
+                        `{{databaseAlias}}`.*
+                    FROM
+                        `{{tableName}}` AS `{{databaseAlias}}`
+                    ' . $sFrom . '
+                    ' . ($sWhere != '' ? 'WHERE ' . $sWhere : '') . '
+                    ' . ($sGroupBy != '' ? 'GROUP BY ' . $sGroupBy : '') . '
+                    ' . $sOrderBy . '
+                    ' . $sLimit . '
+                    ;';
+
+        $oDb        = DBConnections::get();
+        $a{{classFileName}}s = $oDb->query($sQuery, QRY_OBJECT, "{{classFileName}}");
+        if ($iFoundRows !== false) {
+            $iFoundRows = $oDb->query('SELECT FOUND_ROWS() AS `found_rows`;', QRY_UNIQUE_OBJECT)->found_rows;
+        }
+
+        return $a{{classFileName}}s;
+    }
+
+    {{getSetCode}}
+
+}

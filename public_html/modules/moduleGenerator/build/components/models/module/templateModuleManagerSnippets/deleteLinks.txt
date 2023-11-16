@@ -1,0 +1,4 @@
+            # get and delete links
+            foreach ($o{{classFileName}}->getLinks('all') AS $oLink) {
+                LinkManager::deleteLink($oLink);
+            }

@@ -1,0 +1,34 @@
+    /**
+     * get all images by specific list name for a {{classFileName}}
+     *
+     * @param string $sList
+     *
+     * @return Image or array Images
+     */
+    public function getImages($sList = 'online')
+    {
+        if (!isset($this->aImages[$sList])) {
+            switch ($sList) {
+                case 'online':
+                    $this->aImages[$sList] = {{classFileName}}Manager::getImagesByFilter($this->{{idName}}Id);
+                    break;
+                case 'first-online':
+                    $aImages = {{classFileName}}Manager::getImagesByFilter($this->{{idName}}Id, [], 1);
+                    if (!empty($aImages)) {
+                        $oImage = $aImages[0];
+                    } else {
+                        $oImage = null;
+                    }
+                    $this->aImages[$sList] = $oImage;
+                    break;
+                case 'all':
+                    $this->aImages[$sList] = {{classFileName}}Manager::getImagesByFilter($this->{{idName}}Id, ['showAll' => true]);
+                    break;
+                default:
+                    die('no option');
+                    break;
+            }
+        }
+
+        return $this->aImages[$sList];
+    }

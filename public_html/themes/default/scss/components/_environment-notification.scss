@@ -1,0 +1,44 @@
+.environment-notification {
+	position: fixed;
+	z-index: 99999;
+	bottom: 10px;
+	right: 10px;
+	font-size: 14px;
+	color: #fff;
+	text-align: center;
+	background: #f00;
+	@include opacity(0.9);
+	@include transition(all 0.5s ease-in-out);
+
+	&.is-hidden {
+		bottom: -200px;
+	}
+
+	.actions {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		font-size: 18px;
+		line-height: 18px;
+
+		a {
+			color: #fff;
+			@include opacity(1);
+			@include transition(all 0.3s ease-in-out);
+
+			&:hover {
+				@include opacity(0.8);
+				cursor: pointer;
+			}
+		}
+	}
+
+	.env-message {
+		padding: 10px 40px 0 20px;
+	}
+
+	.environment {
+		font-weight: bold;
+		padding: 0 40px 10px 20px;
+	}
+}

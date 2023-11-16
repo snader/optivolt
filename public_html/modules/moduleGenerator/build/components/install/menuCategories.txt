@@ -1,0 +1,10 @@
+,
+    [
+        'name'             => '{{adminUrlPath}}-categorieen',
+        'icon'            => 'fa-list',
+        'linkName'         => '{{singleSystemFileName}}Categories_menu',
+        'parentModuleName' => '{{adminUrlPath}}',
+        'moduleActions'    => [
+            ['displayName' => 'Volledig', 'name' => '{{singleSystemFileName}}Categories_full'],
+        ],
+    ]

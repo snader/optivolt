@@ -1,0 +1,19 @@
+
+    /**
+     *
+     * get an array of the breadcrumbs
+     *
+     * @return array
+     */
+    public function getCrumbles()
+    {
+        $aCrumbles = [];
+        if ($this->getControllerPage()) {
+            $aCrumbles[$this->getControllerPage()
+                ->getShortTitle()] = $this->getControllerPage()
+                ->getBaseUrlPath();
+            $aCrumbles[$this->getShortTitle()] = $this->getBaseUrlPath();
+        }
+
+        return $aCrumbles;
+    }

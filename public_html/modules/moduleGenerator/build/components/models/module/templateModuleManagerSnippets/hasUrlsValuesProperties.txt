@@ -1,0 +1,5 @@
+
+                        ' . db_str($o{{classFileName}}->windowTitle) . ',
+                        ' . db_str($o{{classFileName}}->metaKeywords) . ',
+                        ' . db_str($o{{classFileName}}->metaDescription) . ',
+                        ' . db_str($o{{classFileName}}->shortTitle) . ',

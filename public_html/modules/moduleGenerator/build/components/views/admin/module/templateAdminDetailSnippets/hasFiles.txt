@@ -1,0 +1,12 @@
+    <div class="contentColumn">
+        <fieldset>
+            <legend><?= sysTranslations::get('global_files') ?></legend>
+            <?php
+            if ($o{{classFileName}}->{{idName}}Id !== null) {
+                $oFileManagerHTML->includeTemplate();
+            } else {
+                echo '<p><i>' . sysTranslations::get('{{singleSystemFileName}}_files_warning') . '</i></p>';
+            }
+            ?>
+        </fieldset>
+    </div>

@@ -1,0 +1,7 @@
+
+        if (!$bPreviewMode) {
+            // with categories so check if at least 1 category is online
+            if (class_exists('{{classFileName}}CategoryManager') && count($this->getCategories()) <= 0) {
+                $bOnline = false;
+            }
+        }

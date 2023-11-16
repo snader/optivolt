@@ -1,0 +1,2 @@
+
+    const FILES_PATH = '/uploads/files/{{moduleFolderName}}';

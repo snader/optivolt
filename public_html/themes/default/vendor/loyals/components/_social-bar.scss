@@ -1,0 +1,74 @@
+// Import global config file
+@import "../config";
+
+// Component styles
+
+.social-bar {
+  background: $template-color-dark;
+  padding: 40px 0px;
+  text-align: center;
+
+  h3 {
+    color: #fff;
+  }
+
+  .links {
+    margin-bottom: 20px;
+
+    a {
+      font-size: 22px;
+      text-decoration: none;
+      margin: 5px;
+      @include transition(all 0.3s ease-in-out);
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+  }
+
+  .newsletter {
+    width: 300px;
+    margin: 0 auto;
+
+    .form-error-message {
+      position: absolute;
+      left: 0px;
+    }
+
+    .input-container {
+      float: left;
+      width: calc(100% - 40px);
+      position: relative;
+
+      input {
+        border: 0px !important;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+      }
+    }
+
+    .btn-container {
+      width: 40px;
+      float: right;
+
+      button {
+        width: 40px;
+        height: 40px;
+        background: $template-cta-color;
+        color: #fff;
+        border: 0px;
+        @include transition(all 0.3s ease-in-out);
+
+        &:hover {
+          background: #fff;
+          color: $template-cta-color;
+        }
+      }
+    }
+
+  }
+
+}

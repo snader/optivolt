@@ -1,0 +1,4 @@
+            # get and delete youtube links
+            foreach ($o{{classFileName}}->getVideoLinks('all') AS $oVideoLink) {
+                VideoLinkManager::deleteVideoLink($oVideoLink);
+            }

@@ -1,0 +1,18 @@
+.faq-questions {
+	margin-bottom: 40px;
+
+	.faq-question {
+		cursor: pointer;
+
+		&.is-active {
+
+			.icon {
+				@include transform(rotate(180deg));
+			}
+		}
+	}
+
+	.faq-answer {
+		display: none;
+	}
+}

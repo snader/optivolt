@@ -1,0 +1,37 @@
+// Generate prefixes
+@mixin prefix($property, $value, $prefixes: ()) {
+	@each $prefix in $prefixes {
+		-#{$prefix}-#{$property}: $value;
+	}
+
+	#{$property}: $value;
+}
+
+// Transition
+@mixin transition($arguments) {
+	@include prefix(transition, $arguments, 'webkit' 'moz' 'ms' 'o');
+}
+
+// Opacity
+@mixin opacity($opacity) {
+	opacity: $opacity;
+	$opacity-ie: $opacity * 100;
+	filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+// Border radius
+@mixin border-radius($value) {
+	@include prefix(border-radius, $value, 'webkit' 'moz');
+}
+
+// Transform
+@mixin transform($value) {
+	@include prefix(transform, $value, 'webkit' 'ms');
+}
+
+// target IE 10+
+@mixin ie {
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		@content;
+	}
+}

@@ -1,0 +1,34 @@
+.mailchimp-header {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.mailchimp-hide {
+    display: none;
+}
+
+.mailchimp-error {
+    color: #CD0000;
+}
+
+.mailChimpForm {
+    .mailchimp-input {
+        width: 180px;
+        max-width: 100%;
+        @include breakpoint(s) {
+            width: 100%;
+        }
+    }
+    .mailchimp-submit {
+        max-width: 180px;
+        @include breakpoint(s) {
+            max-width: 100%;
+        }
+    }
+    li {
+        list-style-type: none;
+        & label {
+            color: $template-color-error;
+        }
+    }
+}

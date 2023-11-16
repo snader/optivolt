@@ -1,0 +1,4 @@
+            # get and delete images
+            foreach ($o{{classFileName}}->getImages('all') AS $oImage) {
+                ImageManager::deleteImage($oImage);
+            }

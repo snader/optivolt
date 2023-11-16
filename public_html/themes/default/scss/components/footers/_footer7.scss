@@ -1,0 +1,182 @@
+#footer {
+
+	@include mobile {
+		overflow: hidden;
+		padding-bottom: 80px;
+	}
+
+	.footer-cta-container {
+
+		@include mobile {
+			position: relative;
+
+			.container {
+				width: 100%;
+			}
+
+		}
+
+		.footer-cta {
+			padding: 20px;
+			background: lighten($black, 5%);
+
+			.socials {
+
+				@include mobile {
+					text-align: center;
+					margin-bottom: 10px;
+				}
+
+				a {
+					color: #fff;
+					width: 30px;
+					height: 30px;
+					line-height: 30px;
+					text-align: center;
+					background: $orange;
+					display: inline-block;
+					margin: 5px 5px 5px 0;
+					@include border-radius(100%);
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+						background: $primary;
+					}
+				}
+			}
+
+			.newsletter {
+				color: #fff;
+				position: relative;
+
+				form {
+					display: inline-block;
+				}
+
+				@include mobile {
+					text-align: center;
+					margin-bottom: 10px;
+				}
+
+				.error-message {
+					bottom: -20px;
+					position: absolute;
+				}
+			}
+		}
+	}
+
+	.footer-container {
+		color: #fff;
+		background: $black;
+		padding: 60px 0 40px 0;
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			margin: 0;
+			padding: 20px 0;
+		}
+
+		.footer-col {
+
+			@include mobile {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.title {
+				color: #fff;
+				font-size: 20px;
+				margin-bottom: 20px;
+			}
+
+			.logo {
+				width: 150px;
+				background: #fff;
+				margin-bottom: 20px;
+
+				@include mobile {
+					margin: 0 auto 20px auto;
+				}
+
+			}
+
+			.links {
+				column-count: 2;
+
+				@include tablet {
+					column-count: 1;
+				}
+
+				@include mobile {
+					margin-bottom: 20px;
+				}
+
+				a {
+					display: block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+				}
+			}
+
+			.address {
+				margin-bottom: 15px;
+			}
+
+			.contact {
+
+				a {
+					margin-bottom: 5px;
+					display: inline-block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+
+					i {
+						margin-right: 5px;
+					}
+
+				}
+			}
+		}
+	}
+
+	.footer-copyright {
+		color: #fff;
+		padding: 20px 0;
+		background: $black;
+		border-top: 1px solid #fff;
+
+		@include mobile {
+			text-align: center;
+		}
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.copyright-landgoedvoorn
+			font-size: 12px;
+			text-align: right;
+
+			@include mobile {
+				text-align: center;
+			}
+		}
+	}
+}

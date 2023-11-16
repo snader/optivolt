@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAAA;;;GAGG;AAGH,UAAU;EACR,WAAW,EAAE,aAAa;EAC1B,UAAU,EAAE,MAAM;EAClB,WAAW,EAAE,GAAG;EAChB,YAAY,ECLS,IAAI;EDMzB,GAAG,EAAE,6CAAwC;EAC7C,GAAG,EAAE,oDAA+C,CAAC,2BAA2B,EAChF,+CAA0C,CAAC,eAAe,EAC1D,8CAAyC,CAAC,cAAc,EACxD,6CAAwC,CAAC,kBAAkB,EAC3D,yDAAoD,CAAC,aAAa;;;AAGpE,AAAA,IAAI,CAAC;EACH,WAAW,EAAE,aAAa;EAC1B,WAAW,EAAE,GAAG;CACjB",
+    "sources": [
+        "light.scss",
+        "_variables.scss"
+    ],
+    "names": [],
+    "file": "light.css"
+}

@@ -1,0 +1,16 @@
+.select {
+
+	&.has-errors {
+
+		&:not(.is-multiple):not(.is-loading) {
+
+			&:after {
+				display: none;
+			}
+		}
+
+		select {
+			border-color: $red;
+		}
+	}
+}

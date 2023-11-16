@@ -1,0 +1,16 @@
+.tabs {
+	flex-direction: column;
+
+	.tabs-content {
+		white-space: normal;
+
+		.tabs-item {
+			display: none;
+			padding: 15px;
+
+			&.is-active {
+				display: block;
+			}
+		}
+	}
+}

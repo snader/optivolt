@@ -1,0 +1,126 @@
+// Header layout
+$logo-width: 150px;
+$header-height: 100px;
+$s-header-height: 70px;
+
+#header {
+  position: relative;
+  z-index: 1004;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  background: #fff;
+  min-height: $header-height;
+
+  @include breakpoint(s) {
+    min-height: $s-header-height;
+  }
+
+  &.is-sticky {
+    position: fixed;
+    top: 0px;
+  }
+
+  &.is-fixed {
+    position: fixed !important;
+  }
+
+  @include breakpoint(s) {
+    &.s-position-bottom {
+      position: fixed !important;
+      bottom: 0px;
+      top: inherit !important;
+    }
+  }
+
+  // Logo
+  .logo-container {
+    float: left;
+    width: $logo-width;
+    margin: 10px 0px;
+
+    @include breakpoint(s) {
+      width: 100px;
+    }
+  }
+
+  // Navigation
+  #navigation {
+    float: right;
+    width: calc(100% - #{$logo-width});
+    text-align: right;
+  }
+
+  .navigation-icon {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 25px;
+
+    @include breakpoint(s) {
+      display: block;
+    }
+  }
+
+  // Basket
+  .basket {
+    float: right;
+    margin: 10px 10px 0px 0px;
+
+    @include breakpoint(s) {
+      position: absolute;
+      right: 60px;
+      top: 8px;
+    }
+
+    .icon {
+      color: $template-color-dark;
+
+      @include breakpoint(s) {
+        font-size: 20px;
+      }
+    }
+  }
+
+  // Languages
+  .languages {
+    float: right;
+    margin: 10px 10px 0px 0px;
+    text-transform: uppercase;
+
+    @include breakpoint(s) {
+      position: absolute;
+      right: 100px;
+      top: 12px;
+    }
+  }
+
+}
+
+// Header pusher
+.header-pusher {
+  height: $header-height;
+  display: none;
+  @include transition(height 0.3s ease-in-out);
+
+  @include breakpoint(s) {
+    height: $s-header-height;
+  }
+
+  &.hide-pusher {
+    display: none !important;
+  }
+
+  &.s-hide-pusher {
+    @include breakpoint(s) {
+      display: none !important;
+    }
+  }
+}
+
+// Hide off canvas
+@include breakpoint(767px) {
+  .navigation-off-canvas {
+    display: none;
+  }
+}

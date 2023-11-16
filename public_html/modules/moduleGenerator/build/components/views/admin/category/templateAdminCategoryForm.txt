@@ -1,0 +1,40 @@
+<div id="topOptions">
+    <a class="backBtn" href="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>"><?= sysTranslations::get('global_back_to_overview') ?></a><span class="backBtnInfo"> (<?= sysTranslations::get('global_without_saving') ?>)</span>
+</div>
+<div class="cf">
+    <div class="contentColumn">
+        <form method="POST" action="" class="validateForm">
+            <?= CSRFSynchronizerToken::field() ?>
+            <input type="hidden" value="save" name="action"/>
+            <fieldset>
+                <legend><?= sysTranslations::get('{{singleSystemFileName}}_category') ?></legend>
+                <table class="withForm">
+                    <tr>
+                        <td><?= sysTranslations::get('global_online') ?> *</td>
+                        <td>
+                            <input class="alignRadio required" title="<?= sysTranslations::get('{{singleSystemFileName}}_category_set_online') ?>" type="radio" <?= $o{{classFileName}}Category->online ? 'CHECKED' : '' ?> id="online_1" name="online" value="1"/> <label
+                                    for="online_1"><?= sysTranslations::get('global_yes') ?></label>
+                            <input class="alignRadio required" title="<?= sysTranslations::get('{{singleSystemFileName}}_category_set_online') ?>" type="radio" <?= !$o{{classFileName}}Category->online ? 'CHECKED' : '' ?> id="online_0" name="online" value="0"/> <label
+                                    for="online_0"><?= sysTranslations::get('global_no') ?></label>
+                        </td>
+                        <td><span class="error"><?= $o{{classFileName}}Category->isPropValid("online") ? '' : sysTranslations::get('global_field_not_completed') ?></span></td>
+                    </tr>
+                    <tr>
+                        <td class="withLabel" style="width: 116px;"><label for="name"><?= sysTranslations::get('global_name') ?> *</label></td>
+                        <td><input id="name" class="required autofocus default" name="name" title="<?= sysTranslations::get('global_set_name') ?>" type="text" value="<?= _e($o{{classFileName}}Category->name) ?>"/></td>
+                        <td><span class="error"><?= $o{{classFileName}}Category->isPropValid("name") ? '' : sysTranslations::get('global_field_incorrect') ?></span></td>
+                    </tr>
+                    {{hasUrls}}
+                    <tr>
+                        <td colspan="3">
+                            <input type="submit" value="<?= sysTranslations::get('global_save') ?>" name="save"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div id="bottomOptions">
+    <a class="backBtn" href="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>"><?= sysTranslations::get('global_back_to_overview') ?></a><span class="backBtnInfo"> (<?= sysTranslations::get('global_without_saving') ?>)</span>
+</div>

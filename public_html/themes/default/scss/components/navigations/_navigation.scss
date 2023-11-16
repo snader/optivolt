@@ -1,0 +1,188 @@
+// Navigation layout
+
+.navigation-wrapper {
+	display: inline-block;
+	width: calc(100% - 320px);
+}
+
+#navigation {
+
+	&.prio-menu {
+
+		// CLEARFIX
+		&:before,
+		&:after {
+			display: table;
+			content: "";
+		}
+
+		&:after {
+			clear: both;
+		}
+
+		// CLEARFIX
+
+		clear: both;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		position: relative;
+		width: 100%;
+
+		@include mobile {
+			top: initial;
+			left: initial;
+			right: initial;
+			z-index: 9999;
+			position: relative;
+			display: inline-block;
+			background: transparent;
+
+			ul {
+
+				li {
+					float: left;
+					display: initial;
+
+					a {
+						margin: 0;
+						padding: 10px;
+						background: none;
+					}
+				}
+			}
+		}
+
+		> ul.pageLinks {
+			display: inline-block;
+		}
+
+		ul {
+
+			li {
+				float: left;
+				display: initial;
+
+				&.hide {
+					display: none;
+				}
+
+				li {
+					float: none;
+					display: block;
+				}
+			}
+		}
+	}
+
+	ul {
+
+		li {
+			position: relative;
+			display: inline-block;
+
+			&.is-active, &:hover {
+
+				> a {
+					color: $primary;
+					text-decoration: none;
+				}
+			}
+
+			&:hover {
+
+				> ul {
+					visibility: visible;
+					pointer-events: all;
+					@include opacity(1);
+				}
+			}
+
+			&:last-child {
+
+				ul {
+					left: -50px;
+				}
+			}
+
+			> ul {
+				left: 10px;
+				z-index: 1;
+				background: #fff;
+				text-align: left;
+				position: absolute;
+				visibility: hidden;
+				pointer-events: none;
+				border: 1px solid $black;
+				@include opacity(0);
+				@include transition(all .3s ease-in-out);
+
+				li {
+					margin: 0;
+					display: block;
+					border-top: 1px solid #ccc;
+
+					&:first-child {
+						border: 0;
+					}
+
+					&:hover {
+
+						> ul {
+							top: -1px;
+							left: 100%;
+						}
+					}
+
+					a {
+						margin: 0;
+						white-space: nowrap;
+					}
+				}
+			}
+
+			a {
+				margin: 0;
+				color: $black;
+				display: block;
+				padding: 5px 10px;
+				text-decoration: none;
+				@include transition(all 0.3s ease-in-out);
+			}
+
+			&.has-sub {
+
+				> a {
+
+					&:after {
+						top: 50%;
+						font-size: 12px;
+						content: "\f078";
+						margin-left: 10px;
+						font-family: 'FontAwesome';
+					}
+				}
+			}
+		}
+	}
+
+	@include mobile {
+		left: 0;
+		right: 0;
+		top: 60px;
+		display: none;
+		z-index: 9999;
+		position: absolute;
+		background: $black;
+
+		ul li {
+			float: none;
+		}
+
+		ul li a {
+			margin: 0;
+			padding: 10px;
+			background: none;
+		}
+	}
+}

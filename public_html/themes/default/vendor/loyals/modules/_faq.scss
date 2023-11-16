@@ -1,0 +1,21 @@
+.faq-questions ul {
+    list-style: square;
+}
+
+.faq-category-title {
+    font-weight: bold;
+}
+
+.faq-answer {
+    display: none;
+    font-style: italic;
+}
+
+.faq-question {
+    color: $template-color;
+    text-decoration: none;
+    &:hover {
+        color: $template-color;
+        text-decoration: none;
+    }
+}

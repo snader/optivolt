@@ -1,0 +1,28 @@
+.sub-navigation {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        a {
+            display: block;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            text-decoration: none;
+            color: $template-link-color;
+            border-bottom: 1px solid $template-color;
+            @include transition(all .3s ease-in-out);
+
+            &:hover, &.is-active {
+                color: $template-color;
+            }
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            margin-left: 20px;
+        }
+    }
+}

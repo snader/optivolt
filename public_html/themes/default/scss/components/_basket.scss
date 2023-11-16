@@ -1,0 +1,157 @@
+.basket {
+	top: 0;
+	bottom: 0;
+	width: 400px;
+	right: -400px;
+	z-index: 999999;
+	position: fixed;
+	background: #fff;
+	border-left: 1px solid #ccc;
+	@include transition(all 0.5s ease-in-out);
+
+	@include mobile {
+		width: 300px;
+		right: -300px;
+	}
+
+	&.is-opened {
+		right: 0;
+		@include transition(all 0.5s ease-in-out);
+	}
+
+	.title {
+		margin: 20px;
+		font-size: 22px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #ccc;
+
+		.icon {
+			float: left;
+			width: 30px;
+			height: 30px;
+			margin-right: 20px;
+			position: relative;
+
+			.amount {
+				top: -5px;
+				right: -5px;
+				color: #fff;
+				width: 15px;
+				height: 15px;
+				font-size: 10px;
+				line-height: 15px;
+				text-align: center;
+				position: absolute;
+				background-color: $primary;
+				@include border-radius(100%);
+			}
+		}
+
+		.close {
+			float: right;
+			color: $black;
+			@include transition(all 0.3s ease-in-out);
+
+			&:hover {
+				color: $primary;
+			}
+		}
+
+	}
+
+	.basket-more {
+		padding-top: 20px;
+		margin: 0 20px 20px 20px;
+		border-top: 1px solid #ccc;
+	}
+
+	.basket-inner {
+		overflow-y: auto;
+		height: calc(100vh - 250px);
+
+		.info {
+			padding: 20px;
+		}
+	}
+
+	.product {
+		border-top: 0;
+		margin-top: 0;
+		padding-top: 20px;
+		margin-bottom: 10px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid #ccc;
+
+		.name {
+			font-size: 18px;
+			margin-bottom: 10px;
+			display: inline-block;
+			text-decoration: none;
+			@include transition(all 0.3s ease-in-out);
+		}
+
+		.info {
+			font-size: 12px;
+		}
+
+		.spec {
+			color: #ccc;
+		}
+
+		.price {
+			font-size: 18px;
+			text-align: right;
+			color: $primary;
+		}
+	}
+
+	.sub-total {
+		font-size: 18px;
+		text-align: right;
+		color: $primary;
+
+		.sub-total-label {
+			font-size: 16px;
+			color: $black;
+		}
+	}
+}
+
+// Order steps
+.order-steps {
+
+	.order-step {
+		color: #fff;
+		margin-top: 5px;
+		overflow: hidden;
+		background: $black;
+
+		&.active {
+			background: $primary;
+		}
+
+		&.first {
+			margin-top: 0;
+		}
+
+		span, a {
+			display: inline-block;
+		}
+
+		.order-step-label {
+			color: #fff;
+			padding: 3px 5px;
+			text-decoration: none;
+		}
+
+		.order-step-number {
+			padding: 3px 9px;
+			background: $black;
+		}
+
+		.order-step-number, .order-step-label {
+			float: left;
+			display: block;
+		}
+	}
+}

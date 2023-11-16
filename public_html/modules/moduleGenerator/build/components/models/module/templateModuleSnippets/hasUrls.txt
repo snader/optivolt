@@ -1,0 +1,1 @@
+    private $oControllerPage = null; // get page to get controller from to show item with right controller

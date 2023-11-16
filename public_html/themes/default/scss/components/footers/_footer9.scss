@@ -1,0 +1,109 @@
+#footer {
+
+	@include mobile {
+		overflow: hidden;
+		padding-bottom: 80px;
+	}
+
+	.footer-container {
+		color: #fff;
+		background: $black;
+		padding: 20px 0 20px 0;
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		.footer-col {
+
+			@include mobile {
+				text-align: center;
+			}
+
+			.address {
+				margin-top: 10px;
+				text-align: center;
+				margin-bottom: 5px;
+			}
+
+			.contact {
+				text-align: center;
+
+				a {
+					padding: 0 5px;
+					margin-bottom: 5px;
+					display: inline-block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+
+					i {
+						margin-right: 5px;
+					}
+
+				}
+			}
+
+			.logo {
+				width: 150px;
+				background: #fff;
+
+				@include mobile {
+					margin: 0 auto;
+				}
+			}
+
+			.links {
+				text-align: center;
+				margin-top: 20px;
+
+				a {
+					padding: 0 10px;
+					display: inline-block;
+					text-decoration: none;
+					border-left: 1px solid #fff;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+
+					&:first-child {
+						border-left: 0;
+					}
+				}
+			}
+
+			.socials {
+				margin-top: 10px;
+				text-align: right;
+
+				@include mobile {
+					margin: 0;
+					text-align: center;
+				}
+
+				a {
+					color: #fff;
+					width: 30px;
+					height: 30px;
+					line-height: 30px;
+					text-align: center;
+					display: inline-block;
+					margin: 5px 5px 5px 0;
+					background: lighten($primary, 5%);
+					@include border-radius(100%);
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+						background: $primary;
+					}
+				}
+			}
+		}
+	}
+}

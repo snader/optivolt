@@ -1,0 +1,10 @@
+
+        if (class_exists('{{classFileName}}CategoryManager')) {
+            // with categories so join
+            $sFrom    .= 'LEFT JOIN `{{relationTableNamePrefix}}_categories_{{tableName}}` AS `{{databaseAlias}}cni` ON `{{databaseAlias}}cni`.`{{idName}}Id` = `{{databaseAlias}}`.`{{idName}}Id`';
+            $sGroupBy .= '`{{databaseAlias}}`.`{{idName}}Id`'; // when join, also group by
+            // check for categoryId in filter
+            if (!empty($aFilter['{{idName}}CategoryId'])) {
+                $sWhere .= ($sWhere != '' ? ' AND ' : '') . '`{{databaseAlias}}cni`.`{{idName}}CategoryId` = ' . db_int($aFilter['{{idName}}CategoryId']);
+            }
+        }

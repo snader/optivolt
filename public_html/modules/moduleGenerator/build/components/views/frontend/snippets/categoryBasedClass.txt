@@ -1,0 +1,1 @@
+<?= !empty($a{{classFileName}}CategoriesForMenu) ? 'col-66' : 'col-100' ?>

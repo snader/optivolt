@@ -1,0 +1,158 @@
+// Print stylesheet layout, release 2016 by Cornee
+
+@page {
+    margin: 1.0cm;
+}
+
+* {
+    background: transparent !important;
+    color: #000 !important;
+    font-size:12pt !important;
+    box-shadow:none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -ms-filter: none !important;
+}
+
+html, body {
+    width: 100%;
+    height: auto;
+}
+
+nav{
+    display: none!important;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #000 !important;
+    font-weight: bold !important;
+}
+
+
+.no-print {
+    display: none!important;
+    height: 0 !important;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tr,
+img {
+    page-break-inside: avoid;
+}
+
+// Call this code for each container element
+#container {
+    width: auto;
+    float: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+#template-container{
+    min-height: 10px!important;
+}
+
+// Links
+a {
+    text-decoration: underline !important;
+    word-wrap: break-word;
+    color: #000 !important;
+}
+
+.js-fancybox {
+    display:none;
+    height: 0 !important;
+}
+
+// animated
+.animated{
+    opacity: 1!important;
+}
+
+// Images
+img {
+    border: 0;
+    max-width: 100% !important;
+    display: block;
+}
+
+// Grid
+.row, container, [class*='col-']{
+    height: auto;
+}
+
+// Header
+#header{
+    position: relative!important;
+    top: 0px!important;
+}
+
+.header-pusher{
+    display:none!important;
+    height: 0 !important;
+}
+
+.orders-mini-basket-button{
+    display:none!important;
+    height: 0 !important;
+}
+
+.orders-mini-basket{
+    display:none!important;
+    height: 0 !important;
+}
+
+// Navigation
+#navigation{
+    display:none!important;
+    height: 0 !important;
+}
+
+.navigation-sub{
+    display:none!important;
+    height: 0 !important;
+}
+
+.navigation-breadcrumbs{
+    display:none!important;
+    height: 0 !important;
+}
+
+// Footer
+
+.footer-pusher{
+    display:none!important;
+    height: 0 !important;
+}
+
+#footer {
+    position:relative!important;
+}
+
+.footer-copyright{
+    display:none!important;
+    height: 0 !important;
+}
+
+// Modules
+
+#brandbox-container{
+    display:none!important;
+    height: 0 !important;
+}
+
+.brandbox-loader{
+    display:none!important;
+    height: 0 !important;
+}

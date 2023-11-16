@@ -1,0 +1,36 @@
+    /**
+     * get all item categories by specific list name for a {{classFileName}}
+     *
+     * @param string $sList
+     *
+     * @return array {{classFileName}}Category
+     */
+    public function getCategories($sList = 'online')
+    {
+        if (!isset($this->aCategories[$sList])) {
+            switch ($sList) {
+                case 'online':
+                    $this->aCategories[$sList] = {{classFileName}}Manager::getCategoriesByFilter($this->{{idName}}Id);
+                    break;
+                case 'all':
+                    $this->aCategories[$sList] = {{classFileName}}Manager::getCategoriesByFilter($this->{{idName}}Id, ['showAll' => true]);
+                    break;
+                default:
+                    die('no option');
+                    break;
+            }
+        }
+
+        return $this->aCategories[$sList];
+    }
+
+    /**
+     * set categories
+     *
+     * @param array  $a{{classFileName}}Categories
+     * @param string $sList (set in specific list)
+     */
+    public function setCategories(array $a{{classFileName}}Categories, $sList = 'online')
+    {
+        $this->aCategories[$sList] = $a{{classFileName}}Categories;
+    }

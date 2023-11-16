@@ -1,0 +1,28 @@
+<!-- Navigation Breadcrumbs -->
+<?php include getSiteSnippet('navigationBreadcrumbs'); ?>
+<!-- /Navigation Breadcrumbs -->
+
+<br class="clear">
+<div class="container">
+    <div class="row">
+        <article class="col-100">
+            <h1><?= _e($o{{classFileName}}->title) ?></h1>
+            <div>
+                <?= $o{{classFileName}}->content ?>
+            </div>
+
+            <!-- Media -->
+            <?php include getSiteSnippet('videos'); ?>
+            <?php include getSiteSnippet('files'); ?>
+            <?php include getSiteSnippet('links'); ?>
+
+            <?php include getSiteSnippet('mediaSlider'); ?>
+            <!-- /Media -->
+
+            <!-- Backlink -->
+            <a href="<?= $sBackLink ?>"><?= _e(SiteTranslations::get('site_back_to_overview')) ?></a>
+            <!-- /Backlink -->
+        </article>
+    </div>
+</div>
+<br class="clear">

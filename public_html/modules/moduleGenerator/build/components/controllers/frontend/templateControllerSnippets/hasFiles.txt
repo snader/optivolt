@@ -1,0 +1,2 @@
+
+        $aFiles = $o{{classFileName}}->getFiles();

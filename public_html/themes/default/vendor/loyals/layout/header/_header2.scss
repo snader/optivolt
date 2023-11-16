@@ -1,0 +1,247 @@
+// Header layout
+$logo-width: 150px;
+$header-height: 100px;
+$s-header-height: 70px;
+
+#header {
+  position: relative;
+  z-index: 1004;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  background: #fff;
+  min-height: $header-height;
+  @include transition(all 0.3s ease-in-out);
+
+  @include breakpoint(s) {
+    min-height: $s-header-height;
+  }
+
+  &.is-sticky {
+    position: fixed;
+    top: -$header-height;
+    transition-delay: 1s;
+
+    @include breakpoint(s) {
+      top: 0px;
+    }
+  }
+
+  &.is-fixed {
+    position: fixed !important;
+    transition-delay: 1s;
+  }
+
+  @include breakpoint(s) {
+    &.s-position-bottom {
+      position: fixed !important;
+      bottom: 0px;
+      top: inherit !important;
+
+      &.is-sticky {
+        bottom: 0px;
+        top: inherit !important;
+      }
+    }
+  }
+
+  .header-container {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+  }
+
+  // Logo
+  .logo-container {
+    float: left;
+    width: $logo-width;
+    margin: 10px 0px;
+
+    @include breakpoint(s) {
+      width: 100px;
+    }
+  }
+
+  // Navigation
+  #navigation {
+    width: 100%;
+    text-align: center;
+    background: $template-color-dark;
+
+    &.align-right {
+      text-align: right;
+    }
+
+    &.align-left {
+      text-align: left;
+    }
+
+    ul {
+      li {
+        a {
+          color: #fff;
+        }
+
+        ul {
+          li {
+            a {
+              color: $template-color-dark;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .navigation-icon {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 30px;
+
+    @include breakpoint(s) {
+      display: block;
+    }
+  }
+
+  // Search
+  .search {
+    width: 50%;
+    margin: 25px auto 0px auto;
+
+    input {
+      background: $template-color-dark;
+      color: #fff;
+      width: calc(100% - 35px);
+      height: 35px;
+      float: left;
+      padding: 0px 10px;
+      border: 0px;
+
+      &::-webkit-input-placeholder {
+        color: #ffffff;
+      }
+      &:-moz-placeholder { /* Firefox 18- */
+        color: #ffffff;
+      }
+      &::-moz-placeholder { /* Firefox 19+ */
+        color: #ffffff;
+      }
+      &-ms-input-placeholder {
+        color: #ffffff;
+      }
+    }
+
+    button {
+      background: $template-color-dark;
+      color: #fff;
+      width: 35px;
+      height: 35px;
+      float: left;
+      border: 0px;
+      text-align: center;
+    }
+
+    @include breakpoint(s) {
+      display: none;
+    }
+
+  }
+
+  // Basket
+  .basket-icon {
+    position: absolute;
+    right: 00px;
+    top: 30px;
+    color: $template-color-dark;
+    @include transition(all 0.3s ease-in-out);
+
+    @include breakpoint(s) {
+      right: 45px;
+    }
+
+    i {
+      font-size: 22px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: $template-cta-color;
+    }
+
+    .amount {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      color: #fff;
+      background-color: $template-cta-color;
+      width: 15px;
+      height: 15px;
+      font-size: 10px;
+      line-height: 15px;
+      text-align: center;
+      @include border-radius(100%);
+    }
+  }
+
+  // Account
+  .account-icon {
+    position: absolute;
+    right: 50px;
+    top: 30px;
+    color: $template-color-dark;
+    @include transition(all 0.3s ease-in-out);
+
+    @include breakpoint(s) {
+      right: 85px;
+    }
+
+    i {
+      font-size: 22px;
+    }
+
+    &:hover {
+      color: $template-cta-color;
+    }
+  }
+
+  // Languages
+  .languages {
+    position: absolute;
+    right: 100px;
+    top: 30px;
+    text-transform: uppercase;
+
+    @include breakpoint(s) {
+      display: none;
+    }
+  }
+
+}
+
+// Header pusher
+.header-pusher {
+  height: $header-height;
+  display: none;
+  @include transition(height 0.3s ease-in-out);
+
+  @include breakpoint(s) {
+    height: $s-header-height;
+  }
+
+  &.hide-pusher {
+    display: none !important;
+  }
+
+  &.s-hide-pusher {
+    @include breakpoint(s) {
+      display: none !important;
+    }
+  }
+}
+// Hide off canvas
+@include breakpoint(767px) {
+  .navigation-off-canvas {
+    display: none;
+  }
+}

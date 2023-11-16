@@ -1,0 +1,52 @@
+
+    /***
+     * @param      $iPerPage
+     * @param      $sBaseUrlPath
+     * @param null $iCategoryId
+     */
+    protected function {{singleSystemFileName}}Overview($iPerPage, $sBaseUrlPath, $iCategoryId = null)
+    {
+        $oPageLayout = $this->getRenderEngine()
+            ->getLayout();
+
+        $iCurrPage = Request::getVar('page') ?: 1;
+        $iStart    = (($iCurrPage - 1) * $iPerPage);
+        if (!is_numeric($iCurrPage) || $iCurrPage <= 0) {
+            Router::redirect($sBaseUrlPath);
+        }
+
+        $a{{classFileName}}s = {{classFileName}}Manager::get{{classFileName}}sByFilter(['{{idName}}CategoryId' => $iCategoryId, 'languageId' => Locales::language()], $iPerPage, $iStart, $iFoundRows);
+
+        $iPageCount = !empty($iPerPage) ? (ceil($iFoundRows / $iPerPage)) : 0;
+
+        // page is greater than max page count, redirect to main page
+        if ($iPageCount > 0 && $iCurrPage > $iPageCount) {
+            Router::redirect($sBaseUrlPath);
+        }
+
+        // pagecount is greater than 1 and not last page
+        if ($iPageCount > 1 && $iCurrPage < $iPageCount) {
+            $oPageLayout->sRelNext = $sBaseUrlPath . '?page=' . ($iCurrPage + 1);
+        }
+
+        // pagecount is greater than 1 and not first page
+        if ($iPageCount > 1 && $iCurrPage > 1) {
+            $oPageLayout->sRelPrev = $sBaseUrlPath;
+            // is second page, previous is url without page
+            if (($iCurrPage - 1) > 1) {
+                $oPageLayout->sRelPrev .= '?page=' . ($iCurrPage - 1);
+            }
+        }
+
+        // always set canonical to first page
+        $oPageLayout->sCanonical = $sBaseUrlPath;
+
+        $this->getRenderEngine()
+            ->setVariables(
+                [
+                    'a{{classFileName}}s'   => $a{{classFileName}}s,
+                    'iPageCount'   => $iPageCount,
+                    'iCurrPage'    => $iCurrPage
+                ]
+            );
+    }

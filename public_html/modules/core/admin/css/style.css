@@ -1,0 +1,685 @@
+table td.first-sub {
+    padding-left:80px!important;
+}
+
+table td.sub {
+    padding-left:80px!important;
+}
+
+.pr-5 {
+    padding-right: 5px;
+}
+
+
+.hide {
+    display:none;
+}
+
+.show {
+    display:block;
+}
+
+.fa-question-circle {
+    cursor: help;
+}
+
+div .errorBox {
+    display:none;
+}
+
+
+/* IMAGES CMS */
+
+div.images {
+    margin-top : 10px;
+}
+
+div.images.sortable .imagePlaceholder:hover {
+    cursor : move;
+}
+
+div.images .placeholder, div.coverImageContainer .placeholder {
+    width                 : 130px;
+    border                : 2px solid #cccccc;
+    background-color      : #ffffff;
+    position              : relative;
+    display               : block;
+
+    float                 : left;
+    margin-right          : 10px;
+    margin-bottom         : 10px;
+
+    border-radius         : 5px;
+    -moz-border-radius    : 5px;
+    -webkit-border-radius : 5px;
+}
+
+div.images .placeholder .imagePlaceholder, div.coverImageContainer .placeholder .imagePlaceholder {
+    height : 100px;
+    width  : 100px;
+    margin : 15px;
+}
+
+div.coverImageContainer .placeholder .imagePlaceholder {
+    margin-top : 5px;
+}
+
+div.coverImageContainer .placeholder .placeholderTitle {
+    margin-top  : 5px;
+    margin-left : 15px;
+}
+
+div.images .placeholder .imagePlaceholder .centered, div.coverImageContainer .imagePlaceholder .placeholder .centered {
+    display        : table-cell;
+    vertical-align : middle;
+    text-align     : center;
+    height         : 100px;
+    width          : 100px;
+}
+
+div.images .placeholder .imagePlaceholder .centered img, div.coverImageContainer .imagePlaceholder .placeholder .centered img {
+    max-height     : 100px;
+    max-width      : 100px;
+    display        : inline-block;
+    vertical-align : top;
+}
+
+div.images .placeholder .actionsPlaceholder {
+    text-align : right;
+    border-top : 1px solid #cccccc;
+    padding    : 3px 2px 3px 0;
+    margin     : 0 3px;
+}
+
+div#editImageForm input[type="text"] {
+    margin-bottom : 5px;
+}
+
+img.notAllCrops {
+    width            : 16px;
+    height           : 16px;
+    position         : absolute;
+    top              : 4px;
+    right            : 4px;
+    background-color : #ffffff;
+}
+
+
+div.images .placeholder .imagePlaceholder .centered, div.coverImageContainer .imagePlaceholder .placeholder .centered {
+    display        : table-cell;
+    vertical-align : middle;
+    text-align     : center;
+    height         : 100px;
+    width          : 100px;
+}
+
+div.images .placeholder .imagePlaceholder .centered img, div.coverImageContainer .imagePlaceholder .placeholder .centered img {
+    max-height     : 100px;
+    max-width      : 100px;
+    display        : inline-block;
+    vertical-align : top;
+}
+
+
+div.images-50 .placeholder-50 {
+    width                 : 66px;
+    border                : 2px solid #cccccc;
+    background-color      : #ffffff;
+    position              : relative;
+    display               : block;
+
+    float                 : left;
+    margin-right          : 5px;
+    margin-bottom         : 5px;
+
+    border-radius         : 5px;
+    -moz-border-radius    : 5px;
+    -webkit-border-radius : 5px;
+}
+
+div.images-50 .placeholder-50 .imagePlaceholder-50 {
+    height : 50px;
+    width  : 50px;
+    margin : 7px;
+}
+
+div.coverImageContainer-50 .placeholder-50 .imagePlaceholder-50 {
+    margin-top : 5px;
+}
+
+div.images-50 .placeholder-50 .actionsPlaceholder {
+    text-align : right;
+    border-top : 1px solid #cccccc;
+    padding    : 3px 2px 3px 0;
+    margin     : 0 3px;
+}
+
+div.images-50 .placeholder-50 .imagePlaceholder-50 .centered-50 {
+    display        : table-cell;
+    vertical-align : middle;
+    text-align     : center;
+    height         : 50px;
+    width          : 50px;
+}
+
+div.images-50 .placeholder-50 .imagePlaceholder-50 .centered-50 img {
+    max-height     : 50px;
+    max-width      : 50px;
+    display        : inline-block;
+    vertical-align : top;
+}
+
+div.catalogProductImagePlaceHolder .images .placeholder .imagePlaceholder .centered img {
+    cursor : pointer;
+}
+
+div.catalogProductImagePlaceHolder div.placeholder.selected {
+    border-color : #88ba01;
+}
+
+/* IMAGES CMS */
+
+@media (max-width: 767px) {
+  h1 {
+    /* default is 1rem or 16px */
+    font-size: 22px!important;
+  }
+}
+
+
+.card-footer .btn {
+    margin-bottom: 5px;
+}
+
+h4.panel-title.red a {
+    color:red!important;
+}
+
+tr .altEven { background-color: rgba(0,0,0,.05)!important; }
+tr .altOdd { background-color: #aabbcc!important; }
+
+.note {
+    font-size:11px;
+    color: #555;
+
+}
+
+.toUpload {
+    font-size:12px;
+    color: red;
+    border: 1px solid red;
+    padding: 3px;
+}
+
+
+/* ajax upload images */
+
+
+img.ajax-loader.imageManagement, img.ajax-loader.fileManagement {
+    width      : 145px;
+    height     : 19px;
+    margin-top : 9px;
+    display    : none;
+}
+
+img.ajax-loader.fileManagement {
+    width : 130px;
+}
+
+div.progressContainer {
+    border                : 1px solid #cccccc;
+    background-color      : #ffffff;
+    padding               : 10px;
+
+    position              : relative;
+
+    border-radius         : 5px;
+    -moz-border-radius    : 5px;
+    -webkit-border-radius : 5px;
+
+    margin-bottom         : 5px;
+    display: inline-block;
+}
+
+div.progressContainer.clickable:hover {
+    cursor : pointer;
+}
+
+div.progressContainer .progressThumbHolder {
+    width         : 20%;
+    box-sizing    : border-box;
+    padding-right : 5px;
+    float         : left;
+}
+
+div.progressContainer .progressThumbHolder .progressThumb {
+    max-width  : 56px;
+    max-height : 31px;
+}
+
+div.progressContainer .progressTextHolder {
+    width      : 100%;
+    box-sizing : border-box;
+    float      : left;
+
+}
+
+div.progressContainer .progressTextHolder.with-thumb {
+    width : 80%;
+    padding: 15px;
+}
+
+div.progressContainer .progressName {
+    word-break    : break-all;
+    padding-right : 30px;
+    position      : relative;
+}
+
+div.progressContainer .progressName .action_icon {
+    position : absolute;
+    right    : -5px;
+    top      : 0;
+}
+
+div.progressContainer .progressStatus {
+    font-size : .85em;
+}
+
+div.progressContainer .progressStatus.error {
+    padding-left : 0;
+}
+
+div.progressContainer .progressBar {
+    margin-top       : 5px;
+    height           : 8px;
+    background-color : #88ba01;
+    width            : 1%;
+}
+
+div.progressContainer .progressBar.aborted {
+    background-color : #f93a3a;
+}
+
+div.uploadsDropZone {
+    border        : 2px dashed #cccccc;
+    width         : 100%;
+    text-align    : center;
+    padding       : 20px;
+    margin-top    : 10px;
+    margin-bottom : 10px;
+    box-sizing    : border-box;
+}
+
+div.uploadsDropZone.dragover {
+    color        : #cccccc;
+    border-color : #88ba01;
+}
+
+div.uploadsDropZone.dragover .dropZoneBrowseHolder a {
+    color        : #cccccc;
+    border-color : #cccccc;
+}
+
+div.uploadsDropZone .dropZoneBrowseHolder {
+    margin-top : 10px;
+    font-size  : 1.3em;
+}
+
+div.uploadsDropZone .dropZoneBrowseHolder a {
+    border                : 1px solid #88ba01;
+    padding               : 7px;
+    border-radius         : 5px;
+    -moz-border-radius    : 5px;
+    -webkit-border-radius : 5px;
+}
+
+div.uploadsDropZone .dropZoneBrowseHolder a:hover {
+    text-decoration : none;
+}
+
+div.uploadsDropZone .dropZoneTextHolder {
+    margin-top : 15px;
+    color      : #cccccc;
+}
+.styled-scrollbars {
+    /* Foreground, Background */
+    scrollbar-color: #999 #333;
+}
+
+.styled-scrollbars::-webkit-scrollbar {
+    width: 10px;
+    /* Mostly for vertical scrollbars */
+    height: 10px;
+    /* Mostly for horizontal scrollbars */
+}
+
+.styled-scrollbars::-webkit-scrollbar-thumb {
+    /* Foreground */
+    background: #999;
+}
+
+.styled-scrollbars::-webkit-scrollbar-track {
+    /* Background */
+    background: #333;
+}
+
+
+.table thead th .lesspadding {
+
+    padding: 0.25rem;
+            font-size: 13px;
+
+}
+
+.table.lesspadding thead th {
+padding: 0.25rem;
+    font-size: 13px;
+}
+
+.table thead th.thfw {
+    text-align: center;
+    }
+
+    /**/
+    .table tfoot th .lesspadding {
+
+        padding: 0.25rem;
+        font-size: 13px;
+
+    }
+
+    .table.lesspadding tfoot th {
+        padding: 0.25rem;
+        font-size: 13px;
+    }
+
+    .table tfoot th.thfw {
+    text-align: center;
+}
+
+
+.tscroll td {
+padding: 0.25rem;
+    font-size: 13px;
+}
+.smoothscroll {
+    scroll-behavior: smooth;
+}
+
+.tscroll table td {
+    border: 1px solid #eee;
+    min-width: 25px !important;
+}
+
+
+.ptd {
+    text-align: center;
+}
+.ptd:hover {
+    border-bottom: 1px solid #aaa;
+    }
+
+    .table tr {
+        border-bottom: 1px solid #fff;
+    }
+
+    .hoverthing {
+        background-color: #fdfdfd !important;
+}
+.tscroll table td:first-child {
+    background-color: #efefef;
+    z-index: 999;
+    border-top: 1px solid #dee2e6;
+}
+
+.zui-wrapper {
+    position: relative;
+
+}
+
+.zui-scroller {
+    margin-left: 150px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding-bottom: 5px;
+    width: auto;
+    border-collapse: collapse;
+    }
+
+    table tbody:nth-of-type(1) tr:nth-of-type(1) td {
+        border-top: none !important;
+    }
+
+    table thead th {
+        border-top: none !important;
+        border-bottom: none !important;
+        box-shadow: inset 0 1px 0 #eee, inset 0 -1px 0 #eee;
+        padding: 0px 0;
+}
+
+.zui-table .sticky-col1 {
+
+    left: 0;
+    position: absolute;
+    top: auto;
+    width: 40px;
+    padding: 0.25rem;
+    text-align: center;
+}
+
+.zui-table .sticky-col2 {
+
+    left: 41px;
+    position: absolute;
+    top: auto;
+    width: 110px;
+    border: 1px;
+        ;
+        border-right: 1px;
+        border-bottom: 1px solid #efefef;
+}
+
+.stickyhead {
+    position: sticky;
+    top: 0px;
+    z-index: 999;
+        background-color: #fff;
+}
+
+.stickyfoot {
+    position: sticky;
+    bottom: 0px;
+    z-index: 999;
+    background-color: #fff;
+}
+
+.hovertext {
+    position: relative;
+    border-bottom: 1px dotted black;
+
+}
+
+.hovertext:before {
+    content: attr(data-hover);
+    visibility: hidden;
+    opacity: 0;
+    width: max-content;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 5px;
+    transition: opacity 0.1s ease-in-out;
+
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    top: 110%;
+}
+
+.hovertext:hover:before {
+    opacity: 1;
+    visibility: visible;
+
+}
+.hovertd {
+    opacity: 1;
+    border-bottom: 1px solid #aaa !important;
+
+}
+.add-planning {
+    cursor: pointer;
+    display:none;
+
+}
+.orange {
+    color: orange;
+}
+.pedit {
+cursor: pointer;
+transition: all 0.1s ease-in-out;
+
+}
+
+.select2-container .select2-selection--single {
+    height: 40px;
+}
+
+
+.select2 {
+    width: 48%;
+}
+
+@media (max-width: 767px) {
+    .select2 {
+        width: 100% !important;
+    }
+}
+
+.pas {
+    background-color: #fafafa;
+}
+.select2-hidden-accessible {
+    margin: 4.5em 0 0 80px !important;
+}
+.customerSelect {
+    max-width: 100px;
+    border: 0 !important;
+        padding: 2px !important;
+        max-width: 100px;
+
+        margin-top: -5px !important;
+        font-size: 14px;
+}
+
+.unavailable {
+    color: white;
+    background: repeating-linear-gradient(45deg,
+            #ffe8e8,
+            #fefefe 8px,
+            #ffe8e8 8px,
+            #fefefe 8px);
+}
+.today {
+    background-color: black;
+    color: white;
+}
+/* column colors */
+/* column colors */
+/* column colors */
+/* column colors */
+/* column colors */
+.soc-1 {
+    background: #ffffb5;
+
+}
+
+.soc-2 {
+    background: #abdee6;
+}
+
+.soc-3 {
+    background: #ffccb6;
+
+}
+
+.soc-4 {
+    background: #cbaacb;
+}
+
+.soc-5 {
+    background: #f3b0c3;
+}
+
+.soc-6 {
+    background: #c6d8da;
+
+}
+
+.soc-7 {
+    background: #fee1e8;
+}
+
+.soc-8 {
+    background: #f6eac2;
+}
+.soc-9 {
+    background: #ff968a;
+}
+
+.soc-10 {
+    background: #8fcaca;
+
+}
+
+.soc-11 {
+    background: #cce2cb;
+}
+
+.soc-12 {
+    background: #97c1a9;
+
+}
+
+.soc-13 {
+    background: #55cbcd;
+}
+
+.soc-14 {
+    background: #9fdd78;
+}
+
+.soc-15 {
+    background: #df5ed4;
+
+}
+
+.soc-16 {
+    background: #4cddce;
+}
+
+.soc-17 {
+    background: #dbbc5d;
+}
+
+.soc-18 {
+    background: #df5d4c;
+}
+
+    .divtoBlink {
+        animation: blink 1s;
+            animation-iteration-count: 5;
+    }
+
+
+
+@keyframes blink {
+    50% {
+        background-color: #000;
+        }
+}
+
+.select2-container--default .select2-results__option[aria-disabled=true] {
+    background-color: #eee;
+    color: #ccc;
+}

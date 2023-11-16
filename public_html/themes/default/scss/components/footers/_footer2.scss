@@ -1,0 +1,140 @@
+#footer {
+
+	@include mobile {
+		overflow: hidden;
+	}
+
+	.footer-container {
+		color: #fff;
+		padding: 40px 0;
+		background: $black;
+
+		@include tablet {
+			padding: 40px 20px;
+		}
+
+		@include mobile {
+			padding-bottom: 100px;
+		}
+
+		.footer-col {
+
+			@include mobile {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.title {
+				color: #fff;
+				font-size: 20px;
+				margin-bottom: 20px;
+			}
+
+			.logo {
+				width: 150px;
+				background: #fff;
+				margin-bottom: 20px;
+
+				@include mobile {
+					margin: 0 auto 20px auto;
+				}
+
+			}
+
+			.socials {
+				margin-bottom: 20px;
+
+				a {
+					color: #fff;
+					width: 30px;
+					height: 30px;
+					line-height: 30px;
+					text-align: center;
+					display: inline-block;
+					margin: 5px 5px 5px 0;
+					background: lighten($black, 5%);
+					@include border-radius(100%);
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+						background: $primary;
+					}
+
+				}
+			}
+
+			.links {
+				column-count: 2;
+
+				@include mobile {
+					margin-bottom: 20px;
+				}
+
+				a {
+					display: block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+				}
+			}
+
+			.newsletter {
+				position: relative;
+				display: inline-block;
+
+				@include mobile {
+					margin-bottom: 10px;
+				}
+
+				.error-message {
+					bottom: -20px;
+					position: absolute;
+				}
+			}
+
+			.contact {
+
+				a {
+					margin-bottom: 5px;
+					display: inline-block;
+					text-decoration: none;
+					@include transition(all 0.3s ease-in-out);
+
+					&:hover {
+						color: #fff;
+					}
+
+					i {
+						margin-right: 5px;
+					}
+
+				}
+			}
+		}
+	}
+
+	.footer-copyright {
+		color: #fff;
+		margin-top: 40px;
+		padding-top: 20px;
+		background: $black;
+		text-align: center;
+		border-top: 1px solid #fff;
+
+		@include mobile {
+			margin-top: 20px;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.copyright {
+			margin-bottom: 5px;
+		}
+	}
+}

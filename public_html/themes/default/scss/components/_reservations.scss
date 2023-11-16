@@ -1,0 +1,9 @@
+.reservation-container {
+
+	.select:not(.is-multiple):not(.is-loading) {
+
+		&:after {
+			z-index: 0;
+		}
+	}
+}

@@ -1,0 +1,45 @@
+// Template layout, release 2016 by Cornee
+
+// Import config file
+@import 'config';
+
+// Import layout files
+@import 'layout/reset';
+@import 'layout/fonts';
+@import 'layout/core';
+@import 'layout/grid';
+@import 'layout/forms';
+@import 'layout/classes';
+@import 'layout/search';
+@import 'layout/breadcrumbs';
+@import 'layout/tabs';
+
+// Headers (options: 1 / 4)
+@import 'layout/header/header1';
+
+// Navigation
+@import 'layout/navigation/navigation';
+@import 'layout/navigation/navigationSub';
+@import 'layout/navigation/navigationTop';
+@import 'layout/navigation/navigationBottom';
+@import 'layout/navigation/navigationOffCanvas';
+
+// Footers (options: 1 / 11)
+@import 'layout/footer/footer2';
+
+// Components
+@import 'components/all';
+
+// Modules
+@import 'modules/all';
+
+// Import vendor files
+@import 'vendor/fa/fontawesome.scss';
+@import 'vendor/fa/fa-solid.scss';
+@import 'vendor/fa/fa-regular.scss';
+@import 'vendor/fa/fa-light.scss';
+@import 'vendor/fa/fa-brands.scss';
+@import 'vendor/hamburger/hamburgers';
+//@import 'vendor/appear/appear';
+//@import 'vendor/hover/hover';
+@import 'vendor/slickslider/slick';
