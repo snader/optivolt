@@ -266,13 +266,17 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
             $aImageSettings = TemplateSettings::get('systems', 'images');
 
+            
+            $aParts = explode('.', $_FILES['image']['name']);
+            $sOriginalFlirName = $aParts[0];
+            
             // upload file or return error
             $oUpload = new Upload($_FILES['image'], $aImageSettings['imagesPath'] . "/" . $aImageSettings['originalReference'] . "/", (Request::postVar('title') != '' ? Request::postVar('title') : null), ['jpg', 'png', 'gif', 'jpeg'], $bCheckMime);
 
             // save image to database on success
             if ($oUpload->bSuccess === true) {
                 $sTitle = Request::postVar('title') ? Request::postVar('title') : '';
-                $oImage = ImageManager::handleImageUpload($oUpload, $aImageSettings, $sTitle, $aErrorMsgs);
+                $oImage = ImageManager::handleImageUpload($oUpload, $aImageSettings, $sTitle, $aErrorMsgs, $sOriginalFlirName);
 
                 if ($oImage) {
                     # save image relation

@@ -6,6 +6,7 @@ class ImageFile extends File
 
     public  $imageId;
     public  $reference;
+    public  $orgTitle;
     public  $type   = Media::IMAGE;
     public  $online = 1;
     public  $imageSizeAttr;
