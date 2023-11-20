@@ -52,8 +52,8 @@ $aSystemReports_this = SystemReportManager::getSystemReportsByFilter(['systemId'
         // backwards compatibility where there was only one meting with images without title
         $sMyImagesHTML .= '<div  style="width:25%; float: left; padding-bottom: 5mm;" >';
         $sMyImagesHTML .= ' <img src="' . CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
-        $sImageNr .= (empty($sImageNr) ? '' : ', ') . $oImage->imageId;
-        $sMyImagesHTML .= ' <div class="imgnr">' . $oImage->imageId . '</div>';
+        $sImageNr .= (empty($sImageNr) ? '' : ', ') . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId);
+        $sMyImagesHTML .= ' <div class="imgnr">' . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId) . '</div>';
         $sMyImagesHTML .= '</div>' . PHP_EOL;
       }
 
@@ -64,8 +64,8 @@ $aSystemReports_this = SystemReportManager::getSystemReportsByFilter(['systemId'
       }
       $sMyImagesHTML .= '<div  style="width:25%; float: left; padding-bottom: 5mm;" >';
       $sMyImagesHTML .= ' <img src="' . CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
-      $sImageNr .= (empty($sImageNr) ? '' : ', ') . $oImage->imageId;
-      $sMyImagesHTML .= ' <div class="imgnr">' . $oImage->imageId . '</div>';
+      $sImageNr .= (empty($sImageNr) ? '' : ', ') . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId);
+      $sMyImagesHTML .= ' <div class="imgnr">' . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId) . '</div>';
       $sMyImagesHTML .= '</div>' . PHP_EOL;
     }
     if (!empty($sImageNr)) {

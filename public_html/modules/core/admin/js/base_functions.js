@@ -1969,7 +1969,7 @@ function addImage(imageFile, settings) {
     html += '<img src="' + imageFile.link + '?t=' + Math.random() + '" alt="' + (imageFile.title ? imageFile.title : '') + '" title="' + (imageFile.title ? imageFile.title : '') + '" />';
     html += '</div>';
     html += '</div>';
-    html += '<div class="actionsPlaceholder"><span style="float:left; font-size:13px;">' + (imageFile.title ? imageFile.title : '') + '</span>';
+    html += '<div class="actionsPlaceholder"><span style="float:left; font-size:13px;">' + (imageFile.title ? imageFile.title : '') + ' (' + (imageFile.orgTitle ? imageFile.orgTitle : imageFile.imageId) + ')' + '</span>';
     if (settings.onlineChangeable) {
         if (imageFile.isOnlineChangeable) {
             html += '<a class="action_icon ' + (imageFile.online ? 'online' : 'offline') + '_icon onlineOfflineBtn" onclick="setOnlineImage(this); return false;" online="' + (imageFile.online ? 0 : 1) + '" href="' + settings.changeOnlineLink + '"></a>';
