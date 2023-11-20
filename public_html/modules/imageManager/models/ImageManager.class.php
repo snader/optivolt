@@ -1505,7 +1505,7 @@ class ImageManager
 
         $oImageFile           = new ImageFile();
         $oImageFile->title    = $sTitle;
-        $oImageFile->orgTitle = $sOriginalFlirName;
+        $oImageFile->orgTitle = str_replace('FLIR', '', $sOriginalFlirName);
         $oImageFile->mimeType = $oUpload->sMimeType;
         $oImageFile->name     = $oUpload->sNewFileBaseName;
 

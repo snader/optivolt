@@ -187,7 +187,11 @@
                             $aList = explode(PHP_EOL, trim($oSystemReport->getSystem()->notice));
                             foreach ($aList as $sNotice) {
                                 if (!empty($sNotice)) {
-                                    echo '<li>' . _e($sNotice) . '</li>';
+
+                                        //$sTrashButton = '<a class="btn btn-danger btn-xs action_icon delete_icon float-right" onclick="deleteNotice(this); return false;" href="' . getCurrentUrl() . '/delnotice"><i class="fas fa-trash"></i></a>';
+                                        $sTrashButton = '';
+
+                                    echo '<li style="border-bottom:1px solid #ddd;margin-bottom:2px;">' . _e($sNotice) . $sTrashButton . ' </li>';
                                 }
                             }
                             ?>
