@@ -439,12 +439,33 @@
                                     if ($aAppointment['mailed']) {
                                         echo ' & verzonden';
                                     }
+                                ?>
+                                
+                                
+                                
+                                <?php    
                                 } else { ?>
                                     <?= sysTranslations::get('report_finishing') ?>
                                 <?php }
 
                                 ?></h3>
+                                <?php
+                                if ($aAppointment['finished']) {?>
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: auto;">
+                                        <div class="input-group-append">
+                                            <a class="addBtn" id="undo-signature" href="<?= getCurrentUrl() . '?undo-signature=' . $aAppointment['signature'] ?>" title="Verwijder handtekening">
+                                                <button type="button" class="btn btn-danger btn-sm" style="min-width:32px;">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </a>&nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
                         </div>
+                        
+                        
                         <div class="card-body">
                             <div class="p-1">
 
@@ -576,6 +597,28 @@
 </div>
 <!-- /.modal -->
 
+<div class="modal fade" id="modal-signature-del">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Let op!</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Weet je zeker dat je deze handtekening wilt verwijderen?</strong></p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Nee</button>
+                <button type="button" class="btn btn-primary" id="do-finish-del">Ja, verwijderen</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 
 <style>
@@ -601,6 +644,8 @@
 </style>
 
 <?php
+
+
 
 if (isset($aAppointment) && !empty($aAppointment) && !$aAppointment['finished']) {
 
@@ -691,6 +736,15 @@ EOT;
 $iCustomerId = $oCustomer->customerId ? $oCustomer->customerId : 0;
 $sBottomJavascript = <<<EOT
 <script type="text/javascript">
+
+    $('#undo-signature').click(function(event) {
+        event.preventDefault();
+        $('#modal-signature-del').modal('show');
+    });
+    $('#do-finish-del').on( "click", function() {
+        $('#modal-signature-del').modal('hide');
+        window.location.assign($('#undo-signature').attr('href'));
+    });
 
     $('#debNr').on( "blur", function() {
 

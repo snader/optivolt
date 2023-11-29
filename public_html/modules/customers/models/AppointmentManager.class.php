@@ -57,9 +57,10 @@ class AppointmentManager
 
         # search for q
         if (!empty($aFilter['q'])) {
-            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`s`.`visitDate` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `s`.`signatureName` LIKE ' . db_str(
-                    '%' . $aFilter['q'] . '%'
-                ) . ')';
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`s`.`visitDate` LIKE ' . db_str('%' . $aFilter['q'] . '%') . 
+            ' OR `s`.`signatureName` LIKE ' . db_str('%' . $aFilter['q'] . '%') . 
+            ' OR `s`.`signature` = ' . db_str('' . $aFilter['q'] . '') . 
+            ')';
         }
 
         # get items with that changed last hour

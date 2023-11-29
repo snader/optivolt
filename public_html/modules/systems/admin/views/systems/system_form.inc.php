@@ -199,9 +199,10 @@
                                             $oAppointment = CustomerManager::getLastAppointment(null, $oCustomer->customerId);
                                         }
 
-                                        if ($oAppointment && $oAppointment["finished"] == 0 && substr($oAppointment["visitDate"], 0, 4) == date('Y', time())) {
+                                        if ( ($oAppointment && $oAppointment["finished"] == 0 && substr($oAppointment["visitDate"], 0, 4) == date('Y', time())) || (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ) {
+                                     
                                         ?>
-                                            <a class="addBtn" href="<?= ADMIN_FOLDER ?>/system-reports/toevoegen?systemId=<?= $oSystem->systemId ?>" title="<?= sysTranslations::get('add_item') ?> (Afspraak op <?= date('d-m-Y', strtotime($oAppointment["visitDate"])) ?>)">
+                                            <a class="addBtn" href="<?= ADMIN_FOLDER ?>/system-reports/toevoegen?systemId=<?= $oSystem->systemId ?><?= (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? '&warning=' . $oAppointment["appointmentId"] : '' ?>" title="<?= sysTranslations::get('add_item') ?> (Afspraak op <?= date('d-m-Y', strtotime($oAppointment["visitDate"])) ?>)">
                                                 <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
                                                     <i class="fas fa-plus-circle"></i>
                                                 </button>
