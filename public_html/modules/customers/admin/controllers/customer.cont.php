@@ -59,6 +59,29 @@ if (http_get('param1') == 'checkDebNr') {
     }
 }
 
+if (http_get('undo-signature')) {
+
+    if (trim(http_get('undo-signature'))!='')  {
+        $aFilter['q'] = _e(http_get('undo-signature'));
+        $oCustomer = CustomerManager::getCustomerById(http_get("param2"));
+        $oAppointmentToUndo = AppointmentManager::getAppointmentsByFilter($aFilter);
+        if ($oCustomer && $oAppointmentToUndo) {
+            CustomerManager::undoSignature($aFilter['q']);
+            $_SESSION['statusUpdate'] = 'Handtekening is verwijderd';
+            http_redirect(ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oCustomer->customerId);
+        } 
+
+       
+
+    }
+
+    $_SESSION['statusUpdate']['text'] = 'Handtekening kon niet worden verwijderd';
+    $_SESSION['statusUpdate']['type'] = 'error';
+    
+    http_redirect(ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oCustomer->customerId);
+
+}
+
 # handle add/edit
 if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
     if (http_get("param1") == 'bewerken' && is_numeric(http_get("param2"))) {

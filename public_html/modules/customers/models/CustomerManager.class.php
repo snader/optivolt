@@ -438,6 +438,24 @@ class CustomerManager
 
     }
 
+
+    public static function undoSignature($sSignature) {
+        $sQuery =
+        '
+        UPDATE `users_customers`
+        SET
+            `finished` = 0,
+            `signature` = ' . db_str('') . ',
+            `signatureName` = ' . db_str('') . '
+        WHERE
+            `signature` = ' . db_str($sSignature) . ' AND `finished` = 1
+    ';
+
+    $oDb = DBConnections::get();
+    $oDb->query($sQuery, QRY_NORESULT);
+
+    }
+
     /**
      *
      */

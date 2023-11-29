@@ -41,6 +41,29 @@
                         echo date('Y', time());
                     } ?>
                 </h1>
+
+                <?php
+                if (http_get("warning")) {
+               
+                    $oCustomer = $oSystemReport->getSystem()->getLocation()->getCustomer();
+                    $oAppointment = CustomerManager::getLastAppointment(null, $oCustomer->customerId);
+                    if ($oAppointment) {
+                ?>
+                <br /><div class="alert alert-warning alert-dismissible">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+<h5><i class="icon fas fa-exclamation-triangle"></i> <strong>Let op!</strong></h5>
+<?php
+if ($oAppointment["finished"]) {
+    echo '<br />- De afspraak is reeds afgerond en ondertekend.';
+}
+if ($oAppointment["visitDate"] != date('Y-m-d', time()) )  {
+    echo '<br />- De afspraakdatum staat op ' . date('d-m-Y', strtotime($oAppointment["visitDate"]));
+}
+?>
+ 
+</div>
+                    <?php } 
+                    }?>
             </div>
         </div>
     </div>
