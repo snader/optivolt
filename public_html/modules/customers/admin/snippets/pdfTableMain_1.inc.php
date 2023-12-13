@@ -27,10 +27,13 @@ $sMyImagesHTML = '';
   <td class="center" colspan="3"><?= !empty($aSystemReports_this) ? $aSystemReports_this[0]->wideInfo : '' ?></td>
   <td class="center"></td>
   <td><?php
-      $aList = explode(PHP_EOL, trim($oSystem->notice));
-      if (isset($aList[0])) {
-        echo _e($aList[0]);
-      } ?>
+
+$aList = explode(PHP_EOL, trim($oSystem->notice));
+foreach ($aList as $sListItem) {  
+  if (substr_count($sListItem, '(' . $iYear . ')') > 0) {
+    echo '<div>' . _e($sListItem) . '</div>';
+  }
+} ?>
   </td>
 </tr>
 <tr>
