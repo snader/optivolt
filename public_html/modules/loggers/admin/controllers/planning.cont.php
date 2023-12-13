@@ -272,6 +272,13 @@ if (http_get("param1") == 'planning-bewerken' && is_numeric(http_get("param2")))
 
 
     $_SESSION['statusUpdate'] = sysTranslations::get('planning_saved'); //save status update into session
+
+    saveLog(
+      ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oPlanning->planningId,
+      ucfirst(http_get("param1")) . ' planning #' . $oPlanning->planningId . ' (' . CustomerManager::getCustomerById($oPlanning->customerId)->companyName . ')',
+      arrayToReadableText(object_to_array($oPlanning))
+    );
+
     http_redirect(ADMIN_FOLDER . '/' . http_get('controller') . '#' . $oPlanning->planningId);
 
   }
@@ -294,6 +301,13 @@ elseif (http_get("param1") == 'planning-verwijderen' && is_numeric(http_get("par
 
     if (!empty($oPlanning) && PlanningManager::deletePlanning($oPlanning)) {
       $_SESSION['statusUpdate'] = "Planningsitem is verwijderd"; //save status update into session
+
+      saveLog(
+        ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oPlanning->planningId,
+        'Verwijderen planning #' . $oPlanning->planningId . ' (' . CustomerManager::getCustomerById($oPlanning->customerId)->companyName . ')',
+        arrayToReadableText(object_to_array($oPlanning))
+      );
+
     } else {
       $_SESSION['statusUpdate'] = "Planningsitem kon niet verwijderd worden";; //save status update into session
     }
@@ -376,6 +390,13 @@ elseif (
       if ($oPlanning->isValid()) {
 
         PlanningManager::savePlanning($oPlanning); //save object
+
+        saveLog(
+          ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oPlanning->planningId,
+          ucfirst(http_get("param1")) . ' planning #' . $oPlanning->planningId . ' (' . CustomerManager::getCustomerById($oPlanning->customerId)->companyName . ')',
+          arrayToReadableText(object_to_array($oPlanning))
+        );
+
         if ($iCount == 1) {
           $iParentPlanningId = $oPlanning->planningId;
         }

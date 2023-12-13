@@ -131,6 +131,8 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
             $aDeleteAppointment = CustomerManager::getAppointmentById(http_get("param4"), $oCustomer->customerId);
             if (!empty($aDeleteAppointment)) {
                 CustomerManager::deleteAppointmentById(http_get("param4"), $oCustomer->customerId);
+
+                
             }
         }
     }

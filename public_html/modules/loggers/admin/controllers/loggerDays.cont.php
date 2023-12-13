@@ -44,6 +44,14 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
     if ($oLoggersDay->isValid()) {
       LoggersDaysManager::saveLoggersDay($oLoggersDay); //save userAccessGroup
       $_SESSION['statusUpdate'] = "Uitzonderingsrecord opgeslagen"; //save status update into session
+
+      saveLog(
+              ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oLoggersDay->loggerDayId,
+              ucfirst(http_get("param1")) . ' uitzonderingsrecord #' . $oLoggersDay->loggerDayId . ' (' . $oLoggersDay->name . ')',
+              arrayToReadableText(object_to_array($oLoggersDay))
+      );
+
+
       http_redirect(ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oLoggersDay->loggerDayId);
     } else {
 
@@ -68,6 +76,13 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
 
   if ($oLoggersDay && LoggersDaysManager::deleteLoggersDay($oLoggersDay)) {
     $_SESSION['statusUpdate'] = "Uitzonderingsrecord verwijderd"; //save status update into session
+
+    saveLog(
+      ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oLoggersDay->loggerDayId,
+      ucfirst(http_get("param1")) . ' logger #' . $oLoggersDay->loggerDayId . ' (' . $oLoggersDay->name . ')',
+      arrayToReadableText(object_to_array($oLoggersDay))
+    );
+
   } else {
     $_SESSION['statusUpdate'] = "Uitzonderingsrecord niet verwijderd"; //save status update into session
   }

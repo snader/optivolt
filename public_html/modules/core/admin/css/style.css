@@ -683,3 +683,13 @@ transition: all 0.1s ease-in-out;
     background-color: #eee;
     color: #ccc;
 }
+
+.log-detail {
+    padding:5px; 
+    font-size:11px;
+    color: #333333;
+    display: none;
+}
+.show-detail {
+    cursor:pointer;
+}

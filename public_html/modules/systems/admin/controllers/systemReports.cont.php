@@ -55,6 +55,12 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         $oSystemReport->notice = _e(Request::postVar("imgNotice"));
         if ($oSystemReport->isValid()) {
             SystemReportManager::saveSystemReport($oSystemReport); //save item
+
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oSystemReport->systemReportId,
+                'Systeemreport afb. notitie systeem #' . $oSystemReport->systemId . ' (' . $oSystemReport->notice . ')',
+                arrayToReadableText(object_to_array($oSystemReport))
+              );
         }
     }
 
@@ -66,6 +72,13 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         if ($oSystem->isValid()) {
             SystemManager::saveSystem($oSystem);
             Session::set('statusUpdate', 'Opmerking toegevoegd'); //save status update into session
+
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oSystemReport->systemReportId,
+                ' Systeemreport opmerking toegevoegd bij #' . $oSystem->systemId . ' (' . $oSystem->name . ')',
+                arrayToReadableText(object_to_array($oSystem))
+              );
+
             Router::redirect(getCurrentUrl());
         }
     }
@@ -97,7 +110,11 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         if ($oSystemReport->isValid()) {
             SystemReportManager::saveSystemReport($oSystemReport); //save item
 
-
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oSystemReport->systemReportId,
+                ' Systeemreport opgeslagen systeem #' . $oSystemReport->systemId . ' (' . SystemManager::getSystemById($oSystemReport->systemId)->name . ')',
+                arrayToReadableText(object_to_array($oSystemReport))
+              );
 
             // save extra rows of system reports
             if (isset($_POST['systemReportIdExtra'])) {
@@ -144,6 +161,8 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                   
                         if ($oSubSystemReport->isValid()) {
                             SystemReportManager::saveSystemReport($oSubSystemReport); //save subitem
+
+                            
                         }
                     }
                 }
@@ -154,11 +173,20 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
             Session::set('statusUpdate', sysTranslations::get('system_report_saved')); //save status update into session
 
+            
+
             if (!empty(trim(http_post('systemNotice')))) {
                 $oSystem = SystemManager::getSystemById(http_post('systemId'));
                 $oSystem->notice = _e(trim(http_post('systemNotice'))) . ' (' . date("Y") . ')' . PHP_EOL . $oSystem->notice;
                 if ($oSystem->isValid()) {
                     SystemManager::saveSystem($oSystem);
+
+                    saveLog(
+                        ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oSystem->systemId,
+                        ' Systeemopmerking toegevoegd bij #' . $oSystem->systemId . ' (' . $oSystem->name . ')',
+                        arrayToReadableText(object_to_array($oSystem))
+                      );
+
                     Session::set('statusUpdate', sysTranslations::get('system_report_saved') . ' en opmerking toegevoegd'); //save status update into session
 
                 }
@@ -338,6 +366,13 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             $oSystemReport = SystemReportManager::getSystemReportById(Request::param('OtherID'));
         }
         if ($oSystemReport && SystemReportManager::deleteSystemReport($oSystemReport)) {
+
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oSystemReport->systemReportId,
+                ' Systeemreport verwijderen systeem #' . $oSystemReport->systemId . ' (' . SystemManager::getSystemById($oSystemReport->systemId)->name . ')',
+                arrayToReadableText(object_to_array($oSystemReport))
+              );
+
             Session::set('statusUpdate', sysTranslations::get('system_report_deleted')); //save status update into session
         } else {
             Session::set('statusUpdate', sysTranslations::get('system_report_not_deleted')); //save status update into session
