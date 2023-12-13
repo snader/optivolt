@@ -50,6 +50,14 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
     if ($oLogger->isValid()) {
       LoggerManager::saveLogger($oLogger); //save object
       $_SESSION['statusUpdate'] = sysTranslations::get('logger_saved'); //save status update into session
+
+      saveLog(
+              ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oLogger->loggerId,
+              ucfirst(http_get("param1")) . ' logger #' . $oLogger->loggerId . ' (' . $oLogger->name . ')',
+              arrayToReadableText(object_to_array($oLogger))
+      );
+      
+
       http_redirect(ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oLogger->loggerId);
     } else {
       Debug::logError("", "Logger module php validate error", __FILE__, __LINE__, "Tried to save Logger with wrong values despite javascript check.<br />" . _d($_POST, 1, 1), Debug::LOG_IN_EMAIL);
@@ -77,8 +85,22 @@ elseif (http_get("param1") == 'verwijderen' && is_numeric(http_get("param2"))) {
 
     if (!empty($oLogger) && LoggerManager::deleteLogger($oLogger)) {
       $_SESSION['statusUpdate'] = sysTranslations::get('logger_deleted'); //save status update into session
+
+      saveLog(
+        ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oLogger->loggerId,
+        ucfirst(http_get("param1")) . ' logger #' . $oLogger->loggerId . ' (' . $oLogger->name . ')',
+        arrayToReadableText(object_to_array($oLogger))
+      );
+
     } else {
       $_SESSION['statusUpdate'] = sysTranslations::get('logger_not_deleted'); //save status update into session
+
+      saveLog(
+        ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oLogger->loggerId,
+        ucfirst(http_get("param1")) . ' logger #' . $oLogger->loggerId . ' (' . $oLogger->name . ') MISLUKT',
+        arrayToReadableText(object_to_array($oLogger))
+      );
+
   }
 
   http_redirect(ADMIN_FOLDER . '/' . http_get('controller'));

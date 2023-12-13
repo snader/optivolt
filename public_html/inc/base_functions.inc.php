@@ -2060,3 +2060,48 @@ function daysBetween($sBeginDate, $sEndDate)
             $earlier->diff($later)->format("%r%a");
     }
 }
+
+/**
+ * 
+ */
+function arrayToReadableText($aArray) {
+
+    $a = [];
+    foreach ($aArray as $key => $value) {
+        $a[] = "$key: $value";
+    }
+    $sResult = implode(PHP_EOL, $a);
+    return $sResult;
+
+}
+
+
+/**
+ * @param array|object $data
+ * @return array
+ */
+function object_to_array($data)
+{
+    $result = [];
+    foreach ($data as $key => $value)
+    {
+        $result[$key] = (is_array($value) || is_object($value)) ? object_to_array($value) : $value;
+    }
+    return $result;
+}
+
+/**
+ * 
+ */
+function saveLog($link, $title, $content) {
+
+    $oLog = new Log();
+    $oLog->name = UserManager::getCurrentUser()->name;
+    $oLog->userId = UserManager::getCurrentUser()->userId;    
+    $oLog->link = $link;
+    $oLog->title = $title;
+    $oLog->content = $content;
+   
+    LogManager::saveLog($oLog);
+
+}
