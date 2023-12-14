@@ -164,7 +164,7 @@ class LogManager
                 $aFilter['q'] = preg_replace('/(\d\d)-(\d\d)/', '$2-$1', $aFilter['q']);     
             }
 
-            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`l`.`title` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`created` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`name` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`link` LIKE ' . db_str(
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`l`.`title` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`content` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`created` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`name` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`link` LIKE ' . db_str(
                     '%' . $aFilter['q'] . '%'
                 ) . ')';
         }
@@ -207,9 +207,24 @@ class LogManager
 
         $oDb        = DBConnections::get();
         $aLogs = $oDb->query($sQuery, QRY_OBJECT, "Log");
+
+
+        
+
         if ($iFoundRows !== false) {
             $iFoundRows = $oDb->query('SELECT FOUND_ROWS() AS `found_rows`;', QRY_UNIQUE_OBJECT)->found_rows;
         }
+
+        $sQuery = 'DELETE t1
+        FROM logs t1
+        LEFT JOIN (
+            SELECT logId
+            FROM logs
+            ORDER BY created DESC
+            LIMIT 5000
+        ) t2 ON t1.logId = t2.logId
+        WHERE t2.logId IS NULL;';
+        $oDb->query($sQuery, QRY_NORESULT);
 
         return $aLogs;
     }

@@ -68,14 +68,14 @@
           <!-- /.card-body -->
           <div class="card-footer clearfix">
             <form method="POST">
-                <?= generatePaginationHTMLAdminLTE($iPageCount, $iCurrPage) ?>
+                <?= generatePaginationHTMLAdminLTE($iPageCount, $iCurrPage) ?> 
                 <input type="hidden" name="setPerPage" value="1"/>
-                <select name="perPage" class="form-control form-control-sm float-left" style="width:75px;" onchange="$(this).closest('form').submit();">                    
+                <select name="perPage" class="form-control form-control-sm float-left" style="width:55px;" onchange="$(this).closest('form').submit();">                    
                     <option <?= $iPerPage == 10 ? 'SELECTED' : '' ?> value="10">10</option>
                     <option <?= $iPerPage == 25 ? 'SELECTED' : '' ?> value="25">25</option>
                     <option <?= $iPerPage == 50 ? 'SELECTED' : '' ?> value="50">50</option>
                     <option <?= $iPerPage == 100 ? 'SELECTED' : '' ?> value="100">100</option>
-                </select> <span>&nbsp;<?= sysTranslations::get('global_per_page') ?></span>
+                </select> <span>&nbsp;<?= sysTranslations::get('global_per_page') ?></span>&nbsp;&nbsp;<span style="color:#888;">(<?=$iFoundRows?> records gevonden)</span>
             </form>
           
           </div>
