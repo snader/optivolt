@@ -18,7 +18,18 @@
           <div class="card-header">
             <h3 class="card-title">Mutaties</h3>
 
-            
+            <div class="card-tools">
+              <div class="input-group input-group-sm" style="width: auto;">
+              <form action="<?= ADMIN_FOLDER ?>/<?= http_get('controller') ?>" method="POST" class="form-inline pr-2">
+                <input type="text" name="logsFilter[q]" value="<?= $aLogFilter['q'] ?>" id="q" class="form-control form-control-sm float-right" placeholder="Zoeken">
+                <div class="input-group-append">
+                  <input type="submit" name="filterLogs" value="Filter" class="btn btn-default btn-sm">
+                  <input class="btn btn-default btn-sm" type="submit" name="resetFilter" value="Reset">
+                </button>
+                </div>
+              </form>
+              </div>
+            </div>
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
@@ -55,6 +66,20 @@
             </table>
           </div>
           <!-- /.card-body -->
+          <div class="card-footer clearfix">
+            <form method="POST">
+                <?= generatePaginationHTMLAdminLTE($iPageCount, $iCurrPage) ?>
+                <input type="hidden" name="setPerPage" value="1"/>
+                <select name="perPage" class="form-control form-control-sm float-left" style="width:75px;" onchange="$(this).closest('form').submit();">                    
+                    <option <?= $iPerPage == 10 ? 'SELECTED' : '' ?> value="10">10</option>
+                    <option <?= $iPerPage == 25 ? 'SELECTED' : '' ?> value="25">25</option>
+                    <option <?= $iPerPage == 50 ? 'SELECTED' : '' ?> value="50">50</option>
+                    <option <?= $iPerPage == 100 ? 'SELECTED' : '' ?> value="100">100</option>
+                </select> <span>&nbsp;<?= sysTranslations::get('global_per_page') ?></span>
+            </form>
+          
+          </div>
+          
         </div>
         <!-- /.card -->
       </div>

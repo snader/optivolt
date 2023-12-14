@@ -1083,6 +1083,81 @@ function generatePaginationHTML($iPageCount, $iCurrPage, $sURLFormat = '?page=%s
 }
 
 /**
+ * Generate HTML code for displaying pagination
+ *
+ * @param int    $iPageCount     total amount of pages
+ * @param int    $iCurrPage      curent page number
+ * @param string $sURLFormat     the url to place in de <a href="$sURLFormat"></a>, page number must be placed by %s
+ * @param string $iPrevPage      string to represent the previous page link/button
+ * @param string $iNextPage      string to represent the next page link/button
+ * @param int    $iPageOffsetBef amount of pages shown before the current page
+ * @param int    $iPageOffsetAft amount of pages shown after the current page
+ * @param int    $sDotSep        seperator between pageLinks
+ *
+ * @return string
+ */
+function generatePaginationHTMLAdminLTE($iPageCount, $iCurrPage, $sURLFormat = '?page=%s', $iPrevPage = '', $iNextPage = '', $iPageOffsetBef = 1, $iPageOffsetAft = 1, $sDotSep = '&hellip;')
+{
+    $sHtml = '';
+
+    if ($iPageCount > 1) {
+
+        /* if difference between (currPage-offset-1) equals 2, make offset one larger */
+        if (($iCurrPage - $iPageOffsetBef - 1) == 2) {
+            $iPageOffsetBef += 1;
+        }
+
+        /* if difference between (currPage+offset-lastPage) equals 2, make offset one larger */
+        if (($iPageCount - ($iCurrPage + $iPageOffsetAft)) == 2) {
+            $iPageOffsetAft += 1;
+        }
+
+        $sHtml .= '<ul class="pagination pagination-sm m-0 float-right">';
+
+        $iPrevPage = $iPrevPage === '' ? '&lt;' : '&lt;';
+        $iNextPage = $iNextPage === '' ? '&gt;' : '&gt;';
+
+        if ($iCurrPage > 1) {
+            $sHtml .= '<a class="page-link"href="' . sprintf($sURLFormat, ($iCurrPage - 1)) . '">' . $iPrevPage . '</a>';
+        }
+
+        if (($iCurrPage - 1) > $iPageOffsetBef) {
+            $sHtml .= '<li class="page-item"><a class="page-link"href="' . sprintf($sURLFormat, "1") . '">1</a></li>';
+        }
+
+        /* for loop to make links around current page */
+        $iOffsetCounter = (-$iPageOffsetBef); //extra counter for offset counting
+
+        for ($i = ($iCurrPage - $iPageOffsetBef); $i <= ($iCurrPage + $iPageOffsetAft); $i++) {
+            if ($i >= 1 && $i <= ($iPageCount)) {
+                if ($i != $iCurrPage) {
+                    $sHtml .= '<li class="page-item"><a class="page-link offset' . $iOffsetCounter . '" href="' . sprintf($sURLFormat, $i) . '">' . $i . '</a></li>';
+                } else {
+                    $sHtml .= '<li class="page-item active"><a class="page-link" href="' . sprintf($sURLFormat, $i) . '">' . $i . '</a></li>';
+                }
+            }
+            $iOffsetCounter++;
+        }
+
+        if (($iCurrPage + $iPageOffsetAft) < $iPageCount) {
+            $sHtml .= '<li class="page-item"><a class="page-link" href="' . sprintf($sURLFormat, $iPageCount) . '">' . $iPageCount . '</a></li>';
+        }
+
+        if ($iCurrPage < $iPageCount) {
+            $sHtml .= '<a class="page-link" href="' . sprintf($sURLFormat, ($iCurrPage + 1)) . '">' . $iNextPage . '</a>';
+        }
+
+        $sHtml .= '</ul>';
+        
+    }
+
+    return $sHtml;
+}
+
+
+
+
+/**
  * check if string is a valid password
  * minimal 8 characters, 1 uppercase, 1 digit, 1 special character
  *

@@ -157,7 +157,14 @@ class LogManager
      
         # search for q
         if (!empty($aFilter['q'])) {
-            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`l`.`title` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`name` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`link` LIKE ' . db_str(
+
+            if (preg_match('/(\d\d)-(\d\d)-(\d\d\d\d)/', $aFilter['q'])){
+                $aFilter['q'] = preg_replace('/(\d\d)-(\d\d)-(\d\d\d\d)/', '$3-$2-$1', $aFilter['q']);     
+            } elseif (preg_match('/(\d\d)-(\d\d)/', $aFilter['q'])){
+                $aFilter['q'] = preg_replace('/(\d\d)-(\d\d)/', '$2-$1', $aFilter['q']);     
+            }
+
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`l`.`title` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`created` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`name` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `l`.`link` LIKE ' . db_str(
                     '%' . $aFilter['q'] . '%'
                 ) . ')';
         }
@@ -196,6 +203,7 @@ class LogManager
                     ' . $sOrderBy . '
                     ' . $sLimit . '
                     ;';
+
 
         $oDb        = DBConnections::get();
         $aLogs = $oDb->query($sQuery, QRY_OBJECT, "Log");

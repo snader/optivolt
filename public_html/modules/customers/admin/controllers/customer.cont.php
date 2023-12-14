@@ -132,7 +132,12 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
             if (!empty($aDeleteAppointment)) {
                 CustomerManager::deleteAppointmentById(http_get("param4"), $oCustomer->customerId);
 
-                
+                saveLog(
+                    getCurrentUrl(),
+                    'Afspraak verwijderd klant #' . $oCustomer->customerId . ' (' . $oCustomer->companyName . ')',
+                    arrayToReadableText($aDeleteAppointment)
+                  );
+
             }
         }
     }
@@ -145,6 +150,12 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
         $aEditAppointment["customerId"] = $oCustomer->customerId;
         CustomerManager::saveAppointmentUserAndDate($aEditAppointment);
 
+        saveLog(
+            ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oCustomer->customerId,
+            'Afspraak opgeslagen klant #' . $oCustomer->customerId . ' (' . $oCustomer->companyName . ')',
+            arrayToReadableText($aEditAppointment)
+          );
+        
         http_redirect(ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oCustomer->customerId);
     }
 
@@ -164,6 +175,12 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
         } else {
             $aPost["uitbrInfo"] = '';
         }
+
+        saveLog(
+            getCurrentUrl(),
+            'Afspraak opgeslagen klant #' . $oCustomer->customerId . ' (' . $oCustomer->companyName . ')',
+            arrayToReadableText($aPost)
+          );
 
         CustomerManager::saveAppointment($aPost, http_post('userId'), $oCustomer->customerId, http_post('visitDate'));
 
@@ -219,6 +236,12 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
             CustomerManager::saveCustomer($oCustomer); //save object
 
             $_SESSION['statusUpdate'] = sysTranslations::get('customer_saved'); //save status update into session
+
+            saveLog(
+                getCurrentUrl(),
+                'Klant opgeslagen #' . $oCustomer->customerId . ' (' . $oCustomer->companyName . ')',
+                arrayToReadableText($_POST)
+              );
 
             if (http_post("pl") && substr_count(http_post("pl"), '_') == 1) {
                 http_redirect(ADMIN_FOLDER . '/planning/inplannen/' . http_post("pl") . '/' . $oCustomer->customerId);
@@ -309,6 +332,14 @@ is_numeric(http_post('customerId'))
 
     if (is_numeric($iUserId) && is_numeric($iCustomerId)) {
         CustomerManager::saveSignature($iUserId, $iCustomerId, $sVisitDate, $sFilename, $sSignatureName);
+
+        saveLog(
+            getCurrentUrl(),
+            'Handtekening gezet #' . $iCustomerId . ' (' . CustomerManager::getCustomerById($iCustomerId)->companyName . ')',
+            $file
+          );
+
+
         http_redirect(ADMIN_FOLDER . "/klanten/bewerken/" . $iCustomerId);
     }
 

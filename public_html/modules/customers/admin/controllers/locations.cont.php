@@ -48,6 +48,13 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
         if ($oLocation->isValid()) {
             LocationManager::saveLocation($oLocation); //save object
             $_SESSION['statusUpdate'] = sysTranslations::get('location_saved'); //save status update into session
+
+            saveLog(
+                ADMIN_FOLDER . '/klanten/bewerken/' . $oLocation->customerId,
+                ucfirst(http_get("param1")) . ' locatie #' . $oLocation->locationId . ' (' . CustomerManager::getCustomerById($oLocation->customerId)->companyName . ')',
+                arrayToReadableText($_POST)
+              );
+
             http_redirect(ADMIN_FOLDER . '/klanten/bewerken/' . $oLocation->customerId);
         } else {
 
@@ -85,6 +92,13 @@ elseif (http_get("param1") == 'verwijderen' && is_numeric(http_get("param2"))) {
         }
 
         if (!empty($oLocation) && LocationManager::deleteLocation($oLocation)) {
+
+            saveLog(
+                ADMIN_FOLDER . '/klanten/bewerken/' . $oLocation->customerId,
+                'Locatie verwijderd #' . $oLocation->locationId . ' (' . CustomerManager::getCustomerById($oLocation->customerId)->companyName . ')',
+                arrayToReadableText(object_to_array($oLocation))
+              );
+
             $_SESSION['statusUpdate'] = sysTranslations::get('location_deleted'); //save status update into session
         } else {
             $_SESSION['statusUpdate'] = sysTranslations::get('location_not_deleted'); //save status update into session

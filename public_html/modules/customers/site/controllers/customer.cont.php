@@ -315,6 +315,13 @@ else {
         if (http_post('debnr') && http_post('password') && ($oLoggedInCustomer = CustomerManager::login(http_post('debnr'), http_post('password')))) {
             AccessLogManager::resetLoginAttempts($oCurrentAccessLog);
             CustomerManager::unlockCustomer($oLoggedInCustomer, '');
+
+            saveLog(
+                $sReferrer,
+                'klant login debiteur #' . http_post('debnr') . '(' . $oLoggedInCustomer->companyName . ')',
+                arrayToReadableText(object_to_array($oLoggedInCustomer))
+              );
+
             // redirect to referrer page
             http_redirect($sReferrer);
         } else {

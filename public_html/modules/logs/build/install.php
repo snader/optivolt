@@ -121,7 +121,7 @@ if (!$oDb->tableExists('logs')) {
         $sQuery = '
         CREATE TABLE `logs` (
           `logId` int(11) NOT NULL AUTO_INCREMENT,
-          `userId` int(11) NOT NULL DEFAULT "-1",
+          `userId` int(11) NULL DEFAULT NULL,
           
           `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
           `name` text COLLATE utf8_unicode_ci,
