@@ -11,14 +11,26 @@
 
       <!-- Date -->
       <div class="form-group">
-        <label>Datum *</label>
-        <div class="input-group date" id="visitDate" data-target-input="nearest">
-          <input type="text" class="form-control datetimepicker-input" value="<?= $aEditAppointment["visitDate"] ? date('d-m-Y', strtotime($aEditAppointment["visitDate"])) : '' ?>" name="visitDate" data-inputmask-inputformat="dd-mm-YYYY" data-target="#visitDate" />
-          <div class="input-group-append" data-target="#visitDate" data-toggle="datetimepicker">
-            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        <div class="row">
+          <div class="col-lg-6"><label for="visitDate">Datum *</label></div>
+          <div class="col-lg-6"><label for="orderNr">Order#</label></div>
+        </div>
+        
+        <div class="row">
+        <div class="col-lg-6">
+          <div class="input-group date" id="visitDate" data-target-input="nearest">
+            <input type="text" class="form-control datetimepicker-input" value="<?= $aEditAppointment["visitDate"] ? date('d-m-Y', strtotime($aEditAppointment["visitDate"])) : '' ?>" name="visitDate" data-inputmask-inputformat="dd-mm-YYYY" data-target="#visitDate" />
+            <div class="input-group-append" data-target="#visitDate" data-toggle="datetimepicker">
+              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
           </div>
         </div>
+        <div class="col-lg-6">
+          <input type="text" name="orderNr" placeholder="Ordernummer" class="form-control" id="orderNr" value="<?=$aEditAppointment['orderNr']?>" title="">
+        </div>
+        </div>
       </div>
+      
       <div class="form-group">
         <label for="userId">Onderhoudsmonteur *</label>
         <select class="form-control " id="userId" name="userId" required title="Selecteer een onderhoudsmonteur">

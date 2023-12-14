@@ -147,6 +147,7 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
 
         $aEditAppointment["visitDate"] = date('Y-m-d', strtotime(http_post('visitDate')));
         $aEditAppointment["userId"] = http_post('userId');
+        $aEditAppointment["orderNr"] = http_post('orderNr');
         $aEditAppointment["customerId"] = $oCustomer->customerId;
         CustomerManager::saveAppointmentUserAndDate($aEditAppointment);
 

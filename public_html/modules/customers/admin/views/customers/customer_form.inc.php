@@ -130,7 +130,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="name"><?= sysTranslations::get('global_postal_code') ?> / <?= sysTranslations::get('global_city') ?> *</label>
+                            <div class="row">
+                                <div class="col-lg-4"><label for="companyPostalCode"><?= sysTranslations::get('global_postal_code') ?> *</label></div>
+                                <div class="col-lg-8"><label for="companyCity"><?= sysTranslations::get('global_city') ?> *</label></div>
+                            </div>
+                            
 
                             <div class="row">
                                 <div class="col-lg-4">

@@ -416,18 +416,21 @@ class CustomerManager
                         `appointmentId`,
                         `userId`,
                         `customerId`,
+                        `orderNr`,
                         `visitDate`
                     )
                     VALUES (
                         ' . db_int($aEditAppointment["appointmentId"]) . ',
                         ' . db_int($aEditAppointment["userId"]) . ',
                         ' . db_int($aEditAppointment["customerId"]) . ',
+                        ' . db_str($aEditAppointment["orderNr"]) . ',
                         ' . db_str($aEditAppointment["visitDate"]) . '
                     )
                     ON DUPLICATE KEY UPDATE
                         `appointmentId`=VALUES(`appointmentId`),
                         `userId`=VALUES(`userId`),
                         `customerId`=VALUES(`customerId`),
+                        `orderNr`=VALUES(`orderNr`),
                         `visitDate`=VALUES(`visitDate`)
                     ;';
 
