@@ -109,7 +109,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
             saveLog(
                 ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oSystem->systemId,
-                ucfirst(http_get("param1")) . ' systeem #' . $oSystem->systemId . ' (' . $oSystem->name . ')',
+                ucfirst(http_get("param1")) . ' systeem #' . $oSystem->systemId . ' (' . $oSystem->name . ' - ' . $oLocation->getCustomer()->companyName . ' - ' . $oLocation->name . ')',
                 arrayToReadableText(object_to_array($oSystem))
               );
 
@@ -144,7 +144,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
             saveLog(
                 ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oSystem->systemId,
-                ucfirst(http_get("param1")) . ' systeem #' . $oSystem->systemId . ' (' . $oSystem->name . ')',
+                ucfirst(http_get("param1")) . ' systeem #' . $oSystem->systemId . ' (' . $oSystem->name . ' - ' . $oSystem->getLocation()->getCustomer()->companyName . ' - ' . $oSystem->getLocation()->name . ')',
                 arrayToReadableText(object_to_array($oSystem))
               );
 
