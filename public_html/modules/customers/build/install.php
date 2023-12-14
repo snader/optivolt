@@ -1247,6 +1247,16 @@ if ($oDb->tableExists('users_customers')) {
     }
 }
 
+if ($oDb->tableExists('users_customers')) {
+    if (!$oDb->columnExists('users_customers', 'orderNr')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing column `users_customers`.`orderNr`';
+        if ($bInstall) {
+            $sQuery = "ALTER TABLE `users_customers` ADD `orderNr` VARCHAR(200) NULL DEFAULT NULL AFTER `customerId`;";
+            $oDb->query($sQuery, QRY_NORESULT);
+        }
+    }
+}
+
 if (!($oSetting = SettingManager::getSettingByName('infoEmail'))) {
     $aLogs[$sModuleName]['errors'][] = 'Missing setting `infoEmail`';
     if ($bInstall) {

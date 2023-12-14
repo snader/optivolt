@@ -25,7 +25,8 @@
         <tr>
           <th style="width: 10px;">&nbsp;</th>
           <th><?= sysTranslations::get('global_date') ?></th>
-          <th>Onderhoudsmonteur</th>
+          <th>Order#</th>
+          <th>Onderhoudsmonteur</th>          
           <th style="text-align:center;width:30px;" nowrap>Afgerond</th>
           <th style="text-align:center;width:30px;" nowrap>Klant <i class="far fa-eye"></i></th>
           <th style="width: 10px;"></th>
@@ -50,7 +51,8 @@
               </a>
             </td>
             <td><?= date('d-m-Y', strtotime($oAppointment->visitDate)) ?></td>
-            <td><?= $oAppointment->name ?></td>
+            <td><?= firstXCharacters(_e($oAppointment->orderNr),20) ?></td>
+            <td><?= _e($oAppointment->name) ?></td>            
             <td style="text-align:center;"><?= $oAppointment->finished ? '<i class="far fa-check-circle text-success"></i>' : '' ?></td>
             <td style="text-align:center;"><?= $oAppointment->customer ? '<i class="far fa-check-circle text-success"></i>' : '' ?></td>
             <td>

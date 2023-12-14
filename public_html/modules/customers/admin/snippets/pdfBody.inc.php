@@ -35,8 +35,8 @@
   <tr>
     <td>Monteur</td>
     <td><?= $oUser->getDisplayName() ?></td>
-    <td></td>
-    <td></td>
+    <td>Ordernummer</td>
+    <td><?= _e($oAppointment->orderNr) ?></td>
   </tr>
 </table>
 <br />
