@@ -515,4 +515,15 @@ if ($oDb->tableExists('system_reports_images') && $oDb->tableExists('system_repo
             $oDb->addConstraint('system_reports_images', 'imageId', 'images', 'imageId', 'CASCADE', 'CASCADE');
         }
     }
+
+    $aFilter['q'] = 'CV';
+    $aSystemTypes = SystemTypeManager::getSystemTypesByFilter($aFilter);
+    if (count($aSystemTypes)==1) {
+        $aLogs[$sModuleName]['errors'][] = 'Need to rename CV to Actief Harmonisch Filter (AHF)';
+  
+        if ($bInstall) {
+            $aSystemTypes[0]->typeName = 'Actief Harmonisch Filter (AHF)';
+            SystemTypeManager::saveSystemType($aSystemTypes[0]);
+        }
+    }
 }

@@ -105,7 +105,7 @@ class SystemTypeManager
 
         # search for q
         if (!empty($aFilter['q'])) {
-            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`st`.`name` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ')';
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`st`.`typeName` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ')';
         }
 
 
