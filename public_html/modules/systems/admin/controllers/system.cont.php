@@ -107,6 +107,10 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             SystemManager::saveSystem($oSystem); //save item
             Session::set('statusUpdate', sysTranslations::get('system_saved')); //save status update into session
 
+            if (!isset($oLocation) || empty($oLocation)) {
+                $oLocation = $oSystem->getLocation();
+            }
+
             saveLog(
                 ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oSystem->systemId,
                 ucfirst(http_get("param1")) . ' systeem #' . $oSystem->systemId . ' (' . $oSystem->name . ' - ' . $oLocation->getCustomer()->companyName . ' - ' . $oLocation->name . ')',

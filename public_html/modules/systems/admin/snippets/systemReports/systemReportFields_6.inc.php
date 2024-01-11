@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CV
+ * Actief Harmonisch Filter (AHF)
  */
 
 ?>
