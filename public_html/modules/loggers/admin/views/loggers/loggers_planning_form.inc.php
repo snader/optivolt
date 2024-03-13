@@ -167,7 +167,7 @@
               </div>
               <div class="form-group" id="daysManual" style="display:none;">
 
-                <input type="number" name="daystoo" class="form-control" id="daystoo" min="1" value="<?= $bSelected ? '' : $oPlanning->days ?>" title="<?= sysTranslations::get('enter_days_tooltip') ?>" data-msg="<?= sysTranslations::get('enter_days_tooltip') ?>">
+                <input type="number" name="daystoo" class="form-control" id="daystoo" min="1" value="<?= $bSelected ? '' : $oPlanning->days ?>" title="Voer het aantal dagen in" data-msg="Voer het aantal dagen in">
               </div>
 
             </div>

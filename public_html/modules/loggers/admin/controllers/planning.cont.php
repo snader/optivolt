@@ -334,7 +334,7 @@ elseif (
     $aPartsEnd = explode('_', http_get("param3"));
     $aLoggers = LoggerManager::getLoggersOnlyByFilter(['min' => $oLogger->loggerId, 'max' => $aPartsEnd[0]]);
 
-    $oPlanning->days = ($aPartsEnd[1] - $aParts[1]) / (60 * 60 * 24) + 1;
+    $oPlanning->days = round(((int)$aPartsEnd[1] - (int)$aParts[1]) / (60 * 60 * 24) + 1);
   }
 
   // customer
