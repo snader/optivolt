@@ -338,6 +338,7 @@ function disableLoggers() {
   postData.startDate = startDate;
   postData.planningId = $iPlanningId;
 
+
   $.ajax('/dashboard/planning', {
       type: 'POST',  // http method
 

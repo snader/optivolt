@@ -44,6 +44,17 @@ if (http_post("ajaxCallLog")) {
 
     $aPlanningItems        = PlanningManager::getPlanningByFilter($aPlanningsFilter);
 
+    /*if ($aPlanningsFilter['loggerId']<3) {
+      $to      = 'sander.voorn@gmail.com';
+      $subject = 'ajaxCallLog';
+      $message = '' . print_r($aPlanningsFilter, true) . print_r($aPlanningItems,true);
+      $headers = 'From: test@optivolt.nl' . "\r\n" .
+          'Reply-To: test@optivolt.nl' . "\r\n" .
+          'X-Mailer: PHP/' . phpversion();
+
+      mail($to, $subject, $message, $headers);
+    }*/
+
     if (is_array($aPlanningItems) && count($aPlanningItems) > 0) {
       $aInterfering[$oLogger->loggerId] = 1;
     } else {
@@ -59,6 +70,7 @@ if (http_post("ajaxCallLog")) {
 // check if this can be added in planning
 if (http_post("ajaxCall")) {
 
+ 
   if (empty(http_post("days")) || http_post("days") == 0) {
     return false;
   }
