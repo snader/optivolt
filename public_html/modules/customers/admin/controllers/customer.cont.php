@@ -5,7 +5,7 @@ if (!defined('ACCESS')) {
     die;
 }
 
-
+error_reporting(E_ALL & ~E_NOTICE);
 
 global $oPageLayout;
 
@@ -190,6 +190,7 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
     }
 
 
+
     # action = save
     if (http_post("action") == 'save' && CSRFSynchronizerToken::validate()) {
         # do special things before load (because of password hashing)
@@ -198,6 +199,7 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
                 #set password from object
                 $_POST['password'] = $oCustomer->password;
             } else {
+
                 #hash and check password for saving later
                 if (!empty($_POST['password']) && strlen(http_post('password')) >= 8) {
                     $_POST['password'] = hashPasswordForDb(http_post('password'));

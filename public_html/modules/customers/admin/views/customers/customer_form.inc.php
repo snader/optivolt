@@ -112,8 +112,8 @@
 
                         <div class="form-group">
                             <label for="name"><?= sysTranslations::get('global_new_password') ?> **</label>
-                            <input id="password" class="<?= $oCustomer->customerId === null ? 'required pasword' : 'password' ?> form-control" title="<?= sysTranslations::get('user_secure_password_tooltip') ?>" autocomplete="off" type="text"
-                                   name="password" value=""/>
+                            <input id="password" class="<?= $oCustomer->customerId === null ? 'required password ' : 'password' ?> form-control" title="<?= sysTranslations::get('user_secure_password_tooltip') ?>" autocomplete="off" type="text"
+                                   name="password" minlength="8" value=""/>
                             <span class="error invalid-feedback show"><em>&nbsp;(** <?= sysTranslations::get('user_password_empty') ?>)</em> <span class="error"><?= $oCustomer->isPropValid("password") ? '' : sysTranslations::get('global_field_not_completed') ?></span></span>
                         </div>
 
