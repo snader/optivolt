@@ -51,6 +51,8 @@ class DBConnection extends mysqli
     function query($sQuery, $sReturnformat = null, $sClassName = "stdClass", $sSkipErrorMessage = false, $bSkipErrorLogging = false)
     {
 
+        error_reporting(E_ALL & ~E_NOTICE);
+
         $iQSMT   = microtime(true);
         $oResult = parent::query($sQuery);
         $iQEMT   = microtime(true);
@@ -71,7 +73,7 @@ class DBConnection extends mysqli
                 /* log error in database and email */
                 // because we are logging in the database, $this->error and $this->errno will be reset)
                 Debug::logError($iErrno = $this->errno, $sError = $this->error, __FILE__, __LINE__, $sQuery, Debug::LOG_IN_DATABASE);
-                Debug::logError($iErrno, $sError, __FILE__, __LINE__, $sQuery, Debug::LOG_IN_EMAIL);
+                //Debug::logError($iErrno, $sError, __FILE__, __LINE__, $sQuery, Debug::LOG_IN_EMAIL);
             }
 
             # check for displaying error message
@@ -92,7 +94,7 @@ class DBConnection extends mysqli
             # geeft object terug als standaard class
             case QRY_OBJECT:
                 $aArr = [];
-                while ($oRow = $oResult->fetch_object($sClassName)) {
+                while ($oRow = @$oResult->fetch_object($sClassName)) {
                     $aArr[] = $oRow;
                 }
 
