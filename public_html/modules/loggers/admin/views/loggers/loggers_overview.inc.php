@@ -72,12 +72,12 @@
                       <?php
                       # online/offline
 
-                      echo '<a id="logger_' . $oLogger->loggerId . '_online_0" title="Activeren" class="btn btn-danger btn-xs ' . ($oLogger->online ? 'hide' : '') . ($oLogger->isOnlineChangeable() == 0 ? 'disabled ' : '') . ' offline_icon" href="' . ADMIN_FOLDER . '/' . http_get(
+                      echo '<span id="logger_' . $oLogger->loggerId . '_online_0" title="In-actief" style="padding:5px;" class=" btn-danger btn-xs ' . ($oLogger->online ? 'hide' : '') . ($oLogger->isOnlineChangeable() == 0 ? 'disabled ' : '') . ' offline_icon" href="' . ADMIN_FOLDER . '/' . http_get(
                         'controller'
-                      ) . '/ajax-setOnline/' . $oLogger->loggerId . '/?online=1"><i class="fas fa-eye"></i></a>';
-                      echo '<a id="logger_' . $oLogger->loggerId . '_online_1" title="Deactiveren" class="btn btn-success btn-xs ' . ($oLogger->online ? '' : 'hide') . ($oLogger->isOnlineChangeable() == 0 ? 'disabled ' : '') . ' online_icon" href="' . ADMIN_FOLDER . '/' . http_get(
+                      ) . '/ajax-setOnline/' . $oLogger->loggerId . '/?online=1"><i class="fas fa-eye"></i></span>';
+                      echo '<span id="logger_' . $oLogger->loggerId . '_online_1" title="Actief" style="padding:5px;" class=" btn-success btn-xs ' . ($oLogger->online ? '' : 'hide') . ($oLogger->isOnlineChangeable() == 0 ? 'disabled ' : '') . ' online_icon" href="' . ADMIN_FOLDER . '/' . http_get(
                         'controller'
-                      ) . '/ajax-setOnline/' . $oLogger->loggerId . '/?online=0"><i class="fas fa-eye"></i></a>';
+                      ) . '/ajax-setOnline/' . $oLogger->loggerId . '/?online=0"><i class="fas fa-eye"></i></span>';
 
                       ?>
 
