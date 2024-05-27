@@ -155,8 +155,8 @@ else {
   }
 
 
-
-  $aLoggersFilter['online'] = true;
+ // if (empty($aLoggersFilter)) { $aLoggersFilter[] = ''; }
+  $aLoggersFilter['showAll'] = true;
 
 
   $aLoggers        = LoggerManager::getLoggersOnlyByFilter($aLoggersFilter);
