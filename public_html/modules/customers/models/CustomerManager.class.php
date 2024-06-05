@@ -237,7 +237,7 @@ class CustomerManager
                         `customers`
                     WHERE `deleted`= ' . db_int(0) . '
                     ORDER BY
-                        `companyName` DESC 
+                        `companyName` ASC 
                     ;';
 
         $oDb = DBConnections::get();

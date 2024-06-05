@@ -47,9 +47,10 @@
                 <tr>
                   
                   <th>Klant</th>
-                  <th>Naam</th>
-                  <th>Logger</th>
-                  <th>Datum</th>
+                  <th>Info</th>    
+                  <th>Remarks</th>              
+                  <th>Aangemaakt op</th>
+                  <th>User</th>
                 </tr>
               </thead>
               <tbody>
@@ -57,9 +58,11 @@
                 foreach ($aInventarisations AS $oInventarisation) {
                 ?>
                   <tr>
-                    <td><?= _e($oInventarisation->customerName) ?></td>
-                    <td><?= _e($oInventarisation->name) ?></td>
-                    <td><?= date('d-m-Y H:i', strtotime($oLog->created)) ?></td>
+                    <td><?= ($oInventarisation->customerName ? _e($oInventarisation->customerName) : CustomerManager::getCustomerById($oInventarisation->customerId)->companyName) ?></td>
+                    <td><?= ($oInventarisation->name ? _e($oInventarisation->name) : $oInventarisation->type) ?></td>
+                    <td><?= ($oInventarisation->remarks ? _e(firstXWords($oInventarisation->remarks,5)) : '-') ?></td>
+                    <td><?= date('d-m-Y H:i', strtotime($oInventarisation->created)) ?></td>
+                    <td><?= Usermanager::getUserById($oInventarisation->userId)->name?>
                   </tr>
                 <?php
                 }

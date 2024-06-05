@@ -36,10 +36,10 @@ class InventarisationManager
         # save item
         $sQuery = ' INSERT INTO `inventarisations` (
                         `inventarisationId`,
+                        `parentInventarisationId`,
                         `loggerId`,
                         `userId`,
-                        `customerId`,
-                        `customerName`,
+                        `customerId`,                        
                         `name`,
                         `kva`,
                         `position`,
@@ -58,6 +58,7 @@ class InventarisationManager
                     )
                     VALUES (
                         ' . db_int($oInventarisation->inventarisationId) . ',
+                        ' . db_int($oInventarisation->parentInventarisationId) . ',
                         ' . db_int($oInventarisation->loggerId) . ',
                         ' . db_int($oInventarisation->userId) . ',
                         ' . db_int($oInventarisation->customerId) . ',                        
@@ -78,6 +79,7 @@ class InventarisationManager
                         ' . 'NOW()' . '
                     )
                     ON DUPLICATE KEY UPDATE
+                        `parentInventarisationId`= VALUES(`parentInventarisationId`),
                         `loggerId`=VALUES(`loggerId`),
                         `userId`=VALUES(`userId`),
                         `customerId`=VALUES(`customerId`),
@@ -90,13 +92,16 @@ class InventarisationManager
                         `type`=VALUES(`type`),
                         `relaisNr`=VALUES(`relaisNr`),
                         `engineKw`=VALUES(`engineKw`),
-                        `turningHours`=VALUES(`turningHours`),
-                        `intro`=VALUES(`intro`),
+                        `turningHours`=VALUES(`turningHours`),                        
                         `photoNrs`=VALUES(`photoNrs`),
                         `trafoNr`=VALUES(`trafoNr`),
                         `mlProposed`=VALUES(`mlProposed`),
                         `remarks`=VALUES(`remarks`)
                     ;';
+
+                    if (is_int($oInventarisation->parentInventarisationId)) {
+                    //_d($sQuery);
+                    }
 
         $oDb = DBConnections::get();
         $oDb->query($sQuery, QRY_NORESULT);
@@ -107,6 +112,26 @@ class InventarisationManager
 
         
     }
+
+
+    /**
+     *
+     */
+    public static function getSubInventarisations($iInventarisationId)
+    {
+        $sQuery = ' SELECT
+                        `i`.*
+                    FROM
+                        `inventarisations` AS `i`
+                    WHERE
+                        `i`.`parentInventarisationId` = ' . db_int($iInventarisationId) . ' 
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_OBJECT, "SystemReport");
+    }
+
 
     /**
      * delete item and all media
@@ -178,9 +203,9 @@ class InventarisationManager
         
 
         // no show all? only show online items
-        if (empty($aFilter['showAll'])) {
+        if (isset($aFilter['isParent'])) {
             
-            
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '`i`.`parentInventarisationId` IS NULL';
         }
 
         # get by customerId

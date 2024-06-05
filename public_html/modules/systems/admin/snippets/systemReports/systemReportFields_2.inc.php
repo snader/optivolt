@@ -111,7 +111,7 @@ $sImageTitleSelect = '';
 <?php
 
 $sImageTitleSelect = '<select id="imageTitle_1" class="form-control" name="title">' . $sImageTitleSelect . '</select>';
-$sNotCompleteWarning = sysTranslations::get('global_field_not_completeds');
+$sNotCompleteWarning = sysTranslations::get('global_field_not_completed');
 
 $sBottomJavascript = <<<EOT
 <script type="text/javascript">
