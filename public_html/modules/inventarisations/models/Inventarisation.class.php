@@ -6,6 +6,7 @@ class Inventarisation extends Model
     
 
     public  $inventarisationId;
+    public  $parentInventarisationId;
     public  $loggerId       = null;
     public  $userId         = null;
     public  $customerId     = null;
@@ -28,7 +29,7 @@ class Inventarisation extends Model
     public  $created;
     public  $modified;
 
-
+    private $aSubInventarisations;
     
 
     /**
@@ -37,15 +38,7 @@ class Inventarisation extends Model
 
     public function validate()
     {
-        if (!is_numeric($this->loggerId)) {
-            $this->setPropInvalid('loggerId');
-        }
-        if (!is_numeric($this->userId)) {
-            $this->setPropInvalid('userId');
-        }
-        if (empty($this->name)) {
-            $this->setPropInvalid('name');
-        }
+        
         
     }
 
@@ -83,7 +76,11 @@ class Inventarisation extends Model
     }
 
  
-
+    public function getSubInventarisations()
+    {
+        $this->aSubInventarisations = InventarisationManager::getSubInventarisations($this->inventarisationId);
+        return $this->aSubInventarisations;
+    }
     
 
     /*

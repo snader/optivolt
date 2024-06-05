@@ -121,12 +121,12 @@ if (!$oDb->tableExists('inventarisations')) {
         $sQuery = '
         CREATE TABLE `inventarisations` (
           `inventarisationId` int(11) NOT NULL AUTO_INCREMENT,  
-          `parentInventarisationId` int(11) NOT NULL DEFAULT "-1",         
-          `loggerId` int(11) NOT NULL DEFAULT "-1",     
-          `customerId` int(11) NOT NULL DEFAULT "-1",
+          `parentInventarisationId` int(11) NULL DEFAULT NULL,        
+          `loggerId` int(11) NULL DEFAULT NULL,    
+          `customerId` int(11) NULL DEFAULT NULL,
           `customerName` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-          `userId` int(11) NOT NULL DEFAULT "-1",    
-          `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,       
+          `userId` int(11) NULL DEFAULT NULL,  
+          `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,  
           `kva` int(11) NULL DEFAULT NULL,   
           `position` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,   
           `freeFieldAmp` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,    
@@ -187,10 +187,10 @@ if ($oDb->tableExists('inventarisations')) {
 
     if ($oDb->tableExists('inventarisations')) {
         // check languages constraint
-        if (!$oDb->constraintExists('inventarisations', 'inventarisationId', 'inventarisations', 'parentInventarisationId')) {
+        if (!$oDb->constraintExists('inventarisations', 'parentInventarisationId', 'inventarisations', 'inventarisationId')) {
             $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `inventarisations`.`inventarisationId` => `inventarisations`.`parentInventarisationId`';
             if ($bInstall) {
-                $oDb->addConstraint('inventarisations', 'inventarisationId', 'inventarisations', 'parentInventarisationId', 'RESTRICT', 'CASCADE');
+                $oDb->addConstraint('inventarisations', 'parentInventarisationId', 'inventarisations', 'inventarisationId', 'CASCADE', 'CASCADE');
             }
         }
     }
