@@ -30,6 +30,7 @@ if (Request::postVar('filterInventarisations')) {
     $aInventarisationFilter            = Request::postVar('inventarisationsFilter');
     $aInventarisationFilter['showAll'] = true; // manually set showAll to true
     Session::set('inventarisationsFilter', $aInventarisationFilter);
+   
 }
 
 if (Request::postVar('resetFilter') || empty($aInventarisationFilter)) {
@@ -55,26 +56,26 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             Session::set('statusUpdate', sysTranslations::get('inventarisation_not_edited')); //save status update into session
             Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment());
         }
-
+    
         # is editable?
-        $aInventarisations = InventarisationManager::getInventarisationTreeById(Request::param('OtherID'));
+        $aInventarisations = $oInventarisation->getSubInventarisations();             
 
     } else {
         // toevoegen
         $oInventarisation             = new Inventarisation();
         $oInventarisation->userId = UserManager::getCurrentUser()->userId;
+        $aInventarisations[] = null;
     }
 
     # action = save
     if (Request::postVar("action") == 'save') {
-
-        # load data in object
-        $oInventarisation->_load($_POST);
-
-        # set some properties after load, _load strips tags for all inputs
+               
+        # parent inventarisation has only Id, remarks, userId and customerId
    
-        $oInventarisation->remarks = Request::postVar('remarks');
+        $oInventarisation->remarks = _e(Request::postVar('remarks'));
         $oInventarisation->userId = UserManager::getCurrentUser()->userId;
+        $oInventarisation->customerId = Request::postVar('customerId');
+        $oInventarisation->customerName = _e(Request::postVar('customerName'));
         
         # if object is valid, save
         if ($oInventarisation->isValid()) {
@@ -86,16 +87,27 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                 arrayToReadableText(object_to_array($oInventarisation))
               );
 
-            // save extra rows of system reports
-            if (isset($_POST['inventarisationIdExtra'])) {
+            // save extra rows of table one
+            if (isset($_POST['inventarisationIdExtraTableOne'])) {
 
-                foreach ($_POST['inventarisationIdExtra'] as $iKey => $iInventarisationId) {
+                foreach ($_POST['inventarisationIdExtraTableOne'] as $iKey => $iInventarisationId) {
 
-                    if (empty($_POST['typeExtra'][$iKey]) && empty($_POST['nameExtra'][$iKey]) ) {
+                    if (empty($_POST['nameExtra'][$iKey]) && 
+                        empty($_POST['kvaExtra'][$iKey]) &&
+                        empty($_POST['loggerIdExtra'][$iKey]) && 
+                        empty($_POST['positionExtra'][$iKey]) && 
+                        empty($_POST['freeFieldAmpExtra'][$iKey]) && 
+                        empty($_POST['stroomTrafoExtra'][$iKey]) 
+                        ) {
                         continue;
                     }
 
-                    $oSubInventarisation = new Inventarisation();
+                    if (!empty($_POST['inventarisationIdExtraTableOne'][$iKey])) {
+                        $oSubInventarisation = InventarisationManager::getInventarisationById($_POST['inventarisationIdExtraTableOne'][$iKey]);
+                    } else {
+                        $oSubInventarisation = new Inventarisation();
+                    }
+                    
                     $oSubInventarisation->userId = UserManager::getCurrentUser()->userId;
                     if (!empty($iInventarisationId) && is_numeric($iInventarisationId)) {
                         $oSubInventarisation = InventarisationManager::getInventarisationById($iInventarisationId);
@@ -108,47 +120,94 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                     $oSubInventarisation->position = $_POST['positionExtra'][$iKey];
                     $oSubInventarisation->freeFieldAmp = $_POST['freeFieldAmpExtra'][$iKey];
                     $oSubInventarisation->stroomTrafo = $_POST['stroomTrafoExtra'][$iKey];
+                    
+                    // first table
+                    if ($oSubInventarisation->isValid()) {                        
+                        InventarisationManager::saveInventarisation($oSubInventarisation); //save subitem                            
+                    } else {                        
+                        die('Something went wrong..');
+                    }                    
+                    
+                }
+            }
+
+            // save extra rows of table one
+            if (isset($_POST['inventarisationIdExtraTableTwo'])) {
+
+                foreach ($_POST['inventarisationIdExtraTableTwo'] as $iKey => $iInventarisationId) {
+
+                    if (empty($_POST['typeExtra'][$iKey]) && 
+                        empty($_POST['controlExtra'][$iKey]) &&
+                        empty($_POST['relaisNrExtra'][$iKey]) && 
+                        empty($_POST['engineKwExtra'][$iKey]) && 
+                        empty($_POST['turningHoursExtra'][$iKey]) && 
+                        empty($_POST['photoNrsExtra'][$iKey]) && 
+                        empty($_POST['trafoNrExtra'][$iKey]) && 
+                        empty($_POST['mlProposedExtra'][$iKey])
+                        ) {
+                        continue;
+                    }
+
+                    if (!empty($_POST['inventarisationIdExtraTableTwo'][$iKey])) {
+                        $oSubInventarisation = InventarisationManager::getInventarisationById($_POST['inventarisationIdExtraTableTwo'][$iKey]);
+                    } else {
+                        $oSubInventarisation = new Inventarisation();
+                    }
+                    
+                    $oSubInventarisation->userId = UserManager::getCurrentUser()->userId;
+                    if (!empty($iInventarisationId) && is_numeric($iInventarisationId)) {
+                        $oSubInventarisation = InventarisationManager::getInventarisationById($iInventarisationId);
+                    }
+
+                    // second table
+                    $oSubInventarisation->parentInventarisationId  = $oInventarisation->inventarisationId;
                     $oSubInventarisation->type = $_POST['typeExtra'][$iKey];
-                    $oSubInventarisation->control = $_POST['controlExtra'][$iKey];
-                    $oSubInventarisation->type = $_POST['typeExtra'][$iKey];
+                    $oSubInventarisation->control = $_POST['controlExtra'][$iKey];                    
                     $oSubInventarisation->relaisNr = $_POST['relaisNrExtra'][$iKey];
                     $oSubInventarisation->engineKw = $_POST['engineKwExtra'][$iKey];
                     $oSubInventarisation->turningHours = $_POST['turningHoursExtra'][$iKey];
                     $oSubInventarisation->photoNrs = $_POST['photoNrsExtra'][$iKey];
                     $oSubInventarisation->trafoNr = $_POST['trafoNrExtra'][$iKey];
-                    $oSubInventarisation->mlProposed = $_POST['mlProposedExtra'][$iKey];                       
-                
-
-                    if ($oSubInventarisation->isValid()) {
-                        
+                    $oSubInventarisation->mlProposed = $_POST['mlProposedExtra'][$iKey];   
+                    
+                    // first table
+                    if ($oSubInventarisation->isValid()) {                        
                         InventarisationManager::saveInventarisation($oSubInventarisation); //save subitem                            
-                    } else {
-                        
+                    } else {                        
                         die('Something went wrong..');
-                    }
+                    }                    
                     
                 }
             }
 
-            
             /////////
             Session::set('statusUpdate', sysTranslations::get('inventarisation_saved')); //save status update into session
-            Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oInventarisation->inventarisationId);
+
+            if ($_POST["save"]==sysTranslations::get('global_save')) {
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oInventarisation->inventarisationId);
+            } else {
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment());
+            }
+            
+            
         } else {
             Debug::logError("", "Inventarisation module php validate error", __FILE__, __LINE__, "Tried to save Inventarisation with wrong values despite javascript check.<br />" . _d($_POST, 1, 1), Debug::LOG_IN_EMAIL);
             $oPageLayout->sStatusUpdate = sysTranslations::get('inventarisation_not_saved');
         }
+
+
+       
+
     }
 
     $aFilter['showAll'] = true;
     $aLoggers = LoggerManager::getLoggersOnlyByFilter($aFilter);
     $aCustomers = CustomerManager::getAllCustomers();                                    
     
-
     $oPageLayout->sViewPath = getAdminView('inventarisations/inventarisation_form', 'inventarisations');
 
 } elseif (Request::param('ID') == 'verwijderen' && is_numeric(Request::param('OtherID'))) {
-    if (CSRFSynchronizerToken::validate()) {
+    
         if (is_numeric(Request::param('OtherID'))) {
             $oInventarisation = InventarisationManager::getInventarisationById(Request::param('OtherID'));
         }
@@ -157,9 +216,20 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         } else {
             Session::set('statusUpdate', sysTranslations::get('inventarisation_not_deleted')); //save status update into session
         }
-    }
+    
     Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment());
 
+} elseif (Request::param('ID') == 'deleterow' && $_POST['therowId']) {
+    
+        if (is_numeric($_POST['therowId'])) {
+            $oInventarisation = InventarisationManager::getInventarisationById($_POST['therowId']);
+        }
+        if ($oInventarisation && InventarisationManager::deleteInventarisation($oInventarisation)) {
+            die(1);
+        } else {
+            die();
+        }
+     
 } else {
 
     $iNrOfRecords = DBConnection::count('inventarisations');
@@ -181,7 +251,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
     }
 
     # add language to filter
-    $aInventarisationFilter = ['isParent'=>1];
+    $aInventarisationFilter['isParent'] = 1;
 
     #display overview
     $aInventarisations      = InventarisationManager::getInventarisationsByFilter($aInventarisationFilter, $iPerPage, $iStart, $iFoundRows);

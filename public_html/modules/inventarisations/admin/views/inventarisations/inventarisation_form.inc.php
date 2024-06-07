@@ -51,7 +51,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4 form-group" <?= ($oInventarisation->customerId ? 'style="display:none"' : '') ?>>
-                                        <input  type="text" placeholder="Voer klantnaam in" id="customerName" name="customerName" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" required id="customerName" value="<?= _e($oInventarisation->customerName) ?>" title="Klant" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                        <input  type="text" placeholder="Voer klantnaam in" id="customerName" name="customerName"  class="form-control" <?= ($oInventarisation->customerId ? '' : 'required') ?> id="customerName" value="<?= _e($oInventarisation->customerName) ?>" title="Klant" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     </div>
                                 </div>
 
@@ -85,46 +85,12 @@
                             </div>
                         </div>
                         <!-- first table row -->
-                        <div id="addRowsHere">
-                            <div class="row">
-                                <div class="col-sm-4 col-md-3 form-group">
-                                    <input type="text" name="name" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="name" value="<?= _e($oInventarisation->name) ?>" title="Transformator naam/nr" required data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("name") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
-                                </div>  
-                                <div class="col-sm-4 col-md-1 form-group">
-                                    <input type="number" name="kva" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="kva" value="<?= _e($oInventarisation->kva) ?>" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("kva") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
-                                </div>
-                                <div class="col-sm-4 col-md-1 form-group">
-                                    <select class="form-control" id="loggerId" name="loggerId" title="Selecteer een logger">
-                                        <option value="">- Kies</option>
-                                        <?php
-                                        foreach ($aLoggers as $oLogger) {
-                                            echo "<option" . ($oInventarisation->loggerId == $oLogger->loggerId ? ' selected' : '') . ($oLogger->online ? '' : ' style=\'color:red;\'') . " value='" . $oLogger->loggerId . "'>" . $oLogger->name . "</option>";
-                                        }
-                                        ?>
-                                    </select>                                    
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("loggerId") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
-                                </div>
-                                <div class="col-sm-4 col-md-3 form-group">
-                                    <input type="text" name="position" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="position" value="<?= _e($oInventarisation->position) ?>" title="Positie" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("position") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
-                                </div>
-                                <div class="col-sm-4 col-md-2 form-group">
-                                    <input type="text" name="freeFieldAmp" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="freeFieldAmp" value="<?= _e($oInventarisation->freeFieldAmp) ?>" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("freeFieldAmp") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
-                                </div>
-                                <div class="col-sm-4 col-md-2 form-group">
-                                    <input type="text" name="stroomTrafo" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="stroomTrafo" value="<?= _e($oInventarisation->stroomTrafo) ?>" title="Stroomtrafo present?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("stroomTrafo") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <?php
-                        // SUB systemReports here with parentID = $oSystemReport->systemReportId
-                        if (isset($aSubInventarisations) && !empty($aSubInventarisations)) {
+                        // Table 1 - SUB systemReports here with parentID = $oInventarisation->inventarisationId
+                        if (isset($aInventarisations) && !empty($aInventarisations)) {
 
-                            foreach ($aSubInventarisations as $oSubInventarisation) {
+                            foreach ($aInventarisations as $oSubInventarisation) {
 
                                 if (empty($oSubInventarisation->name) && 
                                     empty($oSubInventarisation->kva) && 
@@ -138,8 +104,8 @@
                         ?>
                             
                             <div class="row">
-                                <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtra[]">
-                                <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
+                                <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtraTableOne[]">
+                                <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow" id="<?= _e($oSubInventarisation->inventarisationId) ?>"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                                 <div class="col-sm-4 col-md-3 form-group">
                                     <input type="text" name="nameExtra[]" class="form-control" id="nameExtra[]" value="<?= _e($oSubInventarisation->name) ?>" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
@@ -153,7 +119,7 @@
                                         <option value="">- Kies</option>
                                         <?php
                                         foreach ($aLoggers as $oLogger) {
-                                            echo "<option" . ($oLogger->online ? '' : ' style=\'color:red;\'') . " value='" . $oLogger->loggerId . "'>" . $oLogger->name . "</option>";
+                                            echo "<option" . ($oSubInventarisation->loggerId == $oLogger->loggerId ? ' selected' : '') . ($oLogger->online ? '' : ' style=\'color:red;\'') . " value='" . $oLogger->loggerId . "'>" . $oLogger->name . "</option>";
                                         }
                                         ?>
                                     </select>                                    
@@ -178,7 +144,7 @@
                         }
                         ?>    
 
-
+                        <div id="addRowsHere"></div>
                         <div class="input-group-append" <?= !$oInventarisation->isEditable() ? 'style="display:none;"' : '' ?>>
                         <a class="addBtn" id="addRow" href="#" title="Regel toevoegen">
                             <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
@@ -190,7 +156,7 @@
                         <!-- rowToBeAdded to table one -->
                         <div style="display:none;" id="rowToBeAdded">
                             <div class="row">
-                                <input type="hidden" value="" name="inventarisationIdExtra[]">
+                                <input type="hidden" value="" name="inventarisationIdExtraTableOne[]">
                                 <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                                 <div class="col-sm-4 col-md-3 form-group">
                                     <input type="text" name="nameExtra[]" class="form-control" id="nameExtra[]" value="" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
@@ -226,6 +192,7 @@
                             </div>
                         </div>
 
+                        <!-- **************************************************************************** -->
 
                         <!-- second table -->
                         <div class="row">
@@ -254,49 +221,76 @@
                                 <label for="mlProposed">ML Proposed</label>
                             </div>
                         </div>
-                        <!-- second table row -->
-                        <div id="addRowsHereSecond">
+                        <!-- second table first row -->
+                                                
+                        <?php
+                        // Table 2 - SUB systemReports here with parentID = $oInventarisation->inventarisationId
+                        if (isset($aInventarisations) && !empty($aInventarisations)) {
+
+                            foreach ($aInventarisations as $oSubInventarisation) {
+
+                                if (empty($oSubInventarisation->type) && 
+                                    empty($oSubInventarisation->control) && 
+                                    empty($oSubInventarisation->relaisNr) && 
+                                    empty($oSubInventarisation->engineKw) && 
+                                    empty($oSubInventarisation->turningHours) && 
+                                    empty($oSubInventarisation->photoNrs) && 
+                                    empty($oSubInventarisation->trafoNr) && 
+                                    empty($oSubInventarisation->mlProposed)
+
+                                    ) {
+                                        continue;
+                                    }
+                        ?>
+                            
                             <div class="row">
+                                <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtraTableTwo[]">
+                                <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" id="<?= _e($oSubInventarisation->inventarisationId) ?>" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                                 <div class="col-sm-3 col-md-3 form-group">
-                                    <input type="text" name="type" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="type" value="<?= _e($oInventarisation->type) ?>" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("type") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                                    <input type="text" name="typeExtra[]" class="form-control" id="typeExtra[]" value="<?= _e($oSubInventarisation->type) ?>" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
                                 </div>  
                                 <div class="col-sm-1 col-md-1 form-group">
-                                <select class="form-control" id="control" name="control" title="Control">
+                                <select class="form-control" id="controlExtra[]" name="controlExtra[]" title="Control">
                                         <option value="">- Kies</option>
-                                        <option value="SD">SD</option>
-                                        <option value="D">D</option>
-                                        <option value="SS">SS</option>
-                                        <option value="YY">YY</option>                                        
+                                        <option<?= $oSubInventarisation->control == 'SD' ? ' selected' : '' ?> value="SD">SD</option>
+                                        <option<?= $oSubInventarisation->control == 'D' ? ' selected' : '' ?>  value="D">D</option>
+                                        <option<?= $oSubInventarisation->control == 'SS' ? ' selected' : '' ?>  value="SS">SS</option>
+                                        <option<?= $oSubInventarisation->control == 'YY' ? ' selected' : '' ?>  value="YY">YY</option>                                        
                                     </select>                                    
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("control") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                                    <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
-                                <input type="text" name="relaisNr" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="relaisNr" value="<?= _e($oInventarisation->relaisNr) ?>" title="Relais nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("relaisNr") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                                <input type="text" name="relaisNrExtra[]" class="form-control" id="relaisNrExtra[]" value="<?= _e($oSubInventarisation->relaisNr) ?>" title="Relais nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
-                                    <input type="text" name="engineKw" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="engineKw" value="<?= _e($oInventarisation->engineKw) ?>" title="KW engine +30 kW" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("engineKw") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                                    <input type="text" name="engineKwExtra[]" class="form-control" id="engineKwExtra[]" value="<?= _e($oSubInventarisation->engineKw) ?>" title="KW engine +30 kW" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
-                                    <input type="text" name="turningHours" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="turningHours" value="<?= _e($oInventarisation->turningHours) ?>" title="Turning hours" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("turningHours") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                                    <input type="text" name="turningHoursExtra[]"  class="form-control" id="turningHoursExtra[]" value="<?= _e($oSubInventarisation->turningHours) ?>" title="Turning hours" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-3 form-group">
-                                    <input type="text" name="photoNrs" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="photoNrs" value="<?= _e($oInventarisation->photoNrs) ?>" title="Position, Foto#" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("photoNrs") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                                    <input type="text" name="photoNrsExtra[]"  class="form-control" id="photoNrsExtra[]" value="<?= _e($oSubInventarisation->photoNrs) ?>" title="Position, Foto#" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
-                                <input type="text" name="trafoNr" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="trafoNr" value="<?= _e($oInventarisation->trafoNr) ?>" title="Which trafo number?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("trafoNr") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                                <input type="text" name="trafoNrExtra[]"  class="form-control" id="trafoNrExtra[]" value="<?= _e($oSubInventarisation->trafoNr) ?>" title="Which trafo number?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
-                                <input type="text" name="mlProposed" <?= !$oInventarisation->isEditable() ? 'readonly disabled ' : '' ?> class="form-control" id="mlProposed" value="<?= _e($oInventarisation->mlProposed) ?>" title="ML Proposed (3750 or 3300 ...)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"><?= $oInventarisation->isPropValid("mlProposed") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                                <input type="text" name="mlProposedExtra[]"  class="form-control" id="mlProposedExtra[]" value="<?= _e($oSubInventarisation->mlProposed) ?>" title="ML Proposed (3750 or 3300 ...)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
                                 </div>
+                            
                             </div>
-                        </div>
+                        <?php
+                            }
+                        }
+                        ?> 
+                        <div id="addRowsHereSecond"></div>
                         <div class="input-group-append" <?= !$oInventarisation->isEditable() ? 'style="display:none;"' : '' ?>>
                         <a class="addBtn" id="addRowSecond" href="#" title="Regel toevoegen">
                             <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
@@ -308,7 +302,7 @@
                         <!-- rowToBeAdded to table two -->
                         <div style="display:none;" id="rowToBeAddedSecond">
                         <div class="row">
-                            <input type="hidden" value="" name="inventarisationIdExtra[]">
+                            <input type="hidden" value="" class="inventarisationIdExtraTableTwo" name="inventarisationIdExtraTableTwo[]">
                             <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRowSecond"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                             <div class="col-sm-3 col-md-3 form-group">
                                 <input type="text" name="typeExtra[]" class="form-control" id="typeExtra[]" value="" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
@@ -355,13 +349,13 @@
                                 <label for="remarks">Extra notes/remarks</label>
                             </div>
                             <div class="col-md-12 form-group">
-                                <textarea name="remarks" id="remarks" class="form-control" rows="8"></textarea>
+                                <textarea name="remarks" id="remarks" class="form-control" rows="6"><?= _e($oInventarisation->remarks);?></textarea>
                             </div>
                         </div>                      
                     </div>
                     <div class="card-footer">
                             <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />&nbsp;
-                            <input type="submit" class="btn btn-primary" value="Opslaan > Systemen" name="save" />                        
+                            <input type="submit" class="btn btn-primary" value="Opslaan > Overzicht" name="save" />                        
                     </div>
                 </div>
             </form>
@@ -369,6 +363,28 @@
 
 
     </div>
+</div>
+
+<div class="modal fade" id="modal-record-del">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Let op!</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Weet je zeker dat je deze regel wilt verwijderen?</strong><br />(de regel wordt - indien eerder opgeslagen - direct uit de database verwijderd)</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Nee</button>
+                <button type="button" class="btn btn-primary" id="do-finish-del">Ja, verwijderen</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
 
 <?php
@@ -384,8 +400,40 @@ $('#addRow').on( "click", function() {
 
     $( "#addRowsHere" ).append( rowToBeAdded );
 });
+
 $(document).on("click", ".removeRow" , function() {
-    $(this).parent().remove();
+        therow = $(this);       
+        therowId = therow.attr('id')       
+        event.preventDefault();
+        $('#modal-record-del').modal('show');
+        $('#do-finish-del').on( "click", function() {
+
+            if (therowId === parseInt(therowId, 10)) {
+                // delete database record
+    
+                $.ajax('/dashboard/inventarisations/deleterow', {
+                    type: 'POST',  // http method
+                    data: { therowId: therowId },  // data to submit
+                    success: function (data, status, xhr) {
+                        $('#modal-record-del').modal('hide');           
+                        therow.parent().remove();
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                            alert("Something went wrong...");
+                    }
+                });      
+            } else {
+
+                // delete a record that has not yet been saved
+                $('#modal-record-del').modal('hide');           
+                therow.parent().remove();
+            }           
+
+
+            
+        });
+
+    
 });
 
 $('#addRowSecond').on( "click", function() {
@@ -397,9 +445,19 @@ $('#addRowSecond').on( "click", function() {
 
     $( "#addRowsHereSecond" ).append( rowToBeAdded );
 });
+
+
 $(document).on("click", ".removeRowSecond" , function() {
-    $(this).parent().remove();
+        therow = $(this);
+        event.preventDefault();
+        $('#modal-record-del').modal('show');
+        $('#do-finish-del').on( "click", function() {
+            $('#modal-record-del').modal('hide');                
+            therow.parent().remove();
+        });
+    
 });
+
 
 
 $('#customerId').on( "change", function() {
