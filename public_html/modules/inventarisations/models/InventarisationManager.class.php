@@ -39,7 +39,8 @@ class InventarisationManager
                         `parentInventarisationId`,
                         `loggerId`,
                         `userId`,
-                        `customerId`,                        
+                        `customerId`,    
+                        `customerName`,                    
                         `name`,
                         `kva`,
                         `position`,
@@ -61,7 +62,8 @@ class InventarisationManager
                         ' . db_int($oInventarisation->parentInventarisationId) . ',
                         ' . db_int($oInventarisation->loggerId) . ',
                         ' . db_int($oInventarisation->userId) . ',
-                        ' . db_int($oInventarisation->customerId) . ',                        
+                        ' . db_int($oInventarisation->customerId) . ', 
+                        ' . db_str($oInventarisation->customerName) . ',                       
                         ' . db_str($oInventarisation->name) . ',
                         ' . db_int($oInventarisation->kva) . ',
                         ' . db_str($oInventarisation->position) . ',
@@ -83,6 +85,7 @@ class InventarisationManager
                         `loggerId`=VALUES(`loggerId`),
                         `userId`=VALUES(`userId`),
                         `customerId`=VALUES(`customerId`),
+                        `customerName`=VALUES(`customerName`),
                         `name`=VALUES(`name`),
                         `kva`=VALUES(`kva`),
                         `position`=VALUES(`position`),
@@ -99,9 +102,9 @@ class InventarisationManager
                         `remarks`=VALUES(`remarks`)
                     ;';
 
-                    if (is_int($oInventarisation->parentInventarisationId)) {
+                    //if (is_int($oInventarisation->parentInventarisationId)) {
                     //_d($sQuery);
-                    }
+                    //}
 
         $oDb = DBConnections::get();
         $oDb->query($sQuery, QRY_NORESULT);

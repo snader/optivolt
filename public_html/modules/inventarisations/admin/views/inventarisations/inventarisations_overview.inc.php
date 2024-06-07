@@ -17,13 +17,12 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Formulieren</h3>
-
             <div class="card-tools">
               <div class="input-group input-group-sm" style="width: auto;">
               <form action="<?= ADMIN_FOLDER ?>/<?= http_get('controller') ?>" method="POST" class="form-inline pr-2">
                 <input type="text" name="inventarisationsFilter[q]" value="<?= $aInventarisationFilter['q'] ?>" id="q" class="form-control form-control-sm float-right" placeholder="Zoeken">
                 <div class="input-group-append">
-                  <input type="submit" name="filterLogs" value="Filter" class="btn btn-default btn-sm">
+                  <input type="submit" name="filterInventarisations" value="Filter" class="btn btn-default btn-sm">
                   <input class="btn btn-default btn-sm" type="submit" name="resetFilter" value="Reset">
                 </button>
                 </div>
