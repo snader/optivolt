@@ -225,7 +225,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             $oInventarisation = InventarisationManager::getInventarisationById($_POST['therowId']);
         }
         if ($oInventarisation && InventarisationManager::deleteInventarisation($oInventarisation)) {
-            die(1);
+            die(1); // success return to ajax call
         } else {
             die();
         }
