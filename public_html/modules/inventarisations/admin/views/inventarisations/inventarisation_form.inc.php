@@ -120,6 +120,65 @@
                                 </div>
                             </div>
                         </div>
+                        <?php
+                        // SUB systemReports here with parentID = $oSystemReport->systemReportId
+                        if (isset($aSubInventarisations) && !empty($aSubInventarisations)) {
+
+                            foreach ($aSubInventarisations as $oSubInventarisation) {
+
+                                if (empty($oSubInventarisation->name) && 
+                                    empty($oSubInventarisation->kva) && 
+                                    empty($oSubInventarisation->loggerId) && 
+                                    empty($oSubInventarisation->position) && 
+                                    empty($oSubInventarisation->freeFieldAmp) && 
+                                    empty($oSubInventarisation->stroomTrafo) 
+                                    ) {
+                                        continue;
+                                    }
+                        ?>
+                            
+                            <div class="row">
+                                <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtra[]">
+                                <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
+                                <div class="col-sm-4 col-md-3 form-group">
+                                    <input type="text" name="nameExtra[]" class="form-control" id="nameExtra[]" value="<?= _e($oSubInventarisation->name) ?>" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>  
+                                <div class="col-sm-4 col-md-1 form-group">
+                                    <input type="number" name="kvaExtra[]" class="form-control" id="kvaExtra[]" value="<?= _e($oSubInventarisation->kva) ?>" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-1 form-group">
+                                    <select class="form-control" id="loggerIdExtra[]" name="loggerIdExtra[]" title="Selecteer een logger">
+                                        <option value="">- Kies</option>
+                                        <?php
+                                        foreach ($aLoggers as $oLogger) {
+                                            echo "<option" . ($oLogger->online ? '' : ' style=\'color:red;\'') . " value='" . $oLogger->loggerId . "'>" . $oLogger->name . "</option>";
+                                        }
+                                        ?>
+                                    </select>                                    
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-3 form-group">
+                                    <input type="text" name="positionExtra[]" class="form-control" id="positionExtra[]" value="<?= _e($oSubInventarisation->position) ?>" title="Positie" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-2 form-group">
+                                    <input type="text" name="freeFieldAmpExtra[]" class="form-control" id="freeFieldAmpExtra[]" value="<?= _e($oSubInventarisation->freeFieldAmp) ?>" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-2 form-group">
+                                    <input type="text" name="stroomTrafoExtra[]" class="form-control" id="stroomTrafoExtra[]" value="<?= _e($oSubInventarisation->stroomTrafo) ?>" title="Stroomtrafo present?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                            
+                            </div>
+                        <?php
+                            }
+                        }
+                        ?>    
+
+
                         <div class="input-group-append" <?= !$oInventarisation->isEditable() ? 'style="display:none;"' : '' ?>>
                         <a class="addBtn" id="addRow" href="#" title="Regel toevoegen">
                             <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
@@ -130,41 +189,41 @@
 
                         <!-- rowToBeAdded to table one -->
                         <div style="display:none;" id="rowToBeAdded">
-                        <div class="row">
-                            <input type="hidden" value="" name="inventarisationIdExtra[]">
-                            <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
-                            <div class="col-sm-4 col-md-3 form-group">
-                                <input type="text" name="nameExtra[]" class="form-control" id="nameExtra[]" value="" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                <span class="error invalid-feedback show"></span>
-                            </div>  
-                            <div class="col-sm-4 col-md-1 form-group">
-                                <input type="number" name="kvaExtra[]" class="form-control" id="kvaExtra[]" value="" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                <span class="error invalid-feedback show"></span>
+                            <div class="row">
+                                <input type="hidden" value="" name="inventarisationIdExtra[]">
+                                <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
+                                <div class="col-sm-4 col-md-3 form-group">
+                                    <input type="text" name="nameExtra[]" class="form-control" id="nameExtra[]" value="" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>  
+                                <div class="col-sm-4 col-md-1 form-group">
+                                    <input type="number" name="kvaExtra[]" class="form-control" id="kvaExtra[]" value="" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-1 form-group">
+                                    <select class="form-control" id="loggerIdExtra[]" name="loggerIdExtra[]" title="Selecteer een logger">
+                                        <option value="">- Kies</option>
+                                        <?php
+                                        foreach ($aLoggers as $oLogger) {
+                                            echo "<option" . ($oLogger->online ? '' : ' style=\'color:red;\'') . " value='" . $oLogger->loggerId . "'>" . $oLogger->name . "</option>";
+                                        }
+                                        ?>
+                                    </select>                                    
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-3 form-group">
+                                    <input type="text" name="positionExtra[]" class="form-control" id="positionExtra[]" value="" title="Positie" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-2 form-group">
+                                    <input type="text" name="freeFieldAmpExtra[]" class="form-control" id="freeFieldAmpExtra[]" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-2 form-group">
+                                    <input type="text" name="stroomTrafoExtra[]" class="form-control" id="stroomTrafoExtra[]" value="" title="Stroomtrafo present?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
                             </div>
-                            <div class="col-sm-4 col-md-1 form-group">
-                                <select class="form-control" id="loggerIdExtra[]" name="loggerIdExtra[]" title="Selecteer een logger">
-                                    <option value="">- Kies</option>
-                                    <?php
-                                    foreach ($aLoggers as $oLogger) {
-                                        echo "<option" . ($oLogger->online ? '' : ' style=\'color:red;\'') . " value='" . $oLogger->loggerId . "'>" . $oLogger->name . "</option>";
-                                    }
-                                    ?>
-                                </select>                                    
-                                <span class="error invalid-feedback show"></span>
-                            </div>
-                            <div class="col-sm-4 col-md-3 form-group">
-                                <input type="text" name="positionExtra[]" class="form-control" id="positionExtra[]" value="" title="Positie" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                <span class="error invalid-feedback show"></span>
-                            </div>
-                            <div class="col-sm-4 col-md-2 form-group">
-                                <input type="text" name="freeFieldAmpExtra[]" class="form-control" id="freeFieldAmpExtra[]" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                <span class="error invalid-feedback show"></span>
-                            </div>
-                            <div class="col-sm-4 col-md-2 form-group">
-                                <input type="text" name="stroomTrafoExtra[]" class="form-control" id="stroomTrafoExtra[]" value="" title="Stroomtrafo present?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                <span class="error invalid-feedback show"></span>
-                            </div>
-                        </div>
                         </div>
 
 
@@ -291,7 +350,6 @@
                             </div>
                         </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="remarks">Extra notes/remarks</label>
@@ -299,16 +357,11 @@
                             <div class="col-md-12 form-group">
                                 <textarea name="remarks" id="remarks" class="form-control" rows="8"></textarea>
                             </div>
-                        </div>
-                        
-
-
+                        </div>                      
                     </div>
                     <div class="card-footer">
-
                             <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />&nbsp;
-                            <input type="submit" class="btn btn-primary" value="Opslaan > Systemen" name="save" />
-                        
+                            <input type="submit" class="btn btn-primary" value="Opslaan > Systemen" name="save" />                        
                     </div>
                 </div>
             </form>

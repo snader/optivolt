@@ -45,12 +45,13 @@
             <table class="table table-hover text-nowrap">
               <thead>
                 <tr>
-                  
+                  <th style="width:50px;"></th>
                   <th>Klant</th>
                   <th>Info</th>    
                   <th>Remarks</th>              
                   <th>Aangemaakt op</th>
                   <th>User</th>
+                  <th style="width:50px;"></th>
                 </tr>
               </thead>
               <tbody>
@@ -58,11 +59,35 @@
                 foreach ($aInventarisations AS $oInventarisation) {
                 ?>
                   <tr>
+                    <td>
+                      <?php
+
+                      if ($oInventarisation->isEditable()) {
+                      ?>
+                        <a class="btn btn-info btn-sm" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oInventarisation->inventarisationId ?>" title="Bewerken">
+                          <i class="fas fa-pencil-alt"></i>
+                        </a>
+                      <?php } else {
+                        echo '<i class="fas fa-pencil-alt"></i>';
+                      } ?>
+                    </td>
+
                     <td><?= ($oInventarisation->customerName ? _e($oInventarisation->customerName) : CustomerManager::getCustomerById($oInventarisation->customerId)->companyName) ?></td>
                     <td><?= ($oInventarisation->name ? _e($oInventarisation->name) : $oInventarisation->type) ?></td>
                     <td><?= ($oInventarisation->remarks ? _e(firstXWords($oInventarisation->remarks,5)) : '-') ?></td>
                     <td><?= date('d-m-Y H:i', strtotime($oInventarisation->created)) ?></td>
                     <td><?= Usermanager::getUserById($oInventarisation->userId)->name?>
+                    <td>
+                    <?php
+              
+                      if ($oInventarisation->isDeletable()) {                                   
+                      ?>
+                        <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oInventarisation->inventarisationId ?>" title="Verwijderen" onclick="return confirmChoice('Verwijder dit record?');">
+                          <i class="fas fa-trash"></i>
+                        </a>
+                      <?php } else { ?><span class="btn btn-danger btn-xs disabled"><i class="fas fa-trash"></i></span><?php } ?>
+
+                    </td>
                   </tr>
                 <?php
                 }

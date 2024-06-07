@@ -113,6 +113,25 @@ class InventarisationManager
         
     }
 
+    /**
+     * 
+     */
+    public static function getInventarisationTreeById($iInventarisationId)
+    {
+
+        $sQuery = ' SELECT
+                        `i`.*
+                    FROM
+                        `inventarisations` AS `i`
+                    WHERE
+                        `i`.`InventarisationId` = ' . db_int($iInventarisationId) . ' OR 
+                        `i`.`parentInventarisationId` = ' . db_int($iInventarisationId) . ' 
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_OBJECT, "SystemReport");
+    }
 
     /**
      *

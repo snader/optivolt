@@ -57,9 +57,10 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         }
 
         # is editable?
-        $aSubInventarisations = $oInventarisation->getSubInventarisations();
+        $aInventarisations = InventarisationManager::getInventarisationTreeById(Request::param('OtherID'));
 
     } else {
+        // toevoegen
         $oInventarisation             = new Inventarisation();
         $oInventarisation->userId = UserManager::getCurrentUser()->userId;
     }
