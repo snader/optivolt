@@ -408,7 +408,7 @@ $(document).on("click", ".removeRow" , function() {
         $('#modal-record-del').modal('show');
         $('#do-finish-del').on( "click", function() {
 
-            if (therowId === parseInt(therowId, 10)) {
+            if (therowId>1) {
                 // delete database record
     
                 $.ajax('/dashboard/inventarisations/deleterow', {
