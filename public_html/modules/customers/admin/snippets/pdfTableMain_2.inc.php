@@ -76,6 +76,10 @@ $aSystemReports_this = SystemReportManager::getSystemReportsByFilter(['systemId'
   </td>
   <td><?php
 
+      if (!$oSystem->online) {
+        echo '<div>Vervallen</div>';
+      }
+
       $aList = explode(PHP_EOL, trim($oSystem->notice));
       foreach ($aList as $sListItem) {  
         if (substr_count($sListItem, '(' . $iYear . ')') > 0) {
