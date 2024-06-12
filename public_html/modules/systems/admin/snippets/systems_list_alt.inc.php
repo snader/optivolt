@@ -29,7 +29,7 @@
       </td>
 
       <?php
-      echo '<td style="text-align:center;" nowrap>' . _e($oSystem->pos) . '</td>';
+      echo '<td style="text-align:center;" nowrap>' . _e($oSystem->pos) . (!$oSystem->online ? ' (vervallen)' : '') . '</td>';
       if ($bShowCustomer) {
         echo '<td>' . _e($oSystem->companyName) . '</td>';
       }
@@ -42,7 +42,7 @@
       echo '<td>' . _e($oSystem->machineNr) . '</td>';
       echo '<td>' . _e($oSystem->model) . '</td>';
 
-      http: //lf.localhost/dashboard/system-reports/toevoegen?systemId=1
+      
       $sAddButton = '<a class="addBtn mr-2" href="' . ADMIN_FOLDER . '/system-reports/toevoegen?systemId=' . $oSystem->systemId . '" title="' . sysTranslations::get('add_item') . '">
                                             <button type="button" class="btn btn-default btn-sm ">
                                                 <i class="fas fa-plus-circle"></i>

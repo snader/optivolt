@@ -47,6 +47,7 @@ class Appointment extends Model
 
     $aFilter['customerId'] = $this->customerId;
     $aFilter['orderBy'] = ['cast(`s`.`pos` as unsigned)' => 'ASC', '`s`.`pos`' => 'ASC', '`s`.`name`' => 'ASC', '`s`.`systemId`' => 'DESC'];
+    $aFilter['showAll'] = 1;
     $aSystems = SystemManager::getSystemsByFilter($aFilter);
 
     $oMPDF->shrink_tables_to_fit = 1;

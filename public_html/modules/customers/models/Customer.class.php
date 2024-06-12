@@ -147,6 +147,15 @@ class Customer extends Model
 
         $aFilter['customerId'] = $this->customerId;
         $aFilter['orderBy'] = ['cast(`s`.`pos` as unsigned)' => 'ASC', '`s`.`pos`' => 'ASC'];
+
+        $aFilter['showAll'] = 1;
+        if (!UserManager::getCurrentUser()->isClientAdmin() && !UserManager::getCurrentUser()->isSuperAdmin()) {
+            
+            $aFilter['showAll'] = 0;
+            
+    
+        }
+
         $aSystems = SystemManager::getSystemsByFilter($aFilter);
         return $aSystems;
     }

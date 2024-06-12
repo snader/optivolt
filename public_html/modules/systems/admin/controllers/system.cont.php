@@ -42,6 +42,8 @@ if (isset($aSystemFilter['customerId']) && !is_numeric($aSystemFilter['customerI
     unset($aSystemFilter['customerId']);
 }
 
+
+
 # handle add/edit
 if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
