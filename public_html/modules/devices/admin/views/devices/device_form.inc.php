@@ -47,17 +47,17 @@
                 <span class="error invalid-feedback show"><?= $oDevice->isPropValid("name") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
               </div>
               <div class="form-group">
-                <label for="name">Merk</label>
+                <label for="brand">Merk</label>
                 <input type="text" name="brand" class="form-control" id="brand" value="<?= _e($oDevice->brand) ?>" title="Voer merk in">
                 <span class="error invalid-feedback show"><?= $oDevice->isPropValid("brand") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
               </div>
               <div class="form-group">
-                <label for="name">Type</label>
+                <label for="type">Type</label>
                 <input type="text" name="type" class="form-control" id="type" value="<?= _e($oDevice->type) ?>" title="Voer type in">
                 <span class="error invalid-feedback show"><?= $oDevice->isPropValid("type") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
               </div>
               <div class="form-group">
-                <label for="name">Serienummer</label>
+                <label for="serial">Serienummer</label>
                 <input type="text" name="serial" class="form-control" id="serial" value="<?= _e($oDevice->serial) ?>" title="Voer serienummer in">
                 <span class="error invalid-feedback show"><?= $oDevice->isPropValid("serial") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
               </div>
