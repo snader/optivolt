@@ -10,6 +10,10 @@ $aNeededAdminControllerRoutes = [
         'module'     => 'devices',
         'controller' => 'device',
     ],
+    'certificaten' => [
+        'module'     => 'devices',
+        'controller' => 'certificate',
+    ]
     
 ];
 
