@@ -79,4 +79,20 @@ class Device extends Model
     }
 
     
+    /**
+     * 
+     * 
+     *  */                             
+    public function getCertificates() {
+
+        if (is_numeric($this->deviceId)) {
+            $aCertificates = CertificateManager::getCertificatesByDeviceId($this->deviceId);
+        } else {
+            return null;
+        }
+
+        return $aCertificates;
+        
+    }
+
 }

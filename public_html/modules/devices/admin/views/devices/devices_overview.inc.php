@@ -43,18 +43,18 @@
                         <thead>
                             <tr>
                                 <th style="width: 10px;">&nbsp;</th>
-  
                                 <th>Apparaat</th>
                                 <th>Merk</th>
                                 <th>Type</th>
-                                <th>Serienummer</th>                                
-                                <th></th>
-
+                                <th>Serienummer</th>    
+                                <th>Testdatum</th>                            
+                                <th style="width: 30px;"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             foreach ($aAllDevices as $oDevice) {
+               
                                 echo '<tr>';
                             ?>
                                 <td class="align-middle">
@@ -68,6 +68,7 @@
                                 echo '<td nowrap>' . _e($oDevice->brand) . '</td>';
                                 echo '<td nowrap>' . _e($oDevice->type) . '</td>';                                
                                 echo '<td nowrap>' . _e($oDevice->serial) . '</td>';
+                                echo '<td nowrap>' . ($oDevice->created != '' ? _e(date('d-m-Y',strtotime($oDevice->created))) : '') . '</td>';
 
                                 ?>
                                 <td nowrap class="align-middle">
@@ -102,7 +103,7 @@
                                 echo '</tr>';
                             }
                             if (empty($aAllDevices)) {
-                                echo '<tr><td colspan="6"><i>Geen apparaten gevonden</i></td></tr>';
+                                echo '<tr><td colspan="7"><i>Geen apparaten gevonden</i></td></tr>';
                             }
                             ?>
                         </tbody>
@@ -113,7 +114,8 @@
                                 <th>Merk</th>
                                 <th>Type</th>
                                 <th>Serienummer</th>                                
-                                <th></th>
+                                <th>Testdatum</th>   
+                                <th style="width: 30px;">&nbsp;</th>
 
                             </tr>
                         </tfoot>
@@ -171,13 +173,13 @@ $sBottomJavascript = <<<EOT
 
   $(function () {
     $(".data-table").DataTable({
-      "responsive": false, "lengthChange": false, "autoWidth": false,  "scrollX": true,
+      "responsive": false, "lengthChange": false, "autoWidth": false,  "scrollX": false,
       "stateSave": true,
       "buttons": ["colvis"],
       "columnDefs": [ {
         "searchable": true,
         "orderable": false,
-        "targets": [0, 4]
+        "targets": [0, 6]
     } ],
     "order": [[ 1, 'asc' ]]
     });

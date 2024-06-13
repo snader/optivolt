@@ -177,11 +177,15 @@ class DeviceManager
         }
         $sLimit = ($sLimit !== '' ? 'LIMIT ' : '') . $sLimit;
 
+        $sGroupBy = '`d`.`deviceId` ';
+
         $sQuery = ' SELECT ' . ($iFoundRows !== false ? 'SQL_CALC_FOUND_ROWS' : '') . '
-                        `d`.*
+                        `d`.*,
+                        `c`.*
                     FROM
-                        `devices` AS `d`
+                        `devices` AS `d`                    
                     ' . $sFrom . '
+                    LEFT JOIN `certificates` AS `c` ON `c`.`deviceId` = `d`.`deviceId`  
                     ' . ($sWhere != '' ? 'WHERE ' . $sWhere : '') . '
                     ' . ($sGroupBy != '' ? 'GROUP BY ' . $sGroupBy : '') . '
                     ' . $sOrderBy . '

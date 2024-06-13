@@ -19,6 +19,12 @@ $aNeededClassRoutes = [
     ],
     'DeviceManager' => [
         'module' => 'devices',
+    ],
+    'Certificates'        => [
+        'module' => 'devices',
+    ],
+    'CertificateManager' => [
+        'module' => 'devices',
     ]
 ];
 
@@ -30,13 +36,22 @@ $aNeededModulesForMenu = [
         'moduleActions' => [
             ['displayName' => 'Volledig', 'name' => 'devices_full'],
         ]
-    ]
+        ],
+        [
+            'name'          => 'certificaten',
+            'icon'          => 'fa-thumbtack',
+            'linkName'      => 'certificates_menu',
+            'parentModuleName' => 'devices',
+            'moduleActions' => [
+                ['displayName' => 'Volledig', 'name' => 'certificates_full'],
+            ],
+        ],
 ];
 
 $aNeededTranslations = [
     'nl' => [
         ['label' => 'device_not_deletable', 'text' => 'Apparaat is niet verwijderbaar'],
-        ['label' => 'devices_menu', 'text' => 'Apparaten'],
+        ['label' => 'devices_menu', 'text' => 'Apparaten'],        
         ['label' => 'device_deleted', 'text' => 'Apparaat is verwijderd'],
         ['label' => 'device_not_deleted', 'text' => 'Apparaat kan niet worden verwijderd'],
         ['label' => 'device_not_saved', 'text' => 'Apparaat is niet opgeslagen, niet alle velden zijn (juist) ingevuld'],
@@ -67,6 +82,39 @@ $aNeededTranslations = [
         ['label' => 'device_add_tooltip', 'text' => 'Nieuw apparaat toevoegen'],
         ['label' => 'device_all', 'text' => 'Alle apparaten'],
         ['label' => 'device_filter', 'text' => 'Filter apparaten'],
+        
+        ['label' => 'certificate_not_deletable', 'text' => 'Certificaat is niet verwijderbaar'],
+        ['label' => 'certificates_menu', 'text' => 'Testcertificaten'],        
+        ['label' => 'certificate_deleted', 'text' => 'Certificaat is verwijderd'],
+        ['label' => 'certificate_not_deleted', 'text' => 'Certificaat kan niet worden verwijderd'],
+        ['label' => 'certificate_not_saved', 'text' => 'Certificaat is niet opgeslagen, niet alle velden zijn (juist) ingevuld'],
+        ['label' => 'certificate_saved', 'text' => 'Certificaat is opgeslagen'],
+        ['label' => 'certificate_not_edited', 'text' => 'Certificaat kan niet worden bewerkt'],
+        ['label' => 'certificate_drag', 'text' => 'Sleep de titels om de volgorde te veranderen'],
+        ['label' => 'certificate_content', 'text' => 'Content'],
+        ['label' => 'certificate_video_warning', 'text' => "Video's kunnen worden toegevoegd nadat het item eerst is opgeslagen"],
+        ['label' => 'certificate_links_warning', 'text' => 'Links kunnen worden toegevoegd nadat het item eerst is opgeslagen'],
+        ['label' => 'certificate_files_warning', 'text' => 'Bestanden kunnen worden geüpload nadat het item eerst is opgeslagen'],
+        ['label' => 'certificate_images_warning', 'text' => 'Afbeeldingen kunnen worden geüpload nadat het item eerst is opgeslagen'],
+        ['label' => 'certificate_content_tooltip', 'text' => 'Vul hier uw content in.'],
+        ['label' => 'certificate_intro_tooltip', 'text'  => 'Vul hier een korte introductie tekst in.'],
+        ['label' => 'certificate_intro', 'text' => 'Intro (korte intro tekst)'],
+        ['label' => 'certificate_enter_title_tooltip', 'text' => 'Vul de titel in'],
+        ['label' => 'certificate_title_tooltip', 'text' => 'De titel van uw item'],
+        ['label' => 'certificate_set_online_tooltip', 'text' => 'Zet het certificaat online OF offline'],
+        ['label' => 'device', 'text' => 'Certificaat'],
+        ['label' => 'certificate_not_changed', 'text' => 'Certificaat niet gewijzigd'],
+        ['label' => 'certificate_is_offline', 'text' => 'Certificaat offline gezet'],
+        ['label' => 'certificate_is_online', 'text' => 'Certificaat online gezet'],
+        ['label' => 'certificate_no_device', 'text' => 'Er zijn geen certificaten om weer te geven'],
+        ['label' => 'certificate_delete', 'text' => 'Verwijder certificaat'],
+        ['label' => 'certificate_edit', 'text' => 'Bewerk certificaat'],
+        ['label' => 'certificate_set_offline', 'text' => 'Certificaat offline zetten'],
+        ['label' => 'certificate_set_online', 'text' => 'Certificaat online zetten'],
+        ['label' => 'certificate_add', 'text' => 'Certificaat toevoegen'],
+        ['label' => 'certificate_add_tooltip', 'text' => 'Nieuw certificaat toevoegen'],
+        ['label' => 'certificate_all', 'text' => 'Alle certificaten'],
+        ['label' => 'certificate_filter', 'text' => 'Filter certificaten'],
     ],
     'en' => [
         ['label' => 'device_not_deletable', 'text' => 'Device is not deletable'],
@@ -106,8 +154,7 @@ $aNeededTranslations = [
 // site translations (front end)
 $aNeededSiteTranslations = [
     'nl' => [
-        
-        
+                
         ['label' => 'site_read_more', 'text' => 'Lees meer', 'editable' => 1],
         ['label' => 'site_back_to_overview', 'text' => 'Terug naar het overzicht', 'editable' => 1]
     ],
@@ -135,3 +182,56 @@ if (!$oDb->tableExists('devices')) {
     }
 }
 
+if (!$oDb->tableExists('certificates')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `certificates`';
+    if ($bInstall) {
+
+        // add table
+        $sQuery = '
+        CREATE TABLE `certificates` (
+          `certificateId` int(11) NOT NULL AUTO_INCREMENT,
+          `deviceId` int(11) NOT NULL,
+          `userId` int(11) NOT NULL,
+          `vbbNr` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `testInstrument` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `testSerialNr` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,          
+          `nextcheck` DATE,                 
+          `visualCheck` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `weerstandBeLeRPE` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `isolatieWeRISO` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `lekstroomIEA` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `lekstroomTouch` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `created` timestamp NULL DEFAULT NULL,
+          `modified` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+          PRIMARY KEY (`certificateId`),
+          KEY `deviceId` (`deviceId`),
+          KEY `userId` (`userId`)
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+}
+
+
+if ($oDb->tableExists('certificates')) {
+    if ($oDb->tableExists('users')) {
+        // check languages constraint
+        if (!$oDb->constraintExists('certificates', 'userId', 'users', 'userId')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `certificates`.`userId` => `users`.`userId`';
+            if ($bInstall) {
+                $oDb->addConstraint('certificates', 'userId', 'users', 'userId', 'RESTRICT', 'CASCADE');
+            }
+        }
+    }
+
+    if ($oDb->tableExists('devices')) {
+        // check languages constraint
+        if (!$oDb->constraintExists('certificates', 'deviceId', 'devices', 'deviceId')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `certificates`.`deviceId` => `devices`.`deviceId`';
+            if ($bInstall) {
+                $oDb->addConstraint('certificates', 'deviceId', 'devices', 'deviceId', 'CASCADE', 'CASCADE');
+            }
+        }
+    }
+
+}
