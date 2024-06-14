@@ -57,11 +57,11 @@ class CertificateManager
                         ' . db_str($oCertificate->testInstrument) . ',
                         ' . db_str($oCertificate->testSerialNr) . ',
                         ' . db_str($oCertificate->nextcheck) . ',
-                        ' . db_int($oCertificate->visualCheck) . ',                        
-                        ' . db_int($oCertificate->weerstandBeLeRPE) . ', 
-                        ' . db_int($oCertificate->isolatieWeRISO) . ', 
-                        ' . db_int($oCertificate->lekstroomIEA) . ', 
-                        ' . db_int($oCertificate->lekstroomTouch) . ', 
+                        ' . db_str($oCertificate->visualCheck) . ',                        
+                        ' . db_str($oCertificate->weerstandBeLeRPE) . ', 
+                        ' . db_str($oCertificate->isolatieWeRISO) . ', 
+                        ' . db_str($oCertificate->lekstroomIEA) . ', 
+                        ' . db_str($oCertificate->lekstroomTouch) . ', 
                         ' . 'NOW()' . '
                     )
                     ON DUPLICATE KEY UPDATE                                                
@@ -75,8 +75,7 @@ class CertificateManager
                         `weerstandBeLeRPE`=VALUES(`weerstandBeLeRPE`),
                         `isolatieWeRISO`=VALUES(`isolatieWeRISO`),
                         `lekstroomIEA`=VALUES(`lekstroomIEA`),
-                        `lekstroomTouch`=VALUES(`lekstroomTouch`),
-                        `online`=VALUES(`online`)
+                        `lekstroomTouch`=VALUES(`lekstroomTouch`)
                     ;';
 
         $oDb = DBConnections::get();
@@ -132,6 +131,7 @@ class CertificateManager
                     LEFT JOIN `users` AS `u` ON `u`.`userId` = `c`.`userId`      
                     WHERE
                         `c`.`deviceId` = ' . db_int($iDeviceId) . '
+                    ORDER BY `c`.`certificateId` DESC
                     ;';
 
         $oDb = DBConnections::get();

@@ -57,6 +57,9 @@ if (Request::param('ID') == 'bewerken' || (Request::param('ID') == 'toevoegen' &
 
         # load data in object
         $oCertificate->_load($_POST);
+        if (!empty($oCertificate->nextcheck)) {
+            $oCertificate->nextcheck = date('Y-m-d', strtotime($oCertificate->nextcheck));
+        }
 
         # if object is valid, save
         if ($oCertificate->isValid()) {

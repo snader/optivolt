@@ -88,7 +88,9 @@ $aNeededTranslations = [
         ['label' => 'device_filter', 'text' => 'Filter apparaten'],
         
         ['label' => 'certificate_not_deletable', 'text' => 'Certificaat is niet verwijderbaar'],
-        ['label' => 'certificates_menu', 'text' => 'Testcertificaten'],        
+        ['label' => 'certificates_menu', 'text' => 'Testcertificaten'],  
+        ['label' => 'certificate', 'text' => 'Testcertificaten'],  
+              
         ['label' => 'certificate_deleted', 'text' => 'Certificaat is verwijderd'],
         ['label' => 'certificate_not_deleted', 'text' => 'Certificaat kan niet worden verwijderd'],
         ['label' => 'certificate_not_saved', 'text' => 'Certificaat is niet opgeslagen, niet alle velden zijn (juist) ingevuld'],
