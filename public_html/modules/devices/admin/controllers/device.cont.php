@@ -61,15 +61,26 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
     # action = save
     if (Request::postVar("action") == 'save' && CSRFSynchronizerToken::validate()) {
-
+        
         # load data in object
         $oDevice->_load($_POST);
 
         # if object is valid, save
         if ($oDevice->isValid()) {
             DeviceManager::saveDevice($oDevice); //save item
-            Session::set('statusUpdate', sysTranslations::get('device_saved')); //save status update into session
-            Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oDevice->deviceId);
+            Session::set('statusUpdate', sysTranslations::get('device_saved')); //save status update into session           
+
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oDevice->deviceId,
+                ' Apparaat opgeslagen #' . $oDevice->deviceId . ' ',
+                arrayToReadableText(object_to_array($oDevice))
+              );
+
+            if ($_POST["save"]==sysTranslations::get('global_save')) {
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oDevice->deviceId);
+            } else {
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment());
+            }
         } else {
             Debug::logError("", "Device module php validate error", __FILE__, __LINE__, "Tried to save Device with wrong values despite javascript check.<br />" . _d($_POST, 1, 1), Debug::LOG_IN_EMAIL);
             $oPageLayout->sStatusUpdate = sysTranslations::get('device_not_saved');
@@ -86,6 +97,14 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             $oDevice = DeviceManager::getDeviceById(Request::param('OtherID'));
         }
         if ($oDevice && DeviceManager::deleteDevice($oDevice)) {
+
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oDevice->deviceId,
+                ' Apparaat gewist #' . $oDevice->deviceId . ' ',
+                arrayToReadableText(object_to_array($oDevice))
+              );
+
+
             Session::set('statusUpdate', sysTranslations::get('device_deleted')); //save status update into session
         } else {
             Session::set('statusUpdate', sysTranslations::get('device_not_deleted')); //save status update into session

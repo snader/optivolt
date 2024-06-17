@@ -158,7 +158,9 @@
                   </a>
                 </span>
                 <?php if ($oCertificate->isEditable()) { ?>
-                  <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />
+                  <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />&nbsp;
+                  <input type="submit" class="btn btn-primary" value="Opslaan > PDF" name="save" />&nbsp;
+                  <input type="submit" class="btn btn-primary" value="Opslaan > Overzicht" name="save" /> 
                 <?php } ?>
               </div>
       </div>

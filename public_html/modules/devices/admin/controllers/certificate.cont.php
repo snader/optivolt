@@ -65,7 +65,27 @@ if (Request::param('ID') == 'bewerken' || (Request::param('ID') == 'toevoegen' &
         if ($oCertificate->isValid()) {
             CertificateManager::saveCertificate($oCertificate); //save item
             Session::set('statusUpdate', sysTranslations::get('certificate_saved')); //save status update into session
-            Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oCertificate->certificateId);
+
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oCertificate->certificateId,
+                ' Certificaat opgeslagen #' . $oCertificate->certificateId . ' ',
+                arrayToReadableText(object_to_array($oCertificate))
+              );
+
+            if ($_POST["save"]==sysTranslations::get('global_save')) {
+                Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oCertificate->certificateId);
+            } elseif (substr_count($_POST["save"], 'PDF')) {
+
+                $oDevice = DeviceManager::getDeviceById($oCertificate->deviceId);
+                $sFilename = $oDevice->name . ' - ' . $oDevice->brand . ' - ' . Usermanager::getUserById($oCertificate->userId)->name . ' - ' . date('d-m-Y', strtotime($oCertificate->created));
+
+                $oCertificate->getPdf()->Output('Inventarisation - ' . $sFilename . '.pdf', 'D'); 
+            } else {
+                Router::redirect(ADMIN_FOLDER . '/devices/bewerken/' . $oCertificate->deviceId);
+            }
+
+
+            
         } else {
             Debug::logError("", "Certificate module php validate error", __FILE__, __LINE__, "Tried to save Certificate with wrong values despite javascript check.<br />" . _d($_POST, 1, 1), Debug::LOG_IN_EMAIL);
             $oPageLayout->sStatusUpdate = sysTranslations::get('certificate_not_saved');
@@ -81,6 +101,14 @@ if (Request::param('ID') == 'bewerken' || (Request::param('ID') == 'toevoegen' &
             $oCertificate = CertificateManager::getCertificateById(Request::param('OtherID'));
         }
         if ($oCertificate && CertificateManager::deleteCertificate($oCertificate)) {
+
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oCertificate->certificateId,
+                ' Certificaat gewist #' . $oCertificate->certificateId . ' ',
+                arrayToReadableText(object_to_array($oCertificate))
+              );
+
+
             Session::set('statusUpdate', sysTranslations::get('certificate_deleted')); //save status update into session
         } else {
             Session::set('statusUpdate', sysTranslations::get('certificate_not_deleted')); //save status update into session
