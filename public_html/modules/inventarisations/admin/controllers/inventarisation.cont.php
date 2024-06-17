@@ -185,6 +185,11 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
             if ($_POST["save"]==sysTranslations::get('global_save')) {
                 Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oInventarisation->inventarisationId);
+            } elseif (substr_count($_POST["save"], 'PDF')) {
+
+                $sFilename = ($oInventarisation->customerName ? _e($oInventarisation->customerName) : CustomerManager::getCustomerById($oInventarisation->customerId)->companyName) . ' - ' . Usermanager::getUserById($oInventarisation->userId)->name . ' - ' . date('d-m-Y', strtotime($oInventarisation->created));
+
+                $oInventarisation->getPdf()->Output('Inventarisation - ' . $sFilename . '.pdf', 'D');
             } else {
                 Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment());
             }
