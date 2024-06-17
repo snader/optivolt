@@ -217,6 +217,13 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             $oInventarisation = InventarisationManager::getInventarisationById(Request::param('OtherID'));
         }
         if ($oInventarisation && InventarisationManager::deleteInventarisation($oInventarisation)) {
+
+            saveLog(
+                ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oInventarisation->inventarisationId,
+                ' Inventarisatie gewist #' . $oInventarisation->inventarisationId . ' ',
+                arrayToReadableText(object_to_array($oInventarisation))
+              );
+
             Session::set('statusUpdate', sysTranslations::get('inventarisation_deleted')); //save status update into session
         } else {
             Session::set('statusUpdate', sysTranslations::get('inventarisation_not_deleted')); //save status update into session
