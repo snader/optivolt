@@ -74,6 +74,7 @@ class Certificate extends Model
         'format' => 'A4']); // A4-L
         
         $oUser = UserManager::getUserById($this->userId);
+        $oDevice = DeviceManager::getDeviceById($this->deviceId);
         $oCertificate = $this;
        
         $oMPDF->shrink_tables_to_fit = 0;       

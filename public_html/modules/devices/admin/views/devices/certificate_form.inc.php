@@ -29,7 +29,7 @@
               <div class="form-group">
                 <label for="visualCheck">1. Visuele controle</label>
                 <input type="text" name="visualCheck" class="form-control" id="visualCheck" value="<?= _e($oCertificate->visualCheck) ?>" title="Visuele controle">
-                <span class="error invalid-feedback show"><?= $oCertificate->isPropValid("vbbNr") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+                <span class="error invalid-feedback show"><?= $oCertificate->isPropValid("visualCheck") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
               </div>
               <div class="form-group">
                 <label for="weerstandBeLeRPE">2. Weerstand bescherming leiding RPE</label>
