@@ -34,7 +34,11 @@ $aNeededAdminControllerRoutes = [
     'locaties'        => [
         'module'     => 'customers',
         'controller' => 'locations',
-    ],
+    ]
+    ,'evaluaties'        => [
+        'module'     => 'customers',
+        'controller' => 'evaluation',
+    ]
 ];
 
 $aNeededClassRoutes = [
@@ -53,7 +57,13 @@ $aNeededClassRoutes = [
     ],
     'Locations'        => [
         'module' => 'customers',
-    ]
+    ],
+    'Evaluation'             => [
+        'module' => 'customers',
+    ],
+    'EvaluationManager'      => [
+        'module' => 'customers',
+    ],
 ];
 
 $aNeededSiteControllerRoutes = [
@@ -75,6 +85,15 @@ $aNeededModulesForMenu = [
         'parentModuleName' => 'klanten',
         'moduleActions' => [
             ['displayName' => 'Volledig', 'name' => 'locations_full'],
+        ],
+    ],
+    [
+        'name'          => 'evaluaties',
+        'icon'          => 'fa-star',
+        'linkName'      => 'evaluations_menu',
+        'parentModuleName' => 'klanten',
+        'moduleActions' => [
+            ['displayName' => 'Volledig', 'name' => 'evaluations_full'],
         ],
     ],
     [
@@ -185,6 +204,32 @@ $aNeededTranslations = [
         ['label' => 'customer_unlockedReason', 'text' => 'Rede deblokkeren'],
         ['label' => 'customer_unlock', 'text' => 'Blokkering opheffen'],
         ['label' => 'customer_unlock_reason', 'text' => 'Rede deblokkeren'],
+        ['label' => 'evaluation_deleted', 'text' => 'Evaluatie verwijderd'],
+        ['label' => 'evaluation_not_deleted', 'text' => 'Evaluatie niet verwijderd'],
+        ['label' => 'system_evaluation', 'text' => 'Evaluatie'],
+        
+        ['label' => 'evaluation_not_deletable', 'text' => 'Evaluatie is niet verwijderbaar'],        
+        ['label' => 'evaluation_deleted', 'text' => 'Evaluatie is verwijderd'],
+        ['label' => 'evaluation_not_deleted', 'text' => 'Evaluatie kan niet worden verwijderd'],
+        ['label' => 'evaluation_not_saved', 'text' => 'Evaluatie is niet opgeslagen, niet alle velden zijn (juist) ingevuld'],
+        ['label' => 'evaluation_saved', 'text' => 'Evaluatie is opgeslagen'],
+        ['label' => 'evaluation_not_edited', 'text' => 'Evaluatie kan niet worden bewerkt'],
+        ['label' => 'evaluation_content', 'text' => 'Content'],
+
+        ['label' => 'evaluation_set_online_tooltip', 'text' => 'Zet Evaluatie online OF offline'],
+        ['label' => 'evaluation_not_changed', 'text' => 'Evaluatie niet gewijzigd'],
+        ['label' => 'evaluation_is_offline', 'text' => 'Evaluatie offline gezet'],
+        ['label' => 'evaluation_is_online', 'text' => 'Evaluatie online gezet'],
+        ['label' => 'evaluation_no_system', 'text' => 'Er zijn geen evaluaties om weer te geven'],
+        ['label' => 'evaluation_delete', 'text' => 'Verwijder Evaluatie'],
+        ['label' => 'evaluation_edit', 'text' => 'Bewerk Evaluatie'],
+        ['label' => 'evaluation_set_offline', 'text' => 'Evaluatie offline zetten'],
+        ['label' => 'evaluation_set_online', 'text' => 'Evaluatie online zetten'],
+        ['label' => 'evaluation_add', 'text' => 'Evaluatie toevoegen'],
+        ['label' => 'evaluation_add_tooltip', 'text' => 'Nieuw Evaluatie toevoegen'],
+        ['label' => 'evaluation_all', 'text' => 'Alle systemen'],
+        ['label' => 'evaluation_filter', 'text' => 'Filter systemen'],
+        
     ],
     'en' => [
         ['label' => 'customer_group_unique_name', 'text' => 'System name'],
@@ -413,6 +458,40 @@ if (moduleExists('pages') && $oDb->tableExists('pages')) {
                 } else {
                     _d($oPageAccountEdit->getInvalidProps());
                     die('Can\'t create page `account_edit`');
+                }
+            }
+        }
+    }
+
+
+    if (!empty($oPageAccountEvaluation)) {
+        if (!($oPageAccountEdit = PageManager::getPageByName('evaluation', DEFAULT_LANGUAGE_ID))) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing page `evaluation`';
+            if ($bInstall) {
+                $oPageAccountEvaluation               = new Page();
+                $oPageAccountEvaluation->languageId   = DEFAULT_LANGUAGE_ID;
+                $oPageAccountEvaluation->parentPageId = $oPageAccount->pageId;
+                $oPageAccountEvaluation->name         = 'evaluation';
+                $oPageAccountEvaluation->title        = 'Evaluatie';
+                $oPageAccountEvaluation->content      = '<p>Evaluatie / Evalution</p>';
+                $oPageAccountEvaluation->shortTitle   = 'Evaluatie / Evalution';
+                $oPageAccountEvaluation->forceUrlPath('/evaluation');
+                $oPageAccountEvaluation->setControllerPath('/modules/customers/site/controllers/evaluation.cont.php');
+                $oPageAccountEvaluation->setIndexable(0);
+                $oPageAccountEvaluation->setOnlineChangeable(0);
+                $oPageAccountEvaluation->setDeletable(0);
+                $oPageAccountEvaluation->setMayHaveSub(0);
+                $oPageAccountEvaluation->setLockUrlPath(1);
+                $oPageAccountEvaluation->setLockParent(1);
+                $oPageAccountEvaluation->setHideImageManagement(1);
+                $oPageAccountEvaluation->setHideFileManagement(1);
+                $oPageAccountEvaluation->setHideLinkManagement(1);
+                $oPageAccountEvaluation->setHideVideoLinkManagement(1);
+                if ($oPageAccountEvaluation->isValid()) {
+                    PageManager::savePage($oPageAccountEvaluation);
+                } else {
+                    _d($oPageAccountEvaluation->getInvalidProps());
+                    die('Can\'t create page `evaluation`');
                 }
             }
         }
