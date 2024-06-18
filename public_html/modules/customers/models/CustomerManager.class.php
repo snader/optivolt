@@ -625,6 +625,7 @@ class CustomerManager
                     ' . $sLimit . '
                     ;';
 
+           
         $oDb       = DBConnections::get();
         $aProducts = $oDb->query($sQuery, QRY_OBJECT, "Customer");
         if ($iFoundRows !== false) {

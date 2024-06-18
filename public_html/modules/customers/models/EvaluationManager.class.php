@@ -45,27 +45,12 @@ class EvaluationManager
 
 
     /**
-     * save Evaluation object
+     * Save Evaluation object
      *
      * @param Evaluation $oEvaluation
      */
     public static function saveEvaluation(Evaluation $oEvaluation)
     {
-
-        public  $evaluationId;
-        public  $customerId;
-        public  $installSat     = null;
-        public  $anyDetails     = null;
-        public  $conMeasured    = null;
-        public  $workSat        = null;
-        public  $answers        = null;
-        public  $friendlyHelpfull = null;
-        public  $remarks = null;
-        public  $customerRelName = null;
-        public  $signatureDate = null;
-        public  $digitalSigned = 0;    
-
-        # save item
         $sQuery = ' INSERT INTO `evaluations` (
                         `evaluationId`,
                         `customerId`,                        
@@ -76,7 +61,7 @@ class EvaluationManager
                         `answers`,
                         `friendlyHelpfull`,
                         `remarks`,
-                        `customerRelName`,
+                        `nameSigned`,
                         `signatureDate`,
                         `digitalSigned`,
                         `created`
@@ -85,14 +70,14 @@ class EvaluationManager
                         ' . db_int($oEvaluation->evaluationId) . ',
                         ' . db_int($oEvaluation->customerId) . ',
                         ' . db_int($oEvaluation->installSat) . ',                        
-                        ' . db_int($oEvaluation->anyDetails) . ',
+                        ' . db_str($oEvaluation->anyDetails) . ',
                         ' . db_int($oEvaluation->conMeasured) . ',
                         ' . db_int($oEvaluation->workSat) . ',
-                        ' . db_int($oEvaluation->answers) . ',
+                        ' . db_str($oEvaluation->answers) . ',
                         ' . db_int($oEvaluation->friendlyHelpfull) . ',
-                        ' . db_int($oEvaluation->remarks) . ',
-                        ' . db_int($oEvaluation->customerRelName) . ',
-                        ' . db_int($oEvaluation->signatureDate) . ',
+                        ' . db_str($oEvaluation->remarks) . ',
+                        ' . db_str($oEvaluation->nameSigned) . ',
+                        ' . db_str($oEvaluation->signatureDate) . ',
                         ' . db_int($oEvaluation->digitalSigned) . ',
                         ' . 'NOW()' . '
                     )
@@ -100,14 +85,14 @@ class EvaluationManager
                         `customerId`=VALUES(`customerId`),
                         `installSat`=VALUES(`installSat`),
                         `anyDetails`=VALUES(`anyDetails`),
-                        `anyDetails`=VALUES(`conMeasured`),
-                        `anyDetails`=VALUES(`workSat`),
-                        `anyDetails`=VALUES(`answers`),
-                        `anyDetails`=VALUES(`friendlyHelpfull`),
-                        `anyDetails`=VALUES(`remarks`),
-                        `anyDetails`=VALUES(`customerRelName`),
-                        `anyDetails`=VALUES(`signatureDate`),
-                        `anyDetails`=VALUES(`digitalSigned`)
+                        `conMeasured`=VALUES(`conMeasured`),
+                        `workSat`=VALUES(`workSat`),
+                        `answers`=VALUES(`answers`),
+                        `friendlyHelpfull`=VALUES(`friendlyHelpfull`),
+                        `remarks`=VALUES(`remarks`),
+                        `nameSigned`=VALUES(`nameSigned`),
+                        `signatureDate`=VALUES(`signatureDate`),
+                        `digitalSigned`=VALUES(`digitalSigned`)
                     ;';
 
         $oDb = DBConnections::get();
@@ -116,11 +101,10 @@ class EvaluationManager
         if ($oEvaluation->evaluationId === null) {
             $oEvaluation->evaluationId = $oDb->insert_id;
         }
-
     }
 
     /**
-     * delete item and all media
+     * Delete Evaluation object and all media
      *
      * @param Evaluation $oEvaluation
      *
@@ -140,15 +124,15 @@ class EvaluationManager
                     LIMIT 1
                     ;';
 
+            $oDb->query($sQuery, QRY_NORESULT);
             return true;
         }
 
         return false;
     }
 
-    
     /**
-     * return Evaluation items filtered by a few options
+     * Return Evaluation items filtered by a few options
      *
      * @param array $aFilter    filter properties (checkOnline)
      * @param int   $iLimit     limit number of records returned
@@ -164,9 +148,7 @@ class EvaluationManager
         $sWhere   = '';
         $sGroupBy = '';
 
-        $sWhere .= ($sWhere != '' ? ' AND ' : '') . '
-        `e`.`deleted` = 0
-    ';
+        //$sWhere .= ($sWhere != '' ? ' AND ' : '') . ' ';
 
         # get by customerId
         if (isset($aFilter['customerId'])) {
@@ -175,7 +157,7 @@ class EvaluationManager
 
         # search for q
         if (!empty($aFilter['q'])) {
-            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`e`.`customerRelName` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `e`.`remarks` LIKE ' . db_str(
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`e`.`nameSigned` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `e`.`remarks` LIKE ' . db_str(
                     '%' . $aFilter['q'] . '%'
                 ) . ')';
         }
@@ -205,10 +187,12 @@ class EvaluationManager
         $sLimit = ($sLimit !== '' ? 'LIMIT ' : '') . $sLimit;
 
         $sQuery = ' SELECT ' . ($iFoundRows !== false ? 'SQL_CALC_FOUND_ROWS' : '') . '
-                        `e`.*
+                        `e`.*,
+                        `c`.*
                     FROM
                         `evaluations` AS `e`
                     ' . $sFrom . '
+                    LEFT JOIN `customers` AS `c` ON `c`.`customerId` = `e`.`customerId` 
                     ' . ($sWhere != '' ? 'WHERE ' . $sWhere : '') . '
                     ' . ($sGroupBy != '' ? 'GROUP BY ' . $sGroupBy : '') . '
                     ' . $sOrderBy . '
@@ -223,6 +207,7 @@ class EvaluationManager
 
         return $aEvaluations;
     }
+
 
 
 
