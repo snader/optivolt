@@ -8,6 +8,7 @@ class Evaluation extends Model
     public  $installSat     = null;
     public  $anyDetails     = null;
     public  $conMeasured    = null;
+    public  $prepSat        = null;
     public  $workSat        = null;
     public  $answers        = null;
     public  $friendlyHelpfull = null;

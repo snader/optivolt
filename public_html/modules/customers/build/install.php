@@ -1212,6 +1212,7 @@ if (!$oDb->tableExists('evaluations')) {
           `installSat` int(11) NULL DEFAULT NULL,
           `anyDetails` int(11) NULL DEFAULT NULL,
           `conMeasured` int(11) NULL DEFAULT NULL,
+          `prepSat` int(11) NULL DEFAULT NULL,
           `workSat` int(11) NULL DEFAULT NULL,
           `answers` int(11) NULL DEFAULT NULL,
           `friendlyHelpfull` int(11) NULL DEFAULT NULL,

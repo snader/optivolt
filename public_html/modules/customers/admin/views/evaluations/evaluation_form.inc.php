@@ -21,7 +21,7 @@
           <?php 
             if ($oEvaluation->customerId) { 
               
-              _e("door " . $oEvaluation->getCustomer()->companyName); 
+              echo _e("door " . $oEvaluation->getCustomer()->companyName); 
               ?>
               <input type="hidden" name="customerId" value="<?= $oEvaluation->customerId ?>">
               <?php
@@ -32,9 +32,6 @@
       </div>
     </div>
   </div>
-
-
-  <input type="hidden" value="<?= $oEvaluation->customerId ? $oEvaluation->customerId : http_get('customerId') ?>" name="customerId" />
 
   <div class="container-fluid">
 
@@ -71,8 +68,8 @@
                 <label for="installSat">Is de installatie naar tevredenheid verlopen?</label>
                 <select class="form-control" id="installSat" name="installSat" title="Selecteer een antwoord">
                     <option value="">- Selecteer</option>
-                    <option <?= $aAppointment['installSat'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $aAppointment['installSat'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->installSat == 1 ? 'selected ' : '' ?>value="Ja">Ja</option>
+                    <option <?= $oEvaluation->installSat == 0 ? 'selected ' : '' ?>value="Nee">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>
@@ -80,13 +77,60 @@
                 <label for="anyDetails">Zijn er nog bijzonderheden?</label>
                 <select class="form-control" id="anyDetails" name="anyDetails" title="Selecteer een antwoord">
                     <option value="">- Selecteer</option>
-                    <option <?= $aAppointment['installSat'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $aAppointment['installSat'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->anyDetails == 1 ? 'selected ' : '' ?>value="Ja">Ja</option>
+                    <option <?= $oEvaluation->anyDetails == 0 ? 'selected ' : '' ?>value="Nee">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>
-
-
+            <div class="form-group">
+                <label for="conMeasured">Zijn de MultiLiners/PowerLiners aangesloten en gemeten?</label>
+                <select class="form-control" id="conMeasured" name="conMeasured" title="Selecteer een antwoord">
+                    <option value="">- Selecteer</option>
+                    <option <?= $oEvaluation->conMeasured == 1 ? 'selected ' : '' ?>value="Ja">Ja</option>
+                    <option <?= $oEvaluation->conMeasured == 0 ? 'selected ' : '' ?>value="Nee">Nee</option>
+                </select>
+                <span class="error invalid-feedback show"></span>
+            </div>
+            <div class="form-group">
+                <label for="prepSat">Waren de voorbereidingen goed uitgevoerd?</label>
+                <select class="form-control" id="prepSat" name="prepSat" title="Selecteer een antwoord">
+                    <option value="">- Selecteer</option>
+                    <option <?= $oEvaluation->prepSat == 1 ? 'selected ' : '' ?>value="Ja">Ja</option>
+                    <option <?= $oEvaluation->prepSat == 0 ? 'selected ' : '' ?>value="Nee">Nee</option>
+                </select>
+                <span class="error invalid-feedback show"></span>
+            </div>
+            <div class="form-group">
+                <label for="workSat">Zijn de werkzaamheden naar tevredenheid uitgevoerd?</label>
+                <select class="form-control" id="workSat" name="workSat" title="Selecteer een antwoord">
+                    <option value="">- Selecteer</option>
+                    <option <?= $oEvaluation->workSat == 1 ? 'selected ' : '' ?>value="Ja">Ja</option>
+                    <option <?= $oEvaluation->workSat == 0 ? 'selected ' : '' ?>value="Nee">Nee</option>
+                </select>
+                <span class="error invalid-feedback show"></span>
+            </div>
+            <div class="form-group">
+                <label for="answers">Zijn eventuele vragen beantwoord?</label>
+                <select class="form-control" id="answers" name="answers" title="Selecteer een antwoord">
+                    <option value="">- Selecteer</option>
+                    <option <?= $oEvaluation->answers == 1 ? 'selected ' : '' ?>value="Ja">Ja</option>
+                    <option <?= $oEvaluation->answers == 0 ? 'selected ' : '' ?>value="Nee">Nee</option>
+                </select>
+                <span class="error invalid-feedback show"></span>
+            </div>
+            <div class="form-group">
+                <label for="friendlyHelpfull">Waren de monteurs vriendelijk en behulpzaam?</label>
+                <select class="form-control" id="friendlyHelpfull" name="friendlyHelpfull" title="Selecteer een antwoord">
+                    <option value="">- Selecteer</option>
+                    <option <?= $oEvaluation->friendlyHelpfull == 1 ? 'selected ' : '' ?>value="Ja">Ja</option>
+                    <option <?= $oEvaluation->friendlyHelpfull == 0 ? 'selected ' : '' ?>value="Nee">Nee</option>
+                </select>
+                <span class="error invalid-feedback show"></span>
+            </div>
+            <div class="form-group">
+              <label for="remarks">Opmerkingen</label>
+              <textarea name="remarks" id="remarks" class="form-control" rows="6"><?= _e($oEvaluation->remarks);?></textarea>
+            </div>
           </div>
           <div class="card-footer">
 
@@ -97,7 +141,16 @@
       </div>
  
       <!--/.col (left) -->
-      
+      <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Versturen / informatie</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+            </div>
+        </div>    
+      </div>
 
     </div>
   </div>
