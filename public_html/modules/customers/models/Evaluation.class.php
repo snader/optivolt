@@ -12,7 +12,7 @@ class Evaluation extends Model
     public  $answers        = null;
     public  $friendlyHelpfull = null;
     public  $remarks = null;
-    public  $customerRelName = null;
+    public  $nameSigned = null;
     public  $signatureDate = null;
     public  $digitalSigned = 0;    
 
@@ -33,9 +33,6 @@ class Evaluation extends Model
     {
         if (!is_numeric($this->customerId)) {
             $this->setPropInvalid('customerId');
-        }
-        if (empty($this->customerRelName)) {
-            $this->setPropInvalid('customerRelName');
         }
         if (!is_numeric($this->digitalSigned)) {
             $this->setPropInvalid('digitalSigned');

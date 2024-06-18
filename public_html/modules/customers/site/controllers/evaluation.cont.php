@@ -22,7 +22,6 @@ if (empty(Customer::getCurrent()) || !is_numeric(Customer::getCurrent()->custome
 // get the current Customer's info from the database
 $oCustomer = CustomerManager::getCustomerById(Customer::getCurrent()->customerId);
 
-
 $oPageLayout->sWindowTitle     = $oPage->getWindowTitle();
 $oPageLayout->sMetaDescription = $oPage->getMetaDescription();
 $oPageLayout->sMetaKeywords    = $oPage->getMetaKeywords();
@@ -38,7 +37,6 @@ if (is_numeric(http_get("param1"))) {
     }
 
 }
-
 
 $oPageLayout->sViewPath = getSiteView('evaluation_detail', 'customers');
 

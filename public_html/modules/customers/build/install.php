@@ -227,8 +227,9 @@ $aNeededTranslations = [
         ['label' => 'evaluation_set_online', 'text' => 'Evaluatie online zetten'],
         ['label' => 'evaluation_add', 'text' => 'Evaluatie toevoegen'],
         ['label' => 'evaluation_add_tooltip', 'text' => 'Nieuw Evaluatie toevoegen'],
-        ['label' => 'evaluation_all', 'text' => 'Alle systemen'],
-        ['label' => 'evaluation_filter', 'text' => 'Filter systemen'],
+        ['label' => 'evaluation_all', 'text' => 'Alle evaluaties'],
+        ['label' => 'evaluations_menu', 'text' => 'Evaluaties'],
+        ['label' => 'evaluation_filter', 'text' => 'Filter'],
         
     ],
     'en' => [
@@ -464,13 +465,13 @@ if (moduleExists('pages') && $oDb->tableExists('pages')) {
     }
 
 
-    if (!empty($oPageAccountEvaluation)) {
-        if (!($oPageAccountEdit = PageManager::getPageByName('evaluation', DEFAULT_LANGUAGE_ID))) {
+    
+        if (!($oPageAccountEvaluation = PageManager::getPageByName('evaluation', DEFAULT_LANGUAGE_ID))) {
             $aLogs[$sModuleName]['errors'][] = 'Missing page `evaluation`';
             if ($bInstall) {
                 $oPageAccountEvaluation               = new Page();
                 $oPageAccountEvaluation->languageId   = DEFAULT_LANGUAGE_ID;
-                $oPageAccountEvaluation->parentPageId = $oPageAccount->pageId;
+                //$oPageAccountEvaluation->parentPageId = $oPageAccount->pageId;
                 $oPageAccountEvaluation->name         = 'evaluation';
                 $oPageAccountEvaluation->title        = 'Evaluatie';
                 $oPageAccountEvaluation->content      = '<p>Evaluatie / Evalution</p>';
@@ -478,6 +479,7 @@ if (moduleExists('pages') && $oDb->tableExists('pages')) {
                 $oPageAccountEvaluation->forceUrlPath('/evaluation');
                 $oPageAccountEvaluation->setControllerPath('/modules/customers/site/controllers/evaluation.cont.php');
                 $oPageAccountEvaluation->setIndexable(0);
+                $oPageAccountEvaluation->setInMenu(0);
                 $oPageAccountEvaluation->setOnlineChangeable(0);
                 $oPageAccountEvaluation->setDeletable(0);
                 $oPageAccountEvaluation->setMayHaveSub(0);
@@ -495,7 +497,7 @@ if (moduleExists('pages') && $oDb->tableExists('pages')) {
                 }
             }
         }
-    }
+    
 
     // add acount confirm page
     if (!empty($oPageAccount)) {
@@ -1196,6 +1198,46 @@ if (!$oDb->tableExists('customer_groups')) {
         ';
         $oDb->query($sQuery, QRY_NORESULT);
     }
+}
+
+
+if (!$oDb->tableExists('evaluations')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `evaluations`';
+    if ($bInstall) {
+        // add table
+        $sQuery = '
+        CREATE TABLE `evaluations` (
+          `evaluationId` int(11) NOT NULL AUTO_INCREMENT,
+          `customerId` int(11) NOT NULL,
+          `installSat` int(11) NULL DEFAULT NULL,
+          `anyDetails` int(11) NULL DEFAULT NULL,
+          `conMeasured` int(11) NULL DEFAULT NULL,
+          `workSat` int(11) NULL DEFAULT NULL,
+          `answers` int(11) NULL DEFAULT NULL,
+          `friendlyHelpfull` int(11) NULL DEFAULT NULL,
+          `remarks` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `digitalSigned` int(11) NULL DEFAULT NULL,
+          `nameSigned` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `created` timestamp NULL DEFAULT NULL,
+          `modified` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+          PRIMARY KEY (`evaluationId`),
+          KEY `customerId` (`customerId`)
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+} else {
+
+    if ($oDb->tableExists('customers')) {
+        // check customers constraint
+        if (!$oDb->constraintExists('evaluations', 'customerId', 'customers', 'customerId')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `evaluations`.`customerId` => `customers`.`customerId`';
+            if ($bInstall) {
+                $oDb->addConstraint('evaluations', 'customerId', 'customers', 'customerId', 'CASCADE', 'CASCADE');
+            }
+        }
+    }
+
 }
 
 if (!$oDb->tableExists('customer_group_relations')) {
