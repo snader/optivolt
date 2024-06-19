@@ -77,6 +77,8 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         $oInventarisation->customerId = Request::postVar('customerId');
         $oInventarisation->customerName = _e(Request::postVar('customerName'));
         
+
+
         # if object is valid, save
         if ($oInventarisation->isValid()) {
             InventarisationManager::saveInventarisation($oInventarisation); //save item
@@ -134,6 +136,8 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             // save extra rows of table one
             if (isset($_POST['inventarisationIdExtraTableTwo'])) {
 
+               
+
                 foreach ($_POST['inventarisationIdExtraTableTwo'] as $iKey => $iInventarisationId) {
 
                     if (empty($_POST['typeExtra'][$iKey]) && 
@@ -150,10 +154,12 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
                     if (!empty($_POST['inventarisationIdExtraTableTwo'][$iKey])) {
                         $oSubInventarisation = InventarisationManager::getInventarisationById($_POST['inventarisationIdExtraTableTwo'][$iKey]);
-                    } else {
-                        $oSubInventarisation = new Inventarisation();
-                    }
                     
+                    } else {
+                       
+                        $oSubInventarisation = new Inventarisation();                     
+                    }
+
                     $oSubInventarisation->userId = UserManager::getCurrentUser()->userId;
                     if (!empty($iInventarisationId) && is_numeric($iInventarisationId)) {
                         $oSubInventarisation = InventarisationManager::getInventarisationById($iInventarisationId);
@@ -170,12 +176,15 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                     $oSubInventarisation->trafoNr = $_POST['trafoNrExtra'][$iKey];
                     $oSubInventarisation->mlProposed = $_POST['mlProposedExtra'][$iKey];   
                     
+                    
+
                     // first table
-                    if ($oSubInventarisation->isValid()) {                        
+                    if ($oSubInventarisation->isValid()) {           
+                        echo 'a';             
                         InventarisationManager::saveInventarisation($oSubInventarisation); //save subitem                            
                     } else {                        
                         die('Something went wrong..');
-                    }                    
+                    }       
                     
                 }
             }

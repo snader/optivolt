@@ -223,7 +223,74 @@
                         </div>
                         <!-- second table first row -->
                                                 
-                        
+                        <?php
+                        // Table 2 - SUB systemReports here with parentID = $oInventarisation->inventarisationId
+                        if (isset($aInventarisations) && !empty($aInventarisations)) {
+
+                            foreach ($aInventarisations as $oSubInventarisation) {
+
+                                if (empty($oSubInventarisation->type) && 
+                                    empty($oSubInventarisation->control) && 
+                                    empty($oSubInventarisation->relaisNr) && 
+                                    empty($oSubInventarisation->engineKw) && 
+                                    empty($oSubInventarisation->turningHours) && 
+                                    empty($oSubInventarisation->photoNrs) && 
+                                    empty($oSubInventarisation->trafoNr) && 
+                                    empty($oSubInventarisation->mlProposed)
+
+                                    ) {
+                                        continue;
+                                    }
+                        ?>
+                            
+                            <div class="row">
+                                <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtraTableTwo[]">
+                                <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" id="<?= _e($oSubInventarisation->inventarisationId) ?>" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
+                                <div class="col-sm-3 col-md-3 form-group">
+                                    <input type="text" name="typeExtra[]" class="form-control" id="typeExtra[]" value="<?= _e($oSubInventarisation->type) ?>" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>  
+                                <div class="col-sm-1 col-md-1 form-group">
+                                <select class="form-control" id="controlExtra[]" name="controlExtra[]" title="Control">
+                                        <option value="">- Kies</option>
+                                        <option<?= $oSubInventarisation->control == 'SD' ? ' selected' : '' ?> value="SD">SD</option>
+                                        <option<?= $oSubInventarisation->control == 'D' ? ' selected' : '' ?>  value="D">D</option>
+                                        <option<?= $oSubInventarisation->control == 'SS' ? ' selected' : '' ?>  value="SS">SS</option>
+                                        <option<?= $oSubInventarisation->control == 'YY' ? ' selected' : '' ?>  value="YY">YY</option>                                        
+                                    </select>                                    
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-1 form-group">
+                                <input type="text" name="relaisNrExtra[]" class="form-control" id="relaisNrExtra[]" value="<?= _e($oSubInventarisation->relaisNr) ?>" title="Relais nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-1 form-group">
+                                    <input type="text" name="engineKwExtra[]" class="form-control" id="engineKwExtra[]" value="<?= _e($oSubInventarisation->engineKw) ?>" title="KW engine +30 kW" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-1 form-group">
+                                    <input type="text" name="turningHoursExtra[]"  class="form-control" id="turningHoursExtra[]" value="<?= _e($oSubInventarisation->turningHours) ?>" title="Turning hours" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-3 form-group">
+                                    <input type="text" name="photoNrsExtra[]"  class="form-control" id="photoNrsExtra[]" value="<?= _e($oSubInventarisation->photoNrs) ?>" title="Position, Foto#" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-1 form-group">
+                                <input type="text" name="trafoNrExtra[]"  class="form-control" id="trafoNrExtra[]" value="<?= _e($oSubInventarisation->trafoNr) ?>" title="Which trafo number?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                                <div class="col-sm-4 col-md-1 form-group">
+                                <input type="text" name="mlProposedExtra[]"  class="form-control" id="mlProposedExtra[]" value="<?= _e($oSubInventarisation->mlProposed) ?>" title="ML Proposed (3750 or 3300 ...)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="error invalid-feedback show"></span>
+                                </div>
+                            
+                            </div>
+                        <?php
+                            }
+                        }
+                        ?> 
+
                         <div id="addRowsHereSecond"></div>
                         <div class="input-group-append" <?= !$oInventarisation->isEditable() ? 'style="display:none;"' : '' ?>>
                         <a class="addBtn" id="addRowSecond" href="#" title="Regel toevoegen">
