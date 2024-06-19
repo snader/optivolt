@@ -148,6 +148,9 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+              Naam relatie<br>
+              Datum<br>
+              Digitale handtekening
             </div>
         </div>    
       </div>
