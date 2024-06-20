@@ -14,7 +14,7 @@ class Evaluation extends Model
     public  $friendlyHelpfull = null;
     public  $remarks = null;
     public  $nameSigned = null;
-    public  $signatureDate = null;
+    public  $dateSigned = null;
     public  $digitalSigned = 0;    
 
     public  $created;
@@ -52,7 +52,9 @@ class Evaluation extends Model
     {
 
         if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
-            return true;
+            if (!$this->digitalSigned) {
+                return true;
+            }
         }
         return false;
     }

@@ -63,7 +63,7 @@ class EvaluationManager
                         `friendlyHelpfull`,
                         `remarks`,
                         `nameSigned`,
-                        `signatureDate`,
+                        `dateSigned`,
                         `digitalSigned`,
                         `created`
                     )
@@ -79,7 +79,7 @@ class EvaluationManager
                         ' . db_int($oEvaluation->friendlyHelpfull) . ',
                         ' . db_str($oEvaluation->remarks) . ',
                         ' . db_str($oEvaluation->nameSigned) . ',
-                        ' . db_str($oEvaluation->signatureDate) . ',
+                        ' . db_str($oEvaluation->dateSigned) . ',
                         ' . db_int($oEvaluation->digitalSigned) . ',
                         ' . 'NOW()' . '
                     )
@@ -93,7 +93,7 @@ class EvaluationManager
                         `friendlyHelpfull`=VALUES(`friendlyHelpfull`),
                         `remarks`=VALUES(`remarks`),
                         `nameSigned`=VALUES(`nameSigned`),
-                        `signatureDate`=VALUES(`signatureDate`),
+                        `dateSigned`=VALUES(`dateSigned`),
                         `digitalSigned`=VALUES(`digitalSigned`)
                     ;';
 

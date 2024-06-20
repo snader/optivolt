@@ -180,8 +180,9 @@ class DeviceManager
         $sGroupBy = '`d`.`deviceId` ';
 
         $sQuery = ' SELECT ' . ($iFoundRows !== false ? 'SQL_CALC_FOUND_ROWS' : '') . '
-                        `d`.*,
-                        `c`.*
+                        
+                        `c`.*,
+                        `d`.*
                     FROM
                         `devices` AS `d`                    
                     ' . $sFrom . '
@@ -191,6 +192,8 @@ class DeviceManager
                     ' . $sOrderBy . '
                     ' . $sLimit . '
                     ;';
+
+     
 
         $oDb        = DBConnections::get();
         $aDevices = $oDb->query($sQuery, QRY_OBJECT, "Device");

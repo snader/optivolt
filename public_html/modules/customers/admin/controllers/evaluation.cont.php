@@ -51,13 +51,17 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
             http_redirect(ADMIN_FOLDER . "/");
         }
     } else {
-
+        
+        
         $oEvaluation = new Evaluation();
-        if (is_numeric(http_get('customerId')) && CustomerManager::getCustomerById(http_get('customerId'))) {
+       
+        if (http_get('customerId') && CustomerManager::getCustomerById(http_get('customerId'))) {
+         
            $oEvaluation->customerId = CustomerManager::getCustomerById(http_get('customerId'))->customerId;
         } else {
-            $aFilter['online'] = true;
+           $aFilter['online'] = true;
            $aAllCustomers = CustomerManager::getCustomersByFilter($aFilter);
+         
         }
     }
 
@@ -66,9 +70,11 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
 
         # load data in object
         $oEvaluation->_load($_POST);
-
+        
         # if object is valid, save
         if ($oEvaluation->isValid()) {
+
+            
             EvaluationManager::saveEvaluation($oEvaluation); //save object
             $_SESSION['statusUpdate'] = sysTranslations::get('evaluation_saved'); //save status update into session
 
@@ -80,7 +86,7 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
 
             http_redirect(ADMIN_FOLDER . '/evaluaties/bewerken/' . $oEvaluation->evaluationId);
         } else {
-
+            
             Debug::logError("", "Evaluation module php validate error", __FILE__, __LINE__, "Tried to save Evaluation with wrong values despite javascript check.<br />" . _d($_POST, 1, 1), Debug::LOG_IN_EMAIL);
             $_SESSION['statusUpdate']['text'] = sysTranslations::get('evaluation_not_saved');
             $_SESSION['statusUpdate']['type'] = 'error';
@@ -91,9 +97,7 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
     $bShowAddButton = false;
     if ($oCurrentUser->isClientAdmin() || $oCurrentUser->isSuperAdmin()) {
         $bShowAddButton = true;
-        $aFilter['showAll'] = true;
-
-        
+        $aFilter['showAll'] = true;      
     }
 
 
