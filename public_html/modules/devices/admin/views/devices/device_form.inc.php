@@ -146,7 +146,7 @@
                                 <?php
                                 }
                                 if (empty($aCertificates)) {
-                                    echo '<tr><td colspan="6"><i>' . sysTranslations::get('customer_no_certificates') . '</i></td></tr>';
+                                    echo '<tr><td colspan="6"><i>Geen certificaten gevonden</i></td></tr>';
                                 }
                                 ?>
 

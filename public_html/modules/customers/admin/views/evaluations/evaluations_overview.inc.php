@@ -108,9 +108,9 @@ foreach ($aAllCustomers as $oCustomer) {
                         
                         echo '<td>' .  _e($oEvaluation->companyName) . '</td>';
                         echo '<td>' .  _e($oEvaluation->nameSigned) . '</td>';
-                        echo '<td style="text-align:center;">' . ($oEvaluation->digitalSigned ? '<i class="fas fa-check"></i>' : 'x') . '</td>';
+                        echo '<td style="text-align:center;">' . ($oEvaluation->digitalSigned ? '<i class="fas fa-check"></i>' : '') . '</td>';
                         echo '<td>'
-                            . ($oEvaluation->modified ? date('d-m-Y', strtotime($oEvaluation->modified)) : '');
+                            . ($oEvaluation->dateSigned ? date('d-m-Y', strtotime($oEvaluation->dateSigned)) : ($oEvaluation->modified ? date('d-m-Y', strtotime($oEvaluation->modified)) : ''));
                             '</td>';
                         echo '<td>'
                         . ($oEvaluation->created ? date('d-m-Y', strtotime($oEvaluation->created)) : '');
