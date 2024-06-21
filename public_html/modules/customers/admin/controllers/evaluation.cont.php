@@ -68,8 +68,10 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
     # action = save
     if (http_post("action") == 'save') {
 
+        
         # load data in object
         $oEvaluation->_load($_POST);
+        $oEvaluation->loginHash = hash('sha256', $oEvaluation->customerId . date('Y-m-d', time()) . '*!0ptIv01t*');
         
         # if object is valid, save
         if ($oEvaluation->isValid()) {
@@ -84,6 +86,13 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
                 arrayToReadableText($_POST)
               );
 
+            if (substr_count(http_post("save"), 'verzenden') > 0) {
+                
+                $oEvaluation->send();
+
+                die('--');
+            }  
+
             http_redirect(ADMIN_FOLDER . '/evaluaties/bewerken/' . $oEvaluation->evaluationId);
         } else {
             
@@ -92,6 +101,8 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
             $_SESSION['statusUpdate']['type'] = 'error';
         }
     }
+
+    
 
     $aFilter['showAll'] = false;
     $bShowAddButton = false;
@@ -119,8 +130,8 @@ elseif (http_get("param1") == 'verwijderen' && is_numeric(http_get("param2"))) {
         if (!empty($oEvaluation) && EvaluationManager::deleteEvaluation($oEvaluation)) {
 
             saveLog(
-                ADMIN_FOLDER . '/klanten/bewerken/' . $oEvaluation->customerId,
-                'Locatie verwijderd #' . $oEvaluation->evaluationId . ' (' . CustomerManager::getCustomerById($oEvaluation->customerId)->companyName . ')',
+                ADMIN_FOLDER . '/klanten/bewerken/' . $oEvaluation->evaluationId,
+                'Evaluatie verwijderd #' . $oEvaluation->evaluationId . ' (' . CustomerManager::getCustomerById($oEvaluation->customerId)->companyName . ')',
                 arrayToReadableText(object_to_array($oEvaluation))
               );
 

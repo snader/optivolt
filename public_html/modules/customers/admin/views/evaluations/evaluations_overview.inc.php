@@ -18,12 +18,13 @@ foreach ($aAllCustomers as $oCustomer) {
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-12">
+                
                 <?php
                 if ($bShowToCustomerButton) {
                 ?>
                     <span class="float-right pl-1">
                         <a class="backBtn right" href="<?= ADMIN_FOLDER ?>/klanten/bewerken/<?= $aEvaluationFilter['customerId'] ?>">
-                            <button type="button" class="btn btn-default btn-sm" title="<?= sysTranslations::get('global_back') . ' ' . sysTranslations::get('global_without_saving') ?>">
+                            <button type="button" class="btn btn-default btn-sm" title="Naar klant">
                                 Naar klant
                             </button>
                         </a>
@@ -31,6 +32,7 @@ foreach ($aAllCustomers as $oCustomer) {
                 <?php
                 }
                 ?>
+                
                 <h1 class="m-0"><i aria-hidden="true" class="fa fa-star fa-th-star"></i>&nbsp;&nbsp;Evaluaties</h1>
 
             </div>

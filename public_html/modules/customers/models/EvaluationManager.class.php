@@ -63,8 +63,10 @@ class EvaluationManager
                         `friendlyHelpfull`,
                         `remarks`,
                         `nameSigned`,
+                        `dateSend`,
                         `dateSigned`,
                         `digitalSigned`,
+                        `loginHash`,
                         `created`
                     )
                     VALUES (
@@ -79,8 +81,10 @@ class EvaluationManager
                         ' . db_int($oEvaluation->friendlyHelpfull) . ',
                         ' . db_str($oEvaluation->remarks) . ',
                         ' . db_str($oEvaluation->nameSigned) . ',
+                        ' . db_str($oEvaluation->dateSend) . ',
                         ' . db_str($oEvaluation->dateSigned) . ',
-                        ' . db_int($oEvaluation->digitalSigned) . ',
+                        ' . db_str($oEvaluation->digitalSigned) . ',
+                        ' . db_str($oEvaluation->loginHash) . ',
                         ' . 'NOW()' . '
                     )
                     ON DUPLICATE KEY UPDATE
@@ -93,8 +97,10 @@ class EvaluationManager
                         `friendlyHelpfull`=VALUES(`friendlyHelpfull`),
                         `remarks`=VALUES(`remarks`),
                         `nameSigned`=VALUES(`nameSigned`),
+                        `dateSend`=VALUES(`dateSend`),
                         `dateSigned`=VALUES(`dateSigned`),
-                        `digitalSigned`=VALUES(`digitalSigned`)
+                        `digitalSigned`=VALUES(`digitalSigned`),
+                        `loginHash`=VALUES(`loginHash`)
                     ;';
 
         $oDb = DBConnections::get();

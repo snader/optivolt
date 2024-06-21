@@ -6,6 +6,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-12">
+        <span class="float-right pl-1">
+                    <a class="backBtn right" href="<?= ADMIN_FOLDER ?>/evaluaties">
+                        <button type="button" class="btn btn-default btn-sm" title="<?= sysTranslations::get('global_back') . ' ' . sysTranslations::get('global_without_saving') ?>">
+                            Overzicht
+                        </button>
+                    </a>
+                </span>
           <?php
   
           if (!empty($oEvaluation->customerId)) {
@@ -43,7 +50,7 @@
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Formulier</h3>
+            <h3 class="card-title">Evaluatieformulier</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -63,7 +70,7 @@
                
               <span class="error invalid-feedback show"><?= $oEvaluation->isPropValid("customerId") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
             </div>
-          <?php } ?>
+          <?php } else { ?>
 
             <div class="form-group">
                 <label for="installSat">Is de installatie naar tevredenheid verlopen?</label>
@@ -132,26 +139,37 @@
               <label for="remarks">Opmerkingen</label>
               <textarea name="remarks" <?= $oEvaluation->isEditable() ? '' : 'readonly' ?> id="remarks" class="form-control" rows="6"><?= _e($oEvaluation->remarks);?></textarea>
             </div>
+
+            <?php } ?>
           </div>
           <div class="card-footer">
 
-            <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?> > Klant" name="save" />
+            <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />
+            <?php
+            if (empty($oEvaluation->dateSend)) { ?>
+              <input type="submit" class="btn btn-primary" value="Opslaan & verzenden" name="save" />
+            <?php }
+            ?>
           </div>
         </div>
 
       </div>
  
       <!--/.col (left) -->
+      <?php 
+      if ($oEvaluation->evaluationId) {
+      ?>
       <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title"><?= $oEvaluation->digitalSigned ? 'Digitale handtekening' : 'Versturen' ?></h3>
+              <h3 class="card-title">Digitale handtekening</h3>
             </div>
             <!-- /.card-header -->
+            <div class="card-body">
             <?php
             if ($oEvaluation->digitalSigned) {
             ?>
-            <div class="card-body">
+            
               <div class="form-group">
                 <label for="nameSigned">Ondertekening</label>
                 <input type="text" name="nameSigned" readonly class="form-control" id="nameSigned" value="<?= _e($oEvaluation->nameSigned) ?>" title="">                                    
@@ -160,18 +178,40 @@
                 <label for="dateSigned">Datum</label>
                 <input type="text" name="nameSigned" readonly class="form-control" id="dateSigned" value="<?= $oEvaluation->dateSigned ? date('d-m-Y', strtotime($oEvaluation->dateSigned))  : '' ?>" title="">                                    
               </div>
-            <?php } else { 
-              if ($oEvaluation->evaluationId) {
-              ?>  
-              <br>
+            <?php 
+            } else {
+              ?>
+              <?php 
+                if (empty($oEvaluation->dateSend)) { 
+                   echo '<div>Dit evaluatieformulier is nog niet verzonden.</div>'; 
+                } else {
+                  echo '<div>Dit evaluatieformulier is verzonden op ' . date('d-m-Y', strtotime($oEvaluation->dateSend)) . '.</div>'; 
+                  if (!$oEvaluation->digitalSigned) {
+                    echo '<div>Dit evaluatieformulier is nog niet ondertekend.</div>'; 
+                  }
+                }
 
-              Verstuurknop
-            <?php }
-               } ?>  
+
+              ?>
+              <?php
+            }?>  
+            </div>
+            <div class="card-footer">
+            <?php
+              if ($oEvaluation->evaluationId) {                
+                if (empty($oEvaluation->dateSend)) { ?>
+                  <input type="submit" class="btn btn-primary"  value="Opslaan & verzenden" name="save" />
+                <?php } else { ?>
+                  <input type="submit" class="btn btn-primary" value="Opnieuw verzenden" name="save" />
+                <?php }                            
+              } ?>
+
+            </div>
             </div>
         </div>    
       </div>
-
+      <?php 
+      } ?>
     </div>
   </div>
 </form>
