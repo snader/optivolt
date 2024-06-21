@@ -970,6 +970,65 @@ if (moduleExists('pages') && $oDb->tableExists('pages')) {
 }
 
 if ($oDb->tableExists('template_groups') && $oDb->tableExists('template_groups')) {
+    if (!($oTemplateGroupEvaluation = TemplateGroupManager::getTemplateGroupByName('evaluation'))) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing template group `evaluation`';
+        if ($bInstall) {
+            $oTemplateGroupEvaluation                    = new TemplateGroup();
+            $oTemplateGroupEvaluation->name              = 'evaluation';
+            $oTemplateGroupEvaluation->templateGroupName = 'Evaluation';
+            $oTemplateGroupEvaluation->templateVariables = '
+[customer_companyName]
+[customer_firstName]
+[customer_insertion]
+[customer_lastName]
+[customer_fullName]
+[customer_loginLink]
+[customer_email]
+            ';
+            if ($oTemplateGroupEvaluation->isValid()) {
+                TemplateGroupManager::saveTemplateGroup($oTemplateGroupEvaluation);
+            } else {
+                _d($oTemplateGroupEvaluation->getInvalidProps());
+                die('Can\'t create template group `evaluation`');
+            }
+        }
+    }
+}
+
+if (!empty($oTemplateGroupEvaluation)) {
+    if (!($oTemplate1e = TemplateManager::getTemplateByName('evaluation_request', DEFAULT_LANGUAGE_ID))) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing template `evaluation_request`';
+        if ($bInstall) {
+            $oTemplate1e                  = new Template();
+            $oTemplate1e->languageId      = DEFAULT_LANGUAGE_ID;
+            $oTemplate1e->description     = 'Evaluatie aanvraag';
+            $oTemplate1e->type            = Template::TYPE_EMAIL;
+            $oTemplate1e->templateGroupId = $oTemplateGroupEvaluation->templateGroupId;
+            $oTemplate1e->subject         = '[CLIENT_NAME] | Verzoek tot evaluatie';
+            $oTemplate1e->template        = '
+<p>Beste [customer_firstName],</p>
+<p>Onlangs.. bla bla bla. Klik op de onderstaande link om direct naar evaluatieformulier te gaan.</p>
+<p><a href="[customer_loginLink]>- Ga naar het evaluatieformulier</a></p>
+<p>Mocht u nog vragen hebben kunt u contact met ons op nemen.</p>
+<p>Met vriendelijke groet,</p>
+<p>[CLIENT_NAME]</p>
+            ';
+            $oTemplate1e->name            = 'evaluation_request';
+            $oTemplate1e->setEditable(1);
+            $oTemplate1e->setDeletable(0);
+            if ($oTemplate1e->isValid()) {
+                TemplateManager::saveTemplate($oTemplate1e);
+            } else {
+                _d($oTemplate1e->getInvalidProps());
+                die('Can\'t create template `accountevaluation_request_confirm`');
+            }
+        }
+    }
+}
+    
+
+
+if ($oDb->tableExists('template_groups') && $oDb->tableExists('template_groups')) {
     if (!($oTemplateGroupAccounts = TemplateGroupManager::getTemplateGroupByName('account'))) {
         $aLogs[$sModuleName]['errors'][] = 'Missing template group `account`';
         if ($bInstall) {
@@ -977,6 +1036,7 @@ if ($oDb->tableExists('template_groups') && $oDb->tableExists('template_groups')
             $oTemplateGroupAccounts->name              = 'account';
             $oTemplateGroupAccounts->templateGroupName = 'Account';
             $oTemplateGroupAccounts->templateVariables = '
+[customer_companyName]
 [customer_firstName]
 [customer_insertion]
 [customer_lastName]
@@ -997,6 +1057,8 @@ if ($oDb->tableExists('template_groups') && $oDb->tableExists('template_groups')
 }
 
 if (!empty($oTemplateGroupAccounts)) {
+
+/*
     if (!($oTemplate1 = TemplateManager::getTemplateByName('account_confirm', DEFAULT_LANGUAGE_ID))) {
         $aLogs[$sModuleName]['errors'][] = 'Missing template `account_confirm`';
         if ($bInstall) {
@@ -1027,6 +1089,7 @@ if (!empty($oTemplateGroupAccounts)) {
             }
         }
     }
+        */
 
     if (!($oTemplate2 = TemplateManager::getTemplateByName('account_new_password', DEFAULT_LANGUAGE_ID))) {
         $aLogs[$sModuleName]['errors'][] = 'Missing template `account_new_password`';
@@ -1062,7 +1125,11 @@ if (!empty($oTemplateGroupAccounts)) {
     // check if extra language is installed
     $aLocales = LocaleManager::getLocalesByFilter(['showAll' => true, 'NOTlanguageId' => DEFAULT_LANGUAGE_ID]);
     if (count($aLocales) > 0) {
+
+       
         foreach ($aLocales as $oLocale) {
+
+             /*
             if (!($oTemplate1 = TemplateManager::getTemplateByName('account_confirm', $oLocale->languageId))) {
                 $aLogs[$sModuleName]['errors'][] = 'Missing template `account_confirm` for language `' . strtoupper($oLocale->getLanguage()->code) . '`';
                 if ($bInstall) {
@@ -1093,6 +1160,7 @@ if (!empty($oTemplateGroupAccounts)) {
                     }
                 }
             }
+                */
 
             if (!($oTemplate2 = TemplateManager::getTemplateByName('account_new_password', $oLocale->languageId))) {
                 $aLogs[$sModuleName]['errors'][] = 'Missing template `account_new_password` for language `' . strtoupper($oLocale->getLanguage()->code) . '`';
@@ -1219,7 +1287,9 @@ if (!$oDb->tableExists('evaluations')) {
           `remarks` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
           `digitalSigned` int(11) NULL DEFAULT NULL,
           `nameSigned` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `dateSend` timestamp NULL DEFAULT NULL,
           `dateSigned` timestamp NULL DEFAULT NULL,
+          `loginHash` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
           `created` timestamp NULL DEFAULT NULL,
           `modified` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
           PRIMARY KEY (`evaluationId`),

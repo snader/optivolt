@@ -12,10 +12,12 @@ class Evaluation extends Model
     public  $workSat        = null;
     public  $answers        = null;
     public  $friendlyHelpfull = null;
-    public  $remarks = null;
-    public  $nameSigned = null;
-    public  $dateSigned = null;
-    public  $digitalSigned = 0;    
+    public  $remarks        = null;
+    public  $nameSigned     = null;
+    public  $dateSend       = null;
+    public  $dateSigned     = null;
+    public  $loginHash      = null;
+    public  $digitalSigned  = 0;    
 
     public  $created;
     public  $modified;
@@ -86,6 +88,14 @@ class Evaluation extends Model
         }
 
         return static::$customer;
+    }
+
+    /**
+     * 
+     */
+    public function send()
+    {
+        echo 'Versturen';
     }
 
 }
