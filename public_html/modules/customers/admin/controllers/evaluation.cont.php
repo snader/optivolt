@@ -71,6 +71,9 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
         
         # load data in object
         $oEvaluation->_load($_POST);
+        if (!empty($oEvaluation->dateSigned)) {
+            $oEvaluation->dateSigned = date('Y-m-d', strtotime($oEvaluation->dateSigned));
+        } 
         $oEvaluation->loginHash = hash('sha256', $oEvaluation->customerId . date('Y-m-d', time()) . '*!0ptIv01t*');
         
         # if object is valid, save
