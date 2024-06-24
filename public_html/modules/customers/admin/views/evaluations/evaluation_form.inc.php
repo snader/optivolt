@@ -145,8 +145,8 @@
           <div class="card-footer">
 
             <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />
-            <?php
-            if (empty($oEvaluation->dateSend)) { ?>
+            <?php          
+            if (empty($oEvaluation->dateSend) && (empty($oEvaluation->digitalSigned || $oEvaluation->digitalSigned==0))) { ?>
               <input type="submit" class="btn btn-primary" value="Opslaan & verzenden" name="save" />
             <?php }
             ?>
@@ -188,7 +188,7 @@
                   echo '<div>Dit evaluatieformulier is verzonden op ' . date('d-m-Y', strtotime($oEvaluation->dateSend)) . '.</div>'; 
                   if (!$oEvaluation->digitalSigned) {
                     echo '<div>Dit evaluatieformulier is nog niet ondertekend.</div>'; 
-                  }
+                  } 
                 }
 
 
@@ -199,11 +199,15 @@
             <div class="card-footer">
             <?php
               if ($oEvaluation->evaluationId) {                
-                if (empty($oEvaluation->dateSend)) { ?>
+                if (empty($oEvaluation->dateSend) && !$oEvaluation->digitalSigned) { ?>
                   <input type="submit" class="btn btn-primary"  value="Opslaan & verzenden" name="save" />
-                <?php } else { ?>
+                <?php } else { 
+                  if (!$oEvaluation->digitalSigned) {
+                  ?>
                   <input type="submit" class="btn btn-primary" value="Opnieuw verzenden" name="save" />
-                <?php }                            
+                <?php 
+                  }  
+                }                            
               } ?>
 
             </div>

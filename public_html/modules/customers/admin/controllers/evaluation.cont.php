@@ -89,8 +89,8 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
             if (substr_count(http_post("save"), 'verzenden') > 0) {
                 
                 $oEvaluation->send();
-
-                die('--');
+                $_SESSION['statusUpdate'] = "Het verzoek tot evaluatie is verzonden.";
+                
             }  
 
             http_redirect(ADMIN_FOLDER . '/evaluaties/bewerken/' . $oEvaluation->evaluationId);

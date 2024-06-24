@@ -95,7 +95,25 @@ class Evaluation extends Model
      */
     public function send()
     {
-        echo 'Versturen';
+        $oCustomer = $this->getCustomer();
+        $sTo = $oCustomer->contactPersonEmail;
+
+        $sTo = 'sander.voorn@gmail.com';
+
+        $oTemplate = TemplateManager::getTemplateByName('evaluation_request', Locales::language());
+
+        // check if template exists
+        if (empty($oTemplate)) {
+            Debug::logError('', 'Template does not exists: `evaluation_request` (evaluation_request)', __FILE__, __LINE__, '', Debug::LOG_IN_EMAIL);
+        } else {
+
+            $aReplace["[customer_loginLink]"] = CLIENT_HTTP_URL . "/evaluation/" . $this->loginHash;
+            $oTemplate->replaceVariables($oCustomer, $aReplace);            
+            $sSubject  = $oTemplate->getSubject();
+            $sMailBody = $oTemplate->getTemplate();
+            MailManager::sendMail($sTo, $sSubject, $sMailBody);
+
+        }
     }
 
 }
