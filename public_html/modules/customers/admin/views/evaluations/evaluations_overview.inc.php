@@ -88,6 +88,7 @@ foreach ($aAllCustomers as $oCustomer) {
                             <th style="width: 10px;">&nbsp;</th>                       
                             <th>Klant</th>
                             <th>Relatie</th>
+                            <th>Feedback</th>
                             <th style="text-align:center; width: 30px;">Afgerond?</th>                        
                             <th style="width: 70px;">Gewijzigd</th>
                             <th style="width: 70px;">Aangemaakt</th>
@@ -98,6 +99,12 @@ foreach ($aAllCustomers as $oCustomer) {
                         <?php
                         foreach ($aEvaluations as $oEvaluation) {
 
+                            $iValue = $oEvaluation->installSat + $oEvaluation->anyDetails + $oEvaluation->conMeasured + $oEvaluation->prepSat + $oEvaluation->workSat + $oEvaluation->answers + $oEvaluation->friendlyHelpfull;
+                            $sStars = '';
+                            for ($i = 1; $i <= $iValue; $i++) {
+                                $sStars .= ' <i class="fa fa-star"></i>';
+                            }
+                           
                         echo '<tr>';
                         ?>
                         <td>
@@ -108,8 +115,9 @@ foreach ($aAllCustomers as $oCustomer) {
                         <?php
                                           
                         
-                        echo '<td>' .  _e($oEvaluation->companyName) . '</td>';
+                        echo '<td>' .  _e($oEvaluation->companyName) . $iValue. '</td>';
                         echo '<td>' .  _e($oEvaluation->nameSigned) . '</td>';
+                        echo '<td>' . $sStars . '</td>';
                         echo '<td style="text-align:center;">' . ($oEvaluation->digitalSigned ? '<i class="fas fa-check"></i>' : '') . '</td>';
                         echo '<td>'
                             . ($oEvaluation->dateSigned ? date('d-m-Y', strtotime($oEvaluation->dateSigned)) : ($oEvaluation->modified ? date('d-m-Y', strtotime($oEvaluation->modified)) : ''));
@@ -144,6 +152,7 @@ foreach ($aAllCustomers as $oCustomer) {
                         <th style="width: 10px;">&nbsp;</th>                        
                         <th>Klant</th>
                         <th>Relatie</th>
+                        <th>Feedback</th>
                         <th style="text-align:center;">Afgerond?</th>
                         <th>Gewijzigd</th>
                         <th>Aangemaakt</th>
@@ -183,9 +192,9 @@ $sBottomJavascript = <<<EOT
       "columnDefs": [ {
         "searchable": false,
         "orderable": false,
-        "targets": [0, 6]
+        "targets": [0, 7]
     } ],
-    "order": [[ 5, 'asc' ]]
+    "order": [[ 6, 'asc' ]]
     }).buttons().container().appendTo('#customers_wrapper .col-md-6:eq(0)');
 
   });

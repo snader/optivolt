@@ -143,13 +143,14 @@
             <?php } ?>
           </div>
           <div class="card-footer">
-
+          <?php if (empty($oEvaluation->dateSend) && !$oEvaluation->digitalSigned) { ?>
             <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />
             <?php          
             if (empty($oEvaluation->dateSend) && (empty($oEvaluation->digitalSigned || $oEvaluation->digitalSigned==0))) { ?>
               <input type="submit" class="btn btn-primary" value="Opslaan & verzenden" name="save" />
             <?php }
             ?>
+          <?php } ?>  
           </div>
         </div>
 
