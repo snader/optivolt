@@ -14,6 +14,27 @@ if (empty($oPage) || !$oPage->online) {
     showHttpError('404');
 }
 
+//  een lange sha256 string, checken voor ingelogd check
+if (!empty(http_get("param1"))) {
+
+    if (!preg_match("/^([a-f0-9]{64})$/", http_get("param1")) == 1) {
+        echo 'Deze evaluatielink is niet meer geldig..';
+        die;
+    }
+      
+    $oEvaluation = EvaluationManager::getEvaluationByLoginHash(http_get("param1"));
+    if (empty($oEvaluation)) {
+        http_redirect(getBaseUrl());
+    }
+    $oCustomer = CustomerManager::getCustomerById($oEvaluation->customerId);
+    
+    if (!empty($oCustomer)) {
+        CustomerManager::updateLastLoginByCustomerId($oCustomer->customerId); //update last login date and time
+        CustomerManager::setCustomerInSession($oCustomer); // set Customer in session     
+    }  
+
+}
+
 // check if Customer is logged in
 if (empty(Customer::getCurrent()) || !is_numeric(Customer::getCurrent()->customerId)) {
     http_redirect(getBaseUrl());
@@ -28,15 +49,7 @@ $oPageLayout->sMetaKeywords    = $oPage->getMetaKeywords();
 $oPageLayout->generateCustomCrumblePath($oPage->getCrumbles());
 $oPageLayout->bIndexable = $oPage->isIndexable();
 
-// Dit wordt een lange sha256 string op basis van evaluation id, customer id en created datum..
-if (is_numeric(http_get("param1"))) {
-    
-    $oEvaluation = EvaluationManager::getEvaluationById(http_get("param1"));
-    if (empty($oEvaluation) || $oEvaluation->customerId!=$oCustomer->customerId) {
-        http_redirect(getBaseUrl());
-    }
 
-}
 
 $oPageLayout->sViewPath = getSiteView('evaluation_detail', 'customers');
 

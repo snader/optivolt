@@ -40,16 +40,16 @@ $aNeededModulesForMenu = [
         'moduleActions' => [
             ['displayName' => 'Volledig', 'name' => 'devices_full'],
         ]
+    ],
+    [
+        'name'          => 'certificaten',
+        'icon'          => 'fa-thumbtack',
+        'linkName'      => 'certificates_menu',
+        'parentModuleName' => 'devices',
+        'moduleActions' => [
+            ['displayName' => 'Volledig', 'name' => 'certificates_full'],
         ],
-        [
-            'name'          => 'certificaten',
-            'icon'          => 'fa-thumbtack',
-            'linkName'      => 'certificates_menu',
-            'parentModuleName' => 'devices',
-            'moduleActions' => [
-                ['displayName' => 'Volledig', 'name' => 'certificates_full'],
-            ],
-        ],
+    ],
 ];
 
 $aNeededTranslations = [

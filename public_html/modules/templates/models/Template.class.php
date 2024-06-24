@@ -328,15 +328,15 @@ class Template extends Model
             $aKeys[]   = '[order_customerGoogleMapsLink]';
             $aValues[] = $sCustomerGoogleMapsLink;
         } elseif (!empty($oCustomer)) {
-            //$aKeys[]   = '[customer_firstName]';
-            //$aValues[] = _e($oCustomer->firstName);
+            $aKeys[]   = '[customer_firstName]';
+            $aValues[] = _e($oCustomer->contactPersonName);
 
-            //$aKeys[]   = '[customer_insertion]';
-           // $aValues[] = _e($oCustomer->insertion);
+            $aKeys[]   = '[customer_contactPersonName]';
+            $aValues[] = _e($oCustomer->contactPersonName);
 
-           // $aKeys[]   = '[customer_lastName]';
-            //$aValues[] = _e($oCustomer->lastName);
-
+            $aKeys[]   = '[customer_companyName]';
+            $aValues[] = _e($oCustomer->companyName);
+            
             $aKeys[]   = '[customer_fullName]';
             $aValues[] = _e($oCustomer->getFullName());
 

@@ -25,6 +25,23 @@ class EvaluationManager
         return $oDb->query($sQuery, QRY_UNIQUE_OBJECT, "Evaluation");
     }
 
+
+    
+    public static function getEvaluationByLoginHash($sLoginHash)
+    {
+        $sQuery = ' SELECT
+                        `e`.*
+                    FROM
+                        `evaluations` AS `e`
+                    WHERE
+                        `e`.`loginHash` = ' . db_str($sLoginHash) . '
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_UNIQUE_OBJECT, "Evaluation");
+    }
+
     /**
      *
      */
