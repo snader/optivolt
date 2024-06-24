@@ -71,9 +71,11 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
         $oTemplate->_load($_POST);
         $oTemplate->template = http_post('template');
 
+     
+
         if ($oCurrentUser->isAdmin()) {
-            $oTemplate->setEditable(http_post('editable'));
-            $oTemplate->setDeletable(http_post('deletable'));
+            $oTemplate->setEditable(1);
+            $oTemplate->setDeletable(0);
         }
 
         # strips HTML tags from SMS message
