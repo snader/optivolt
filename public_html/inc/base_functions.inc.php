@@ -319,12 +319,14 @@ function db_str($mValue, $bEmptyString2NULL = true)
  */
 function db_int($iValue)
 {
-    if ($iValue === null || $iValue === "") {
-        return "NULL";
-    }
+    
     if (is_numeric($iValue)) {
         return (int) $iValue;
     }
+    if ($iValue === null || $iValue === "") {
+        return "NULL";
+    }
+    
 
     return null;
 }
