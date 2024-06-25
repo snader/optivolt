@@ -81,7 +81,7 @@
               
                       if ($oInventarisation->isDeletable()) {                                   
                       ?>
-                        <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oInventarisation->inventarisationId ?>" title="Verwijderen" onclick="return confirmChoice('Verwijder dit record?');">
+                        <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oInventarisation->inventarisationId ?>" title="Verwijderen" onclick="return confirmChoice('inventarisatie bij <?= ($oInventarisation->customerName ? _e($oInventarisation->customerName) : CustomerManager::getCustomerById($oInventarisation->customerId)->companyName)?>');">
                           <i class="fas fa-trash"></i>
                         </a>
                       <?php } else { ?><span class="btn btn-danger btn-xs disabled"><i class="fas fa-trash"></i></span><?php } ?>

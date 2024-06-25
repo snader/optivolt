@@ -130,11 +130,11 @@ foreach ($aAllCustomers as $oCustomer) {
                         <td nowrap align="center">
                             <?php
                             if ($oEvaluation->isDeletable()) { ?>
-                            <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/evaluation/verwijderen/' . $oEvaluation->evaluationId . '?' . (!$bShowLocation ? 'fromLocation=' . http_get('param2') . '&' : '') . CSRFSynchronizerToken::query() ?>" title="<?= sysTranslations::get('system_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('system_system')) . ' ' . $oEvaluation->name ?>');">
+                            <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/evaluaties/verwijderen/' . $oEvaluation->evaluationId . '?' . CSRFSynchronizerToken::query() ?>" title="<?= sysTranslations::get('system_delete') ?>" onclick="return confirmChoice('<?= ' evaluatie van ' . $oEvaluation->companyName ?>');">
                                 <i class="fas fa-trash"></i>
                             </a>
                             <?php } else { ?>
-                            <!--<span class="btn btn-danger btn-xs disabled"><i class="fas fa-trash"></i></span>-->
+                            <span class="btn btn-danger btn-xs disabled"><i class="fas fa-trash"></i></span>
                             <?php } ?>
                         </td>
                         <?php

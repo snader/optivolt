@@ -37,7 +37,7 @@
           <!-- /.card-header -->
           <div class="card-body">
         
-            Hartelijk dank voor het invullen en verzenden van het evaluatieformulier.
+            Hartelijk dank voor het invullen en verzenden van het evaluatieformulier.<br><i>Thank you for sending the evaluationform.</i>
             
             
           </div>
