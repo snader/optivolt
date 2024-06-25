@@ -136,7 +136,7 @@
                                         <?php
                                         if ($oCertificate->isDeletable()) {
                                         ?>
-                                            <td><a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/certificaten/verwijderen/' . $oCertificate->certificateId ?>" title="Verwijder locatie (en alle onderliggende data)" onclick="return confirmChoice('<?= _e($oCustomer->companyName . ' - ' . $oCertificate->name) ?>');">
+                                            <td><a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/certificaten/verwijderen/' . $oCertificate->certificateId ?>" title="Verwijder certificaat" onclick="return confirmChoice('<?= _e('Device ' . $oDevice->name . ' > certificaat ' . $oCertificate->certificateId) ?>');">
                                                     <i class="fas fa-trash"></i>
                                                 </a></td>
                                         <?php } ?>

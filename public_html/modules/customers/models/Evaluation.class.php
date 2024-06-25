@@ -90,6 +90,48 @@ class Evaluation extends Model
         return static::$customer;
     }
 
+    /*
+    * GetPdf
+    */
+
+    public function getPdf()
+    {
+
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
+        $oMPDF = new \Mpdf\Mpdf([
+        'tempDir' => sys_get_temp_dir(),
+        'mode' => 'utf-8',
+        'format' => 'A4']); // A4-L
+        
+        
+        $oCustomer = $this->getCustomer();
+        $oEvaluation = $this;
+       
+        $oMPDF->shrink_tables_to_fit = 0;       
+        $oMPDF->curlAllowUnsafeSslRequests = true;
+
+        define("DOMPDF_ENABLE_REMOTE", false);
+        $sStylesheet                 = file_get_contents(DOCUMENT_ROOT . getAdminCss('pdf', 'devices'));
+        $oMPDF->WriteHTML($sStylesheet, 1);
+ 
+        ob_start();
+        include_once getAdminSnippet('pdfBody_evaluation', 'customers');
+        $sHtml = ob_get_contents();
+        ob_end_clean();
+
+        if (http_get('html') == 1) {
+        echo $sHtml;
+        die;
+        }
+
+        $oMPDF->WriteHTML($sHtml);
+    //echo $sHtml; die;
+    
+
+        return $oMPDF;
+    }
+
     /**
      * 
      */
@@ -97,8 +139,6 @@ class Evaluation extends Model
     {
         $oCustomer = $this->getCustomer();
         $sTo = $oCustomer->contactPersonEmail;
-
-        $sTo = 'sander.voorn@gmail.com';
 
         $oTemplate = TemplateManager::getTemplateByName('evaluation_request', Locales::language());
 
@@ -112,6 +152,9 @@ class Evaluation extends Model
             $sSubject  = $oTemplate->getSubject();
             $sMailBody = $oTemplate->getTemplate();
             MailManager::sendMail($sTo, $sSubject, $sMailBody);
+
+            $this->dateSend = date('Y-m-d', time());
+            EvaluationManager::saveEvaluation($this);
 
         }
     }

@@ -96,7 +96,11 @@ if (Request::param('ID') == 'bewerken' || (Request::param('ID') == 'toevoegen' &
     $oPageLayout->sViewPath = getAdminView('devices/certificate_form', 'devices');
 
 } elseif (Request::param('ID') == 'verwijderen' && is_numeric(Request::param('OtherID'))) {
-    if (CSRFSynchronizerToken::validate()) {
+
+
+
+
+ 
         if (is_numeric(Request::param('OtherID'))) {
             $oCertificate = CertificateManager::getCertificateById(Request::param('OtherID'));
         }
@@ -113,8 +117,8 @@ if (Request::param('ID') == 'bewerken' || (Request::param('ID') == 'toevoegen' &
         } else {
             Session::set('statusUpdate', sysTranslations::get('certificate_not_deleted')); //save status update into session
         }
-    }
-    Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment());
+ 
+    Router::redirect(ADMIN_FOLDER . '/devices/bewerken/' . $oCertificate->deviceId);
 
 }  else {
 

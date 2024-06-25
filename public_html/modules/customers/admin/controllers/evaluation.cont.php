@@ -65,10 +65,16 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
         }
     }
 
-    # action = save
-    if (http_post("action") == 'save') {
+    if (!empty(http_post("pdf"))) {
 
-        
+        $oCustomer = $oEvaluation->getCustomer();
+        $sFilename = 'Evaluatieformulier - ' . $oCustomer->companyName . ' - ' . date('d-m-Y', strtotime($oEvaluation->dateSigned));
+
+        $oEvaluation->getPdf()->Output($sFilename . '.pdf', 'D'); 
+
+    } elseif (http_post("action") == 'save') {
+       # action = save
+            
         # load data in object
         $oEvaluation->_load($_POST);
         if (!empty($oEvaluation->dateSigned)) {
@@ -133,7 +139,7 @@ elseif (http_get("param1") == 'verwijderen' && is_numeric(http_get("param2"))) {
         if (!empty($oEvaluation) && EvaluationManager::deleteEvaluation($oEvaluation)) {
 
             saveLog(
-                ADMIN_FOLDER . '/klanten/bewerken/' . $oEvaluation->evaluationId,
+                ADMIN_FOLDER . '/evaluaties/bewerken/' . $oEvaluation->evaluationId,
                 'Evaluatie verwijderd #' . $oEvaluation->evaluationId . ' (' . CustomerManager::getCustomerById($oEvaluation->customerId)->companyName . ')',
                 arrayToReadableText(object_to_array($oEvaluation))
               );
@@ -143,7 +149,7 @@ elseif (http_get("param1") == 'verwijderen' && is_numeric(http_get("param2"))) {
             $_SESSION['statusUpdate'] = sysTranslations::get('evaluation_not_deleted'); //save status update into session
         }
 
-    http_redirect(ADMIN_FOLDER . '/klanten/bewerken/' . $oEvaluation->customerId);
+    http_redirect(ADMIN_FOLDER . '/evaluaties');
 } # display overview
 else {
 

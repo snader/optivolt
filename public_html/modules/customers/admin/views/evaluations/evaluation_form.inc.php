@@ -150,7 +150,8 @@
               <input type="submit" class="btn btn-primary" value="Opslaan & verzenden" name="save" />
             <?php }
             ?>
-          <?php } ?>  
+          <?php } ?>
+           
           </div>
         </div>
 
@@ -191,6 +192,9 @@
                     echo '<div>Dit evaluatieformulier is nog niet ondertekend.</div>'; 
                   } 
                 }
+             
+                
+                
 
 
               ?>
@@ -209,7 +213,12 @@
                 <?php 
                   }  
                 }                            
-              } ?>
+              } 
+              
+              if ($oEvaluation->digitalSigned) {
+                ?><input type="submit" class="btn btn-primary"  value="Exporteer als PDF" name="pdf" /> <?php
+              }
+              ?>
 
             </div>
             </div>
