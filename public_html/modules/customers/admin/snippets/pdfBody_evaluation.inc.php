@@ -2,13 +2,12 @@
 <br /><br />
 <h1>Evaluatie / Evaluation</h1>
 
-<?= _e(Settings::get('clientName')) ?><br />
-        <?= _e(Settings::get('clientStreet')) ?><br />
-        <?= _e(Settings::get('clientPostalCode')) ?> <?= _e(Settings::get('clientCity')) ?><br />
-        Telefoon: <?= _e(Settings::get('clientPhone')) ?><br />
-        www.optivolt.nl<br />
-        <?= _e(Settings::get('clientEmail')) ?><br />
-        KvK: 52474607<br />
+<?= _e($oCustomer->companyName) ?><br />
+<?= _e($oCustomer->companyAddress) ?><br />
+<?= _e($oCustomer->companyPostalCode) ?> <?= _e($oCustomer->companyCity) ?><br />
+        Contactpersoon: <?= _e($oCustomer->contactPersonName) ?><br />
+        E-mailadres: <?= _e($oCustomer->contactPersonEmail) ?><br />        
+        Telefoon: <?= _e($oCustomer->contactPersonPhone) ?><br /><br />
         <br />
 <h1>Testcertificaat</h1></td>
 <br />
