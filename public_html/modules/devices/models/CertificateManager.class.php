@@ -62,7 +62,7 @@ class CertificateManager
                         ' . db_str($oCertificate->isolatieWeRISO) . ', 
                         ' . db_str($oCertificate->lekstroomIEA) . ', 
                         ' . db_str($oCertificate->lekstroomTouch) . ', 
-                        ' . 'NOW()' . '
+                        ' . db_str($oCertificate->created) . '
                     )
                     ON DUPLICATE KEY UPDATE                                                
                         `deviceId`=VALUES(`deviceId`),
@@ -75,7 +75,8 @@ class CertificateManager
                         `weerstandBeLeRPE`=VALUES(`weerstandBeLeRPE`),
                         `isolatieWeRISO`=VALUES(`isolatieWeRISO`),
                         `lekstroomIEA`=VALUES(`lekstroomIEA`),
-                        `lekstroomTouch`=VALUES(`lekstroomTouch`)
+                        `lekstroomTouch`=VALUES(`lekstroomTouch`),
+                        `created`=VALUES(`created`)
                     ;';
 
         $oDb = DBConnections::get();

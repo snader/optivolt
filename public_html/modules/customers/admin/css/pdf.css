@@ -54,3 +54,25 @@ div.imageDiv {
 	margin-header: 5mm; /* <any of the usual CSS values for margins> */
 	margin-footer: 5mm; /* <any of the usual CSS values for margins> */
 }
+
+.i-circle {
+    display: inline-block;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 30px; /* set to same size as width, height */
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+
+.grade-good {
+    background-color: #28a745;
+}
+.grade-bad {
+    background-color: red;
+}
+.grade-average {
+    background-color: orange;
+}

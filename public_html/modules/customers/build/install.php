@@ -1461,3 +1461,13 @@ if (!($oSetting = SettingManager::getSettingByName('infoEmail'))) {
         }
     }
 }
+
+if ($oDb->tableExists('evaluations')) {
+    if (!$oDb->columnExists('evaluations', 'grade')) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing column `evaluations`.`grade`';
+        if ($bInstall) {
+            $sQuery = "ALTER TABLE `evaluations` ADD `grade` INT(2)NULL DEFAULT NULL AFTER `evaluationId`;";
+            $oDb->query($sQuery, QRY_NORESULT);
+        }
+    }
+}

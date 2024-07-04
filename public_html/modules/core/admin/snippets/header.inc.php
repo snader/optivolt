@@ -17,7 +17,7 @@
 
       <?php
 
-        echo ' <select style="color: #00000080; border:0;" onchange="window.location=\'/dashboard/login/fastlogin/\'+this.value;">';
+        echo ' <select style="color: #00000080; border:0;" id="fastlogin" name="fastlogin" onchange="window.location=\'/dashboard/login/fastlogin/\'+this.value;">';
         echo '<option value="">' . sysTranslations::get('global_login_as') . '</option>';
         foreach (UserManager::getUsersByFilter() as $oFastLoginUser) {
           echo '<option value="' . $oFastLoginUser->userId . '">' . $oFastLoginUser->name . '</option>';

@@ -10,6 +10,40 @@ table td.sub {
     padding-right: 5px;
 }
 
+.i-circle {
+    display: inline-block;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 30px; /* set to same size as width, height */
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+
+.grade-good {
+    background-color: #28a745;
+}
+.grade-bad {
+    background-color: red;
+}
+.grade-average {
+    background-color: orange;
+}
+
+
+.pad1 {
+    text-align:center;
+    width:20px!important;
+    padding:2px 0 2px 0;
+}
+.pad2 {
+    text-align:center;
+    width:20px!important;
+    height:20x;
+    padding:2px 0 2px 0;
+}
 
 .hide {
     display:none;

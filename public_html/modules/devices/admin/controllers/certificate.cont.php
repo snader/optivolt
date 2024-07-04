@@ -46,6 +46,7 @@ if (Request::param('ID') == 'bewerken' || (Request::param('ID') == 'toevoegen' &
             $oCertificate             = new Certificate();   
             $oCertificate->userId     = UserManager::getCurrentUser()->userId;    
             $oCertificate->deviceId   = $oDevice->deviceId;
+            $oCertificate->created    = date('y-m-d', time());
         } else {
             Router::redirect(ADMIN_FOLDER . '/devices');
         } 
@@ -59,6 +60,11 @@ if (Request::param('ID') == 'bewerken' || (Request::param('ID') == 'toevoegen' &
         $oCertificate->_load($_POST);
         if (!empty($oCertificate->nextcheck)) {
             $oCertificate->nextcheck = date('Y-m-d', strtotime($oCertificate->nextcheck));
+        }
+        if (!empty($oCertificate->created)) {
+            $oCertificate->created = date('Y-m-d', strtotime($oCertificate->created));
+        } else {
+            $oCertificate->created = date('Y-m-d', time());
         }
 
         # if object is valid, save
