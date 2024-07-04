@@ -104,6 +104,23 @@
                 <span class="error invalid-feedback show"></span>
             </div>
             <div class="form-group">
+                <label for="grade">Welk cijfer (tussen 1 – 10) zou u OptiVolt geven?<br><i>What grade (between 1 – 10) would you give OptiVolt?</i></label>
+                <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> required id="grade" name="grade" title="Selecteer een cijfer">
+                    <option <?= empty($oEvaluation->grade) ? 'selected ' : '' ?>value="">- Selecteer</option>
+                    <?php
+                    for ($i = 1; $i <= 10; $i++) {
+                      ?>
+                      <option <?= $oEvaluation->grade == $i ? 'selected ' : '' ?>value="<?=$i?>"><?=$i?></option>;
+                      <?php
+                    }
+                    ?>
+                    
+                    
+                </select>
+                <span class="error invalid-feedback show"></span>
+            </div>
+            
+            <div class="form-group">
               <label for="remarks">Opmerkingen<br><i>Remarks</i></label>
               <textarea name="remarks" id="remarks" class="form-control" rows="6"><?= _e($oEvaluation->remarks);?></textarea>
             </div>

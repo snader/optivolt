@@ -84,6 +84,7 @@ class EvaluationManager
                         `dateSigned`,
                         `digitalSigned`,
                         `loginHash`,
+                        `grade`,
                         `created`
                     )
                     VALUES (
@@ -102,6 +103,7 @@ class EvaluationManager
                         ' . db_str($oEvaluation->dateSigned) . ',
                         ' . db_str($oEvaluation->digitalSigned) . ',
                         ' . db_str($oEvaluation->loginHash) . ',
+                        ' . db_int($oEvaluation->grade) . ',
                         ' . 'NOW()' . '
                     )
                     ON DUPLICATE KEY UPDATE
@@ -118,7 +120,8 @@ class EvaluationManager
                         `dateSend`=VALUES(`dateSend`),
                         `dateSigned`=VALUES(`dateSigned`),
                         `digitalSigned`=VALUES(`digitalSigned`),
-                        `loginHash`=VALUES(`loginHash`)
+                        `loginHash`=VALUES(`loginHash`),
+                        `grade`=VALUES(`grade`)
                     ;';
 
         $oDb = DBConnections::get();

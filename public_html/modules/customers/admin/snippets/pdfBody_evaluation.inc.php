@@ -2,6 +2,8 @@
 <br /><br />
 <h1>Evaluatie / Evaluation</h1>
 
+
+
 <?= _e($oCustomer->companyName) ?><br />
 <?= _e($oCustomer->companyAddress) ?><br />
 <?= _e($oCustomer->companyPostalCode) ?> <?= _e($oCustomer->companyCity) ?><br />
@@ -9,7 +11,7 @@
         E-mailadres: <?= _e($oCustomer->contactPersonEmail) ?><br />        
         Telefoon: <?= _e($oCustomer->contactPersonPhone) ?><br /><br />
         <br />
-<h1>Testcertificaat</h1></td>
+</td>
 <br />
   
 <table style="width:100%;">
@@ -40,6 +42,10 @@
     <tr>
       <td style="width:70%;">Waren de monteurs vriendelijk en behulpzaam<br><i>Were the fitters friendly and helpful?</i></td>  
       <td><?= $oEvaluation->friendlyHelpfull ? 'Ja / Yes' : 'Nee / No' ?></td>
+    </tr>
+    <tr>
+      <td style="width:70%;">Welk cijfer (tussen 1 – 10) zou u OptiVolt geven?</i></td>  
+      <td><?= $oEvaluation->grade ? $oEvaluation->grade : '' ?></td>
     </tr>
     <tr><td colspan="2">
       Opmerkingen<br><i>Remarks</i><br><br>

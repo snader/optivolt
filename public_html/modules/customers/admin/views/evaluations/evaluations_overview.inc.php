@@ -98,11 +98,25 @@ foreach ($aAllCustomers as $oCustomer) {
                     <tbody>
                         <?php
                         foreach ($aEvaluations as $oEvaluation) {
-
-                            $iValue = $oEvaluation->installSat + $oEvaluation->anyDetails + $oEvaluation->conMeasured + $oEvaluation->prepSat + $oEvaluation->workSat + $oEvaluation->answers + $oEvaluation->friendlyHelpfull;
                             $sStars = '';
-                            for ($i = 1; $i <= $iValue; $i++) {
-                                $sStars .= ' <i class="fa fa-star"></i>';
+                            
+                            if ($oEvaluation->digitalSigned) {
+                                $sGradeClass="grade-average";
+                                if ($oEvaluation->grade>6) {
+                                    $sGradeClass="grade-good";
+                                }
+                                if ($oEvaluation->grade<5) {
+                                    $sGradeClass="grade-bad";
+                                }
+
+                                if ($oEvaluation->installSat) { $sStars .= ' <i class="fa fa-check bg-success pad1" title="Ja"></i>'; } else { $sStars .= ' <i class="fa fa-times bg-danger pad2" title="Nee"></i>'; }
+                                if ($oEvaluation->anyDetails) { $sStars .= ' <i class="fa fa-check bg-success pad1" title="Ja"></i>'; } else { $sStars .= ' <i class="fa fa-times bg-danger pad2" title="Nee"></i>'; }
+                                if ($oEvaluation->conMeasured) { $sStars .= ' <i class="fa fa-check bg-success pad1" title="Ja"></i>'; } else { $sStars .= ' <i class="fa fa-times bg-danger pad2" title="Nee"></i>'; }
+                                if ($oEvaluation->prepSat) { $sStars .= ' <i class="fa fa-check bg-success pad1" title="Ja"></i>'; } else { $sStars .= ' <i class="fa fa-times bg-danger pad2" title="Nee"></i>'; }
+                                if ($oEvaluation->workSat) { $sStars .= ' <i class="fa fa-check bg-success pad1" title="Ja"></i>'; } else { $sStars .= ' <i class="fa fa-times bg-danger pad2" title="Nee"></i>'; }
+                                if ($oEvaluation->answers) { $sStars .= ' <i class="fa fa-check bg-success pad1" title="Ja"></i>'; } else { $sStars .= ' <i class="fa fa-times bg-danger pad2" title="Nee"></i>'; }
+                                if ($oEvaluation->friendlyHelpfull) { $sStars .= ' <i class="fa fa-check bg-success pad1" title="Ja"></i>'; } else { $sStars .= ' <i class="fa fa-times bg-danger pad2" title="Nee"></i>'; }
+                                if ($oEvaluation->grade) { $sStars .= '&nbsp;-&nbsp;<i class="i-circle ' . $sGradeClass . '">' . $oEvaluation->grade . '</i>'; } 
                             }
                            
                         echo '<tr>';

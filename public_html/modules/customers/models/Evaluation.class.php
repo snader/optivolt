@@ -18,6 +18,7 @@ class Evaluation extends Model
     public  $dateSigned     = null;
     public  $loginHash      = null;
     public  $digitalSigned  = 0;    
+    public  $grade = 0;
 
     public  $created;
     public  $modified;
@@ -139,6 +140,7 @@ class Evaluation extends Model
     {
         $oCustomer = $this->getCustomer();
         $sTo = $oCustomer->contactPersonEmail;
+        $sFrom = 'info@optivolt.nl';
 
         $oTemplate = TemplateManager::getTemplateByName('evaluation_request', Locales::language());
 
@@ -151,7 +153,7 @@ class Evaluation extends Model
             $oTemplate->replaceVariables($oCustomer, $aReplace);            
             $sSubject  = $oTemplate->getSubject();
             $sMailBody = $oTemplate->getTemplate();
-            MailManager::sendMail($sTo, $sSubject, $sMailBody);
+            MailManager::sendMail($sTo, $sSubject, $sMailBody, $sFrom);
 
             $this->dateSend = date('Y-m-d', time());
             EvaluationManager::saveEvaluation($this);

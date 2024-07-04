@@ -65,12 +65,34 @@
 
       <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-file pr-1"></i> Getest door: <strong><?= UserManager::getUserById($oCertificate->userId)->name ?></strong><?= $oCertificate->created ? ' op ' . date("d-m-Y", strtotime($oCertificate->created)) : ''?></h3>
+            <h3 class="card-title form-group"><i class="fas fa-file pr-1"></i> Testgegevens</h3>
           </div>
           <!-- /.card-header -->
-          
+      
             <div class="card-body">
-
+            <div class="form-group">
+            <label for="userId">Keurmeester</label>
+              
+                  <select class="form-control select2" style="float:right;" name="userId" id="userId">
+                  <option value="">- Selecteer keurmeester </option>
+                      <?php
+                      foreach (UserManager::getUsersByFilter() as $oUser) {
+                          echo "<option" . ($oCertificate->userId == $oUser->userId ? ' selected=\'selected\'' : '') . " value='" . $oUser->userId . "'>" . _e($oUser->getDisplayName()) . "</option>";
+                      }
+                      ?>                                    
+                  </select>
+              
+              <span class="error invalid-feedback show"><?= $oCertificate->isPropValid("userId") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
+              </div>
+              <div class="form-group">
+                <label for="created">Datum keuring</label>                
+                  <div class="input-group date" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker" id="created" name="created" data-target="#created" value="<?= !empty($oCertificate->created) ? date('d-m-Y', strtotime($oCertificate->created)) : '' ?>">
+                    <div class="input-group-append" data-target="#created" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>
+              </div>
               <div class="form-group">
                 <label for="vbbNr">VBB nummer</label>
                 <input type="text" name="vbbNr" class="form-control" id="vbbNr" value="<?= _e($oCertificate->vbbNr) ?>" title="<?= sysTranslations::get('enter_vbbnr_tooltip') ?>">
@@ -88,8 +110,8 @@
               </div>
               <div class="form-group">
                 <label for="nextcheck">Volgende keuring</label>                
-                  <div class="input-group date" id="nextcheck" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker" name="nextcheck" data-target="#nextcheck" value="<?= !empty($oCertificate->nextcheck) ? date('d-m-Y', strtotime($oCertificate->nextcheck)) : '' ?>">
+                  <div class="input-group date"  data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker" id="nextcheck" name="nextcheck" data-target="#nextcheck" value="<?= !empty($oCertificate->nextcheck) ? date('d-m-Y', strtotime($oCertificate->nextcheck)) : '' ?>">
                     <div class="input-group-append" data-target="#nextcheck" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
@@ -178,7 +200,9 @@ $('#nextcheck').datetimepicker({
 format: 'DD-MM-YYYY'
 });
 
-
+$('#created').datetimepicker({
+format: 'DD-MM-YYYY'
+});
 
 </script>
 
