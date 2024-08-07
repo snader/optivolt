@@ -128,7 +128,7 @@ class Customer extends Model
      *
      */
     public function isOnlineChangeable() {
-
+        
         if ($this->deleted) {
             return false;
         }

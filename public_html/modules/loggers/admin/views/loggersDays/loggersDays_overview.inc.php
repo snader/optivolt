@@ -17,7 +17,7 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Uitzonderingen</h3>
-
+            <?php if (UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) { ?>
             <div class="card-tools">
               <div class="input-group input-group-sm align-right" style="width: 50px;">
 
@@ -31,6 +31,7 @@
 
               </div>
             </div>
+            <?php } ?>
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
@@ -56,7 +57,7 @@
                           <i class="fas fa-pencil-alt"></i>
                         </a>
                       <?php } else {
-                        echo '<i class="fas fa-pencil-alt"></i>';
+                        
                       } ?>
                     </td>
                     <td><?= $oLoggersDay->name ?></td>
@@ -75,7 +76,9 @@
                     <td>
                       <?php
                       # online/offline
-
+                  
+                      if ($oLoggersDay->isOnlineChangeable()) {
+                   
                       echo '<a id="loggersday_' . $oLoggersDay->loggerDayId . '_online_0" title="Activeren" class="btn btn-danger btn-xs ' . ($oLoggersDay->online ? 'hide' : '') . ($oLoggersDay->isOnlineChangeable() == 0 ? 'disabled ' : '') . ' offline_icon" href="' . ADMIN_FOLDER . '/' . http_get(
                         'controller'
                       ) . '/ajax-setOnline/' . $oLoggersDay->loggerDayId . '/?online=1"><i class="fas fa-eye"></i></a>';
@@ -83,15 +86,13 @@
                         'controller'
                       ) . '/ajax-setOnline/' . $oLoggersDay->loggerDayId . '/?online=0"><i class="fas fa-eye"></i></a>';
 
-                      ?>
-
-                      <?php
+                      }
                       if ($oLoggersDay->isDeletable()) {
                       ?>
                         <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oLoggersDay->loggerDayId ?>" title="Verwijderen" onclick="return confirmChoice('Verwijder <?= ' ' . $oLoggersDay->name ?>');">
                           <i class="fas fa-trash"></i>
                         </a>
-                      <?php } else { ?><span class="btn btn-danger btn-xs disabled"><i class="fas fa-trash"></i></span><?php } ?>
+                      <?php } else { }?>
                     </td>
                     </td>
                   </tr>

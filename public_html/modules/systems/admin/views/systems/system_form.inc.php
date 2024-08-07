@@ -68,7 +68,7 @@
 
                         ?>
                             <span class="float-right">
-                                <select name="online" id="online">
+                                <select <?= (!$oSystem->isEditable() ? 'readonly disabled ' : '') ?> name="online" id="online">
                                     <option value="1"></option>
                                     <option value="0" <?= !$oSystem->online ? 'selected' : '' ?>>Vervallen</option>
 
@@ -97,7 +97,7 @@
                         </div>
                         <div class="form-group">
                             <label for="floor">Plaatsbepaling</label>
-                            <input type="text" name="floor" class="form-control" id="floor" value="<?= _e($oSystem->floor) ?>" title="Plaatsbepaling" data-msg="<?= sysTranslations::get('global_field_not_completeds') ?>">
+                            <input type="text" <?= (!$oSystem->isEditable() ? 'readonly disabled ' : '') ?>name="floor" class="form-control" id="floor" value="<?= _e($oSystem->floor) ?>" title="Plaatsbepaling" data-msg="<?= sysTranslations::get('global_field_not_completeds') ?>">
                             <span class="error invalid-feedback show"><?= $oSystem->isPropValid("floor") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
                         </div>
                         <div class="form-group">
@@ -141,7 +141,7 @@
 
                                     <label for="date">Installatiedatum</label>
                                     <div class="input-group date" id="installDate" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker" name="installDate" data-target="#installDate" value="<?= !empty($oSystem->installDate) ? date('d-m-Y', strtotime($oSystem->installDate)) : '' ?>">
+                                        <input type="text" <?= (!$oSystem->isEditable() ? 'readonly disabled ' : '') ?> class="form-control datetimepicker" name="installDate" data-target="#installDate" value="<?= !empty($oSystem->installDate) ? date('d-m-Y', strtotime($oSystem->installDate)) : '' ?>">
                                         <div class="input-group-append" data-target="#installDate" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -154,11 +154,12 @@
                             <div style="max-height:100px; overflow-y: auto;">
 
                                 <?php
-                                echo '<input name="notice[]" placeholder="Hier invoeren om toe te voegen" value="" class="form-control">';
+                                echo '<input name="notice[]" ' . (!$oSystem->isEditable() ? 'readonly disabled ' : '') . 'placeholder="Hier invoeren om toe te voegen" value="" class="form-control">';
                                 $aList = explode(PHP_EOL, trim($oSystem->notice));
                                 foreach ($aList as $sNotice) {
                                     if (!empty($sNotice)) {
-                                        echo '<input name="notice[]" value="' . _e($sNotice) . '" class="form-control">';
+                              
+                                        echo '<input ' . (!$oSystem->isEditable() ? 'readonly disabled ' : '') . 'name="notice[]" value="' . _e($sNotice) . '" class="form-control">';
                                     }
                                 }
                                 ?>
@@ -169,10 +170,12 @@
 
                     <div class="card-footer">
 
+                        <?php
+                        if ($oSystem->isEditable())  { ?>
                         <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" /><br />
                         <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?> > locatie" name="save" />
                         <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?> > klant" name="save" />
-
+                        <?php } ?>
                     </div>
 
                 </div>
@@ -199,10 +202,10 @@
                                             $oAppointment = CustomerManager::getLastAppointment(null, $oCustomer->customerId);
                                         }
 
-                                        if ( ($oAppointment && $oAppointment["finished"] == 0 && substr($oAppointment["visitDate"], 0, 4) == date('Y', time())) || (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ) {
+                                        if ( ($oAppointment && $oAppointment["finished"] == 0 && substr($oAppointment["visitDate"], 0, 4) == date('Y', time())) || (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ) {
                                      
                                         ?>
-                                            <a class="addBtn" href="<?= ADMIN_FOLDER ?>/system-reports/toevoegen?systemId=<?= $oSystem->systemId ?><?= (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? '&warning=' . $oAppointment["appointmentId"] : '' ?>" title="<?= sysTranslations::get('add_item') ?> (Afspraak op <?= date('d-m-Y', strtotime($oAppointment["visitDate"])) ?>)">
+                                            <a class="addBtn" href="<?= ADMIN_FOLDER ?>/system-reports/toevoegen?systemId=<?= $oSystem->systemId ?><?= (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? '&warning=' . $oAppointment["appointmentId"] : '' ?>" title="<?= sysTranslations::get('add_item') ?> (Afspraak op <?= date('d-m-Y', strtotime($oAppointment["visitDate"])) ?>)">
                                                 <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
                                                     <i class="fas fa-plus-circle"></i>
                                                 </button>

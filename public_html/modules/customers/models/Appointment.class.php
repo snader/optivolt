@@ -27,6 +27,37 @@ class Appointment extends Model
 
   }
 
+  /**
+     * check if item is editable
+     *
+     * @return Boolean
+     */
+    public function isEditable()
+    {
+        if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isEngineer()) {
+           
+                return true;
+           
+        }
+         return false;
+    }
+
+    /**
+     * check if item is deletable
+     *
+     * @return Boolean
+     */
+    public function isDeletable()
+    {
+        if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isEngineer()) {
+           
+                return true;
+          
+        }
+        return false;
+
+    }
+
   public function getPdf()
   {
 

@@ -9,6 +9,7 @@ class UserAccessGroup extends Model
     const userAccessGroup_administrators        = 'administrators'; // LandgoedVoorn users
     const userAccessGroup_administrators_client = 'administrators_client'; // Client admin users
     const userAccessGroup_administrators_client_lim = 'administrators_client_limited'; // Client admin users beperkt
+    const userAccessGroup_engineer              = 'clients';
 
     public  $userAccessGroupId = null;
     public  $displayName; //name to show in overviews

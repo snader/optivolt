@@ -333,6 +333,14 @@ elseif (
   http_get("param1") == 'inplannen' && http_get("param2") && substr_count(http_get("param2"), '_') == 1
 ) {
 
+  if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+  } else {
+   
+    $_SESSION['statusUpdate']['text'] = "U heeft geen rechten om planningsitems toe te voegen";
+    $_SESSION['statusUpdate']['type'] = "error";
+    http_redirect(ADMIN_FOLDER . '/' . http_get('controller') . '');
+  }
+
   $aParts = explode('_', http_get("param2"));
   $oLogger = LoggerManager::getLoggerById($aParts[0]);
   $aLoggers[] = $oLogger;

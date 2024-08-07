@@ -35,7 +35,7 @@
             <div class="col-md-6">
 
               <label for="loggerId" style="font-size:14pt;"><span id="xSelected">0</span> Logger<?= ($oPlanning->planningId ? '' : '(s)') ?></label>
-              <select class="custom-select rounded-0 select2" multiple="multiple" data-placeholder="Selecteer logger(s)" name="loggerId[]" class="form-control" id="loggerId" required>
+              <select class="custom-select rounded-0 select2" <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?>multiple="multiple" data-placeholder="Selecteer logger(s)" name="loggerId[]" class="form-control" id="loggerId" required>
                 <option value="">Selecteer</option>
                 <?php
                 $iAmountLoggers = 0;
@@ -64,7 +64,7 @@
             <div class="col-md-12">
               <button type="button" id="autoSelect" class="btn btn-info btn-xs mb-1" title="Selecteer automatisch een aantal loggers op basis van ingevoerde gegevens">
                 Selecteer
-              </button> <select id="nrOfLoggers">
+              </button> <select <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?>id="nrOfLoggers">
                 <?php
                 for ($i = 2; $i <= 20; $i++) {
                 ?><option value="<?= $i ?>" <?= $i == $iAmountLoggers ? ' selected' : '' ?>><?= $i ?></option>
@@ -80,7 +80,7 @@
               <label for="klantId" class="pr-1" style="width:100%;"><a class="float-right" title="Klant toevoegen" href="/dashboard/klanten/toevoegen<?= http_get("param2") && substr_count(http_get("param2"), '_') == 1 ? '?pl=' . http_get("param2") : '' ?>"><button type="button" class="btn btn-default btn-xs" style="min-width:20px;">
                     <i class="fas fa-plus-circle "></i>
                   </button></a>Klant *</label>
-              <select class="select2 form-control custom-select js-example-responsive" style="width:100%;" name="customerId" required>
+              <select <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?>class="select2 form-control custom-select js-example-responsive" style="width:100%;" name="customerId" required>
                 <option value="">Selecteer klant</option>
                 <?php
                 $sCustomer = '';
@@ -100,7 +100,7 @@
             <div class="col-md-6 mb-6">
 
               <label for="comment">Opmerking</label>
-              <input type="text" name="comment" class="form-control" id="comment" value="<?= _e($oPlanning->comment) ?>" title="Opmerking">
+              <input type="text" <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?>name="comment" class="form-control" id="comment" value="<?= _e($oPlanning->comment) ?>" title="Opmerking">
 
             </div>
           </div>
@@ -121,7 +121,7 @@
               foreach (UserManager::getAccountmanagers() as $oUser) {
               ?>
                 <div class="form-check">
-                  <input class="form-check-input" name="accountmanagers[]" value="<?= $oUser->userId ?>" id="user<?= $oUser->userId ?>" type="checkbox" <?= in_array($oUser->userId, $aAccountmanagerIds) ? 'checked=""' : '' ?>>
+                  <input <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?>class="form-check-input" name="accountmanagers[]" value="<?= $oUser->userId ?>" id="user<?= $oUser->userId ?>" type="checkbox" <?= in_array($oUser->userId, $aAccountmanagerIds) ? 'checked=""' : '' ?>>
                   <label class="form-check-label" for="user<?= $oUser->userId ?>"><?= $oUser->name ?></label>
                 </div>
               <?php
@@ -139,7 +139,7 @@
               <div class="form-group">
                 <label>Datum</label>
                 <div class="input-group date" data-target-input="nearest">
-                  <input type="text" class="form-control datetimepicker-input" name="startDate" id="startDate" data-target="#startDate" value="<?= date('d-m-Y', strtotime($oPlanning->startDate)) ?>" required />
+                  <input type="text" <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?>class="form-control datetimepicker-input" name="startDate" id="startDate" data-target="#startDate" value="<?= date('d-m-Y', strtotime($oPlanning->startDate)) ?>" required />
                   <div class="input-group-append" data-target="#startDate" data-inputmask-inputformat="dd-mm-YYYY" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                   </div>
@@ -149,7 +149,7 @@
             <div class="col-md-2">
               <div class="form-group">
                 <label>Aantal dagen</label>
-                <select class="form-control" name="days" id="days">
+                <select class="form-control" <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?>name="days" id="days">
                   <?php
                   $bSelected = false;
                   foreach (LoggersDefaultsManager::getLoggersDefaultsByFilter() as $oLoggersDay) {
@@ -167,14 +167,14 @@
               </div>
               <div class="form-group" id="daysManual" style="display:none;">
 
-                <input type="number" name="daystoo" class="form-control" id="daystoo" min="1" value="<?= $bSelected ? '' : $oPlanning->days ?>" title="Voer het aantal dagen in" data-msg="Voer het aantal dagen in">
+                <input type="number" name="daystoo" <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?>class="form-control" id="daystoo" min="1" value="<?= $bSelected ? '' : $oPlanning->days ?>" title="Voer het aantal dagen in" data-msg="Voer het aantal dagen in">
               </div>
 
             </div>
             <div class="col-md-2">
               <div class="form-group">
                 <label>Kleur</label>
-                <select class="form-control <?= $oPlanning->getColor() ?>" name="color" id="color">
+                <select <?= (!$oPlanning->isEditable() ? 'readonly disabled ' : '') ?> class="form-control <?= $oPlanning->getColor() ?>" name="color" id="color">
                   <option value="">Automatisch</option>
                   <?php
 

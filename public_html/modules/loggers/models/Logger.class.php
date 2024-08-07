@@ -38,9 +38,12 @@ class Logger extends Model
      */
     public function isEditable()
     {
-        if (!$this->isDeleted()) {
-            return true;
+        if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+            if (!$this->isDeleted()) {
+                return true;
+            }
         }
+         return false;
     }
 
     /**
@@ -50,10 +53,15 @@ class Logger extends Model
      */
     public function isDeletable()
     {
-        if (!$this->isDeleted()) {
-            return true;
+        if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+            if (!$this->isDeleted()) {
+                return true;
+            }
         }
+        return false;
+
     }
+
 
 
     /**
@@ -69,9 +77,12 @@ class Logger extends Model
 
     public function isOnlineChangeable()
     {
-        if (!$this->isDeleted()) {
-            return true;
+        if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+            if (!$this->isDeleted()) {
+                return true;
+            }
         }
+        return false;
     }
 
     /**

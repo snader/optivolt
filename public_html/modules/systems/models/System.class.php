@@ -66,12 +66,12 @@ class System extends Model
      */
     public function isEditable()
     {
-        //if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+        if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
             if (!$this->isDeleted()) {
                 return true;
             }
-        //}
-       // return false;
+        }
+         return false;
     }
 
     /**
@@ -81,12 +81,12 @@ class System extends Model
      */
     public function isDeletable()
     {
-        //if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+        if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
             if (!$this->isDeleted()) {
                 return true;
             }
-        //}
-        //return false;
+        }
+        return false;
 
     }
 

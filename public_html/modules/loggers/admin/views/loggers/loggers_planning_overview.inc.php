@@ -275,6 +275,10 @@
 
 <?php
 
+$isAdmin = false;
+if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+  $isAdmin = true;
+}
 
 $sController = http_get('controller');
 $sCurrentUrl = getCurrentUrl();
