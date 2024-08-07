@@ -3,9 +3,9 @@
 class AccessLogManager
 {
 
-    const max_login_attempts_account_lock = 5; // max failed attempts before blocking the account for login_blocked_time minutes
+    const max_login_attempts_account_lock = 10; // max failed attempts before blocking the account for login_blocked_time minutes
     const max_login_attempts_ip_block     = 15; // max failed attempts to login in a row
-    const account_locked_time             = 20; // amount of minutes an account is blocked
+    const account_locked_time             = 2; // amount of minutes an account is blocked
 
     /**
      * get a AccessLog by Id
