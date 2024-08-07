@@ -5,6 +5,7 @@ if (!defined('ACCESS')) {
     die;
 }
 
+
 # reset crop settings
 Session::clear('aCropSettings');
 
