@@ -19,6 +19,9 @@
             <h3 class="card-title">Loggerslijst</h3>
 
             <div class="card-tools">
+              <?php
+              if (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+              ?>
               <div class="input-group input-group-sm align-right" style="width: 50px;">
 
                 <div class="input-group-append">
@@ -30,6 +33,7 @@
                 </div>
 
               </div>
+              <?php } ?>
             </div>
           </div>
           <!-- /.card-header -->
@@ -56,7 +60,7 @@
                           <i class="fas fa-pencil-alt"></i>
                         </a>
                       <?php } else {
-                        echo '<i class="fas fa-pencil-alt"></i>';
+                        
                       } ?>
                     </td>
                     <td><?= $oLogger->name ?></td>
@@ -69,7 +73,10 @@
                     <td>
 
                     <td>
-                      <?php
+                    <?php
+              
+                    if ($oLogger->isDeletable() && UserManager::getCurrentUser()->isSuperAdmin()) {
+ 
                       # online/offline
 
                       echo '<span id="logger_' . $oLogger->loggerId . '_online_0" title="In-actief" style="padding:5px;" class=" btn-danger btn-xs ' . ($oLogger->online ? 'hide' : '') . ($oLogger->isOnlineChangeable() == 0 ? 'disabled ' : '') . ' offline_icon" href="' . ADMIN_FOLDER . '/' . http_get(
@@ -81,16 +88,11 @@
 
                       ?>
 
-                      <?php
-              
-                      if ($oLogger->isDeletable() && UserManager::getCurrentUser()->isSuperAdmin()) {
-               
                       
-                      ?>
                         <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oLogger->loggerId ?>" title="Verwijderen" onclick="return confirmChoice('Verwijder <?= ' ' . $oLogger->name ?>');">
                           <i class="fas fa-trash"></i>
                         </a>
-                      <?php } else { ?><span class="btn btn-danger btn-xs disabled"><i class="fas fa-trash"></i></span><?php } ?>
+                      <?php }  ?>
                     </td>
                     </td>
                   </tr>

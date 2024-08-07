@@ -37,7 +37,10 @@ class LoggersDay extends Model
    */
   public function isEditable()
   {
-    return true;
+    if (UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -47,12 +50,18 @@ class LoggersDay extends Model
    */
   public function isDeletable()
   {
-    return true;
+    if (UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) {
+      return true;
+    }
+    return false;
   }
 
   public function isOnlineChangeable()
   {
-    return true;
+    if (UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) {
+      return true;
+    }
+    return false;
   }
 
   /**

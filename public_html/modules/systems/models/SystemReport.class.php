@@ -73,7 +73,7 @@ class SystemReport extends Model
             return false;
         }
 
-        if (UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) {
+        if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) {
             return true;
         } else {
             // Indien de afspraak nog niet afgerond is

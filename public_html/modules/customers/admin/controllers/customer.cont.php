@@ -403,7 +403,7 @@ else {
 
     if (!UserManager::getCurrentUser()->isClientAdmin() && !UserManager::getCurrentUser()->isSuperAdmin()) {
         // normal user
-        $aCustomerFilter['userId'] = UserManager::getCurrentUser()->userId;
+        //$aCustomerFilter['userId'] = UserManager::getCurrentUser()->userId;
         //$aCustomerFilter['visitDate'] = date('Y-m-d', time());
         //$aCustomerFilter['finished'] = 1;
         $aCustomerFilter['online'] = true;

@@ -159,9 +159,11 @@ if ($oAppointment["visitDate"] != date('Y-m-d', time()) )  {
             ?>
                 <div class="card">
                     <div class="card-header">
+                        <?php if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) { ?>
                         <form style="float:right;" method="POST" action="">
                             Later uploaden <i aria-hidden="true" title="Let op! Dit is puur een herinnering. Vergeet niet om dit veld leeg te maken als de foto(s) geupload is." class="fa fa-question pr-1"></i> <input type="text" style="width:200px;" value="<?= _e($oSystemReport->notice) ?>" name="imgNotice" placeholder="Fotonummer(s)"> <button type="submit" name="saveImgNotice" value="saveImgNotice">&raquo;</button>
                         </form>
+                        <?php } ?>
                         <h3 class="card-title">
                             <i aria-hidden="true" class="fa fa-file-image pr-1"></i> <?= sysTranslations::get('global_images') ?>
                         </h3>
@@ -170,8 +172,9 @@ if ($oAppointment["visitDate"] != date('Y-m-d', time()) )  {
                         <?php
                         if ($oSystemReport->systemReportId !== null) {
 
-
-                            $oImageManagerHTML->includeTemplate();
+                            if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) { 
+                                $oImageManagerHTML->includeTemplate();
+                            }
                         } else {
                             echo '<p><i>' . sysTranslations::get('system_report_images_warning') . '</i></p>';
                         }
@@ -184,7 +187,7 @@ if ($oAppointment["visitDate"] != date('Y-m-d', time()) )  {
                 <div class="card-header">
                     <?php
                     $aList = explode(PHP_EOL, trim($oSystemReport->getSystem()->notice));
-                    if ((UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) && count($aList) > 0) {
+                    if ((UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) && count($aList) > 0) {
                     ?><span class="float-sm-right">
                             <a class="backBtn right" href="<?= ADMIN_FOLDER ?>/systems/bewerken/<?= $oSystemReport->getSystem()->systemId ?>#notice">
                                 <button type="button" class="btn btn-default btn-sm" title="'Naar systeem opmerkingen <?= sysTranslations::get('global_without_saving') ?>">
@@ -198,13 +201,15 @@ if ($oAppointment["visitDate"] != date('Y-m-d', time()) )  {
                     <h3 class="card-title"><i aria-hidden="true" class="fa fa-comments pr-1"></i>Opmerkingen</h3>
                 </div>
                 <div class="card-body">
+                    <?php 
+                    if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) { ?>
                     <form method="POST" action="" class="validateForm" id="quickFormNotice" autocomplete="off">
                         <input type="hidden" value="saveNotice" name="action" />
                         <input type="hidden" value="<?= $oSystemReport->getSystem() ? $oSystemReport->getSystem()->systemId : http_get('systemId') ?>" name="systemId" />
                         <input class="form-control mb-1" rows="2" name="notice" id="quickFormNoticeInput" placeholder="Nieuwe opmerking">
                         <input type="submit" class="btn btn-primary" value="Opmerking toevoegen" name="save" /> <span style="font-size:12px;">(Let op! Slaat geen metingen op)</span>
                     </form>
-
+                    <?php } ?>
                     <div><br />
                         <ul><?php
                             $aList = explode(PHP_EOL, trim($oSystemReport->getSystem()->notice));

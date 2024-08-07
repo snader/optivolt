@@ -283,7 +283,28 @@ class User extends Model
      */
     public function isClientAdmin()
     {
-        return ($this->hasUserAccessGroup(UserAccessGroup::userAccessGroup_administrators_client) || $this->hasUserAccessGroup(UserAccessGroup::userAccessGroup_administrators_client_lim));
+        return ($this->hasUserAccessGroup(UserAccessGroup::userAccessGroup_administrators_client));
+    }
+
+    /**
+     * check if user is normal admin
+     *
+     * @return boolean
+     */
+    public function isEngineer()
+    {
+        return ($this->hasUserAccessGroup(UserAccessGroup::userAccessGroup_engineer));
+    }
+    
+
+    /**
+     * check if user is normal admin
+     *
+     * @return boolean
+     */
+    public function isClientAdminLimited()
+    {
+        return ($this->hasUserAccessGroup(UserAccessGroup::userAccessGroup_administrators_client_lim));
     }
 
     /**
