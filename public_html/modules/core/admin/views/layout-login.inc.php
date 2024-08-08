@@ -47,10 +47,10 @@
         <p class="login-box-msg">
 
           <?php if ($bLoginEnabled && $bShowLoginAttemptsWarning) { ?>
-        <div class="alert alert-danger errorColor " style="text-align: left; margin-bottom:10px;">Login failed : wrong credentials</b></div>
+        <div class="alert alert-danger errorColor " style="text-align: left; margin-bottom:10px;">Login mislukt : verkeerde logingegevens</b></div>
       <?php } ?>
 
-      Sign in to start your session</p>
+      <strong>Optivolt OMS Dashboard login</strong></p>
 
 
       <?php
@@ -66,7 +66,7 @@
               <input type="text" name="username" id="username" class="form-control" placeholder="<?= sysTranslations::get('user_username') ?>">
               <div class="input-group-append">
                 <div class="input-group-text">
-                  <span class="fas fa-envelope"></span>
+                  <span class="fas fa-user"></span>
                 </div>
               </div>
             </div>
@@ -89,7 +89,7 @@
               </div>-->
               <!-- /.col -->
               <div class="col-4">
-                <button type="submit" value="Login" name="verzendBtn" class="btn btn-primary btn-block">Sign In</button>
+                <button type="submit" value="Login" name="verzendBtn" class="btn btn-primary btn-block">Inloggen</button>
               </div>
               <!-- /.col -->
             </div>
