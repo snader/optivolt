@@ -49,7 +49,18 @@ class Inventarisation extends Model
      */
     public function isEditable()
     {
-        return true;
+        ///if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) {
+            return true;
+       // }
+       // return false;
+    }
+
+    public function isReadOnly() {
+        if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) {
+            return false;
+        }
+         return true;
+
     }
 
     /**
@@ -59,7 +70,10 @@ class Inventarisation extends Model
      */
     public function isDeletable()
     {
-        return true;
+        if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isSuperAdmin() || UserManager::getCurrentUser()->isClientAdmin()) {
+            return true;
+        }
+        return false;
     }
 
     /**

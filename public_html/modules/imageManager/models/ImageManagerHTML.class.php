@@ -107,7 +107,7 @@ class ImageManagerHTML extends Model
      *
      * @global string $oPageLayout
      */
-    public function includeTemplate()
+    public function includeTemplate($bShowUpload = true)
     {
         global $oPageLayout; // pageLayout is needed here for javascript adding
         if (!$oPageLayout) {

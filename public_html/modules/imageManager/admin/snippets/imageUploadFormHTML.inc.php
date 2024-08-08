@@ -1,4 +1,4 @@
-
+<?php if($bShowUpload) { ?>
 <form action="<?= $this->sUploadUrl ?>" id="form_<?= $this->iContainerIDAddition ?>" class="validateForm" method="POST" enctype="multipart/form-data">
     <?= CSRFSynchronizerToken::field() ?>
     <input type="hidden" id="imageHiddenAction_<?= $this->iContainerIDAddition ?>" name="action" value="<?= $this->sHiddenAction ?>" />
@@ -77,3 +77,4 @@
         <?php } ?>
     </div>
 </form>
+<?php } ?>

@@ -78,7 +78,7 @@
                         }
                     }
                     if (!$this->bListView && $this->deletable) {
-                        if ($oImage->isDeletable() && UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) {
+                        if ($oImage->isDeletable() && (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin())) {
                             echo '<a class="btn btn-danger btn-xs action_icon delete_icon" onclick="deleteImage(this); return false;" href="' . $this->deleteLink . '"><i class="fas fa-trash"></i></a>';
                         } else {
                             echo '<a class="btn btn-danger btn-xs disabled action_icon grey delete_icon" onclick="return false;" href="#"><i class="fas fa-trash"></i></a>';
