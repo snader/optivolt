@@ -174,7 +174,10 @@ if ($oAppointment["visitDate"] != date('Y-m-d', time()) )  {
 
                             if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) { 
                                 $oImageManagerHTML->includeTemplate();
+                            } else {
+                                $oImageManagerHTML->includeTemplate(false);
                             }
+                            
                         } else {
                             echo '<p><i>' . sysTranslations::get('system_report_images_warning') . '</i></p>';
                         }
