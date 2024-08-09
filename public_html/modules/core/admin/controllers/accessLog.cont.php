@@ -48,7 +48,7 @@ else {
     if (http_post('action') == 'blockAccess') {
         $oAccessLog = AccessLogManager::getAccessLogById(http_post('accessLogId'));
         if ($oAccessLog) {
-            $oAccessLog->blocked   = strftime(Date::FORMAT_DB_F);
+            $oAccessLog->blocked   = Date::stringFromTime(Date::FORMAT_DB_F);
             $oAccessLog->reason    = http_post('reason');
             $oAccessLog->extraInfo = http_post('extraInfo');
             AccessLogManager::saveAccessLog($oAccessLog);

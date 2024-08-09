@@ -30,7 +30,8 @@
       <?php
 
       setlocale(LC_TIME, 'nl_NL');
-echo strftime('%e %B %Y', time());
+
+      echo Date::stringFromTime("%e %B %Y");
 
       ?>
     </li>

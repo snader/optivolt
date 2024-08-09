@@ -29,6 +29,7 @@ if (Request::postVar('filterEvaluations')) {
 if (Request::postVar('resetFilter') || empty($aEvaluationFilter)) {
     Session::clear('evaluationFilter');
     $aEvaluationFilter                       = [];
+    
     $aEvaluationFilter['q']                  = '';
     $aEvaluationFilter['showAll']            = true; // manually set showAll to true
 }

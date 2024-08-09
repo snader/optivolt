@@ -11,6 +11,8 @@ class PageLayoutJavascript
     private $script;
     private $order    = 999;
 
+    public $sSortValue;
+
     public function __construct($sData, $iOrder = 999, $sPosition = 'bottom')
     {
         $this->order    = $iOrder;

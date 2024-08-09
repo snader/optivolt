@@ -72,7 +72,7 @@
                                             <?php
                                             if ($oUserAccessGroup->isDeletable()) {
                                             ?>
-                                                <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oUserAccessGroup->userAccessGroupId ?>" title="<?= sysTranslations::get('userAccessGroup_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('userAccessGroup_userAccessGroup')) . ' ' . $oUserAccessGroup->displayName ?>');">
+                                                <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oUserAccessGroup->userAccessGroupId ?>" title="<?= sysTranslations::get('userAccessGroup_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('userAccessGroup_userAccessGroup') ?? '') . ' ' . $oUserAccessGroup->displayName ?>');">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             <?php } else { ?><span class="btn btn-danger btn-sm disabled"><i class="fas fa-trash"></i></span><?php } ?>

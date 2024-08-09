@@ -331,12 +331,12 @@
                         <input type="hidden" name="saveAppointment" value="save">
                         <input type="hidden" name="userId" value="<?= $aAppointment['userId'] ?>">
                         <input type="hidden" name="visitDate" value="<?= $aAppointment['visitDate'] ?>">
-                        <div class="card <?= (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) && $aAppointment['finished'] ? 'collapsed-card' : '' ?>">
+                        <div class="card <?= (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) && $aAppointment['finished'] ? 'collapsed-card' : '' ?>">
                             <div class="card-header">
                             
                                 <h3 class="card-title"><i class="fas fa-file-signature pr-1"></i> Opmerkingen <?= !empty($aAppointment) ? date('Y', strtotime($aAppointment['visitDate'])) : date('Y', time()) ?></h3>
                                 <?php
-                                if ((UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) && $oCustomer->customerId && http_get('param4') != '') {
+                                if ((UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) && $oCustomer->customerId && http_get('param4') != '') {
                                 ?>
                                     <span class="float-right">
 
@@ -345,7 +345,7 @@
                                                 Afspraken overzicht
                                             </button>
                                         </a>
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-<?= UserManager::getCurrentUser()->isClientAdmin() && $aAppointment['finished'] ? 'plus' : 'minus' ?>"></i>
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-<?= (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isEngineer()  || UserManager::getCurrentUser()->isSuperAdmin()) && $aAppointment['finished'] ? 'plus' : 'minus' ?>"></i>
                                         </button>
                                     </span>
                                 <?php } ?>
@@ -353,7 +353,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="uitbreidingsmogelijkheden">Zijn er uitbreidingsmogelijkheden?</label>
-                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="uitbreidingsmogelijkheden" name="uitbreidingsmogelijkheden" title="Selecteer een antwoord">
+                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="uitbreidingsmogelijkheden" name="uitbreidingsmogelijkheden" title="Selecteer een antwoord">
                                         <option value="">- Selecteer</option>
                                         <option <?= $aAppointment['uitbreidingsmogelijkheden'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
                                         <option <?= $aAppointment['uitbreidingsmogelijkheden'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
@@ -362,14 +362,14 @@
                                 </div>
                                 <div class="form-group" id="uitbrInfoDiv" <?= $aAppointment['uitbreidingsmogelijkheden'] == 'Ja' ? '' : 'style="display:none;"' ?>>
                                     <label for="uitbrInfo">Opmerkingen</label>
-                                    <textarea <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" rows="3" name="uitbrInfo" id="uitbrInfo"><?= _e($aAppointment['uitbrInfo']) ?></textarea>
+                                    <textarea <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" rows="3" name="uitbrInfo" id="uitbrInfo"><?= _e($aAppointment['uitbrInfo']) ?></textarea>
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="vLiner">Voor V-Liner?</label>
-                                            <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="vLiner" name="vLiner" title="Selecteer een antwoord">
+                                            <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="vLiner" name="vLiner" title="Selecteer een antwoord">
                                                 <option value="">- Selecteer</option>
                                                 <option <?= $aAppointment['vLiner'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
                                                 <option <?= $aAppointment['vLiner'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
@@ -380,7 +380,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="ml">Voor ML?</label>
-                                            <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="ml" name="ml" title="Selecteer een antwoord">
+                                            <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="ml" name="ml" title="Selecteer een antwoord">
                                                 <option value="">- Selecteer</option>
                                                 <option <?= $aAppointment['ml'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
                                                 <option <?= $aAppointment['ml'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
@@ -391,7 +391,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="koperenRailen">Originele koperen railen aanwezig?</label>
-                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="koperenRailen" name="koperenRailen" title="Selecteer een antwoord">
+                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="koperenRailen" name="koperenRailen" title="Selecteer een antwoord">
                                         <option value="">- Selecteer</option>
                                         <option <?= $aAppointment['koperenRailen'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
                                         <option <?= $aAppointment['koperenRailen'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
@@ -401,7 +401,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="PQkast">PQ Kast afgetekend?</label>
-                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="PQkast" name="PQkast" title="Selecteer een antwoord">
+                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="PQkast" name="PQkast" title="Selecteer een antwoord">
                                         <option value="">- Selecteer</option>
                                         <option <?= $aAppointment['PQkast'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
                                         <option <?= $aAppointment['PQkast'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
@@ -410,7 +410,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="onderhoudssticker">Onderhoudssticker aanwezig?</label>
-                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="onderhoudssticker" name="onderhoudssticker" title="Selecteer een antwoord">
+                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="onderhoudssticker" name="onderhoudssticker" title="Selecteer een antwoord">
                                         <option value="">- Selecteer</option>
                                         <option <?= $aAppointment['onderhoudssticker'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
                                         <option <?= $aAppointment['onderhoudssticker'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
@@ -419,7 +419,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="hoofdschakelaarTerug">Hoofdschakelaar teruggeschroefd?</label>
-                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="hoofdschakelaarTerug" name="hoofdschakelaarTerug" title="Selecteer een antwoord">
+                                    <select <?= (!(UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ? 'readonly disabled ' : '') ?>class="form-control" id="hoofdschakelaarTerug" name="hoofdschakelaarTerug" title="Selecteer een antwoord">
                                         <option value="">- Selecteer</option>
                                         <option <?= $aAppointment['hoofdschakelaarTerug'] == 'Ja' ? 'selected ' : '' ?>value="Ja">Ja</option>
                                         <option <?= $aAppointment['hoofdschakelaarTerug'] == 'Nee' ? 'selected ' : '' ?>value="Nee">Nee</option>
@@ -429,7 +429,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <?php if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin()) { ?>
+                                <?php if (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) { ?>
                                 <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />
                                 <?php } ?>
                             </div>

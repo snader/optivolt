@@ -138,7 +138,7 @@ class UserAccessGroup extends Model
         $bResult = false;
         foreach ($this->getModules('active-all') AS $oModule) {
 
-            if (strtolower($oModule->name) == strtolower($sModuleName)) {
+            if (strtolower($oModule->name ?? '') == strtolower($sModuleName ?? '')) {
                 $bResult = true;
                 break;
             }

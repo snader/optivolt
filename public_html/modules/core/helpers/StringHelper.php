@@ -30,7 +30,7 @@ class StringHelper
 
         $sPascal = '';
         foreach ($aString as $sSegment) {
-            $sPascal .= ucfirst(strtolower($sSegment));
+            $sPascal .= ucfirst(strtolower($sSegment ?? ''));
         }
 
         return $sPascal;
@@ -48,9 +48,9 @@ class StringHelper
         $sString = static::getTranslatable($sString);
         $aString = explode('-', $sString);
 
-        $sCamel = strtolower(array_shift($aString));
+        $sCamel = strtolower(array_shift($aString) ?? '');
         foreach ($aString as $sSegment) {
-            $sCamel .= ucfirst(strtolower($sSegment));
+            $sCamel .= ucfirst(strtolower($sSegment ?? ''));
         }
 
         return $sCamel;
@@ -67,7 +67,7 @@ class StringHelper
     {
         $sString = static::getTranslatable($sString);
 
-        return strtolower($sString);
+        return strtolower($sString ?? '');
     }
 
     /**
@@ -81,7 +81,7 @@ class StringHelper
     {
         $sString = static::getTranslatable($sString, '/__+?/', '_');
 
-        return strtolower($sString);
+        return strtolower($sString ?? '');
     }
 
     /**
@@ -107,7 +107,7 @@ class StringHelper
     {
         $sString = static::getTranslatable($sString, '/\.\.+?/', '.');
 
-        return strtolower($sString);
+        return strtolower($sString ?? '');
     }
 
     /**
@@ -121,7 +121,7 @@ class StringHelper
     {
         $sString = static::getTranslatable($sString, '/\/\/+?/', '/');
 
-        return strtolower($sString);
+        return strtolower($sString ?? '');
     }
 
     /**

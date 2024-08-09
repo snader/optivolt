@@ -133,7 +133,7 @@ class InventarisationManager
 
         $oDb = DBConnections::get();
 
-        return $oDb->query($sQuery, QRY_OBJECT, "SystemReport");
+        return $oDb->query($sQuery, QRY_OBJECT, "Inventarisation");
     }
 
     /**
@@ -151,7 +151,7 @@ class InventarisationManager
 
         $oDb = DBConnections::get();
 
-        return $oDb->query($sQuery, QRY_OBJECT, "SystemReport");
+        return $oDb->query($sQuery, QRY_OBJECT, "Inventarisation");
     }
 
 

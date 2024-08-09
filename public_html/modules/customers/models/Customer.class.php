@@ -27,6 +27,7 @@ class Customer extends Model
     private $aCustomerGroups                  = null;
     private $aLocations                       = null;
     public  $countryId;
+    public  $customerGroupId;
 
     /**
      * @var \Customer

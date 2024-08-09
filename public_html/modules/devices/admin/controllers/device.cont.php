@@ -135,6 +135,9 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 } else {
 
     $aDeviceFilter[] = '';
+
+    $iPerPage = 9999;
+    $iStart = 0;
        
     #display overview
     $aAllDevices             = DeviceManager::getDevicesByFilter($aDeviceFilter, $iPerPage, $iStart, $iFoundRows);

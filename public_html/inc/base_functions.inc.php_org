@@ -629,7 +629,7 @@ function prettyUrlPart($sUrlPart, $bConvertToUTF8 = false)
     $sUrlPart = preg_replace('#-+#', '-', $sUrlPart); //remove all double hyphens
     $sUrlPart = trim($sUrlPart, '-'); //remove hyphens at beginning and end of string
 
-    $sUrlPart = strtolower($sUrlPart ?? ''); //string to lower case characters
+    $sUrlPart = strtolower($sUrlPart); //string to lower case characters
 
     return $sUrlPart;
 }
@@ -654,7 +654,7 @@ function slugify($text, string $divider = '-')
   $text = preg_replace('~-+~', $divider, $text);
 
   // lowercase
-  $text = strtolower($text ?? '');
+  $text = strtolower($text);
 
   if (empty($text)) {
     return 'n-a';
@@ -1315,7 +1315,7 @@ function shutdown_handler()
     }
     $sErrorMsg .= $aErrorDetails['message'] . ' in <b>' . $aErrorDetails['file'] . '</b>' . ' on line ' . $aErrorDetails['line'] . '<br />';
 
-    if (null !== DEBUG && DEBUG == 1) {
+    if (DEBUG) {
         echo $sErrorMsg;
     } else {
         Debug::logError($aErrorDetails['type'], $sErrorMsg, $aErrorDetails['file'], $aErrorDetails['line'], '', Debug::LOG_IN_EMAIL);
@@ -1535,7 +1535,7 @@ function decimal2valuta($fDecimal, $sLang = 'nl', $bWithCurrencySymbol = true)
  */
 function _e($mValue)
 {
-    return htmlentities($mValue ?? '', ENT_QUOTES, 'UTF-8', false);
+    return htmlentities($mValue, ENT_QUOTES, 'UTF-8', false);
 }
 
 /**
@@ -1548,8 +1548,8 @@ function _e($mValue)
  */
 function compareSortValue($oX, $oY)
 {
-    $oX->sSortValue = strtolower($oX->sSortValue ?? '');
-    $oY->sSortValue = strtolower($oY->sSortValue ?? '');
+    $oX->sSortValue = strtolower($oX->sSortValue);
+    $oY->sSortValue = strtolower($oY->sSortValue);
 
     if ($oX->sSortValue == $oY->sSortValue) {
         return 0;
@@ -1726,7 +1726,7 @@ if (!function_exists('getallheaders')) {
             if (substr($key, 0, 5) === 'HTTP_') {
                 $key = substr($key, 5);
                 if (!isset($copy_server[$key]) || !isset($_SERVER[$key])) {
-                    $key           = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', $key) ?? '')));
+                    $key           = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', $key))));
                     $headers[$key] = $value;
                 }
             } elseif (isset($copy_server[$key])) {
@@ -2180,17 +2180,5 @@ function saveLog($link, $title, $content) {
     $oLog->content = $content;
    
     LogManager::saveLog($oLog);
-
-}
-
-/**
- * 
- */
-function strtolowernull($sString ) {
-
-    if ($sString) {
-        return strtolower($sString ?? '');
-    } 
-    return '';
 
 }

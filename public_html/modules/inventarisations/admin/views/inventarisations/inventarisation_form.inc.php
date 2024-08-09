@@ -88,6 +88,7 @@
                         
                         <?php
                         // Table 1 - SUB systemReports here with parentID = $oInventarisation->inventarisationId
+                        
                         if (isset($aInventarisations) && !empty($aInventarisations)) {
 
                             foreach ($aInventarisations as $oSubInventarisation) {
@@ -98,7 +99,8 @@
                                     empty($oSubInventarisation->position) && 
                                     empty($oSubInventarisation->freeFieldAmp) && 
                                     empty($oSubInventarisation->stroomTrafo) 
-                                    ) {
+                                    ) {           
+                                                      
                                         continue;
                                     }
                         ?>

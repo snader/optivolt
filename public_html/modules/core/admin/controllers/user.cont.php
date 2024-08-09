@@ -92,12 +92,13 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
             $oUser->lockedReason = "";
         }
 
-        if ($oUser && $oUser->isOnlineChangeable() == 2 && $oUser->userId != $oCurrentUser->userId) {
+        if ($oUser && $oUser->isOnlineChangeable() > 1) {
             if ($oUser->deactivation == 1) {
                 $sLockedReason     = $oUser->lockedReason;
                 $sDeactivationDate = Date::strToDate('now')
                     ->format('%Y-%m-%d %H:%M:%S');
             } else {
+                $bDeactivation = 0;
                 $sLockedReason     = "";
                 $sDeactivationDate = null;
             }
@@ -237,7 +238,7 @@ elseif (http_get("param1") == 'crop-image' && is_numeric(http_get("imageId"))) {
     $sLockedReason = '';
     $oResObj       = new stdClass(); //standard class for json feedback
     // update online for user
-    if ($oUser && $oUser->isOnlineChangeable() == 2 & $oUser->userId != $oCurrentUser->userId) {
+    if ($oUser && $oUser->isOnlineChangeable() > 1 ) {
         $oResObj->success      = UserManager::updateDeactivationByUser($bDeactivation, $oUser, $sLockedReason, $sDeactivationDate);
         $oResObj->userId       = $iUserId;
         $oResObj->online       = $bDeactivation;

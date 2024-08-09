@@ -89,7 +89,7 @@
         }
         if ($oCurrentUser->isAdmin()) {
             echo '<a class="action_icon delete_icon" title="' . sysTranslations::get('sysTrans_delete_systemTranslation') . '" onclick="return confirmChoice(\'' . strtolower(
-                    sysTranslations::get('sysTrans_systemTranslation')
+                    sysTranslations::get('sysTrans_systemTranslation') ?? ''
                 ) . ' ' . $oSiteTranslation->label . '\');" href="' . ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oSiteTranslation->siteTranslationId . '?' . CSRFSynchronizerToken::query() . '"></a>';
         }
         echo '</td>';

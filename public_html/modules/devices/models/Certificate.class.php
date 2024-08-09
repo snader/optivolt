@@ -18,7 +18,17 @@ class Certificate extends Model
     public  $lekstroomTouch;    
     public  $created;
     public  $modified;
+    public  $name;
     
+    private $properties = [];
+
+    public function __set($name, $value) {
+        $this->properties[$name] = $value;
+    }
+
+    public function __get($name) {
+        return $this->properties[$name] ?? null;
+    }
 
     /**
      * validate object

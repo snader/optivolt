@@ -27,7 +27,7 @@
                                 <?php
 
                                 foreach (LanguageManager::getLanguagesByFilter(['showAll' => true]) as $oLanguage) {
-                                    echo '<option data-code="' . strtolower($oLanguage->code) . '" ' . ($oLanguage->languageId == $oLocale->languageId ? 'selected' : '') . ' value="' . $oLanguage->languageId . '">' . strtoupper(
+                                    echo '<option data-code="' . strtolower($oLanguage->code ?? '') . '" ' . ($oLanguage->languageId == $oLocale->languageId ? 'selected' : '') . ' value="' . $oLanguage->languageId . '">' . strtoupper(
                                             $oLanguage->code
                                         ) . ' (' . $oLanguage->getTranslations()->name . ')' . '</option>';
                                 }
@@ -44,7 +44,7 @@
                                 <?php
 
                                 foreach (CountryManager::getCountriesByFilter(['showAll' => true]) as $oCountry) {
-                                    echo '<option data-code="' . strtolower($oCountry->code) . '" ' . ($oCountry->countryId == $oLocale->countryId ? 'selected' : '') . ' value="' . $oCountry->countryId . '">' . strtoupper(
+                                    echo '<option data-code="' . strtolower($oCountry->code ?? '') . '" ' . ($oCountry->countryId == $oLocale->countryId ? 'selected' : '') . ' value="' . $oCountry->countryId . '">' . strtoupper(
                                             $oCountry->code
                                         ) . ' (' . $oCountry->getTranslations()->name . ')' . '</option>';
                                 }
@@ -63,11 +63,11 @@
                         <td class="withLabel">
                             <input <?= $oLocale->subdomain == 'language' ? 'checked' : '' ?> class="alignRadio required format-variable select-language subdomain" id="subdomain_language" name="subdomain" type="radio" value="language"/>
                             <label for="subdomain_language"><?= sysTranslations::get('locales_language') ?> <span class="select-language"><?= $oLocale->getLanguage() ? ' (' . strtolower(
-                                            $oLocale->getLanguage()->code
+                                            $oLocale->getLanguage()->code ?? ''
                                         ) . ')' : '' ?></span></label><br/>
                             <input <?= $oLocale->subdomain == 'country' ? 'checked' : '' ?> class="alignRadio required format-variable select-country subdomain" id="subdomain_country" name="subdomain" type="radio" value="country"/> <label
                                     for="subdomain_country"><?= sysTranslations::get('locales_country') ?> <span class="select-country"><?= $oLocale->getCountry() ? ' (' . strtolower(
-                                            $oLocale->getCountry()->code
+                                            $oLocale->getCountry()->code ?? ''
                                         ) . ')' : '' ?></span></label><br/>
                             <input <?= !$oLocale->subdomain ? 'checked' : '' ?> class="alignRadio required format-variable subdomain" id="subdomain_no" name="subdomain" type="radio" value=""/> <label
                                     for="subdomain_no"><?= sysTranslations::get('locales_no_subdomain') ?> <span class="subdomain"></span></label>
@@ -79,11 +79,11 @@
                         <td class="withLabel">
                             <input <?= $oLocale->prefix1 == 'language' ? 'checked' : '' ?> class="alignRadio required format-variable select-language prefix1" id="prefix1_language" name="prefix1" type="radio" value="language"/> <label
                                     for="prefix1_language"><?= sysTranslations::get('locales_language') ?> <span class="select-language"><?= $oLocale->getLanguage() ? ' (' . strtolower(
-                                            $oLocale->getLanguage()->code
+                                            $oLocale->getLanguage()->code ?? ''
                                         ) . ')' : '' ?></span></label><br/>
                             <input <?= $oLocale->prefix1 == 'country' ? 'checked' : '' ?> class="alignRadio required format-variable select-country prefix1" id="prefix1_country" name="prefix1" type="radio" value="country"/> <label
                                     for="prefix1_country"><?= sysTranslations::get('locales_country') ?> <span class="select-country"><?= $oLocale->getCountry() ? ' (' . strtolower(
-                                            $oLocale->getCountry()->code
+                                            $oLocale->getCountry()->code ?? ''
                                         ) . ')' : '' ?></span></label><br/>
                             <input <?= !$oLocale->prefix1 ? 'checked' : '' ?> class="alignRadio required format-variable prefix1" id="prefix1_no" name="prefix1" type="radio" value=""/> <label for="prefix1_no"><?= sysTranslations::get(
                                     'locales_no_prefix'

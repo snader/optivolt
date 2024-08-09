@@ -2227,7 +2227,7 @@ class Calculation
     public function setLocale($locale)
     {
         //    Identify our locale and language
-        $language = $locale = strtolower($locale);
+        $language = $locale = strtolower($locale ?? '');
         if (strpos($locale, '_') !== false) {
             list($language) = explode('_', $locale);
         }

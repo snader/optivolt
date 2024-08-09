@@ -702,7 +702,7 @@ class Html
     protected function startFontTag($tag)
     {
         foreach ($tag->attributes as $attribute) {
-            $attributeName = strtolower($attribute->name);
+            $attributeName = strtolower($attribute->name ?? '');
             $attributeValue = $attribute->value;
 
             if ($attributeName == 'color') {
@@ -817,7 +817,7 @@ class Html
 
     protected function parseElementNode(DOMElement $element)
     {
-        $callbackTag = strtolower($element->nodeName);
+        $callbackTag = strtolower($element->nodeName ?? '');
         $this->stack[] = $callbackTag;
 
         $this->handleCallback($element, $callbackTag, $this->startTagCallbacks);

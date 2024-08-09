@@ -57,6 +57,9 @@ class Page extends Model
     private $aWhitePapers            = [];
     private $aUsps                   = [];
 
+    public $showNews;
+    public $showOnHome;
+
     /**
      * @var \CallToAction[]
      */

@@ -101,7 +101,7 @@
                                         <?php
                                         if ($oUser->isDeletable()) {
                                         ?>
-                                            <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oUser->userId ?>" title="<?= sysTranslations::get('user_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('user_user')) . ' ' . $oUser->name ?>');">
+                                            <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oUser->userId ?>" title="<?= sysTranslations::get('user_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('user_user') ?? '') . ' ' . $oUser->name ?>');">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         <?php } else { ?><span class="btn btn-danger btn-xs disabled"><i class="fas fa-trash"></i></span><?php } ?>

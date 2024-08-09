@@ -9,6 +9,8 @@ class Image
     // association with imageFile class
     private $aImageFiles = null;
 
+    public $coverImage;
+
     /**/
 
     public function getImageFiles()

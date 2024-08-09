@@ -355,7 +355,7 @@ class Date
      */
     public static function isDateTimeFormatCode($pFormatCode)
     {
-        if (strtolower($pFormatCode) === strtolower(NumberFormat::FORMAT_GENERAL)) {
+        if (strtolower($pFormatCode ?? '') === strtolower(NumberFormat::FORMAT_GENERAL ?? '')) {
             //    "General" contains an epoch letter 'e', so we trap for it explicitly here (case-insensitive check)
             return false;
         }

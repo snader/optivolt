@@ -59,9 +59,9 @@
           ksort($aChildrenForMenuByOrderKey);
 
           $bHasChildren = count($aChildrenForMenuByOrderKey) > 0;
-          $bIsActive    = strtolower($oMainModuleForMenu->name) == strtolower(http_get("controller"));
+          $bIsActive    = strtolower($oMainModuleForMenu->name  ?? '') == strtolower(http_get("controller") ?? '');
 
-          if (strtolower($oMainModuleForMenu->name) == strtolower(http_get("controller"))) {
+          if (strtolower($oMainModuleForMenu->name ?? '') == strtolower(http_get("controller") ?? '')) {
             $oCurrentModule = $oMainModuleForMenu;
           }
 
@@ -85,10 +85,10 @@
             <!-- collapse menu -->
             <?php
             $sClassesSub = 'nav-item';
-            $sClassesSub .= $bIsActive || $oMainModuleForMenu->hasChild(strtolower(http_get("controller"))) ? ' menu-is-opening menu-open ' : ''; // this item is active
+            $sClassesSub .= $bIsActive || $oMainModuleForMenu->hasChild(strtolower(http_get("controller") ?? '')) ? ' menu-is-opening menu-open ' : ''; // this item is active
             ?>
             <li class="<?= $sClassesSub ?>">
-              <a href="<?= ADMIN_FOLDER . '/' . $oMainModuleForMenu->name ?>" class="nav-link <?= ($bIsActive || $oMainModuleForMenu->hasChild(strtolower(http_get("controller"))) ? ' active' : '') ?>">
+              <a href="<?= ADMIN_FOLDER . '/' . $oMainModuleForMenu->name ?>" class="nav-link <?= ($bIsActive || $oMainModuleForMenu->hasChild(strtolower(http_get("controller") ?? '')) ? ' active' : '') ?>">
                 <?= (!empty($oMainModuleForMenu->icon) ? '<i class="nav-icon fas ' . $oMainModuleForMenu->icon . '"></i>' : '') ?>
                 <p>
                   <?= sysTranslations::get($oMainModuleForMenu->collapseName) ?>
@@ -111,17 +111,17 @@
                 <?php
 
                 foreach ($aChildrenForMenuByOrderKey as $oChild) {
-                  if (strtolower($oChild->name) == strtolower(http_get("controller"))) {
+                  if (strtolower($oChild->name ?? '') == strtolower(http_get("controller") ?? '')) {
                     $oCurrentModule = $oChild;
                   }
                   $sClassesSub = 'nav-item';
-                  $sClassesSub .= strtolower($oChild->name) == strtolower(http_get("controller")) ? ' menu-is-opening menu-open ' : ''; // this item is active
+                  $sClassesSub .= strtolower($oChild->name ?? '') == strtolower(http_get("controller") ?? '') ? ' menu-is-opening menu-open ' : ''; // this item is active
 
                 ?>
                   <li class="<?= $sClassesSub ?>
                             <?= ($oChild->linkName == 'locations_menu' ? ' hide' : '') ?>
                             <?= ($oChild->linkName == 'system_reports_menu' ? ' hide' : '') ?>">
-                    <a href="<?= ADMIN_FOLDER . '/' . $oChild->name ?>" class="nav-link<?= (strtolower($oChild->name) == strtolower(http_get("controller")) ? ' active ' : '') ?>">
+                    <a href="<?= ADMIN_FOLDER . '/' . $oChild->name ?>" class="nav-link<?= (strtolower($oChild->name ?? '') == strtolower(http_get("controller") ?? '') ? ' active ' : '') ?>">
                       &nbsp;
                       <?= (!empty($oChild->icon) ? '<i class="nav-icon fas ' . $oChild->icon . '"></i>' : '') ?>
                       <p>

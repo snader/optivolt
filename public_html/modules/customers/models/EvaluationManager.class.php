@@ -68,6 +68,8 @@ class EvaluationManager
      */
     public static function saveEvaluation(Evaluation $oEvaluation)
     {
+
+     
         $sQuery = ' INSERT INTO `evaluations` (
                         `evaluationId`,
                         `customerId`,                        
@@ -123,6 +125,9 @@ class EvaluationManager
                         `loginHash`=VALUES(`loginHash`),
                         `grade`=VALUES(`grade`)
                     ;';
+
+
+        _d($sQuery);
 
         $oDb = DBConnections::get();
         $oDb->query($sQuery, QRY_NORESULT);

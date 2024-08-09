@@ -391,7 +391,7 @@ class TextData
             $mixedCaseString = ($mixedCaseString) ? Calculation::getTRUE() : Calculation::getFALSE();
         }
 
-        return StringHelper::strToLower($mixedCaseString);
+        return StringHelper::strToLower($mixedCaseString ?? '');
     }
 
     /**

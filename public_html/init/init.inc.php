@@ -3,6 +3,9 @@
 //timezone settings
 date_default_timezone_set('Europe/Amsterdam');
 
+// load local config settings
+include_once 'loc.init.inc.php';
+
 // server should keep session data for AT LEAST 1 hour
 ini_set('session.gc_maxlifetime', 3600);
 
@@ -75,8 +78,7 @@ register_shutdown_function('shutdown_handler');
 # hide errors after custom error handler is set
 ini_set('display_errors', false);
 
-// load local config settings
-include_once 'loc.init.inc.php';
+
 
 // prefix for template version
 define('SITE_CORE_TEMPLATE_FOLDER', SITE_MODULES_FOLDER . '/core/site/' . SITE_TEMPLATE);

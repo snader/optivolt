@@ -230,14 +230,14 @@ class AccessLogManager
      */
     public static function addLoginAttempt(AccessLog $oAccessLog, $sExtraInfo = null)
     {
-        $oAccessLog->lastLoginFail = strftime(Date::FORMAT_DB_F);
+        $oAccessLog->lastLoginFail = Date::stringFromTime(Date::FORMAT_DB_F);
         $oAccessLog->loginFails    += 1;
 
         $bDoLock = false;
 
         // IP block, to many failed tries
         if ($oAccessLog->loginFails >= self::max_login_attempts_ip_block) {
-            $oAccessLog->blocked   = strftime(Date::FORMAT_DB_F);
+            $oAccessLog->blocked   = Date::stringFromTime(Date::FORMAT_DB_F);
             $oAccessLog->reason    = 'To many failed login attempts';
             $oAccessLog->extraInfo = $sExtraInfo;
 

@@ -243,9 +243,9 @@ class Xml extends BaseReader
 
     private static function identifyFixedStyleValue($styleList, &$styleAttributeValue)
     {
-        $styleAttributeValue = strtolower($styleAttributeValue);
+        $styleAttributeValue = strtolower($styleAttributeValue ?? '');
         foreach ($styleList as $style) {
-            if ($styleAttributeValue == strtolower($style)) {
+            if ($styleAttributeValue == strtolower($style ?? '')) {
                 $styleAttributeValue = $style;
 
                 return true;
@@ -769,7 +769,7 @@ class Xml extends BaseReader
                     case 'Weight':
                         break;
                     case 'Position':
-                        $borderPosition = strtolower($borderStyleValue);
+                        $borderPosition = strtolower($borderStyleValue ?? '');
 
                         break;
                     case 'Color':
@@ -847,7 +847,7 @@ class Xml extends BaseReader
 
                     break;
                 case 'Pattern':
-                    $this->styles[$styleID]['fill']['fillType'] = strtolower($styleAttributeValue);
+                    $this->styles[$styleID]['fill']['fillType'] = strtolower($styleAttributeValue ?? '');
 
                     break;
             }

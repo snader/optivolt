@@ -92,7 +92,7 @@ class CronManager
         // folder is writable
         if (is_writable(DOCUMENT_ROOT . self::LOG_FOLDER)) {
             $rFile = @fopen($sFile, 'a+');
-            $sLine = strftime('%c - ') . $sLine . PHP_EOL;
+            $sLine = Date::stringFromTime('%c - ') . $sLine . PHP_EOL;
             @fwrite($rFile, $sLine);
             @fclose($rFile);
 

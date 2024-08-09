@@ -45,8 +45,8 @@ if (http_post('action') == 'import' && CSRFSynchronizerToken::validate()) {
   if (!empty($_FILES['file']) && $_FILES['file']['error'] === 0) {
 
     $sFile         = $_FILES['file']['name'];
-    $sExtension    = strtolower(pathinfo($sFile, PATHINFO_EXTENSION));
-    $sFileName     = strtolower(pathinfo($sFile, PATHINFO_FILENAME));
+    $sExtension    = strtolower(pathinfo($sFile, PATHINFO_EXTENSION) ?? '');
+    $sFileName     = strtolower(pathinfo($sFile, PATHINFO_FILENAME) ?? '');
     $sFileLocation = $_FILES['file']['tmp_name'];
 
     try {

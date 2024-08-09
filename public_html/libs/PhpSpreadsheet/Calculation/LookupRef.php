@@ -477,7 +477,7 @@ class LookupRef
         $matchType = ($matchType === null) ? 1 : (int) Functions::flattenSingleValue($matchType);
 
         // MATCH is not case sensitive
-        $lookupValue = strtolower($lookupValue);
+        $lookupValue = strtolower($lookupValue ?? '');
 
         // Lookup_value type has to be number, text, or logical values
         if ((!is_numeric($lookupValue)) && (!is_string($lookupValue)) && (!is_bool($lookupValue))) {
@@ -505,7 +505,7 @@ class LookupRef
             }
             // Convert strings to lowercase for case-insensitive testing
             if (is_string($lookupArrayValue)) {
-                $lookupArray[$i] = strtolower($lookupArrayValue);
+                $lookupArray[$i] = strtolower($lookupArrayValue ?? '');
             }
             if (($lookupArrayValue === null) && (($matchType == 1) || ($matchType == -1))) {
                 $lookupArray = array_slice($lookupArray, 0, $i - 1);
@@ -664,7 +664,7 @@ class LookupRef
     {
         reset($a);
         $firstColumn = key($a);
-        if (($aLower = strtolower($a[$firstColumn])) == ($bLower = strtolower($b[$firstColumn]))) {
+        if (($aLower = strtolower($a[$firstColumn] ?? '')) == ($bLower = strtolower($b[$firstColumn] ?? ''))) {
             return 0;
         }
 
@@ -713,7 +713,7 @@ class LookupRef
         $rowNumber = $rowValue = false;
         foreach ($lookup_array as $rowKey => $rowData) {
             if ((is_numeric($lookup_value) && is_numeric($rowData[$firstColumn]) && ($rowData[$firstColumn] > $lookup_value)) ||
-                (!is_numeric($lookup_value) && !is_numeric($rowData[$firstColumn]) && (strtolower($rowData[$firstColumn]) > strtolower($lookup_value)))) {
+                (!is_numeric($lookup_value) && !is_numeric($rowData[$firstColumn]) && (strtolower($rowData[$firstColumn] ?? '') > strtolower($lookup_value ?? '')))) {
                 break;
             }
             // remember the last key, but only if datatypes match
@@ -778,7 +778,7 @@ class LookupRef
         $rowNumber = $rowValue = false;
         foreach ($lookup_array[$firstColumn] as $rowKey => $rowData) {
             if ((is_numeric($lookup_value) && is_numeric($rowData) && ($rowData > $lookup_value)) ||
-                (!is_numeric($lookup_value) && !is_numeric($rowData) && (strtolower($rowData) > strtolower($lookup_value)))) {
+                (!is_numeric($lookup_value) && !is_numeric($rowData) && (strtolower($rowData ?? '') > strtolower($lookup_value ?? '')))) {
                 break;
             }
             $rowNumber = $rowKey;

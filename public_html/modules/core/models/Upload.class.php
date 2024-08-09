@@ -48,7 +48,7 @@ class Upload
         $this->sMimeType = finfo_file($oFinfo, $this->sTmpName);
 
         # extract extension and file name
-        $this->sExtension = strtolower(pathinfo($this->sName, PATHINFO_EXTENSION));
+        $this->sExtension = strtolower(pathinfo($this->sName, PATHINFO_EXTENSION) ?? '');
         $this->sFileName  = prettyUrlPart(pathinfo($this->sName, PATHINFO_FILENAME));
 
         # set location folder
