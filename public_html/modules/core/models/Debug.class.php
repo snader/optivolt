@@ -169,7 +169,7 @@ class Debug
         $sMailBody .= "<p>Error: " . $sError . "</p>";
         $sMailBody .= "<p>File: " . $sFile . "</p>";
         $sMailBody .= "<p>Line: " . $iLine . "</p>";
-        $sMailBody .= "<p>Timestamp: " . strftime("%c") . "</p>";
+        $sMailBody .= "<p>Timestamp: " . Date::stringFromTime("%c") . "</p>";
         $sMailBody .= "<p>Backtrace: <br />\n" . $sBackTrace . "</p>";
         $sMailBody .= "<p>Extra info: <br />\n" . $sExtraInfo . "</p>";
 
@@ -194,7 +194,7 @@ class Debug
     private static function writeErrorToFile($iErrorno, $sError, $sFile, $iLine, $sBackTrace, $sExtraInfo)
     {
         $sContents = '';
-        $sContents .= "[" . strftime("%c") . "] [" . $iErrorno . "] " . $sError . " \r\n";
+        $sContents = "[" . Date::stringFromTime("%c") . "] [" . $iErrorno . "] " . $sError . " \r\n";
         $sContents .= "File: " . $sFile . ":" . $iLine . "\r\n";
 
         if ($sExtraInfo) {

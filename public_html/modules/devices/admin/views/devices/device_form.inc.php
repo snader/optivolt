@@ -33,6 +33,7 @@
                       <label for="online"><?= sysTranslations::get('global_activated') ?></label>
                     </div>
                     <div class="col-md-8">
+                      <input type="hidden" value="0" name="online" />
                       <input type="checkbox" title="<?= sysTranslations::get('set_online') ?>" id="online" name="online" data-size="mini" data-bootstrap-switch data-off-color="danger" value="1" data-on-color="success" data-on-text="<?= sysTranslations::get('global_yes') ?>" data-off-text="<?= sysTranslations::get('global_no') ?>" <?= $oDevice->online ? 'CHECKED' : '' ?>>
                     </div>
                   </div>

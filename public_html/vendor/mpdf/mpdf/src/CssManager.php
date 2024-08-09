@@ -371,9 +371,9 @@ class CssManager
 							} elseif (preg_match('/^[#](.*)$/', $t, $m)) {
 								$tag = 'ID>>' . $m[1];
 							} elseif (preg_match('/^\[LANG=[\'\"]{0,1}([A-Z\-]{2,11})[\'\"]{0,1}\]$/', $t, $m)) {
-								$tag = 'LANG>>' . strtolower($m[1]);
+								$tag = 'LANG>>' . strtolower($m[1] ?? '');
 							} elseif (preg_match('/^:LANG\([\'\"]{0,1}([A-Z\-]{2,11})[\'\"]{0,1}\)$/', $t, $m)) { // mPDF 6  Special case for lang as attribute selector
-								$tag = 'LANG>>' . strtolower($m[1]);
+								$tag = 'LANG>>' . strtolower($m[1] ?? '');
 							} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . ')[.](.*)$/', $t, $m)) { // mPDF 6  Special case for lang as attribute selector
 								$classes = explode('.', $m[2]);
 								sort($classes);
@@ -383,9 +383,9 @@ class CssManager
 							} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . ')[#](.*)$/', $t, $m)) {
 								$tag = $m[1] . '>>ID>>' . $m[2];
 							} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . ')\[LANG=[\'\"]{0,1}([A-Z\-]{2,11})[\'\"]{0,1}\]$/', $t, $m)) {
-								$tag = $m[1] . '>>LANG>>' . strtolower($m[2]);
+								$tag = $m[1] . '>>LANG>>' . strtolower($m[2] ?? '');
 							} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . '):LANG\([\'\"]{0,1}([A-Z\-]{2,11})[\'\"]{0,1}\)$/', $t, $m)) {  // mPDF 6  Special case for lang as attribute selector
-								$tag = $m[1] . '>>LANG>>' . strtolower($m[2]);
+								$tag = $m[1] . '>>LANG>>' . strtolower($m[2] ?? '');
 							} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . ')$/', $t)) { // mPDF 6  Special case for lang as attribute selector
 								$tag = $t;
 							}
@@ -420,9 +420,9 @@ class CssManager
 								} elseif (preg_match('/^[#](.*)$/', $t, $m)) {
 									$tag = 'ID>>' . $m[1];
 								} elseif (preg_match('/^\[LANG=[\'\"]{0,1}([A-Z\-]{2,11})[\'\"]{0,1}\]$/', $t, $m)) {
-									$tag = 'LANG>>' . strtolower($m[1]);
+									$tag = 'LANG>>' . strtolower($m[1] ?? '');
 								} elseif (preg_match('/^:LANG\([\'\"]{0,1}([A-Z\-]{2,11})[\'\"]{0,1}\)$/', $t, $m)) { // mPDF 6  Special case for lang as attribute selector
-									$tag = 'LANG>>' . strtolower($m[1]);
+									$tag = 'LANG>>' . strtolower($m[1] ?? '');
 								} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . ')[.](.*)$/', $t, $m)) { // mPDF 6  Special case for lang as attribute selector
 									$classes = explode('.', $m[2]);
 									sort($classes);
@@ -432,9 +432,9 @@ class CssManager
 								} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . ')[#](.*)$/', $t, $m)) {
 									$tag = $m[1] . '>>ID>>' . $m[2];
 								} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . ')\[LANG=[\'\"]{0,1}([A-Z\-]{2,11})[\'\"]{0,1}\]$/', $t, $m)) {
-									$tag = $m[1] . '>>LANG>>' . strtolower($m[2]);
+									$tag = $m[1] . '>>LANG>>' . strtolower($m[2] ?? '');
 								} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . '):LANG\([\'\"]{0,1}([A-Z\-]{2,11})[\'\"]{0,1}\)$/', $t, $m)) { // mPDF 6  Special case for lang as attribute selector
-									$tag = $m[1] . '>>LANG>>' . strtolower($m[2]);
+									$tag = $m[1] . '>>LANG>>' . strtolower($m[2] ?? '');
 								} elseif (preg_match('/^(' . $this->mpdf->allowedCSStags . ')$/', $t)) { // mPDF 6  Special case for lang as attribute selector
 									$tag = $t;
 								}
@@ -601,7 +601,7 @@ class CssManager
 			return '';
 		}
 
-		$s = strtolower($s);
+		$s = strtolower($s ?? '');
 
 		return $w . ' ' . $s . ' ' . $c;
 	}
@@ -617,7 +617,7 @@ class CssManager
 		foreach ($prop as $k => $v) {
 
 			if ($k !== 'BACKGROUND-IMAGE' && $k !== 'BACKGROUND' && $k !== 'ODD-HEADER-NAME' && $k !== 'EVEN-HEADER-NAME' && $k !== 'ODD-FOOTER-NAME' && $k !== 'EVEN-FOOTER-NAME' && $k !== 'HEADER' && $k !== 'FOOTER') {
-				$v = strtolower($v);
+				$v = strtolower($v ?? '');
 			}
 
 			if ($k === 'FONT') {
@@ -681,7 +681,7 @@ class CssManager
 					$fonttype = trim($f);
 					$fonttype = preg_replace('/["\']*(.*?)["\']*/', '\\1', $fonttype);
 					$fonttype = preg_replace('/ /', '', $fonttype);
-					$v = strtolower(trim($fonttype));
+					$v = strtolower(trim($fonttype) ?? '');
 
 					if (isset($this->mpdf->fonttrans[$v]) && $this->mpdf->fonttrans[$v]) {
 						$v = $this->mpdf->fonttrans[$v];
@@ -703,7 +703,7 @@ class CssManager
 						$fonttype = trim($f);
 						$fonttype = preg_replace('/["\']*(.*?)["\']*/', '\\1', $fonttype);
 						$fonttype = preg_replace('/ /', '', $fonttype);
-						$v = strtolower(trim($fonttype));
+						$v = strtolower(trim($fonttype) ?? '');
 
 						if (isset($this->mpdf->fonttrans[$v]) && $this->mpdf->fonttrans[$v]) {
 							$v = $this->mpdf->fonttrans[$v];
@@ -860,7 +860,7 @@ class CssManager
 
 				$prop = preg_split('/\s+/', trim($v));
 
-				if (strtolower(trim($v)) === 'none') {
+				if (strtolower(trim($v) ?? '') === 'none') {
 					$newprop['TEXT-OUTLINE'] = 'none';
 				} elseif (count($prop) == 2) {
 					$newprop['TEXT-OUTLINE-WIDTH'] = $prop[0];
@@ -937,14 +937,14 @@ class CssManager
 
 				if (preg_match('/url\([\'\"]{0,1}(.*?)[\'\"]{0,1}\)/i', $v, $m)) {
 					$newprop['BACKGROUND-IMAGE'] = $m[1];
-				} elseif (strtolower($v) === 'none') {
+				} elseif (strtolower($v ?? '') === 'none') {
 					$newprop['BACKGROUND-IMAGE'] = '';
 				}
 
 			} elseif ($k === 'BACKGROUND-REPEAT') {
 
 				if (preg_match('/(repeat-x|repeat-y|no-repeat|repeat)/i', $v, $m)) {
-					$newprop['BACKGROUND-REPEAT'] = strtolower($m[1]);
+					$newprop['BACKGROUND-REPEAT'] = strtolower($m[1] ?? '');
 				}
 
 			} elseif ($k === 'BACKGROUND-POSITION') {
@@ -990,9 +990,9 @@ class CssManager
 
 					$angle = $m[1] + 0;
 
-					if (strtolower($m[2]) === 'grad') {
+					if (strtolower($m[2] ?? '') === 'grad') {
 						$angle *= (360 / 400);
-					} elseif (strtolower($m[2]) === 'rad') {
+					} elseif (strtolower($m[2] ?? '') === 'rad') {
 						$angle = rad2deg($angle);
 					}
 

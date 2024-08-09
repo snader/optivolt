@@ -68,7 +68,7 @@ foreach ($aAllCustomers as $oCustomer) {
                             <?php
                             if ($bShowAddButton) { ?>
                                 <div class="input-group-append">
-                                    <a class="addBtn" href="<?= ADMIN_FOLDER . '/' . http_get('controller') ?>/toevoegen?customerId=<?= $aEvaluationFilter['customerId'] ?>" title="<?= sysTranslations::get('add_item') ?>">
+                                    <a class="addBtn" href="<?= ADMIN_FOLDER . '/' . http_get('controller') ?>/toevoegen?customerId=<?= $aEvaluationFilter['customerId'] ?? '' ?>" title="<?= sysTranslations::get('add_item') ?>">
                                         <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
                                             <i class="fas fa-plus-circle"></i>
                                         </button>
@@ -129,7 +129,7 @@ foreach ($aAllCustomers as $oCustomer) {
                         <?php
                                           
                         
-                        echo '<td>' .  _e($oEvaluation->companyName) . $iValue. '</td>';
+                        echo '<td>' .  _e($oEvaluation->companyName) . '</td>';
                         echo '<td>' .  _e($oEvaluation->nameSigned) . '</td>';
                         echo '<td>' . $sStars . '</td>';
                         echo '<td style="text-align:center;">' . ($oEvaluation->digitalSigned ? '<i class="fas fa-check"></i>' : '') . '</td>';

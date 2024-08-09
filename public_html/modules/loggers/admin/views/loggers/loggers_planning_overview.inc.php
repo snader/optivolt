@@ -15,7 +15,7 @@
         &nbsp;
         <!-- Date range -->
         <div class="form-group my-0" style="display:inline-block;">
-          <form id="filterLoggers" method="post" action="">
+          <form id="filterLoggers" method="post" action="<?= ADMIN_FOLDER ?>/<?= http_get('controller') ?>">
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -60,7 +60,7 @@
                 <form action="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>" method="POST" class="form-inline pr-2">
                   <input type="hidden" name="filterForm" value="1" />
 
-                  <select class="select2 form-control form-control-sm" name="loggersFilter[customerId]">
+                  <select class="select2 form-control form-control-sm" style="min-width: 200px;" name="loggersFilter[customerId]">
                     <option>Filter klant</option>
                     <?php
                     $bShowAddButton = false;
@@ -175,7 +175,7 @@
                         foreach ($aStartDate[$oLogger->mainLoggerId] as $iCustomerid => $sStartDate) {
                           $iCount++;
                           $sEndDate = $aEndDate[$oLogger->mainLoggerId][$iCustomerid];
-                          if (strtotime($value->format('Y-m-d')) >= strtotime($sStartDate) && strtotime($value->format('Y-m-d')) <= strtotime($sEndDate)) {
+                          if (strtotime($value->format('Y-m-d') ?? '') >= strtotime($sStartDate ?? '') && strtotime($value->format('Y-m-d') ?? '') <= strtotime($sEndDate ?? '')) {
                             $sColorClass = "hovertext soc-" . ($aColors[$oLogger->mainLoggerId][$iCustomerid] ? $aColors[$oLogger->mainLoggerId][$iCustomerid] : $iCount);
                             $sTitle = $aKlantNamen[$oLogger->mainLoggerId][$iCustomerid];
                             $iDays = $aDays[$oLogger->mainLoggerId][$iCustomerid];

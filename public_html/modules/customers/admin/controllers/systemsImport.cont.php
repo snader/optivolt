@@ -51,8 +51,8 @@ if (http_post('action') == 'import' && CSRFSynchronizerToken::validate()) {
     if (!empty($_FILES['file']) && $_FILES['file']['error'] === 0) {
 
         $sFile         = $_FILES['file']['name'];
-        $sExtension    = strtolower(pathinfo($sFile, PATHINFO_EXTENSION));
-        $sFileName     = strtolower(pathinfo($sFile, PATHINFO_FILENAME));
+        $sExtension    = strtolower(pathinfo($sFile, PATHINFO_EXTENSION) ?? '');
+        $sFileName     = strtolower(pathinfo($sFile, PATHINFO_FILENAME) ?? '');
         $sFileLocation = $_FILES['file']['tmp_name'];
 
         try {
@@ -161,13 +161,13 @@ if (http_post('action') == 'import' && CSRFSynchronizerToken::validate()) {
                             $oSystem->systemTypeId = trim($aValue['Systeem.Type']);
                         } else {
 
-                            if (strtolower(trim($aValue['Systeem.Type'])) == "multiliner") {
+                            if (strtolower(trim($aValue['Systeem.Type']) ?? '') == "multiliner") {
                                 $oSystem->systemTypeId = System::SYSTEM_TYPE_MULTILINER;
                             }
-                            if (strtolower(trim($aValue['Systeem.Type'])) == "powerliner") {
+                            if (strtolower(trim($aValue['Systeem.Type']) ?? '') == "powerliner") {
                                 $oSystem->systemTypeId = System::SYSTEM_TYPE_POWERLINER;
                             }
-                            if (strtolower(trim($aValue['Systeem.Type'])) == "vliner" || strtolower(trim($aValue['Systeem.Naam'])) == "v-liner") {
+                            if (strtolower(trim($aValue['Systeem.Type']) ?? '') == "vliner" || strtolower(trim($aValue['Systeem.Naam']) ?? '') == "v-liner") {
                                 $oSystem->systemTypeId = System::SYSTEM_TYPE_VLINER;
                             }
                         }

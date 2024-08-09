@@ -10,7 +10,7 @@ if (!empty($aUrlParts['host']) && isset($_SERVER['HTTP_HOST']) && $aUrlParts['ho
     $aCurrentUrlParts = parse_url(getCurrentUrl());
 
     // check if current host is same as live http host
-    if (!empty($aLiveUrlParts['host']) && !empty($aCurrentUrlParts['host']) && strtolower($aLiveUrlParts['host']) === strtolower($aCurrentUrlParts['host'])) {
+    if (!empty($aLiveUrlParts['host']) && !empty($aCurrentUrlParts['host']) && strtolower($aLiveUrlParts['host'] ?? '') === strtolower($aCurrentUrlParts['host'] ?? '')) {
         Debug::logError('0', 'LIVE_HTTP_URL equals current URL', __FILE__, __LINE__, '', Debug::LOG_IN_EMAIL);
         showHttpError(404);
     }

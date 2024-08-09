@@ -208,7 +208,7 @@ class Column
     public function setJoin($pJoin)
     {
         // Lowercase And/Or
-        $pJoin = strtolower($pJoin);
+        $pJoin = strtolower($pJoin ?? '');
         if (!in_array($pJoin, self::$ruleJoins)) {
             throw new PhpSpreadsheetException('Invalid rule connection for column AutoFilter.');
         }

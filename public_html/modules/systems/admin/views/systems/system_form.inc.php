@@ -155,7 +155,7 @@
 
                                 <?php
                                 echo '<input name="notice[]" ' . (!$oSystem->isEditable() ? 'readonly disabled ' : '') . 'placeholder="Hier invoeren om toe te voegen" value="" class="form-control">';
-                                $aList = explode(PHP_EOL, trim($oSystem->notice));
+                                $aList = explode(PHP_EOL, trim($oSystem->notice ?? ''));
                                 foreach ($aList as $sNotice) {
                                     if (!empty($sNotice)) {
                               

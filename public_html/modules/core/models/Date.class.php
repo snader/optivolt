@@ -5,116 +5,34 @@
 class Date
 {
 
-    const FORMAT_DB   = "yyyy-mm-dd hh:mm:ss";
-    const FORMAT_NL   = "dd-mm-yyyy hh:mm:ss";
+    const FORMAT_DB = "yyyy-mm-dd hh:mm:ss";
+    const FORMAT_NL = "dd-mm-yyyy hh:mm:ss";
     const FORMAT_DB_F = "%Y-%m-%d %H:%M:%S";
-    const DAY         = 86400;
-    const HOUR        = 3600;
-    const MINUTE      = 60;
+    const DAY = 86400;
+    const HOUR = 3600;
+    const MINUTE = 60;
+    const DATE_TYPE = IntlDateFormatter::LONG;
+    const TIME_TYPE = IntlDateFormatter::NONE;
 
-    /*
-     * number of seconds between the Unix Epoch (January 1 1970 00:00:00 GMT) and the time specified.
-     */
+    /** @var DateTime $dateTime */
+    public $dateTime;
 
-    public $iTime;
-
-    /*
-     * day [0-9]+
-     */
-    public $iDay;
-
-    /*
-     * month [0-9]+
-     */
-    public $iMonth;
-
-    /*
-     * year [0-9]+
-     */
-    public $iYear;
-
-    /*
-     * hour [0-9]+
-     */
-    public $iHour;
-
-    /*
-     * minute [0-9]+
-     */
-    public $iMinute;
-
-    /*
-     * second [0-9]+
-     */
-    public $iSecond;
+    private static $formatter;
 
     function __construct($mDate = null, $sFormat = null)
     {
-        /* create Date object from dat/time string */
-        if ($mDate) {
-            if (is_numeric($mDate)) {
-                $this->dateFromTime($mDate); //timestamp meegegeven
-            } elseif ($sFormat) {
-                $this->dateFromFormat($mDate, $sFormat); //format meegegeven dus doe op basis van die
-            } else {
-                $this->dateFromString($mDate); //Geen idee wat de format is dus probeer wat
-            }
-        } else {
-            /* neem de huidige datum en tijd */
-            $this->iTime = time();
-            $this->update();
-        }
-    }
-
-    /**
-     * create a Date object based on time
-     *
-     * @param int $iTime
-     */
-    private function dateFromTime($iTime)
-    {
-        $this->iTime = $iTime;
-        $this->update();
-    }
-
-    /**
-     * create a Date object based on a given format
-     *
-     * @param string $sDate
-     * @param string $sFormat
-     */
-    private function dateFromFormat($sDate, $sFormat)
-    {
-        switch ($sFormat) {
-            case self::FORMAT_NL:
-                list($sDate, $sTime) = explode(" ", $sDate);
-                list($iDay, $iMonth, $iYear) = explode("-", $sDate);
-                list($iHour, $iMinute, $iSecond) = explode(":", $sTime);
-                break;
-            case self::FORMAT_DB:
-                list($sDate, $sTime) = explode(" ", $sDate);
-                list($iYear, $iMonth, $iDay) = explode("-", $sDate);
-                list($iHour, $iMinute, $iSecond) = explode(":", $sTime);
-                break;
-        }
-        $this->set($iDay, $iMonth, $iYear, $iHour, $iMinute, $iSecond);
-    }
-
-    /**
-     * create a Date object from a string
-     *
-     * @param string $sDate
-     */
-    private function dateFromString($sDate)
-    {
-        /* if dutch format : dd-mm-jjjj make international yy-mm-dd */
-        if (preg_match("#^\d{1,2}[-/]?\d{1,2}[-/]?\d{4}#", $sDate)) {
-            $sDate = preg_replace("#^(\d{1,2})[-/]?(\d{1,2})[-/]?(\d{4})#", "$3-$2-$1", $sDate);
+        if (!$time = strtotime($mDate ?: 'NOW')) {
+            $time = $mDate;
         }
 
-        $this->iTime = strtotime($sDate);
-        $this->update();
+        if (is_int($mDate)){
+            $time = $mDate;
+        }
+
+        $this->dateTime = new DateTime('NOW');
+        $this->dateTime->setTimestamp($time);
     }
+
 
     /**
      * check if this date is greater than given Date
@@ -123,9 +41,9 @@ class Date
      *
      * @return boolean
      */
-    public function greaterThan($oD)
+    public function greaterThan(Date $oD)
     {
-        return $this->iTime > $oD->iTime;
+        return $this->dateTime->getTimestamp() > $oD->dateTime->getTimestamp();
     }
 
     /**
@@ -135,9 +53,9 @@ class Date
      *
      * @return boolean
      */
-    public function lowerThan($oD)
+    public function lowerThan(Date $oD)
     {
-        return $this->iTime < $oD->iTime;
+        return $this->dateTime->getTimestamp() < $oD->dateTime->getTimestamp();
     }
 
     /**
@@ -147,9 +65,9 @@ class Date
      *
      * @return boolean
      */
-    public function lowerEqualTo($oD)
+    public function lowerEqualTo(Date $oD)
     {
-        return $this->iTime <= $oD->iTime;
+        return $this->dateTime->getTimestamp() <= $oD->dateTime->getTimestamp();
     }
 
     /**
@@ -159,9 +77,9 @@ class Date
      *
      * @return boolean
      */
-    public function equalTo($oD)
+    public function equalTo(Date $oD)
     {
-        return $this->iTime == $oD->iTime;
+        return $this->dateTime->getTimestamp() == $oD->dateTime->getTimestamp();
     }
 
     /**
@@ -173,8 +91,7 @@ class Date
      */
     public function addDays($iD)
     {
-        $this->set($this->iDay + $iD, $this->iMonth, $this->iYear, $this->iHour, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify(sprintf('%1$s DAYS', $iD));
         return $this;
     }
 
@@ -187,8 +104,7 @@ class Date
      */
     public function addMonths($iM)
     {
-        $this->set($this->iDay, $this->iMonth + $iM, $this->iYear, $this->iHour, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify(sprintf('%1$s MONTHS', $iM));
         return $this;
     }
 
@@ -201,9 +117,9 @@ class Date
      */
     public function addYears($iY)
     {
-        $this->set($this->iDay, $this->iMonth, $this->iYear + $iY, $this->iHour, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify(sprintf('%1$s YEARS', $iY));
         return $this;
+
     }
 
     /**
@@ -215,8 +131,7 @@ class Date
      */
     public function addSeconds($iS)
     {
-        $this->set($this->iDay, $this->iMonth, $this->iYear, $this->iHour, $this->iMinute, $this->iSecond + $iS);
-
+        $this->dateTime->modify(sprintf('%1$s SECONDS', $iS));
         return $this;
     }
 
@@ -229,9 +144,9 @@ class Date
      */
     public function addMinutes($iM)
     {
-        $this->set($this->iDay, $this->iMonth, $this->iYear, $this->iHour, $this->iMinute + $iM, $this->iSecond);
-
+        $this->dateTime->modify(sprintf('%1$s MINUTES', $iM));
         return $this;
+
     }
 
     /**
@@ -243,8 +158,7 @@ class Date
      */
     public function addHours($iH)
     {
-        $this->set($this->iDay, $this->iMonth, $this->iYear, $this->iHour + $iH, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify(sprintf('%1$s HOURS', $iH));
         return $this;
     }
 
@@ -255,9 +169,9 @@ class Date
      *
      * @return int
      */
-    public function daysDiff($oDate)
+    public function daysDiff(Date $oDate)
     {
-        return ($oDate->iTime - $this->iTime) / self::DAY;
+        return $this->dateTime->diff($oDate->dateTime)->days;
     }
 
     /**
@@ -267,15 +181,10 @@ class Date
      *
      * @return int
      */
-    public function yearsDiff($oDate)
+    public function yearsDiff(Date $oDate)
     {
-        $fDaysDiff = $this->daysDiff($oDate);
-        // fix leapyear
-        if ($fDaysDiff >= 365 && $fDaysDiff < 365.25) {
-            $fDaysDiff = 365.25;
-        }
+        return $this->dateTime->diff($oDate->dateTime)->y;
 
-        return $fDaysDiff / 365.25; // dividing by 365.25 takes care of the leap-years
     }
 
     /**
@@ -285,9 +194,9 @@ class Date
      *
      * @return int
      */
-    public function hoursDiff($oDate)
+    public function hoursDiff(Date $oDate)
     {
-        return ($oDate->iTime - $this->iTime) / self::HOUR;
+        return $this->dateTime->diff($oDate->dateTime)->h;
     }
 
     /**
@@ -297,9 +206,9 @@ class Date
      *
      * @return int
      */
-    public function minutesDiff($oDate)
+    public function minutesDiff(Date $oDate)
     {
-        return ($oDate->iTime - $this->iTime) / self::MINUTE;
+        return $this->dateTime->diff($oDate->dateTime)->i;
     }
 
     /**
@@ -309,8 +218,7 @@ class Date
      */
     public function setFirstDayOfThisMonth()
     {
-        $this->setDay(1);
-
+        $this->dateTime->modify('first day of this month');
         return $this;
     }
 
@@ -321,9 +229,9 @@ class Date
      */
     public function setLastDayOfThisMonth()
     {
-        $this->setDay(date('t', $this->iTime));
-
+        $this->dateTime->modify('last day of this month');
         return $this;
+
     }
 
     /**
@@ -335,7 +243,17 @@ class Date
      */
     public function setDayOfWeek($iDayOfWeek)
     {
-        $this->addDays($iDayOfWeek - $this->iDayOfWeek);
+        $mapper    = [
+            'sun',
+            'mon',
+            'tue',
+            'wed',
+            'thu',
+            'fri',
+            'sat',
+            'sun',
+        ];
+        $this->dateTime->modify($mapper[$iDayOfWeek] . ' this week');
 
         return $this;
     }
@@ -347,8 +265,7 @@ class Date
      */
     public function setFirstDayOfYear()
     {
-        $this->set(1, 1, $this->iYear, $this->iHour, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify('first day of this year');
         return $this;
     }
 
@@ -359,8 +276,7 @@ class Date
      */
     public function setLastDayOfYear()
     {
-        $this->set(31, 12, $this->iYear, $this->iHour, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify('last day of this year');
         return $this;
     }
 
@@ -371,7 +287,7 @@ class Date
      */
     public function setStartOfDay()
     {
-        $this->set($this->iDay, $this->iMonth, $this->iYear, 0, 0, 0);
+        $this->dateTime->modify('today midnight');
 
         return $this;
     }
@@ -383,8 +299,7 @@ class Date
      */
     public function setEndOfDay()
     {
-        $this->set($this->iDay, $this->iMonth, $this->iYear, 23, 59, 59);
-
+        $this->dateTime->modify('tomorrow midnight')->modify('-1 SECOND');
         return $this;
     }
 
@@ -397,8 +312,7 @@ class Date
      */
     public function setDay($iDay)
     {
-        $this->set($iDay, $this->iMonth, $this->iYear, $this->iHour, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify(sprintf('%1$s day of this month', $iDay));
         return $this;
     }
 
@@ -411,8 +325,7 @@ class Date
      */
     public function setMonth($iMonth)
     {
-        $this->set($this->iDay, $iMonth, $this->iYear, $this->iHour, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify(sprintf('%1$s month', $iMonth));
         return $this;
     }
 
@@ -425,8 +338,7 @@ class Date
      */
     public function setYear($iYear)
     {
-        $this->set($this->iDay, $this->iMonth, $iYear, $this->iHour, $this->iMinute, $this->iSecond);
-
+        $this->dateTime->modify(sprintf('%1$s year', $iYear));
         return $this;
     }
 
@@ -437,9 +349,10 @@ class Date
      *
      * @return boolean
      */
-    public function sameDateAs($oD)
+    public function sameDateAs(Date $oD)
     {
-        return ($this->iDay == $oD->iDay && $this->iMonth == $oD->iMonth && $this->iYear == $oD->iYear);
+        $this->dateTime->getTimestamp() == $oD->dateTime->getTimestamp();
+        return $this;
     }
 
     /**
@@ -465,41 +378,39 @@ class Date
             [20, 'Capricorn'] // 22 December - 20 January
         ];
 
-        return $this->iDay <= $aSigns[$this->iMonth - 1][0] ? $aSigns[$this->iMonth - 1][1] : $aSigns[$this->iMonth][1];
+        return $this->dateTime->format('d') <= $aSigns[$this->iMonth - 1][0] ? $aSigns[$this->iMonth - 1][1] : $aSigns[$this->iMonth][1];
     }
 
     /*
      * get time by values and update Object
      *
-     * @param int $iD	Day
-     * @param int $iM	Month
-     * @param int $iY	Year
-     * @param int $iH 	Hour
-     * @param int $iMn 	Minute
-     * @param int $iS	Second
+     * @param int $iD Day
+     * @param int $iM Month
+     * @param int $iY Year
+     * @param int $iH   Hour
+     * @param int $iMn  Minute
+     * @param int $iS Second
      */
 
     private function set($iD, $iM, $iY, $iH = 0, $iMn = 0, $iS = 0)
     {
-        $this->iTime = mktime($iH, $iMn, $iS, $iM, $iD, $iY);
-        $this->update();
+        $this->dateTime = new DateTime(mktime($iH, $iMn, $iS, $iM, $iD, $iY));
+        return $this;
     }
 
-    /*
-     * update values and set in object
+    /**
+     * return formatted Date
+     * For more info on how to use the formats, check out the link below
+     * https://www.php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters
+     *
+     * @param string $sFromat format to use
+     *
+     * @return string
      */
-
-    private function update()
+    public function format($sFormat)
     {
-        $this->iDay        = $this->format("%d");
-        $this->iMonth      = $this->format("%m");
-        $this->iYear       = $this->format("%Y");
-        $this->iHour       = $this->format("%H");
-        $this->iMinute     = $this->format("%M");
-        $this->iSecond     = $this->format("%S");
-        $this->iDayOfYear  = $this->format("%j");
-        $this->iDayOfWeek  = $this->format("%w");
-        $this->iWeekNumber = $this->format("%W");
+        static::getFormatter()->setPattern(static::convertFormat($this, $sFormat));
+        return static::getFormatter()->format($this->dateTime);
     }
 
     /**
@@ -509,14 +420,9 @@ class Date
      *
      * @return string
      */
-    public function format($sFormat)
+    public function legacyFormat($sFormat)
     {
-        // hack for using %e on windows systems
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
-            $sFormat = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $sFormat);
-        }
-
-        return strftime($sFormat, $this->iTime);
+        return $this->dateTime->format($sFormat);
     }
 
     /**
@@ -531,6 +437,113 @@ class Date
         return new Date($sVal);
     }
 
-}
+    /**
+     * Get and cache IntlDateFormatter
+     *
+     * @return IntlDateFormatter
+     */
+    public static function getFormatter($sLocale = 'nl_NL', $dateType = self::DATE_TYPE, $timeType = self::TIME_TYPE)
+    {
+        if (!self::$formatter) {
+            self::$formatter = new IntlDateFormatter($sLocale, $dateType, $timeType, 'Europe/Amsterdam');
+        }
 
-?>
+        return self::$formatter;
+    }
+
+    public function __get(string $name)
+    {
+        if ($name == 'iTime'){
+
+            return $this->dateTime->format('u');
+
+        }
+    }
+
+    /**
+     * Quick strftime replacement
+     *
+     * @param $format
+     * @param $time
+     * @return string
+     */
+    public static function stringFromTime($format, $time = 'NOW')
+    {
+        return static::strToDate($time)->format($format);
+    }
+
+    /**
+     * Convert strftime() format to IntlDateFormatter format
+     * https://www.php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters
+     *
+     * @param Date $date
+     * @param $format
+     * @return string
+     */
+    private static function convertFormat(Date $date, $format){
+        return preg_replace_callback('/%[a-zA-Z]/', function ($letter) use ($date, $format) {
+            return match ($letter[0]) {
+                //Day formats
+                '%a' => 'eee',
+                '%A' => 'eeee',
+                '%d' => 'dd',
+                '%e' => 'd',
+                '%j' => 'D',
+                '%u' => 'ee',
+                '%w' => 'e',
+
+                //Week formats
+                '%U' => 'w',
+                '%V' => 'ww',
+                '%W' => 'ww',
+
+                //Month formats
+                '%b' => 'MMM',
+                '%B' => 'MMMM',
+                '%h' => 'MMM',
+                '%m' => 'MM',
+
+                //Year formats
+                '%C' => 'yyyy',
+                '%g' => 'yy',
+                '%G' => 'yyyy',
+                '%y' => 'yy',
+                '%Y' => 'yyyy',
+
+                //Time formats
+                '%H' => 'HH',
+                '%k' => 'H',
+                '%I' => 'hh',
+                '%l' => 'h',
+                '%M' => 'mm',
+                '%p' => 'aa',
+                '%P' => 'aa',
+                '%r' => 'hh:mm:ss aa',
+                '%R' => 'HH:mm',
+                '%S' => 'ss',
+                '%T' => 'HH:mm:ss',
+                '%X' => 'HH:mm:ss',
+                '%z' => 'ZZ',
+                '%Z' => 'zz',
+
+                //Time and Date Stamps formats
+                '%c' => 'E dd LLL yyyy HH:mm:ss',
+                '%D' => 'dd/LL/yy',
+                '%F' => 'yyy-ll-dd',
+                '%s' => $date->legacyFormat('U'),
+                '%x' => 'dd/LL/yy',
+
+                //Miscellaneous formats
+                '%n' => '\n',
+                '%t' => '\t',
+                '%%' => '%',
+            };
+        }, $format);
+    }
+
+    public function __clone(): void
+    {
+        $this->dateTime = clone $this->dateTime;
+    }
+
+}

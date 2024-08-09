@@ -23,8 +23,8 @@
           <input type="hidden" value="save" name="action" />
           <div class="card-body">
             <?php
-            if ($oCurrentUser->isAdmin()) {
-              if ($oUser->isOnlineChangeable() == 2 && $oUser->userId != $oCurrentUser->userId) {
+            if ($oCurrentUser->isSuperAdmin() || $oCurrentUser->isClientAdmin()) {
+              if ($oUser->isOnlineChangeable() > 1) { //  && $oUser->userId != $oCurrentUser->userId
             ?>
                 <div class="form-group">
                   <div class="row border-bottom mb-2 pb-1">
@@ -32,6 +32,7 @@
                       <label for="name"><?= sysTranslations::get('user_deactivation_status') ?></label>
                     </div>
                     <div class="col-md-8">
+                      <input type="hidden" name="deactivation" value="0">
                       <input type="checkbox" id="deactivation" name="deactivation" data-size="mini" data-bootstrap-switch data-off-color="success" value="1" data-on-color="danger" data-on-text="deactivated" data-off-text="activated" <?= $oUser->deactivation ? 'CHECKED' : '' ?>>
                     </div>
                   </div>

@@ -508,7 +508,7 @@ class Csv extends BaseReader
         fclose($this->fileHandle);
 
         // Trust file extension if any
-        if (strtolower(pathinfo($pFilename, PATHINFO_EXTENSION)) === 'csv') {
+        if (strtolower(pathinfo($pFilename, PATHINFO_EXTENSION) ?? '') === 'csv') {
             return true;
         }
 

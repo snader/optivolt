@@ -123,7 +123,7 @@ class Locale extends \Model
             $sURLFormat .= '_' . $this->getCountry()->code;
         }
 
-        return strtolower($sURLFormat);
+        return strtolower($sURLFormat ?? '');
     }
 
     /**
@@ -141,7 +141,7 @@ class Locale extends \Model
             $sURLPrefix .= '_' . $this->getCountry()->code;
         }
 
-        return strtolower($sURLPrefix);
+        return strtolower($sURLPrefix ?? '');
     }
 
     /**

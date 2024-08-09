@@ -92,7 +92,7 @@
                                     }
                                     if ($oDevice->isDeletable()) {
                                     ?>
-                                        <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oDevice->deviceId . '?' . CSRFSynchronizerToken::query() ?>" title="<?= sysTranslations::get('user_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('user_user')) . ' ' . $oDevice->companyName ?>');">
+                                        <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/' . http_get('controller') . '/verwijderen/' . $oDevice->deviceId . '?' . CSRFSynchronizerToken::query() ?>" title="<?= sysTranslations::get('user_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('user_user') ?? '') . ' ' . $oDevice->companyName ?>');">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     <?php } ?>

@@ -30,6 +30,7 @@ class DBConnection extends mysqli
         /* error in connection, send email to error address */
         if ($this->connect_errno) {
             Debug::logError($this->connect_errno, $this->connect_error, __FILE__, __LINE__, null, Debug::LOG_IN_EMAIL);
+            echo $sHost . $sUser . $sPass . $sDatabase;
             die('Er is iets mis met de datavoorziening. Probeer later nog eens of neem contact met ons op.');
         } else {
             $this->set_charset('utf8mb4');
@@ -47,9 +48,10 @@ class DBConnection extends mysqli
      *
      * @return mixed 1 array, 1 array with arrays, 1 array with objects, 1 object, mysqlresult, nothing
      */
-    #[ReturnTypeWillChange]
     function query($sQuery, $sReturnformat = null, $sClassName = "stdClass", $sSkipErrorMessage = false, $bSkipErrorLogging = false)
     {
+
+        error_reporting(E_ALL & ~E_NOTICE);
 
         $iQSMT   = microtime(true);
         $oResult = parent::query($sQuery);
@@ -71,18 +73,16 @@ class DBConnection extends mysqli
                 /* log error in database and email */
                 // because we are logging in the database, $this->error and $this->errno will be reset)
                 Debug::logError($iErrno = $this->errno, $sError = $this->error, __FILE__, __LINE__, $sQuery, Debug::LOG_IN_DATABASE);
-                Debug::logError($iErrno, $sError, __FILE__, __LINE__, $sQuery, Debug::LOG_IN_EMAIL);
+                //Debug::logError($iErrno, $sError, __FILE__, __LINE__, $sQuery, Debug::LOG_IN_EMAIL);
             }
 
             # check for displaying error message
             if ((is_array($sSkipErrorMessage) && !in_array($this->errno, $sSkipErrorMessage)) || $sSkipErrorMessage === false) {
                 if (isDeveloper()) {
-                    Dumpert::dump(
-                        $iErrno,
-                        $sError,
-                        $sQuery
-                    );
-                    Dumpert::stackTrace();
+                    _d($sQuery);
+                    echo "<pre>";
+                    debug_print_backtrace();
+                    echo "</pre>";
                 }
                 die("Error DQF"); // database query faillure
             }
@@ -94,11 +94,12 @@ class DBConnection extends mysqli
             # geeft object terug als standaard class
             case QRY_OBJECT:
                 $aArr = [];
-                while ($oRow = $oResult->fetch_object($sClassName)) {
+                while ($oRow = @$oResult->fetch_object($sClassName)) {
                     $aArr[] = $oRow;
                 }
 
                 return $aArr;
+                break;
 
             # returns associated array $key => $value
             case QRY_ASSOC:
@@ -108,6 +109,7 @@ class DBConnection extends mysqli
                 }
 
                 return $aArr;
+                break;
 
             # returns an array with result like $key => $value AND $index => $value
             case QRY_ARRAY:
@@ -117,6 +119,7 @@ class DBConnection extends mysqli
                 }
 
                 return $aArr;
+                break;
 
             # returns 1 unique object
             case QRY_UNIQUE_OBJECT:
@@ -129,6 +132,7 @@ class DBConnection extends mysqli
                 Debug::logError('', 'Query returned more than 1 result for unique object', __FILE__, __LINE__, $sQuery);
                 Debug::logError('', 'Query returned more than 1 result for unique object', __FILE__, __LINE__, $sQuery, Debug::LOG_IN_EMAIL);
                 die("Query gaf meer dan 1 resultaat terug");
+                break;
 
             # returns 1 unique array
             case QRY_UNIQUE_ARRAY:
@@ -141,10 +145,12 @@ class DBConnection extends mysqli
                 Debug::logError('', 'Query returned more than 1 result for unique array', __FILE__, __LINE__, $sQuery);
                 Debug::logError('', 'Query returned more than 1 result for unique array', __FILE__, __LINE__, $sQuery, Debug::LOG_IN_EMAIL);
                 die("Query gaf meer dan 1 resultaat terug");
+                break;
 
             # returns null
             case QRY_NORESULT:
                 return null;
+                break;
         }
 
         return $oResult;
@@ -239,20 +245,14 @@ class DBConnection extends mysqli
             . ($sLength ? '(' . $sLength . ')' : '')
             . ($sAttributes ? ' ' . $sAttributes : '')
             . ($bNull ? ' NULL' : ' NOT NULL')
-            . (!is_null($sDefault) ? ' DEFAULT ' . $sDefault : ($bNull ? ' DEFAULT NULL' : ''))
+            . (!empty($sDefault) ? ' DEFAULT ' . $sDefault : ($bNull ? ' DEFAULT NULL' : ''))
             . ($sAfter ? ' AFTER `' . $sAfter . '`' : '')
-            . ($sIndex ? ', ADD ' . $sIndex . ' `' . $sTable . '_' . $sColumn . '` (`' . $sColumn . '`)' : '')
+            . ($sIndex ? ', ADD ' . $sIndex . '(`' . $sColumn . '`)' : '')
             . '
             ;';
         $this->query($sQuery, QRY_NORESULT);
 
         return $this->affected_rows > 0;
-    }
-
-    public function dropColumn($sTable, $sColumn){
-        $sQuery = 'ALTER TABLE `' . $sTable . '` DROP `' . $sColumn . '`;';
-        $this->query($sQuery, QRY_NORESULT);
-        return true;
     }
 
     /**
@@ -374,3 +374,5 @@ class DBConnection extends mysqli
     }
 
 }
+
+?>

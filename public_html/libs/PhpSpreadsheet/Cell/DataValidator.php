@@ -56,7 +56,7 @@ class DataValidator
         if (!empty($formula1)) {
             // inline values list
             if ($formula1[0] === '"') {
-                return in_array(strtolower($cellValue), explode(',', strtolower(trim($formula1, '"'))), true);
+                return in_array(strtolower($cellValue ?? ''), explode(',', strtolower(trim($formula1, '"') ?? '')), true);
             } elseif (strpos($formula1, ':') > 0) {
                 // values list cells
                 $matchFormula = '=MATCH(' . $cell->getCoordinate() . ', ' . $formula1 . ', 0)';

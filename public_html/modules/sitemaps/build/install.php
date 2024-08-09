@@ -83,10 +83,7 @@ $aNeededTranslations = [
         ['label' => 'sitemap_cron_performed', 'text' => 'Cron uitgevoerd'],
         ['label' => 'sitemap_menu', 'text' => 'Sitemap'],
     ],
-    'es' => [
-        ['label' => 'sitemap_cron_performed', 'text' => 'Ejecutar Cron'],
-        ['label' => 'sitemap_menu', 'text' => 'Sitemap'],
-    ],
+    
     'en' => [
         ['label' => 'sitemap_cron_performed', 'text' => 'Cron performed'],
         ['label' => 'sitemap_menu', 'text' => 'Sitemap'],

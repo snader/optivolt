@@ -76,8 +76,8 @@
                 <label for="installSat">Is de installatie naar tevredenheid verlopen?</label>
                 <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> id="installSat" name="installSat" title="Selecteer een antwoord">
                     <option <?= empty($oEvaluation->installSat) ? 'selected ' : '' ?>value="">- Selecteer</option>
-                    <option <?= $oEvaluation->installSat == '1' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $oEvaluation->installSat == '0' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->installSat == '1' ? 'selected ' : '' ?>value="1">Ja</option>
+                    <option <?= $oEvaluation->installSat == '0' ? 'selected ' : '' ?>value="0">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>
@@ -85,8 +85,8 @@
                 <label for="anyDetails">Zijn er nog bijzonderheden?</label>
                 <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> id="anyDetails" name="anyDetails" title="Selecteer een antwoord">
                     <option <?= empty($oEvaluation->anyDetails) ? 'selected ' : '' ?>value="">- Selecteer</option>
-                    <option <?= $oEvaluation->anyDetails == '1' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $oEvaluation->anyDetails == '0' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->anyDetails == '1' ? 'selected ' : '' ?>value="1">Ja</option>
+                    <option <?= $oEvaluation->anyDetails == '0' ? 'selected ' : '' ?>value="0">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>
@@ -94,8 +94,8 @@
                 <label for="conMeasured">Zijn de MultiLiners/PowerLiners aangesloten en gemeten?</label>
                 <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> id="conMeasured" name="conMeasured" title="Selecteer een antwoord">
                     <option <?= empty($oEvaluation->conMeasured) ? 'selected ' : '' ?>value="">- Selecteer</option>
-                    <option <?= $oEvaluation->conMeasured == '1' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $oEvaluation->conMeasured == '0' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->conMeasured == '1' ? 'selected ' : '' ?>value="1">Ja</option>
+                    <option <?= $oEvaluation->conMeasured == '0' ? 'selected ' : '' ?>value="0">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>
@@ -103,8 +103,8 @@
                 <label for="prepSat">Waren de voorbereidingen goed uitgevoerd?</label>
                 <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> id="prepSat" name="prepSat" title="Selecteer een antwoord">
                     <option <?= empty($oEvaluation->prepSat) ? 'selected ' : '' ?>value="">- Selecteer</option>
-                    <option <?= $oEvaluation->prepSat == '1' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $oEvaluation->prepSat == '0' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->prepSat == '1' ? 'selected ' : '' ?>value="1">Ja</option>
+                    <option <?= $oEvaluation->prepSat == '0' ? 'selected ' : '' ?>value="0">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>
@@ -112,8 +112,8 @@
                 <label for="workSat">Zijn de werkzaamheden naar tevredenheid uitgevoerd?</label>
                 <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> id="workSat" name="workSat" title="Selecteer een antwoord">
                     <option <?= empty($oEvaluation->workSat) ? 'selected ' : '' ?>value="">- Selecteer</option>
-                    <option <?= $oEvaluation->workSat == '1' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $oEvaluation->workSat == '0' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->workSat == '1' ? 'selected ' : '' ?>value="1">Ja</option>
+                    <option <?= $oEvaluation->workSat == '0' ? 'selected ' : '' ?>value="0">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>
@@ -121,8 +121,8 @@
                 <label for="answers">Zijn eventuele vragen beantwoord?</label>
                 <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> id="answers" name="answers" title="Selecteer een antwoord">
                     <option <?= empty($oEvaluation->answers) ? 'selected ' : '' ?>value="">- Selecteer</option>
-                    <option <?= $oEvaluation->answers == '1' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $oEvaluation->answers == '0' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->answers == '1' ? 'selected ' : '' ?>value="1">Ja</option>
+                    <option <?= $oEvaluation->answers == '0' ? 'selected ' : '' ?>value="0">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>
@@ -130,8 +130,8 @@
                 <label for="friendlyHelpfull">Waren de monteurs vriendelijk en behulpzaam?</label>
                 <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> id="friendlyHelpfull" name="friendlyHelpfull" title="Selecteer een antwoord">
                     <option <?= empty($oEvaluation->friendlyHelpfull) ? 'selected ' : '' ?>value="">- Selecteer</option>
-                    <option <?= $oEvaluation->friendlyHelpfull == '1' ? 'selected ' : '' ?>value="Ja">Ja</option>
-                    <option <?= $oEvaluation->friendlyHelpfull == '0' ? 'selected ' : '' ?>value="Nee">Nee</option>
+                    <option <?= $oEvaluation->friendlyHelpfull == '1' ? 'selected ' : '' ?>value="1">Ja</option>
+                    <option <?= $oEvaluation->friendlyHelpfull == '0' ? 'selected ' : '' ?>value="0">Nee</option>
                 </select>
                 <span class="error invalid-feedback show"></span>
             </div>

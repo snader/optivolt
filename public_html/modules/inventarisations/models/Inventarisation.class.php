@@ -31,6 +31,7 @@ class Inventarisation extends Model
 
     private $aSubInventarisations;
     
+ 
 
     /**
      * validate object

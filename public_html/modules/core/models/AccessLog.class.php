@@ -15,6 +15,8 @@ class AccessLog extends Model
     public $created;
     public $modified;
 
+    public $identifier;
+
     /**
      * validate object
      */

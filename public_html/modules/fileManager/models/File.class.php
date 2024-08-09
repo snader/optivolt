@@ -105,7 +105,7 @@ class File extends Media
     public function getExtension()
     {
         // extensions that start with a number, add 'x-'
-        return preg_replace('/^([0-9]){1}/i', 'x-$1', strtolower(pathinfo($this->link, PATHINFO_EXTENSION)));
+        return preg_replace('/^([0-9]){1}/i', 'x-$1', strtolower(pathinfo($this->link, PATHINFO_EXTENSION) ?? ''));
     }
 
     /**

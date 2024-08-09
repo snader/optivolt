@@ -38,7 +38,7 @@
             <!-- /.card-header -->
             <div class="card-body">
               <div class="form-group">
-                <label for="title"><?= sysTranslations::get('customer_location') ?> <?= strtolower(sysTranslations::get('global_name')) ?> *</label>
+                <label for="title"><?= sysTranslations::get('customer_location') ?> <?= strtolower(sysTranslations::get('global_name') ?? '') ?> *</label>
                 <input type="text" name="name" class="form-control" id="name" value="<?= _e($oLocation->name) ?>" title="<?= sysTranslations::get('location_title_tooltip') ?>" required data-msg="<?= sysTranslations::get('global_field_not_completeds') ?>">
                 <span class="error invalid-feedback show"><?= $oLocation->isPropValid("name") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
               </div>

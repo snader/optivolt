@@ -86,6 +86,8 @@ $aNeededTranslations = [
         ['label' => 'device_add_tooltip', 'text' => 'Nieuw apparaat toevoegen'],
         ['label' => 'device_all', 'text' => 'Alle apparaten'],
         ['label' => 'device_filter', 'text' => 'Filter apparaten'],
+        ['label' => 'device_offline', 'text' => 'Apparaat offline'],
+        ['label' => 'device_online', 'text' => 'Apparaat online'],
         
         ['label' => 'certificate_not_deletable', 'text' => 'Certificaat is niet verwijderbaar'],
         ['label' => 'certificates_menu', 'text' => 'Testcertificaten'],  

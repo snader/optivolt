@@ -545,6 +545,7 @@ class UserManager
                             `userId` = ' . db_int($oUser->userId) . '
                         ;';
 
+                
         $oDb = DBConnections::get();
 
         $oDb->query($sQuery, QRY_NORESULT);

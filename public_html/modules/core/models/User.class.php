@@ -28,6 +28,18 @@ class User extends Model
     private   $oLanguage         = null;
     protected $onlineChangeable  = 1; //online changable is true by default
 
+    public  $lastLogin;
+
+    private $properties = [];
+
+    public function __set($name, $value) {
+        $this->properties[$name] = $value;
+    }
+
+    public function __get($name) {
+        return $this->properties[$name] ?? null;
+    }
+
     /**
      * validate object
      */

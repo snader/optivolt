@@ -1531,7 +1531,7 @@ class Html extends BaseWriter
         $color_regex = '/^\\[[a-zA-Z]+\\]/';
         if (preg_match($color_regex, $pFormat, $matches)) {
             $color = str_replace(['[', ']'], '', $matches[0]);
-            $color = strtolower($color);
+            $color = strtolower($color ?? '');
         }
 
         // convert to PCDATA

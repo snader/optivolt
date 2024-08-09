@@ -61,7 +61,7 @@
         <td style="border-bottom: 1px solid #000;"></td>
         <td nowrap rowspan="<?= $iRowspan ?>">
           <?php if ($oSystemReport->isEditable()) { ?>
-            <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/system-reports/verwijderen/' . $oSystemReport->systemReportId . '?' . CSRFSynchronizerToken::query() ?>" title="Metingen verwijderen" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('system_system_report')) . ' ' . $oSystemReport->systemReportId ?>');">
+            <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/system-reports/verwijderen/' . $oSystemReport->systemReportId . '?' . CSRFSynchronizerToken::query() ?>" title="Metingen verwijderen" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('system_system_report') ?? '') . ' ' . $oSystemReport->systemReportId ?>');">
               <i class="fas fa-trash"></i>
             </a>
           <?php } ?>

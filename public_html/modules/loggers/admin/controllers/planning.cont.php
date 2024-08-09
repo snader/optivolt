@@ -526,10 +526,10 @@ else {
 
 
     $aKlantNamen[$oLogger->mainLoggerId][$oLogger->customerId] = $oLogger->companyName;
-    if (strtotime($oLogger->endDate) < strtotime($aLoggersFilter['startDate'])) {
+    if (!empty($oLogger->endDate) && !empty($aLoggersFilter['startDate']) && strtotime($oLogger->endDate) < strtotime($aLoggersFilter['startDate'])) {
       $aKlantNamen[$oLogger->mainLoggerId][$oLogger->customerId] = '';
     }
-    if (strtotime($oLogger->startDate) >= strtotime($aLoggersFilter['endDate'])) {
+    if (!empty($oLogger->startDate) && !empty($aLoggersFilter['endDate']) && strtotime($oLogger->startDate) >= strtotime($aLoggersFilter['endDate'])) {
       $aKlantNamen[$oLogger->mainLoggerId][$oLogger->customerId] = '';
     }
 

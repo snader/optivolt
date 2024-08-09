@@ -287,7 +287,7 @@ class Router
 
         do {
             $sPath = implode('/', $aParams);
-            if (array_key_exists($sPath, $aRoutes) || array_key_exists(strtolower($sPath), $aRoutes)) {
+            if (array_key_exists($sPath, $aRoutes) || array_key_exists(strtolower($sPath ?? ''), $aRoutes)) {
 
                 return static::delegateControllerByData($aRoutes[$sPath], $sPath, $sAction);
             }

@@ -61,7 +61,7 @@
       <td nowrap align="center">
         <?php
         if ($oSystem->isDeletable()) { ?>
-          <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/systems/verwijderen/' . $oSystem->systemId . '?' . (isset($oCustomer) ? 'fromSystemsCustomer=' . $oCustomer->customerId . '&' : '') . CSRFSynchronizerToken::query() ?>" title="<?= sysTranslations::get('system_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('system_system')) . ' ' . $oSystem->name ?>');">
+          <a class="btn btn-danger btn-xs" href="<?= ADMIN_FOLDER . '/systems/verwijderen/' . $oSystem->systemId . '?' . (isset($oCustomer) ? 'fromSystemsCustomer=' . $oCustomer->customerId . '&' : '') . CSRFSynchronizerToken::query() ?>" title="<?= sysTranslations::get('system_delete') ?>" onclick="return confirmChoice('<?= strtolower(sysTranslations::get('system_system') ?? '') . ' ' . $oSystem->name ?>');">
             <i class="fas fa-trash"></i>
           </a>
         <?php } else { ?>

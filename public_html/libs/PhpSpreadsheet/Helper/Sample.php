@@ -117,7 +117,7 @@ class Sample
 
         // Write documents
         foreach ($writers as $writerType) {
-            $path = $this->getFilename($filename, mb_strtolower($writerType));
+            $path = $this->getFilename($filename, mb_strtolower($writerType ?? ''));
             $writer = IOFactory::createWriter($spreadsheet, $writerType);
             if ($writer instanceof Pdf) {
                 // PDF writer needs temporary directory

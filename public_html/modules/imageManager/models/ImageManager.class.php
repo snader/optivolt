@@ -820,9 +820,10 @@ class ImageManager
             $iCh = $iH;
             $iCw = $iW;
         }
-
-        $iCx = ($iW - $iCw) / 2;
-        $iCy = ($iH - $iCh) / 2;
+        $iCw = round($iCw);
+        $iCh = round($iCh);
+        $iCx = round(($iW - $iCw) / 2);
+        $iCy = round(($iH - $iCh) / 2);
     }
 
     /**
@@ -1525,6 +1526,20 @@ class ImageManager
                     $aImageSize['height'],
                     $sErrorMsg,
                     false,
+                    (isset($aImageSize['quality']) ? $aImageSize['quality'] : -1)
+                )) {
+                    $aErrorMsgs[] = sysTranslations::get('global_image_not_resized') . $sErrorMsg; //error resizing image
+                }
+            }
+            
+            // handle resizing image
+            if (!empty($aImageSize['adjustment']) && $aImageSize['adjustment'] == 'resizeW') {
+                ## Resize
+                if (!self::resizeImageW(
+                    DOCUMENT_ROOT . $oUpload->sNewFilePath,
+                    DOCUMENT_ROOT . $sDestinationPath,
+                    $aImageSize['width'],
+                    $sErrorMsg,
                     (isset($aImageSize['quality']) ? $aImageSize['quality'] : -1)
                 )) {
                     $aErrorMsgs[] = sysTranslations::get('global_image_not_resized') . $sErrorMsg; //error resizing image

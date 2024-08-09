@@ -27,6 +27,8 @@ class PageLayout
     protected $sCrumblePath; //crumble path (can be set manually or by one of the 2 crumbepath functions)
     private   $aJavascripts    = []; //add some extra javascript lines
     private   $aStylesheets    = []; //stylesheet lines with stylesheets
+    public    $sTemplateGroupName;
+    public    $sTemplateName;
 
     /**
      * add some lines of javascript or include files
@@ -125,11 +127,11 @@ class PageLayout
         $aUrlUsableParts = [];
         $bIsAdmin        = false;
         foreach ($aUrlParts[0] AS $sUrlPart) {
-            if (strtolower($sUrlPart) == 'admin') {
+            if (strtolower($sUrlPart ?? '') == 'admin') {
                 $bIsAdmin = true; // if admin do some things different
             }
 
-            if (strtolower($sUrlPart) != 'admin' && strtolower($sUrlPart) != 'home') {
+            if (strtolower($sUrlPart ?? '') != 'admin' && strtolower($sUrlPart ?? '') != 'home') {
                 $aUrlUsableParts[] = $sUrlPart;
             }
         }
