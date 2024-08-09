@@ -85,6 +85,7 @@ class Appointment extends Model
     //$oMPDF->showImageErrors = true;
 
     $oMPDF->curlAllowUnsafeSslRequests = true;
+    $oMPDF->showImageErrors = false;
 
     $oCustomer = CustomerManager::getCustomerById($this->customerId);
     $oUser = UserManager::getUserById($this->userId);
