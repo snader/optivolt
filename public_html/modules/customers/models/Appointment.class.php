@@ -3,24 +3,35 @@
 class Appointment extends Model
 {
 
-    public  $appointmentId;
-    public  $userId;
-    public  $customerId;
-    public  $visitDate                  = null;
-    public  $uitbreidingsmogelijkheden  = null;
-    public  $uitbrInfo                  = null;
-    public  $vLiner                     = null;
+  public  $appointmentId;
+  public  $userId;
+  public  $customerId;
+  public  $visitDate                  = null;
+  public  $uitbreidingsmogelijkheden  = null;
+  public  $uitbrInfo                  = null;
+  public  $vLiner                     = null;
 
-    public  $ml                         = null;
-    public  $koperenRailen              = null;
-    public  $PQkast                     = null;
-    public  $onderhoudssticker          = null;
-    public  $hoofdschakelaarTerug       = null;
-    public  $finished                   = null;
-    public  $mailed                     = null;
-    public  $signature                  = null;
-    public  $signatureName              = null;
-    public  $modified;
+  public  $ml                         = null;
+  public  $koperenRailen              = null;
+  public  $PQkast                     = null;
+  public  $onderhoudssticker          = null;
+  public  $hoofdschakelaarTerug       = null;
+  public  $finished                   = null;
+  public  $mailed                     = null;
+  public  $signature                  = null;
+  public  $signatureName              = null;
+  public  $modified;
+
+
+  private $properties = [];
+
+  public function __set($name, $value) {
+      $this->properties[$name] = $value;
+  }
+
+  public function __get($name) {
+      return $this->properties[$name] ?? null;
+  }
 
   public function validate()
   {
@@ -61,6 +72,8 @@ class Appointment extends Model
   public function getPdf()
   {
 
+    error_reporting(E_ERROR | E_PARSE);
+
     require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
     //require_once $_SERVER['DOCUMENT_ROOT'] . '/libs/dompdf/autoload.inc.php';
 
@@ -71,6 +84,7 @@ class Appointment extends Model
       'format' => 'A4-L']);
     //$oMPDF->showImageErrors = true;
 
+    $oMPDF->curlAllowUnsafeSslRequests = true;
 
     $oCustomer = CustomerManager::getCustomerById($this->customerId);
     $oUser = UserManager::getUserById($this->userId);

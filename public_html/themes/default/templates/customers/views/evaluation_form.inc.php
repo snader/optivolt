@@ -105,7 +105,7 @@
             </div>
             <div class="form-group">
                 <label for="grade">Welk cijfer (tussen 1 – 10) zou u OptiVolt geven?<br><i>What grade (between 1 – 10) would you give OptiVolt?</i></label>
-                <select class="form-control" <?= $oEvaluation->isEditable() ? '' : 'disabled="true"' ?> required id="grade" name="grade" title="Selecteer een cijfer">
+                <select class="form-control" required id="grade" name="grade" title="Selecteer een cijfer">
                     <option <?= empty($oEvaluation->grade) ? 'selected ' : '' ?>value="">- Selecteer</option>
                     <?php
                     for ($i = 1; $i <= 10; $i++) {

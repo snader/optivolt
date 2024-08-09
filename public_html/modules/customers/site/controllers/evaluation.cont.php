@@ -87,7 +87,7 @@ $oPageLayout->sMetaKeywords    = $oPage->getMetaKeywords();
 $oPageLayout->generateCustomCrumblePath($oPage->getCrumbles());
 $oPageLayout->bIndexable = $oPage->isIndexable();
 
-if ($oEvaluation) {
+if (isset($oEvaluation) && !empty($oEvaluation)) {
     $oPageLayout->sViewPath = getSiteView('evaluation_form', 'customers');
 } else {
     $oPageLayout->sViewPath = getSiteView('evaluation_thanks', 'customers');
