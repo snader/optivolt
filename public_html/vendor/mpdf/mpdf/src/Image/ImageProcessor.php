@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Mpdf\Image;
 
 use Mpdf\Cache;
@@ -16,6 +17,7 @@ use Mpdf\Otl;
 use Mpdf\RemoteContentFetcher;
 use Mpdf\SizeConverter;
 use Psr\Log\LoggerInterface;
+
 
 class ImageProcessor implements \Psr\Log\LoggerAwareInterface
 {
@@ -1056,10 +1058,14 @@ class ImageProcessor implements \Psr\Log\LoggerAwareInterface
 
 			if (isset($gd['PNG Support']) && $gd['PNG Support']) {
 
-				$im = @imagecreatefromstring($data);
-
-				if (!$im) {
-					return $this->imageError($file, $firsttime, 'Error parsing image file - image type not recognised, and not supported by GD imagecreate');
+				
+				if (substr_count($data, 'Error')==0) {
+					$im = @imagecreatefromstring($data);
+					if (!$im) {
+						return $this->imageError($file, $firsttime, 'Error parsing image file - image type not recognised, and not supported by GD imagecreate');
+					}
+				} else {
+					return '';
 				}
 
 				$tempfile = $this->cache->tempFilename('_tempImgPNG' . md5($file) . random_int(1, 10000) . '.png');

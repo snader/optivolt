@@ -85,10 +85,13 @@ $iYear = date('Y', strtotime($oAppointment->visitDate));
         echo 'Naam aftekening: ' . $oAppointment->signatureName . '<br/>';
       }
       echo 'Handtekening voor gezien:<br/>';
+      $sSignatureFileName = DOCUMENT_ROOT . '/private_files/signatures/' . $oAppointment->signature .'.png';
 
+      if (file_exists($sSignatureFileName)) {
       ?>
 
-      <img src='<?= DOCUMENT_ROOT ?>/private_files/signatures/<?= $oAppointment->signature ?>.png' style="max-width: 65mm; max-height: 75mm;">
+      <img src='<?=$sSignatureFileName?>' style="max-width: 65mm; max-height: 75mm;">
+      <?php } ?>
 
     </td>
   </tr>
