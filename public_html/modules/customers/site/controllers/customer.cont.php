@@ -312,18 +312,69 @@ else {
     // login
     if (http_post("action") == 'login' && CustomerCSRFSynchronizerToken::validate()) {
 
-        if (http_post('debnr') && http_post('password') && ($oLoggedInCustomer = CustomerManager::login(http_post('debnr'), http_post('password')))) {
-            AccessLogManager::resetLoginAttempts($oCurrentAccessLog);
-            CustomerManager::unlockCustomer($oLoggedInCustomer, '');
+        $bLoginCodeTemplate = false;
+    
+        if ( http_post('debnr') && http_post('password') && $oCustomer = CustomerManager::checkLoginSendCode(http_post('debnr'), http_post('password')) ) {
+            
+            $sTo = $oCustomer->contactPersonEmail;
+            $sFrom = 'info@optivolt.nl';
 
-            saveLog(
-                $sReferrer,
-                'klant login debiteur #' . http_post('debnr') . '(' . $oLoggedInCustomer->companyName . ')',
-                arrayToReadableText(object_to_array($oLoggedInCustomer))
-              );
+            $oTemplate = TemplateManager::getTemplateByName('login_request', Locales::language());
 
-            // redirect to referrer page
-            http_redirect($sReferrer);
+            // check if template exists
+            if (empty($oTemplate)) {
+                Debug::logError('', 'Template does not exists: `login_request` (login_request)', __FILE__, __LINE__, '', Debug::LOG_IN_EMAIL);
+            } else {
+
+                $aReplace["[customer_logincode]"] = $oCustomer->confirmCode;
+                $oTemplate->replaceVariables($oCustomer, $aReplace);            
+                $sSubject  = $oTemplate->getSubject();
+                $sMailBody = $oTemplate->getTemplate();
+                MailManager::sendMail($sTo, $sSubject, $sMailBody, $sFrom);
+                $bLoginCodeTemplate = true;
+
+            }
+    
+            
+            
+
+        } elseif (http_post('logincode') && http_post('loginemail')) {
+
+            $sConfirmCode = _e(http_post('logincode'));
+            $sEmail = _e(http_post('loginemail'));          
+
+            $oLoggedInCustomer = CustomerManager::getCustomerByContactEmail($sEmail);
+           
+            date_default_timezone_set('Europe/Amsterdam');
+            $timeGiven = strtotime($oLoggedInCustomer->modified);
+            // Haal de huidige tijd op als Unix-timestamp
+            $timeNow = time();
+            // Bereken het verschil in seconden
+            $timeDifference = $timeNow - $timeGiven;
+            // Converteer het verschil naar minuten
+            $minutesPassed = floor($timeDifference / 60);           
+
+            if ($minutesPassed<MINUTESLOGIN && CustomerManager::confirmCustomerByConfirmCodeAndEmail($sConfirmCode, $sEmail)) {
+
+                AccessLogManager::resetLoginAttempts($oCurrentAccessLog);
+                CustomerManager::unlockCustomer($oLoggedInCustomer, '');
+    
+                saveLog(
+                    $sReferrer,
+                    'klant login debiteur #' . http_post('debnr') . '(' . $oLoggedInCustomer->companyName . ')',
+                    arrayToReadableText(object_to_array($oLoggedInCustomer))
+                  );
+    
+                // redirect to referrer page
+                http_redirect($sReferrer);
+            } else {
+
+                $aErrorsLogin['general'] = 'Verkeerde logincode of tijd verstreken';
+                
+            }
+                
+            
+                
         } else {
             if (AccessLogManager::addLoginAttempt($oCurrentAccessLog, 'Username: `' . http_post('debnr') . '`')) {
                 // IP is blocked or to many attempts, lock customer to block brute force attack
@@ -359,7 +410,12 @@ else {
 
 # Include the template
 if (isset($bSigninPage)) {
-    include_once getSiteView('login');
+
+    if (isset($bLoginCodeTemplate) && $bLoginCodeTemplate) {
+       include_once getSiteView('login-code');
+    } else {
+        include_once getSiteView('login');
+    }
 } else {
     include_once getSiteView('layout');
 }
