@@ -126,8 +126,8 @@
                 </a>
               </span>
               <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />
-              <?php if ($oCurrentUser->isAdmin() && Settings::exists('2StepForced')) { ?>
-                <?php if ($oUser->twoStepEnabled && !empty($oUser->userId)) { ?>
+              <?php if (Settings::exists('2StepForced')) { ?>
+                <?php if (($oUser->twoStepEnabled || Settings::get('2StepForced')) && !empty($oUser->userId)) { ?>
                   &nbsp;<input type="submit" id="2StepAuthenticationSecretRequestBtn" class="btn btn-outline-secondary btn-xs" value="<?= sysTranslations::get('2_step_request_new_secret') ?>">
                 <?php } ?>
               <?php } ?>
@@ -192,8 +192,15 @@ if (!empty($oUser->userId)) {
   $sJavascript2Fa = <<<EOT
 <script>
     $('#2StepAuthenticationSecretRequestBtn').click(function(e) {
+    
         e.preventDefault();
-      alertify.confirm('$s2StepSecretResetPopupTitle', '$s2StepSecretResetPopupContent', function(){ reset2Fa();  }, function(){ alertify.error('$s2StepSecretResetPopupCancel')});
+
+        if (confirmChoiceEmpty('$s2StepSecretResetPopupContent')) {
+        reset2Fa();
+        } else {
+         showStatusUpdate('$s2StepSecretResetPopupCancel');
+         }
+        //alertify.confirm('$s2StepSecretResetPopupTitle', '$s2StepSecretResetPopupContent', function(){ reset2Fa();  }, function(){ alertify.error('$s2StepSecretResetPopupCancel')});
     }) ;
 
     function reset2Fa() {
@@ -202,7 +209,7 @@ if (!empty($oUser->userId)) {
             url: '/dashboard/gebruikers/ajax/reset2step',
             data: "userId=" + $oUser->userId,
             success: function(data){
-                alertify.success('$s2StepSecretResetPopupSuccess');
+                showStatusUpdate('$s2StepSecretResetPopupSuccess');
             }
       });
     }
