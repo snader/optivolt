@@ -52,6 +52,29 @@ class CustomerManager
         return $oDb->query($sQuery, QRY_UNIQUE_OBJECT, "Customer");
     }
 
+    /**
+     * get a Customer by email
+     *
+     * @param string $sEmail
+     *
+     * @return Customer
+     */
+    public static function getCustomerByContactEmail($sEmail)
+    {
+        $sQuery = ' SELECT
+                        *
+                    FROM
+                        `customers`
+                    WHERE
+                        `contactPersonEmail` = ' . db_str($sEmail) . '  AND `deleted` = ' . db_int(0) . '
+                    LIMIT 1
+                    ;';
+
+        $oDb = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_UNIQUE_OBJECT, "Customer");
+    }
+
 
     /**
      * get a Customer by debNr
@@ -215,7 +238,7 @@ class CustomerManager
                     WHERE
                         `confirmCode` = ' . db_str($sConfirmCode) . '
                     AND
-                        `contactPersonEmail` = ' . db_str($sEmail) . ' AND `c`.`deleted` = ' . db_int(0) . '
+                        `contactPersonEmail` = ' . db_str($sEmail) . ' AND `deleted` = ' . db_int(0) . '
                     LIMIT 1
                     ;';
 
@@ -936,6 +959,59 @@ class CustomerManager
         $oCustomer->maskPass(); // mask pass XXX for session
         CustomerCSRFSynchronizerToken::get(true); // force a new CSRF token
         Session::set(static::SESSION, $oCustomer); // set Customer in session
+    }
+
+    /**
+     * 
+     */
+    public static function checkLoginSendCode($sDebNr, $sPassword) 
+    {
+
+        $sQuery = ' SELECT
+                        *
+                    FROM
+                        `customers`
+                    WHERE
+                        `debnr` = ' . db_str($sDebNr) . '
+                    AND
+                        `password` = ' . db_str(hashPasswordForDb($sPassword)) . '
+                    AND
+                        `online` = 1
+                    AND
+                        `deleted` = 0    
+                    AND
+                        (`locked` IS NULL OR `locked` <= ' . db_date(
+                Date::strToDate('now')
+                    ->addMinutes(-1 * AccessLogManager::account_locked_time)
+                    ->format(Date::FORMAT_DB_F)
+            ) . ')
+                    LIMIT 1
+                    ;';
+
+        $oDb       = DBConnections::get();
+        $oCustomer = $oDb->query($sQuery, QRY_UNIQUE_OBJECT, "Customer");
+
+        if (!empty($oCustomer)) {
+            // send confirmcode
+
+            $oCustomer->confirmCode = rand(101, 929) . '-' . rand(218, 915);
+
+            $sQuery = ' UPDATE
+                        `customers`
+                    SET                        
+                        `confirmCode` = ' . db_str($oCustomer->confirmCode) . '                      
+                    WHERE
+                        `customerId` = ' . db_int($oCustomer->customerId) . '
+                    LIMIT 1
+                    ;';
+
+            $oDb = DBConnections::get();
+            $oDb->query($sQuery, QRY_NORESULT);
+
+            return $oCustomer;
+        } 
+
+        return false;
     }
 
     /**

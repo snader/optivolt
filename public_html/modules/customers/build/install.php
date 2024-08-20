@@ -1020,11 +1020,12 @@ if (!empty($oTemplateGroupEvaluation)) {
                 TemplateManager::saveTemplate($oTemplate1e);
             } else {
                 _d($oTemplate1e->getInvalidProps());
-                die('Can\'t create template `accountevaluation_request_confirm`');
+                die('Can\'t create template `evaluation_request`');
             }
         }
     }
 }
+
     
 
 
@@ -1057,6 +1058,36 @@ if ($oDb->tableExists('template_groups') && $oDb->tableExists('template_groups')
 }
 
 if (!empty($oTemplateGroupAccounts)) {
+
+    if (!($oTemplate1e = TemplateManager::getTemplateByName('login_request', DEFAULT_LANGUAGE_ID))) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing template `login_request`';
+        if ($bInstall) {
+            $oTemplate1e                  = new Template();
+            $oTemplate1e->languageId      = DEFAULT_LANGUAGE_ID;
+            $oTemplate1e->description     = 'Uw logincode';
+            $oTemplate1e->type            = Template::TYPE_EMAIL;
+            $oTemplate1e->templateGroupId = $oTemplateGroupEvaluation->templateGroupId;
+            $oTemplate1e->subject         = '[CLIENT_NAME] | Code om in te loggen';
+            $oTemplate1e->template        = '
+<p>Beste [customer_firstName],</p>
+<p>Zojuist is er met uw account een inlogpoging gedaan op Optivolt.nl. Mocht dat niet zo zijn, neem dan contact met ons op!</p>
+<p>Heeft u wel proberen in te loggen, dan kunt u met onderstaande code de inlogpoging hervatten:</p>
+<p><span style="font-size:14pt;font-weight:bold;">[customer_logincode]</span></p>
+<p>Mocht u nog vragen hebben kunt u contact met ons op nemen.</p>
+<p>Met vriendelijke groet,</p>
+<p>[CLIENT_NAME]</p>
+            ';
+            $oTemplate1e->name            = 'login_request';
+            $oTemplate1e->setEditable(1);
+            $oTemplate1e->setDeletable(0);
+            if ($oTemplate1e->isValid()) {
+                TemplateManager::saveTemplate($oTemplate1e);
+            } else {
+                _d($oTemplate1e->getInvalidProps());
+                die('Can\'t create template `login_request`');
+            }
+        }
+    }
 
 /*
     if (!($oTemplate1 = TemplateManager::getTemplateByName('account_confirm', DEFAULT_LANGUAGE_ID))) {
