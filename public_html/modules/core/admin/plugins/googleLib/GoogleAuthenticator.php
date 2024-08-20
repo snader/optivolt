@@ -81,7 +81,15 @@ class GoogleAuthenticator
         }
        // return 'https://webservices.landgoedvoorn.nl/qr?size=6&type=m&string='.$urlencoded.'';
        
-       return 'https://chart.googleapis.com/chart?chs=320x320&cht=qr&chl='.$urlencoded.'&chld=L|1&choe=UTF-8';
+       //return 'https://chart.googleapis.com/chart?chs=320x320&cht=qr&chl='.$urlencoded.'&chld=L|1&choe=UTF-8';
+
+       return 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $urlencoded;
+
+       /**
+        * https://qrcode.tec-it.com/API/QRCode?data=myqrcode
+        * https://quickchart.io/chart?cht=qr&chs=150x150&chl=myqrcode
+        * https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=myqrcode
+        */
     }
 
     /**

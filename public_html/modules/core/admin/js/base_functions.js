@@ -58,6 +58,13 @@ function confirmChoice(subject, addToSentence) {
     return confirm(message);
 }
 
+function confirmChoiceEmpty(subject) {
+
+    var message = subject;
+    
+    return confirm(message);
+}
+
 /**
  * show the status update
  * @param message string
