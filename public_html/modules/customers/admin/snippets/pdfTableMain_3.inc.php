@@ -1,7 +1,7 @@
 <?php
 
 /**
- * POWERLINER
+ * VLINER
  */
 
 $aSystemReports_this = SystemReportManager::getSystemReportsByFilter(['systemId' => $oSystem->systemId, 'year' => $iYear]);
@@ -53,7 +53,7 @@ if (!empty($aSystemReports_this)) {
                           continue;
                         }
                         $sMyImagesHTML .= '<div  style="width:25%; float: left; padding-bottom: 5mm;">';
-                        $sMyImagesHTML .= ' <img src="' . CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
+                        $sMyImagesHTML .= ' <img src="' . DOCUMENT_ROOT . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
                         $sImageNr .= (empty($sImageNr) ? '' : ', ') . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId);
                         $sMyImagesHTML .= ' <div class="imgnr">' . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId) . '</div>';
                         $sMyImagesHTML .= '</div>' . PHP_EOL;
@@ -69,7 +69,7 @@ if (!$oSystem->online) {
   echo '<div>Vervallen</div>';
 }
 
-$aList = explode(PHP_EOL, trim($oSystem->notice));
+$aList = explode(PHP_EOL, trim($oSystem->notice ?? ''));
 foreach ($aList as $sListItem) {  
   if (substr_count($sListItem, '(' . $iYear . ')') > 0) {
     echo '<div>' . _e($sListItem) . '</div>';

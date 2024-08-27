@@ -9073,7 +9073,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 	function _getObjAttr($t)
 	{
-		$c = explode("\xbb\xa4\xac", $t, 2);
+		$c = explode("\xbb\xa4\xac", $t, 3);
 		$c = explode(",", $c[1], 2);
 		foreach ($c as $v) {
 			$v = explode("=", $v, 2);

@@ -189,7 +189,7 @@ if ($oAppointment["visitDate"] != date('Y-m-d', time()) )  {
             <div class="card">
                 <div class="card-header">
                     <?php
-                    $aList = explode(PHP_EOL, trim($oSystemReport->getSystem()->notice));
+                    $aList = explode(PHP_EOL, trim($oSystemReport->getSystem()->notice ? $oSystemReport->getSystem()->notice : ' ' ));
                     if ((UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) && count($aList) > 0) {
                     ?><span class="float-sm-right">
                             <a class="backBtn right" href="<?= ADMIN_FOLDER ?>/systems/bewerken/<?= $oSystemReport->getSystem()->systemId ?>#notice">
@@ -215,7 +215,7 @@ if ($oAppointment["visitDate"] != date('Y-m-d', time()) )  {
                     <?php } ?>
                     <div><br />
                         <ul><?php
-                            $aList = explode(PHP_EOL, trim($oSystemReport->getSystem()->notice));
+                            $aList = explode(PHP_EOL, trim($oSystemReport->getSystem()->notice ? $oSystemReport->getSystem()->notice : ' '));
                             foreach ($aList as $sNotice) {
                                 if (!empty($sNotice)) {
 

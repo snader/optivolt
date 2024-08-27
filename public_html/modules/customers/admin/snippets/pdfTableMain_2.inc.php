@@ -52,9 +52,9 @@ $aSystemReports_this = SystemReportManager::getSystemReportsByFilter(['systemId'
         // backwards compatibility where there was only one meting with images without title
         $sMyImagesHTML .= '<div  style="width:25%; float: left; padding-bottom: 5mm;" >';
 
-        $sImageFileName = CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link;
+        $sImageFileName = DOCUMENT_ROOT . '/' . $oImage->getImageFileByReference('detail')->link;
  
-        $sMyImagesHTML .= ' <img src="' . CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
+        $sMyImagesHTML .= ' <img src="' . DOCUMENT_ROOT . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
         $sImageNr .= (empty($sImageNr) ? '' : ', ') . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId);
         $sMyImagesHTML .= ' <div class="imgnr">' . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId) . '</div>';
       
@@ -67,9 +67,9 @@ $aSystemReports_this = SystemReportManager::getSystemReportsByFilter(['systemId'
         continue;
       }
       $sMyImagesHTML .= '<div  style="width:25%; float: left; padding-bottom: 5mm;" >';
-      $sImageFileName = CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link;
+      $sImageFileName = DOCUMENT_ROOT . '/' . $oImage->getImageFileByReference('detail')->link;
       
-      $sMyImagesHTML .= ' <img src="' . CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
+      $sMyImagesHTML .= ' <img src="' . DOCUMENT_ROOT . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
       $sImageNr .= (empty($sImageNr) ? '' : ', ') . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId);
       $sMyImagesHTML .= ' <div class="imgnr">' . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId) . '</div>';
     
@@ -154,9 +154,9 @@ foreach ($aSubSystemReports_this as $oSubSystemReportsThis) : ?>
           continue;
         }
         $sMyImagesHTML .= '<div style="width:25%; float: left; padding-bottom: 5mm;">';
-        $sImageFileName = CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link;
+        $sImageFileName = DOCUMENT_ROOT . '/' . $oImage->getImageFileByReference('detail')->link;
       
-        $sMyImagesHTML .= ' <img src="' . CLIENT_HTTP_URL . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
+        $sMyImagesHTML .= ' <img src="' . DOCUMENT_ROOT . '/' . $oImage->getImageFileByReference('detail')->link . '" style="max-width: 65mm; max-height: 75mm;" />';
         $sImageNr .= (empty($sImageNr) ? '' : ', ') . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId);
         $sMyImagesHTML .= ' <div class="imgnr">' . ($oImage->getImageFileByReference('cms_thumb')->orgTitle ? $oImage->getImageFileByReference('cms_thumb')->orgTitle : $oImage->imageId) . '</div>';
     
