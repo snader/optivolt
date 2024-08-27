@@ -2430,6 +2430,13 @@ if (!$oDb->columnExists('users', 'imageId')) {
     }
 }
 
+if (!$oDb->columnExists('users', 'twoStepCookie')) {
+    $aLogs[$sModuleName]['errors'][] = ' Missing column twoStepCookie';
+    if ($bInstall) {
+        $oDb->addColumn('users', 'twoStepCookie', 'INT', 11, 'twoStepSecretVerified');
+    }
+}
+
 // check robots.txt existance and content
 if (!file_exists(DOCUMENT_ROOT . '/robots.txt')) {
     $aLogs['core']['errors'][] = 'Robots.txt does not exist in root';

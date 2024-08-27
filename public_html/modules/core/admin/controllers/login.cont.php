@@ -79,6 +79,10 @@ if (http_get('param1') == "2-step-authentication" && is_numeric(Session::get('2-
                 AccessLogManager::resetLoginAttempts($oCurrentAccessLog);
                 UserManager::unlockUser($oUser, '');
 
+                if ($oUser->twoStepCookie) {
+                    setcookie('twoStepCookie', true,  time()+43200); // 12 hours
+                }
+
                 $_SESSION['oCurrentUser'] = $oUser;
                 http_redirect('/dashboard');
             } else {
@@ -127,6 +131,12 @@ if (http_get('param1') == "2-step-authentication" && is_numeric(Session::get('2-
                 if (Settings::exists('2StepForced')) {
                     $iForceTwoStepGlobal = Settings::get('2StepForced');
                 }
+
+                if (isset($_COOKIE['twoStepCookie'])) {
+                    $iForceTwoStepGlobal = false;
+                    $oUser->twoStepEnabled = false;
+                }
+
                 if ((!$oUser->twoStepEnabled && !$iForceTwoStepGlobal) || in_array((isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : -1), $a2StepVerificationWhitelistIps)) {
                     if (UserManager::loginByUser($oUser)) {
                         // reset login attempts

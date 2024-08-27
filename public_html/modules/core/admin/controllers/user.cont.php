@@ -83,9 +83,8 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
         }
 
         $oUser->accountmanager = (Request::postVar('accountmanager') ? Request::postVar('accountmanager') : 0);
-
-
         $oUser->twoStepEnabled = (Request::postVar('twoStepEnabled') ? Request::postVar('twoStepEnabled') : 0);
+        $oUser->twoStepCookie = (Request::postVar('twoStepCookie') ? Request::postVar('twoStepCookie') : 0);
 
         $bDeactivation = Request::postVar('deactivation') ? Request::postVar('deactivation') : $oUser->deactivation;
         if ($bDeactivation == 0) {
