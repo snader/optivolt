@@ -106,13 +106,24 @@
             <div class="form-group">
               <div class="row border-bottom mb-2 pb-1">
                 <div class="col-md-4">
-                  <label for="administrator"><?= sysTranslations::get('2_step_user_force_two_step') ?></label>
+                  <label for="twoStepEnabled"><?= sysTranslations::get('2_step_user_force_two_step') ?></label>
                 </div>
                 <div class="col-md-8">
                   <input type="checkbox" id="twoStepEnabled" name="twoStepEnabled" data-size="mini" data-bootstrap-switch data-off-color="danger" value="1" data-on-color="success" <?= Settings::get('2StepForced') ? ' ng-readonly="true" disabled="disabled"' : '' ?> <?= Settings::get('2StepForced') || $oUser->twoStepEnabled  ? ' checked="checked" ' : '' ?>>
                 </div>
               </div>
             </div>
+            <div class="form-group">
+              <div class="row border-bottom mb-2 pb-1">
+                <div class="col-md-4">
+                  <label for="twoStepCookie">12hrs 2-step cookie</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="checkbox" id="twoStepCookie" name="twoStepCookie" data-size="mini" data-bootstrap-switch data-off-color="danger" value="1" data-on-color="success" <?= $oUser->twoStepCookie  ? ' checked="checked" ' : '' ?>>
+                </div>
+              </div>
+            </div>
+            
 
             <input name="systemLanguageId" type="hidden" value="1">
 

@@ -356,6 +356,7 @@ class UserManager
                                 `userAccessGroupId`,
                                 `systemLanguageId`,
                                 `twoStepEnabled`,
+                                `twoStepCookie`,
                                 `created`,
                                 `locked`,
                                 `lockedReason`,
@@ -371,6 +372,7 @@ class UserManager
                                 ' . db_int($oUser->userAccessGroupId) . ',
                                 ' . db_int($oUser->systemLanguageId) . ',
                                 ' . db_int($oUser->twoStepEnabled) . ',
+                                ' . db_int($oUser->twoStepCookie) . ',
                                 ' . 'NOW()' . ',
                                 ' . db_date($oUser->locked) . ',
                                 ' . db_str($oUser->lockedReason) . ',
@@ -395,6 +397,7 @@ class UserManager
                             `userAccessGroupId` = ' . db_int($oUser->userAccessGroupId) . ',
                             `systemLanguageId` = ' . db_int($oUser->systemLanguageId) . ',
                             `twoStepEnabled` = ' . db_int($oUser->twoStepEnabled) . ',
+                            `twoStepCookie` = ' . db_int($oUser->twoStepCookie) . ',
                             `password` = ' . db_str($oUser->password) . ',
                             `locked` = ' . db_date($oUser->locked) . ',
                             `lockedReason` = ' . db_str($oUser->lockedReason) . '

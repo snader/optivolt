@@ -24,6 +24,7 @@ class User extends Model
     public    $deactivationDate;
     public    $twoStepEnabled    = 1; // is 2-step required
     public    $twoStepSecret; // 2-step secret secret
+    public    $twoStepCookie = 0;
     public    $twoStepSecretVerified; // 2-step secret secret verified
     private   $oLanguage         = null;
     protected $onlineChangeable  = 1; //online changable is true by default
