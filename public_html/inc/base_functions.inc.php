@@ -1535,7 +1535,9 @@ function decimal2valuta($fDecimal, $sLang = 'nl', $bWithCurrencySymbol = true)
  */
 function _e($mValue)
 {
+	if (!empty($mValue)) {
     return htmlentities($mValue ?? '', ENT_QUOTES, 'UTF-8', false);
+	} else { return ''; }
 }
 
 /**
