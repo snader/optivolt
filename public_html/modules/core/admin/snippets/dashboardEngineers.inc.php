@@ -108,7 +108,7 @@ $sNotChangedMsg = sysTranslations::get('system_not_changed');
 $sBottomJavascript = <<<EOT
 <script>
 $("#dashboardTable").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "responsive": true, "lengthChange": true, "autoWidth": false,
       "buttons": ["colvis"],
       "stateSave": true,
       "columnDefs": [ {

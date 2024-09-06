@@ -183,8 +183,13 @@ $sBottomJavascript = <<<EOT
 // "copy", "csv", "excel", "pdf", "print", // .buttons().container().appendTo('#customers_wrapper .col-md-6:eq(0)')
   $(function () {
     $(".data-table").DataTable({
-      "responsive": false, "lengthChange": false, "autoWidth": false,  "scrollX": true,
+      "responsive": false, "lengthChange": true, "autoWidth": false,  "scrollX": true,
       "stateSave": true,
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All']
+    ],
+      "paging": true,
       "buttons": ["colvis"],
       "columnDefs": [ {
         "searchable": false,
