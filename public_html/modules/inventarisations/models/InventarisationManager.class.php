@@ -216,7 +216,7 @@ class InventarisationManager
      *
      * @return array Inventarisation
      */
-    public static function getInventarisationsByFilter(array $aFilter = [], $iLimit = null, $iStart = 0, &$iFoundRows = false, $aOrderBy = ['`i`.`created`' => 'ASC', '`i`.`inventarisationId`' => 'DESC'])
+    public static function getInventarisationsByFilter(array $aFilter = [], $iLimit = null, $iStart = 0, &$iFoundRows = false, $aOrderBy = ['`i`.`created`' => 'DESC', '`i`.`inventarisationId`' => 'DESC'])
     {
         $sFrom    = '';
         $sWhere   = '';

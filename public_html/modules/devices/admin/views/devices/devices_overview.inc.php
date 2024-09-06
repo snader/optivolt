@@ -173,7 +173,7 @@ $sBottomJavascript = <<<EOT
 
   $(function () {
     $(".data-table").DataTable({
-      "responsive": false, "lengthChange": false, "autoWidth": false,  "scrollX": false,
+      "responsive": false, "lengthChange": true, "autoWidth": false,  "scrollX": false,
       "stateSave": true,
       "buttons": ["colvis"],
       "columnDefs": [ {
