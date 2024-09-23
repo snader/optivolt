@@ -95,7 +95,8 @@ if (Request::param('ID') == 'bewerken' || (Request::param('ID') == 'toevoegen' &
             
         } else {
             Debug::logError("", "Certificate module php validate error", __FILE__, __LINE__, "Tried to save Certificate with wrong values despite javascript check.<br />" . _d($_POST, 1, 1), Debug::LOG_IN_EMAIL);
-            $oPageLayout->sStatusUpdate = sysTranslations::get('certificate_not_saved');
+            $oPageLayout->sStatusUpdate["text"] = sysTranslations::get('certificate_not_saved');
+            $oPageLayout->sStatusUpdate["status"] = "warning";
         }
     }
 
