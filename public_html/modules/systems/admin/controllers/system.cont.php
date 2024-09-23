@@ -94,6 +94,8 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
     # action = save
     if (Request::postVar("action") == 'save') {
 
+        $bWasNietVervallen = $oSystem->online;
+        
         # load data in object
         $oSystem->_load($_POST, false);
 
@@ -104,6 +106,8 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             }
         }
 
+
+
         # if object is valid, save
         if ($oSystem->isValid()) {
             SystemManager::saveSystem($oSystem); //save item
@@ -112,6 +116,36 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
             if (!isset($oLocation) || empty($oLocation)) {
                 $oLocation = $oSystem->getLocation();
             }
+
+            // mail naar optivolt met info (systeem is op vervallen gezet)
+            if ($oSystem->online == false && $bWasNietVervallen) {
+                // standaard info email adres uit settings
+                $sEmail = Settings::get('infoEmail');
+                $sFrom = $sEmail;
+                $sSubject = "Systeem #" . $oSystem->systemId . " op vervallen gezet door " . UserManager::getCurrentUser()->name . ".";
+                $sMailBody = $sSubject . '<br/>';
+                $sMailBody .= "<br/>Locatie: " . $oLocation->name;
+                $sMailBody .= "<br/>Plaatsbepaling: " . $oLocation->floor;
+               
+                $sMailBody .= "<br/>" . sysTranslations::get('systems_type') . ": " . $oSystem->getSystemType()->name();
+                $sMailBody .= "<br/>" . sysTranslations::get('systems_name') . ": " . $oSystem->name;
+                $sMailBody .= "<br/>Positie: " . $oSystem->pos;
+                $sMailBody .= "<br/>" . sysTranslations::get('systems_model') . ": " . $oSystem->model;
+                if ($oSystem->systemTypeId == System::SYSTEM_TYPE_MULTILINER) {
+                } else {
+                    $sMailBody .= "<br/>Machine#: " . $oSystem->machineNr;
+                }
+                if (!empty($oSystem->installDate)) {
+                    $sMailBody .= "<br/>Installatiedatum: " . date('d-m-Y', strtotime($oSystem->installDate));
+                }
+                $sMailBody .= "<br/>Opmerking vervallen: " . $_POST['notice'][0];
+                $sLink = 'https://oms.optivolt.nl' . ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oSystem->systemId;            
+                $sMailBody .= '<br/>Link: <a target="_blank" href="' . $sLink . '">' . $sLink . '</a>';
+                
+                // send it
+                MailManager::sendMail($sEmail, $sSubject, $sMailBody, $sFrom);
+               
+            }                     
 
             saveLog(
                 ADMIN_FOLDER . '/' . http_get('controller') . '/bewerken/' . $oSystem->systemId,

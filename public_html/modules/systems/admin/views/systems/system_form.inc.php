@@ -68,7 +68,7 @@
 
                         ?>
                             <span class="float-right">
-                                <select <?= (!$oSystem->isEditable() ? 'readonly disabled ' : '') ?> name="online" id="online">
+                                <select name="online" id="online">
                                     <option value="1"></option>
                                     <option value="0" <?= !$oSystem->online ? 'selected' : '' ?>>Vervallen</option>
 
@@ -154,7 +154,7 @@
                             <div style="max-height:100px; overflow-y: auto;">
 
                                 <?php
-                                echo '<input name="notice[]" ' . (!$oSystem->isEditable() ? 'readonly disabled ' : '') . 'placeholder="Hier invoeren om toe te voegen" value="" class="form-control">';
+                                echo '<input name="notice[]" ' . (!$oSystem->isEditable() ? 'readonly disabled ' : '') . 'placeholder="Hier invoeren om toe te voegen" value="" class="form-control remark">';
                                 $aList = explode(PHP_EOL, trim($oSystem->notice ?? ''));
                                 foreach ($aList as $sNotice) {
                                     if (!empty($sNotice)) {
@@ -170,12 +170,11 @@
 
                     <div class="card-footer">
 
-                        <?php
-                        if ($oSystem->isEditable())  { ?>
-                        <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" /><br />
-                        <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?> > locatie" name="save" />
-                        <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?> > klant" name="save" />
-                        <?php } ?>
+                     
+                        <input <?=$oSystem->isEditable() ? '' : 'style="display:none"'?> type="submit" class="btn btn-primary firstsubmit" value="<?= sysTranslations::get('global_save') ?>" name="save" /><br />
+                        <input <?=$oSystem->isEditable() ? '' : 'style="display:none"'?> type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?> > locatie" name="save" />
+                        <input <?=$oSystem->isEditable() ? '' : 'style="display:none"'?> type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?> > klant" name="save" />
+                       
                     </div>
 
                 </div>
@@ -253,6 +252,7 @@
             </div>
             <div class="modal-body">
                 <p>Zodra het systeem op 'vervallen' staat is deze NA OPSLAAN alleen nog bereikbaar voor een Administrator.</p>
+                <p>Indien je op vervallen klikt, wordt het opmerkingen veld onderaan dit formulier verplicht en de ingevoerde melding zal verstuurd worden naar Optivolt.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary vervallen">Vervallen</button>
@@ -301,9 +301,11 @@ $(document).on('click','.annuleer',function(){
 });
 $(document).on('click','.vervallen',function(){
     $('#onlineModal').modal('hide');
-    var notice = $('#notice').val();
-    notice = 'Vervallen' + "\\n" + notice;
-    $('#notice').val(notice);
+    $('.remark').prop("readonly", false).prop("disabled", false).focus().prop("required", true);
+    $('.firstsubmit').show();
+    //var notice = $('#notice').val();
+    //notice = 'Vervallen' + "\\n" + notice;
+    //$('#notice').val(notice);
 });
 
 //Date picker

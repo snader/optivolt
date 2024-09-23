@@ -112,7 +112,7 @@
                                 <?php } ?>
                                 <?php if (Settings::exists('infoEmail')) { ?>
                                     <div class="form-group">
-                                        <label for="infoEmail">E-mailadres tbv 'uitbreidingsmogelijkheden'</label>
+                                        <label for="infoEmail">E-mailadres tbv 'info vanuit OMS'</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
