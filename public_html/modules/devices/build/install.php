@@ -376,6 +376,14 @@ if ($oDb->tableExists('device_groups') && moduleExists('devices')) {
             $oDeviceGroupGeneral->title = 'Alles';
             if ($oDeviceGroupGeneral->isValid()) {
                 DeviceGroupManager::saveDeviceGroup($oDeviceGroupGeneral);
+
+                $aAllDevices = DeviceManager::getDevicesByFilter();
+                foreach ($aAllDevices as $oDevice) {
+                    $oDevice->setDeviceGroups(array_merge([DeviceGroupManager::getDeviceGroupByName(DeviceGroup::DEVICEGROUP_GENERAL)], $oDevice->getDeviceGroups()));
+                    DeviceManager::saveDevice($oDevice);
+                }
+
+
             } else {
                 _d($oDeviceGroupGeneral->getInvalidProps());
                 die('Can\'t create deviceGroup `general`');
