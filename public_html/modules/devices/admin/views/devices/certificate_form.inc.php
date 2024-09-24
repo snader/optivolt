@@ -179,7 +179,7 @@
               if ($oCertificate->certificateId !== null) {
                   $oFileManagerHTML->includeTemplate();
               } else {
-                  echo '<p><i>' . sysTranslations::get('pages_files_warning') . '</i></p>';
+                  echo '<p><i>Bestanden kunnen toegevoegd worden nadat het testcertificaat is opgeslagen.</i></p>';
               }
               ?>
 
