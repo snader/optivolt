@@ -62,6 +62,21 @@
                 <input type="text" name="serial" class="form-control" id="serial" value="<?= _e($oDevice->serial) ?>" title="Voer serienummer in">
                 <span class="error invalid-feedback show"><?= $oDevice->isPropValid("serial") ? '' : sysTranslations::get('global_field_not_completed') ?></span>
               </div>
+              <div class="form-group">
+                  <label>Apparaatgroepen</label><br />
+
+                  <?php 
+                  foreach (DeviceGroupManager::getAllDeviceGroups() as $oDeviceGroup) {                                                               
+                      ?>
+                      <label style="font-weight: normal;width:32%;" for="deviceGroup<?= $oDeviceGroup->deviceGroupId ?>">
+                          <input type="checkbox" name="deviceGroupIds[]" id="deviceGroup<?= $oDeviceGroup->deviceGroupId ?>" value="<?= $oDeviceGroup->deviceGroupId ?>" 
+                          
+                          <?= ($oDevice->isLinkedToDeviceGroup($oDeviceGroup->deviceGroupId) || $oDeviceGroup->name == DeviceGroup::DEVICEGROUP_GENERAL) ? 'checked="checked"' : '' ?>>&nbsp;<?= _e($oDeviceGroup->title) ?>
+                      </label>
+                      
+                  <?php 
+                  }?>
+              </div>
             
               <div class="card-footer">
                 <span class="float-right">
@@ -73,6 +88,7 @@
                 </span>
                 <?php if ($oDevice->isEditable()) { ?>
                   <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?>" name="save" />
+                  <input type="submit" class="btn btn-primary" value="<?= sysTranslations::get('global_save') ?> > overzicht" name="save" />
                 <?php } ?>
               </div>
           </form>

@@ -65,6 +65,14 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         # load data in object
         $oDevice->_load($_POST);
 
+        $aDeviceGroups = [];
+        foreach (http_post("deviceGroupIds", []) AS $iDeviceGroupId) {
+            $aDeviceGroups[] = new DeviceGroup(['deviceGroupId' => $iDeviceGroupId]);
+        }
+
+        # set modules into device
+        $oDevice->setDeviceGroups($aDeviceGroups);
+
         # if object is valid, save
         if ($oDevice->isValid()) {
             DeviceManager::saveDevice($oDevice); //save item
@@ -134,13 +142,22 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
     die;
 } else {
 
-    $aDeviceFilter[] = '';
+    //$aDeviceFilter[] = '';
 
     $iPerPage = 9999;
     $iStart = 0;
        
     #display overview
-    $aAllDevices             = DeviceManager::getDevicesByFilter($aDeviceFilter, $iPerPage, $iStart, $iFoundRows);
+    $sOptionHTML = '';
+    foreach (DeviceGroupManager::getAllDeviceGroups() as $oDeviceGroup) {        
+        $sOptionHTML .= '<option ' . ((isset($aDeviceFilter['deviceGroupId']) && ($aDeviceFilter['deviceGroupId'] == $oDeviceGroup->deviceGroupId)) ? 'selected' : '') . ' value="' . $oDeviceGroup->deviceGroupId . '">' . $oDeviceGroup->title . '</option>';
+    }
+
+    if (isset($aDeviceFilter['deviceGroupId']) && is_numeric($aDeviceFilter['deviceGroupId'])) {
+        $aAllDevices = DeviceManager::getDevicesByDeviceGroupId($aDeviceFilter['deviceGroupId']);
+    } else {
+        $aAllDevices = DeviceManager::getDevicesByFilter($aDeviceFilter, $iPerPage, $iStart, $iFoundRows);
+    }
     $oPageLayout->sViewPath = getAdminView('devices/devices_overview', 'devices');
 }
 

@@ -10,6 +10,10 @@ $aNeededAdminControllerRoutes = [
         'module'     => 'devices',
         'controller' => 'device',
     ],
+    'devicegroups' => [
+        'module'     => 'devices',
+        'controller' => 'deviceGroups',
+    ],
     'certificaten' => [
         'module'     => 'devices',
         'controller' => 'certificate',
@@ -29,7 +33,13 @@ $aNeededClassRoutes = [
     ],
     'CertificateManager' => [
         'module' => 'devices',
-    ]
+    ],
+    'DeviceGroup'        => [
+        'module' => 'devices',
+    ],
+    'DeviceGroupManager' => [
+        'module' => 'devices',
+    ],
 ];
 
 $aNeededModulesForMenu = [
@@ -48,6 +58,15 @@ $aNeededModulesForMenu = [
         'parentModuleName' => 'devices',
         'moduleActions' => [
             ['displayName' => 'Volledig', 'name' => 'certificates_full'],
+        ],
+    ],
+    [
+        'name'             => 'devicegroups',
+        'icon'             => 'fa-users',
+        'linkName'         => 'device_group_menu',
+        'parentModuleName' => 'devices',
+        'moduleActions'    => [
+            ['displayName' => 'Volledig', 'name' => 'deviceGroups_full'],
         ],
     ],
 ];
@@ -123,6 +142,9 @@ $aNeededTranslations = [
         ['label' => 'certificate_add_tooltip', 'text' => 'Nieuw certificaat toevoegen'],
         ['label' => 'certificate_all', 'text' => 'Alle certificaten'],
         ['label' => 'certificate_filter', 'text' => 'Filter certificaten'],
+        ['label' => 'all_device_groups', 'text' => 'Alle apparaatgroepen'],
+        ['label' => 'device_groups', 'text' => 'Apparaatgroepen'],
+        
     ],
     'en' => [
         ['label' => 'device_not_deletable', 'text' => 'Device is not deletable'],
@@ -279,6 +301,84 @@ if ($oDb->tableExists('certificates_files')) {
             $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `certificates_files`.`certificateId` => `certificates`.`certificateId`';
             if ($bInstall) {
                 $oDb->addConstraint('certificates_files', 'certificateId', 'certificates', 'certificateId', 'RESTRICT', 'CASCADE');
+            }
+        }
+    }
+}
+
+if (!$oDb->tableExists('device_groups')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `device_groups`';
+    if ($bInstall) {
+        // add table
+        $sQuery = '
+        CREATE TABLE `device_groups` (
+          `deviceGroupId` int(11) NOT NULL AUTO_INCREMENT,
+          `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+          `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `created` timestamp NULL DEFAULT NULL,
+          `modified` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+          PRIMARY KEY (`deviceGroupId`),
+          UNIQUE KEY `u_devices_name` (`name`)
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+}
+
+
+if (!$oDb->tableExists('device_group_relations')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `device_group_relations`';
+    if ($bInstall) {
+        // add table
+        $sQuery = '
+        CREATE TABLE `device_group_relations` (
+          `deviceGroupId` int(11) NOT NULL,
+          `deviceId` int(11) NOT NULL,
+          PRIMARY KEY (`deviceGroupId`, deviceId),
+          UNIQUE KEY `deviceGroupId_2` (`deviceGroupId`,`deviceId`),
+          KEY `deviceId` (`deviceId`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+}
+
+// check device_group_relations constraints
+if ($oDb->tableExists('device_group_relations')) {
+    if ($oDb->tableExists('device_groups')) {
+        // check device_groups constraint
+        if (!$oDb->constraintExists('device_group_relations', 'deviceGroupId', 'device_groups', 'deviceGroupId')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `device_group_relations`.`deviceGroupId` => `device_groups`.`deviceGroupId`';
+            if ($bInstall) {
+                $oDb->addConstraint('device_group_relations', 'deviceGroupId', 'device_groups', 'deviceGroupId', 'CASCADE', 'CASCADE');
+            }
+        }
+    }
+
+    if ($oDb->tableExists('devices')) {
+        // check devices constraint
+        if (!$oDb->constraintExists('device_group_relations', 'deviceId', 'devices', 'deviceId')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `device_group_relations`.`deviceId` => `devices`.`deviceId`';
+            if ($bInstall) {
+                $oDb->addConstraint('device_group_relations', 'deviceId', 'devices', 'deviceId', 'CASCADE', 'CASCADE');
+            }
+        }
+    }
+}
+
+if ($oDb->tableExists('device_groups') && moduleExists('devices')) {
+    // add general deviceGroup
+    if (!($oDeviceGroupGeneral = DeviceGroupManager::getDeviceGroupByName('general'))) {
+        $aLogs[$sModuleName]['errors'][] = 'Missing deviceGroup `general`';
+        if ($bInstall) {
+            $oDeviceGroupGeneral        = new DeviceGroup();
+            $oDeviceGroupGeneral->name  = 'general';
+            $oDeviceGroupGeneral->title = 'Alles';
+            if ($oDeviceGroupGeneral->isValid()) {
+                DeviceGroupManager::saveDeviceGroup($oDeviceGroupGeneral);
+            } else {
+                _d($oDeviceGroupGeneral->getInvalidProps());
+                die('Can\'t create deviceGroup `general`');
             }
         }
     }

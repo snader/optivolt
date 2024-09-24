@@ -30,8 +30,9 @@ class DeviceManager
      * save Device object
      *
      * @param Device $oDevice
+     * @param bAddDeviceToGeneralDeviceGroup bool
      */
-    public static function saveDevice(Device $oDevice)
+    public static function saveDevice(Device $oDevice, $bAddDeviceToGeneralDeviceGroup = true)
     {
         # save item
         $sQuery = ' INSERT INTO `devices` (
@@ -65,11 +66,147 @@ class DeviceManager
 
         if ($oDevice->deviceId === null) {
             $oDevice->deviceId = $oDb->insert_id;
+
+            # by default, set device in general group
+            if ($bAddDeviceToGeneralDeviceGroup) {
+                $oDevice->setDeviceGroups(array_merge([DeviceGroupManager::getDeviceGroupByName(DeviceGroup::DEVICEGROUP_GENERAL)], $oDevice->getDeviceGroups()));
+            }
         }
+
+        self::saveDeviceGroups($oDevice);
 
         
     }
 
+    /**
+     * Save the deviceGroup relations of a device
+     *
+     * @param DeviceGroup object
+     */
+    private static function saveDeviceGroups(Device $oDevice)
+    {
+        $aDeviceGroups = $oDevice->getDeviceGroups();
+
+        // Delete all deviceGroup relations of this device
+        $sQuery = "DELETE FROM `device_group_relations` WHERE `deviceId` = " . db_int($oDevice->deviceId);
+        $oDb    = DBConnections::get();
+        $oDb->query($sQuery, QRY_NORESULT);
+
+        // Insert all deviceGroup relations of this device
+        $sQueryValues = '';
+        foreach ($aDeviceGroups AS $oDeviceGroup) {
+            $sQueryValues .= (!empty($sQueryValues) ? ',' : '') . '(' . db_int($oDeviceGroup->deviceGroupId) . ',' . db_int($oDevice->deviceId) . ')';
+        }
+
+        /* save User Module relation */
+        if (!empty($sQueryValues)) {
+            $sQuery = " INSERT IGNORE INTO
+                            `device_group_relations`
+                        (
+                            `deviceGroupId`,
+                            `deviceId`
+                        )
+                        VALUES " . $sQueryValues . "
+                        ;";
+            $oDb->query($sQuery, QRY_NORESULT);
+        }
+    }
+
+
+
+    /**
+     * Save the deviceGroup relations of a device
+     *
+     * @param int $iDeviceId
+     * @param int $iDeviceGroupId
+     */
+    public static function saveDeviceGroupRelation($iDeviceId, $iDeviceGroupId)
+    {
+
+        $sQuery = " INSERT IGNORE INTO
+                        `device_group_relations`
+                    (
+                        `deviceGroupId`,
+                        `deviceId`
+                    )
+                    VALUES (
+                        " . db_int($iDeviceGroupId) . ",
+                        " . db_int($iDeviceId) . "
+                    )
+                    ;";
+        $oDb    = DBConnections::get();
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+
+
+    /**
+     * get amount of devices by deviceGroupId
+     *
+     * @param int     $iDeviceGroupId
+     * @param boolean $bFilterOnline
+     * @param boolean $bFilterBounced
+     *
+     * @return Device
+     */
+    public static function getAmountOfDevicesByDeviceGroupId($iDeviceGroupId, $bFilterOnline = false)
+    {
+
+        $sQuery = ' SELECT
+                        COUNT(*) as `amount`
+                    FROM
+                        `device_group_relations` as `cgr`
+                    JOIN
+                        `devices` as `d`
+                    USING
+                        (`deviceId`)
+                    WHERE
+                        `cgr`.`deviceGroupId` = ' . db_int($iDeviceGroupId);
+
+       
+        $sQuery             .= ';';
+        $oDb                = DBConnections::get();
+        $aResult            = $oDb->query($sQuery, QRY_UNIQUE_ARRAY);
+        $iAmountOfDevices = $aResult['amount'];
+
+        return $iAmountOfDevices;
+    }
+
+    /**
+     * get devices by deviceGroupId
+     *
+     * @param int     $iDeviceGroupId
+     * @param boolean $bFilterOnline
+     * @param boolean $bExcludeBounced
+     * @param boolean $bFilterBounced
+     *
+     * @return Device
+     */
+    public static function getDevicesByDeviceGroupId($iDeviceGroupId, $bFilterOnline = false)
+    {
+
+        $sQuery = ' SELECT
+                        *
+                    FROM
+                        `device_group_relations` as `cgr`
+                    JOIN
+                        `devices` as `c`
+                    USING
+                        (`deviceId`)
+                    WHERE
+                        `cgr`.`deviceGroupId` = ' . db_int($iDeviceGroupId);
+
+        # filter online property
+        if ($bFilterOnline) {
+            $sQuery .= ' AND `c`.`online` = 1 ';
+        }
+
+        $sQuery .= ';';
+        $oDb    = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_OBJECT, "Device");
+    }
+
+    
     /**
      * delete item and all media
      *
@@ -134,8 +271,6 @@ class DeviceManager
         $sFrom    = '';
         $sWhere   = '';
         $sGroupBy = '';
-
-        
 
         // no show all? only show online items
         if (empty($aFilter['showAll'])) {
