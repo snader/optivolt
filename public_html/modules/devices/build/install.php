@@ -62,7 +62,7 @@ $aNeededModulesForMenu = [
     ],
     [
         'name'             => 'devicegroups',
-        'icon'             => 'fa-users',
+        'icon'             => 'fa-object-group',
         'linkName'         => 'device_group_menu',
         'parentModuleName' => 'devices',
         'moduleActions'    => [
@@ -75,6 +75,7 @@ $aNeededTranslations = [
     'nl' => [
         ['label' => 'device_not_deletable', 'text' => 'Apparaat is niet verwijderbaar'],
         ['label' => 'devices_menu', 'text' => 'Apparaten'],        
+        ['label' => 'device_group_menu', 'text' => 'Apparaatgroepen'], 
         ['label' => 'device_deleted', 'text' => 'Apparaat is verwijderd'],
         ['label' => 'device_not_deleted', 'text' => 'Apparaat kan niet worden verwijderd'],
         ['label' => 'device_not_saved', 'text' => 'Apparaat is niet opgeslagen, niet alle velden zijn (juist) ingevuld'],

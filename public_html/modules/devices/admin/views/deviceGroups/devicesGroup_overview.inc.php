@@ -3,7 +3,7 @@
         <div class="row mb-2">
             <div class="col-sm-12">
 
-                <h1 class="m-0"><i aria-hidden="true" class="fas fa-users"></i>&nbsp;&nbsp;Apparaatgroepen</h1></i>
+                <h1 class="m-0"><i aria-hidden="true" class="fas fa-object-group"></i>&nbsp;&nbsp;Apparaatgroepen</h1></i>
             </div>
         </div>
     </div>
