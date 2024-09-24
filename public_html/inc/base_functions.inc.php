@@ -166,10 +166,12 @@ function getSiteImage($sImage, $sModuleFolder = null)
 function getAdminView($sView, $sModule = 'core')
 {
     $sFileName = SYSTEM_MODULES_FOLDER . '/' . $sModule . '/admin/views/' . $sView . '.inc.php';
+  
     if (file_exists($sFileName)) {
         return $sFileName;
     }
-    Debug::logError('0', 'Missing admin view file: `' . $sFileName . '`', __FILE__, __LINE__, '', Debug::LOG_IN_EMAIL);
+
+    Debug::logError('0', 'Missing admin view file: `' . $sFileName . '`', __FILE__, __LINE__, '', Debug::LOG_IN_DATABASE);
 }
 
 /**

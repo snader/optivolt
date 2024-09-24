@@ -15,6 +15,7 @@ class Device extends Model
     public  $created;
     public  $modified;
     
+    private $aDeviceGroups                  = null;
     private $properties = [];
 
     public function __set($name, $value) {
@@ -85,6 +86,60 @@ class Device extends Model
         
 
         return $bOnline;
+    }
+
+
+    /**
+     * get all CustomGroup objects related to this Device
+     *
+     * @return array CustomGroup $this->aDeviceGroups
+     */
+    public function getDeviceGroups()
+    {
+        if ($this->aDeviceGroups === null) {
+            $this->aDeviceGroups = DeviceGroupManager::getDeviceGroupsByDeviceId($this->deviceId);
+        }
+
+        return $this->aDeviceGroups;
+    }
+
+    /**
+     * set device CustomGroups
+     *
+     * @param array of CustomGroup objects
+     */
+    public function setDeviceGroups(array $aDeviceGroups)
+    {
+        $this->aDeviceGroups = $aDeviceGroups;
+    }
+
+    /**
+     * check whether device is linked to the DeviceGroup
+     *
+     * @param int $iDeviceGroupId
+     *
+     * @return boolean
+     */
+    public function isLinkedToDeviceGroup($iDeviceGroupId)
+    {
+        # return by default false
+        $bResult = false;
+
+        # when not yet set, get linked DeviceGroups
+        if (empty($this->aDeviceGroups)) {
+            $this->getDeviceGroups();
+        }
+
+        # loop through linked DeviceGroups
+        foreach ($this->aDeviceGroups as $oDeviceGroup) {
+            # check whether user is linked to customGroup
+            if ($oDeviceGroup->deviceGroupId == $iDeviceGroupId) {
+                $bResult = true;
+            }
+        }
+
+        # return result
+        return $bResult;
     }
 
     

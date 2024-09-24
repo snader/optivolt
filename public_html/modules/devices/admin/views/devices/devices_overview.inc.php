@@ -24,6 +24,17 @@
                             <div class="input-group input-group-sm" style="width: auto;">
 
                                 <div class="input-group-append">
+                                    <form action="<?= ADMIN_FOLDER ?>/<?= Request::getControllerSegment() ?>" method="POST" class="form-inline pr-2">
+                                        <input type="hidden" name="filterForm" value="1" />
+
+                                        <select class="select2 form-control form-control-sm" style="width:200px;" name="devicesFilter[deviceGroupId]">
+                                            <option>Selecteer groep</option>
+                                            <?= $sOptionHTML ?>
+                                        </select>&nbsp;
+                                        <input type="submit" name="filterDevices" value="Filter" class="btn btn-default btn-sm" /> <input class="btn btn-default btn-sm" type="submit" name="resetFilter" value="Reset" />
+                                    </form>
+                                </div>
+                                <div class="input-group-append">
                                     <a class="addBtn" href="<?= ADMIN_FOLDER . '/' . http_get('controller') ?>/toevoegen" title="<?= sysTranslations::get('add_item') ?>">
                                         <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
                                             <i class="fas fa-plus-circle"></i>
