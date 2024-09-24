@@ -103,6 +103,11 @@ class CertificateManager
         /* check if item exists and is deletable */
         if ($oCertificate->isDeletable()) {
 
+            # get and delete files
+            foreach ($oCertificate->getFiles('all') AS $oFile) {
+                FileManager::deleteFile($oFile);
+            }
+
             $sQuery = "DELETE FROM `certificates` WHERE `certificateId` = " . db_int($oCertificate->certificateId) . ";";
             $oDb->query($sQuery, QRY_NORESULT);
 
@@ -222,6 +227,68 @@ class CertificateManager
         return $aCertificates;
     }
 
+
+    /**
+     * save connection between a certificate and a file
+     *
+     * @param int $iCertificateId
+     * @param int $iMediaId
+     */
+    public static function saveCertificateFileRelation($iCertificateId, $iMediaId)
+    {
+        $sQuery = ' INSERT IGNORE INTO
+                        `certificates_files`
+                    (
+                        `certificateId`,
+                        `mediaId`
+                    )
+                    VALUES
+                    (
+                        ' . db_int($iCertificateId) . ',
+                        ' . db_int($iMediaId) . '
+                    )
+                    ;';
+        $oDb    = DBConnections::get();
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+
+    /**
+     * get files for page by filter
+     *
+     * @param int   $iCertificateId
+     * @param array $aFilter
+     * @param int   $iLimit
+     *
+     * @return array File
+     */
+    public static function getFilesByFilter($iCertificateId, array $aFilter = [], $iLimit = null)
+    {
+
+        $sWhere = '';
+        if (empty($aFilter['showAll'])) {
+            $sWhere .= ' AND `m`.`online` = 1';
+        }
+
+        $sQuery = ' SELECT
+                        `m`.*,
+                        `f`.*
+                    FROM
+                        `files` AS `f`
+                    JOIN
+                        `certificates_files` AS `cf` USING (`mediaId`)
+                    JOIN
+                        `media` AS `m` USING (`mediaId`)
+                    WHERE
+                        `cf`.`certificateId` = ' . db_int($iCertificateId) . '
+                    ' . $sWhere . '
+                    ORDER BY
+                        `m`.`order` ASC, `m`.`mediaId` ASC
+                    ' . ($iLimit ? 'LIMIT ' . db_int($iLimit) : '') . '
+                    ;';
+        $oDb    = DBConnections::get();
+
+        return $oDb->query($sQuery, QRY_OBJECT, 'File');
+    }
     
 
 }
