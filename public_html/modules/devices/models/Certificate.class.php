@@ -3,6 +3,8 @@
 class Certificate extends Model
 {
 
+    const FILES_PATH = '/uploads/files/certificate';
+
     public  $certificateId;
     public  $deviceId;
     public  $userId;
@@ -20,6 +22,7 @@ class Certificate extends Model
     public  $modified;
     public  $name;
     
+    private $aFiles                  = null; //array with different lists of files
     private $properties = [];
 
     public function __set($name, $value) {
@@ -67,6 +70,32 @@ class Certificate extends Model
     public function isDeletable()
     {
         return true;
+    }
+
+     /**
+     * get all files by specific list name for a certificate
+     *
+     * @param string $sList
+     *
+     * @return array File
+     */
+    public function getFiles($sList = 'online')
+    {
+        if (!isset($this->aFiles[$sList])) {
+            switch ($sList) {
+                case 'online':
+                    $this->aFiles[$sList] = CertificateManager::getFilesByFilter($this->certificateId);
+                    break;
+                case 'all':
+                    $this->aFiles[$sList] = CertificateManager::getFilesByFilter($this->certificateId, ['showAll' => true]);
+                    break;
+                default:
+                    die('no option');
+                    break;
+            }
+        }
+
+        return $this->aFiles[$sList];
     }
 
     /*

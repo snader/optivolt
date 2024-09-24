@@ -243,3 +243,43 @@ if ($oDb->tableExists('certificates')) {
     }
 
 }
+
+if (!$oDb->tableExists('certificates_files')) {
+    $aLogs[$sModuleName]['errors'][] = 'Missing table `certificates_files`';
+    if ($bInstall) {
+
+        // add table
+        $sQuery = '
+        CREATE TABLE IF NOT EXISTS `certificates_files` (
+          `mediaId` INT(11) NOT NULL,
+          `certificateId` INT(11) NOT NULL,
+          PRIMARY KEY (`mediaId`,`certificateId`),
+          KEY `fk_files_files_pages` (`mediaId`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        ';
+        $oDb->query($sQuery, QRY_NORESULT);
+    }
+}
+
+// check pages_files constraints
+if ($oDb->tableExists('certificates_files')) {
+    if ($oDb->tableExists('files')) {
+        // check pages_files constraint
+        if (!$oDb->constraintExists('certificates_files', 'mediaId', 'files', 'mediaId')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `certificates_files`.`mediaId` => `files`.`mediaId`';
+            if ($bInstall) {
+                $oDb->addConstraint('certificates_files', 'mediaId', 'files', 'mediaId', 'CASCADE', 'CASCADE');
+            }
+        }
+    }
+
+    if ($oDb->tableExists('pages')) {
+        // check pages constraint
+        if (!$oDb->constraintExists('certificates_files', 'certificateId', 'certificates', 'certificateId')) {
+            $aLogs[$sModuleName]['errors'][] = 'Missing fk constraint `certificates_files`.`certificateId` => `certificates`.`certificateId`';
+            if ($bInstall) {
+                $oDb->addConstraint('certificates_files', 'certificateId', 'certificates', 'certificateId', 'RESTRICT', 'CASCADE');
+            }
+        }
+    }
+}

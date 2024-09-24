@@ -15,7 +15,7 @@
                        type="text" value=""/>
             </div>
             <div>
-                <input id="fileFile_<?= $this->iContainerIDAddition ?>" style="margin: 5px 0;" type="file"
+                <input required id="fileFile_<?= $this->iContainerIDAddition ?>" style="margin: 5px 0;" type="file"
                        title="<?= $this->sValidateFile ? sysTranslations::get('global_select_extensions') . ': ' . $this->sValidateFile : sysTranslations::get('global_select_file') ?>" name="file"/>
                 <div class="uploadsDropZone hide" onclick="$('#fileFile_<?= $this->iContainerIDAddition ?>').click();">
                     <div class="dropZoneBrowseHolder"><a class="" onclick="return false;" href="#"><i class="fa fa-upload" aria-hidden="true"></i> <?= sysTranslations::get('global_browse') ?>...</a></div>
