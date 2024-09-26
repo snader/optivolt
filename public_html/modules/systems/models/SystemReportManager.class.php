@@ -106,7 +106,7 @@ class SystemReportManager
             $oSystemReport->systemReportId = $oDb->insert_id;
         }
 
-        $oSystem = SystemManager::updateLastReportDate($oSystemReport->systemId, substr($oSystemReport->created, 0, 10));
+        $oSystem = SystemManager::updateLastReportDate($oSystemReport->systemId, substr($oSystemReport->created ?? '', 0, 10));
 
 
     }

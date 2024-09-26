@@ -2142,18 +2142,18 @@ function daysBetween($sBeginDate, $sEndDate)
     }
 }
 
-/**
- * 
- */
 function arrayToReadableText($aArray) {
 
     $a = [];
     foreach ($aArray as $key => $value) {
+        if (is_array($value)) {
+            // Als de waarde een array is, roep dan de functie recursief aan
+            $value = arrayToReadableText($value);
+        }
         $a[] = "$key: $value";
     }
     $sResult = implode(PHP_EOL, $a);
     return $sResult;
-
 }
 
 
@@ -2177,8 +2177,8 @@ function object_to_array($data)
 function saveLog($link, $title, $content) {
 
     $oLog = new Log();
-    $oLog->name = UserManager::getCurrentUser()->name;
-    $oLog->userId = UserManager::getCurrentUser()->userId;    
+    $oLog->name = UserManager::getCurrentUser() ? UserManager::getCurrentUser()->name : 'Unknown (logged out)';
+    $oLog->userId = UserManager::getCurrentUser() ? UserManager::getCurrentUser()->userId : 'Unknown (logged out)';    
     $oLog->link = $link;
     $oLog->title = $title;
     $oLog->content = $content;

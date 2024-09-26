@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <input type="text" name="orderNr" placeholder="Ordernummer" class="form-control" id="orderNr" value="<?=$aEditAppointment['orderNr']?>" title="">
+          <input type="text" name="orderNr" placeholder="Ordernummer" class="form-control" id="orderNr" value="<?= isset($aEditAppointment['orderNr']) ? $aEditAppointment['orderNr'] : '' ?>" title="">
         </div>
         </div>
       </div>
