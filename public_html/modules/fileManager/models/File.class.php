@@ -114,8 +114,12 @@ class File extends Media
      */
     public function getExtension()
     {
+        $myVar = strtolower(pathinfo($this->link, PATHINFO_EXTENSION) ?? '');
+        if (empty($myVar)) { 
+            return ''; 
+        }
         // extensions that start with a number, add 'x-'
-        return preg_replace('/^([0-9]){1}/i', 'x-$1', strtolower(pathinfo($this->link, PATHINFO_EXTENSION) ?? ''));
+        return preg_replace('/^([0-9]){1}/i', 'x-$1', $myVar);
     }
 
     /**
@@ -131,6 +135,9 @@ class File extends Media
 
     public function getLinkWithoutQueryString()
     {
+        if (empty($this->link)) {
+            return $this->link;
+        }
         return preg_replace('/\?.*/', '', $this->link);
     }
 

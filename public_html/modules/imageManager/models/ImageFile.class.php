@@ -10,6 +10,9 @@ class ImageFile extends File
     public  $type   = Media::IMAGE;
     public  $online = 1;
     public  $imageSizeAttr;
+    public $isEditable; 
+
+
     private $height = null;
     private $width  = null;
 
@@ -24,6 +27,16 @@ class ImageFile extends File
         'png',
     ];
 
+    private $properties = [];
+
+    public function __set($name, $value) {
+        $this->properties[$name] = $value;
+    }
+
+    public function __get($name) {
+        return $this->properties[$name] ?? null;
+    }
+
     /**
      * ImageFile constructor.
      *
@@ -32,6 +45,7 @@ class ImageFile extends File
      */
     public function __construct($aData = [], $bStripTags = true)
     {
+        if (empty($this->link)) { $this->link = ''; }
         if (in_array(pathinfo($this->link, PATHINFO_EXTENSION), static::$allowedWebPExtensions) &&
             !file_exists(DOCUMENT_ROOT . $this->link . '.webp')) {
             $this->createWebPImage();
