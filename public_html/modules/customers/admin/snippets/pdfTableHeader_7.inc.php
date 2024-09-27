@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ACTIVELINER
+ * DUOLINER HYBRIDE
  */
 ?>
 <tr>

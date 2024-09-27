@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Actief Harmonisch Filter (AHF) - OBSOLETE
+ * DUOLINER HYBRIDE
  */
 
 ?>
