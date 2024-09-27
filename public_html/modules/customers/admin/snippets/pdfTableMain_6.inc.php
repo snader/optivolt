@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MULTILINER
+ * Actief Harmonisch Filter (AHF) - OBSOLETE
  */
 
 ?>

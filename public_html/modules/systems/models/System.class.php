@@ -3,9 +3,13 @@
 class System extends Model
 {
 
-    const SYSTEM_TYPE_POWERLINER = 1;
-    const SYSTEM_TYPE_MULTILINER = 2;
-    const SYSTEM_TYPE_VLINER     = 3;
+    const SYSTEM_TYPE_POWERLINER        = 1;
+    const SYSTEM_TYPE_MULTILINER        = 2;
+    const SYSTEM_TYPE_VLINER            = 3;
+    const SYSTEM_TYPE_DUOLINER          = 4;
+    const SYSTEM_TYPE_ACTIVELINER       = 5;
+    const SYSTEM_TYPE_DUOLINER_HYBRIDE  = 7;
+    const SYSTEM_TYPE_VLINER_SW         = 8;
 
     public  $systemId;
     public  $floor;
