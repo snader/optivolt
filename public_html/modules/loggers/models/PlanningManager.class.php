@@ -167,9 +167,11 @@ class PlanningManager
     // Insert all customerGroup relations of this customer
     $sQueryValues = '';
     foreach ($aAccountmanagers as $oUser) {
-      $sQueryValues .= (!empty($sQueryValues) ? ',' : '') . '(' . db_int($oUser->userId) . ',' . db_int($oPlanning->planningId) . ')';
+      if (is_object($oUser) && isset($oUser->userId)) {
+        $sQueryValues .= (!empty($sQueryValues) ? ',' : '') . '(' . db_int($oUser->userId) . ',' . db_int($oPlanning->planningId) . ')';
+      }
     }
-
+    
     /* save User Module relation */
     if (!empty($sQueryValues)) {
       $sQuery = " INSERT IGNORE INTO

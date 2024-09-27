@@ -1708,8 +1708,13 @@ class ImageManager
      *
      * @return bool
      */
-    public static function rotateImage($sOriLocation, $sDestination, $iRotation = 90, &$sErrorMsg, $mBGColor = 0, $iJpegQuality = 100)
+    public static function rotateImage($sOriLocation, $sDestination, $iRotation, &$sErrorMsg, $mBGColor = 0, $iJpegQuality = 100)
     {
+
+        if (empty($iRotation)) {
+            $iRotation = 90;
+        }
+
         $aFileProps = getimagesize($sOriLocation);
 
         $iOriType     = $aFileProps[2];
@@ -1758,8 +1763,13 @@ class ImageManager
      *
      * @return bool
      */
-    public static function flipImage($sOriLocation, $sDestination, $iFlipMode = IMG_FLIP_HORIZONTAL, &$sErrorMsg, $iJpegQuality = 100)
+    public static function flipImage($sOriLocation, $sDestination, $iFlipMode, &$sErrorMsg, $iJpegQuality = 100)
     {
+
+        if (empty($iFlipMode)) {
+            $iFlipMode = IMG_FLIP_HORIZONTAL;
+        }
+
         $aFileProps = getimagesize($sOriLocation);
 
         $iOriType     = $aFileProps[2];

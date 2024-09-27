@@ -7,6 +7,8 @@ if (!defined('ACCESS')) {
 
 global $oPageLayout;
 
+$iDays = 1;
+
 # set page layout properties
 $oPageLayout               = new PageLayout();
 $oPageLayout->sWindowTitle = sysTranslations::get('logger');
@@ -348,7 +350,7 @@ elseif (
   $oPlanning = new Planning();
   $oPlanning->loggerId = $oLogger->loggerId;
 
-  $iDays = 1;
+ 
   // dragged selection
   if (http_get("param3") && substr_count(http_get("param3"), '_') == 1) {
     $aPartsEnd = explode('_', http_get("param3"));
