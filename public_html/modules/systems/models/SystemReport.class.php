@@ -93,7 +93,7 @@ class SystemReport extends Model
                 }
                 $oCustomer = $this->getSystem()->getLocation()->getCustomer();
 
-                $oAppointment = CustomerManager::getLastAppointment(UserManager::getCurrentUser()->userId, $oCustomer->customerId);
+                $oAppointment = CustomerManager::getLastAppointment($oCustomer->customerId, UserManager::getCurrentUser()->userId);
 
                 if ($oAppointment && $oAppointment["finished"] == 0 && substr($this->created, 0, 4) == substr($oAppointment["visitDate"], 0, 4)) {
 

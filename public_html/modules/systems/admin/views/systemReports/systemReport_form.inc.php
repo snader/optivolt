@@ -46,7 +46,7 @@
                 if (http_get("warning")) {
                
                     $oCustomer = $oSystemReport->getSystem()->getLocation()->getCustomer();
-                    $oAppointment = CustomerManager::getLastAppointment(null, $oCustomer->customerId);
+                    $oAppointment = CustomerManager::getLastAppointment($oCustomer->customerId, null);
                     if ($oAppointment) {
                 ?>
                 <br /><div class="alert alert-warning alert-dismissible">

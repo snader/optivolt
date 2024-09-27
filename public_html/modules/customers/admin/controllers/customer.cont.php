@@ -260,7 +260,7 @@ if (http_get("param1") == 'bewerken' || http_get("param1") == 'toevoegen') {
 
     // get last appointment
     if (UserManager::getCurrentUser()->userAccessGroupId == 2) {
-        $aAppointment = CustomerManager::getLastAppointment(UserManager::getCurrentUser()->userId, $oCustomer->customerId);
+        $aAppointment = CustomerManager::getLastAppointment($oCustomer->customerId, UserManager::getCurrentUser()->userId);
     } else {
         $aAppointments = $oCustomer->getAppointments();
     }

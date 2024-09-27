@@ -194,11 +194,11 @@
                                 <div class="input-group input-group-sm" style="width: auto;">
                                     <div class="input-group-append">
                                         <?php
-                                        $oAppointment = CustomerManager::getLastAppointment(UserManager::getCurrentUser()->userId, $oCustomer->customerId);
+                                        $oAppointment = CustomerManager::getLastAppointment($oCustomer->customerId, UserManager::getCurrentUser()->userId);
 
                                         // admin can edit/add
                                         if (!$oAppointment && (UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin())) {
-                                            $oAppointment = CustomerManager::getLastAppointment(null, $oCustomer->customerId);
+                                            $oAppointment = CustomerManager::getLastAppointment($oCustomer->customerId, null);
                                         }
 
                                         if ( ($oAppointment && $oAppointment["finished"] == 0 && substr($oAppointment["visitDate"], 0, 4) == date('Y', time())) || (UserManager::getCurrentUser()->isEngineer() || UserManager::getCurrentUser()->isClientAdmin() || UserManager::getCurrentUser()->isSuperAdmin()) ) {

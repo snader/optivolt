@@ -271,7 +271,7 @@ class CustomerManager
     /**
      *
      */
-    public static function getLastAppointment($iUserId = null, $iCustomerId)
+    public static function getLastAppointment($iCustomerId, $iUserId = null)
     {
 
         if ($iUserId) {
