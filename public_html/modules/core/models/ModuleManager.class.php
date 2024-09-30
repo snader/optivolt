@@ -235,7 +235,7 @@ class ModuleManager
      * @param array $aNames
      * @param type  $bActive
      */
-    public static function setActiveByNames(array $aNames = [], $bActive)
+    public static function setActiveByNames(array $aNames = [], $bActive = 0)
     {
 
         $sNames = '';

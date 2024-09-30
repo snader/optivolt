@@ -196,3 +196,32 @@ if ($oDb->tableExists('inventarisations')) {
     }
 }
 
+$aInventarisations = InventarisationManager::getInventarisationsByFilter();
+
+foreach ($aInventarisations as $oInventarisation) {
+    if ($oInventarisation->name && $oInventarisation->stroomTrafo!='J' && $oInventarisation->stroomTrafo!='N' && $oInventarisation->stroomTrafo!='NVT') {
+        $aLogs[$sModuleName]['errors'][] = '`inventarisations` stroomTrafo inconsistent data ('.$oInventarisation->stroomTrafo.'), please do install to convert';
+            if ($bInstall) {
+
+                if (empty($oInventarisation->stroomTrafo)) {
+                    $oInventarisation->stroomTrafo = "NVT";
+                } else {
+
+                    $temp = trim(strtolower($oInventarisation->stroomTrafo));
+                    if ($temp == 'j') { $oInventarisation->stroomTrafo = "J"; }
+                    if ($temp == 'n') { $oInventarisation->stroomTrafo = "N"; }
+                    if ($temp == 'ja') { $oInventarisation->stroomTrafo = "J"; }
+                    if ($temp == 'ja,') { $oInventarisation->stroomTrafo = "J"; }
+                    if ($temp == 'nee') { $oInventarisation->stroomTrafo = "N"; }
+                    if ($temp == 'yes') { $oInventarisation->stroomTrafo = "J"; }
+                    if ($temp == 'no') { $oInventarisation->stroomTrafo = "N"; }
+                    if ($temp == '-') { $oInventarisation->stroomTrafo = "NVT"; }
+                    if (substr_count($temp, 'nee')) { $oInventarisation->stroomTrafo = "N"; }
+                }
+
+                InventarisationManager::saveInventarisation($oInventarisation);
+
+            }
+
+    }
+}

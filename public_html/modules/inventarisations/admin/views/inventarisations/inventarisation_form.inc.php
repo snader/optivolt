@@ -2,15 +2,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-12">
-
-                
-
                 <h1 class="m-0"><i aria-hidden="true" class="fa fa-check-double fa-th-large"></i>&nbsp;&nbsp;
-
                     Inventarisatie
-                </h1>
-
-                
+                </h1>               
             </div>
         </div>
     </div>
@@ -81,7 +75,7 @@
                                 <label for="freeFieldAmp">Vrij veld + hoeveel Amp (NH0, NH1, NH3)?</label>
                             </div>
                             <div class="col-sm-4 col-md-2 form-group">
-                                <label for="stroomTrafo">Stroomtrafo J/N</label>
+                                <label for="stroomTrafo">Stroomtrafo?</label>
                             </div>
                         </div>
                         <!-- first table row -->
@@ -136,7 +130,12 @@
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="stroomTrafoExtra[]" class="form-control" id="stroomTrafoExtra[]" value="<?= _e($oSubInventarisation->stroomTrafo) ?>" title="Stroomtrafo present?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="stroomTrafoExtra[]" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
+                                        <option value="">- Kies</option>
+                                        <option <?= $oSubInventarisation->stroomTrafo == "J" ? 'selected' : ''?> value="J">Ja</option>
+                                        <option <?= $oSubInventarisation->stroomTrafo == "N" ? 'selected' : ''?> value="N">Nee</option>
+                                        <option <?= $oSubInventarisation->stroomTrafo == "NVT" ? 'selected' : ''?> value="NVT">NVT</option>                                        
+                                    </select>                                    
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                             
