@@ -115,6 +115,11 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
             if (!isset($oLocation) || empty($oLocation)) {
                 $oLocation = $oSystem->getLocation();
+                
+            }
+
+            if ($oLocation) {
+                $oCustomer = $oLocation->getCustomer();
             }
 
             // mail naar optivolt met info (systeem is op vervallen gezet)
@@ -124,6 +129,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                 $sFrom = $sEmail;
                 $sSubject = "Systeem #" . $oSystem->systemId . " op vervallen gezet door " . UserManager::getCurrentUser()->name . ".";
                 $sMailBody = $sSubject . '<br/>';
+                $sMailBody .= "<br/>Klant: " . $oCustomer->companyName . " (#" . $oCustomer->debNr . ")";
                 $sMailBody .= "<br/>Locatie: " . $oLocation->name;
                 $sMailBody .= "<br/>Plaatsbepaling: " . $oLocation->floor;
                
