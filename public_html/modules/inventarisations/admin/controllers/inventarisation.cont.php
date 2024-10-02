@@ -216,8 +216,8 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
     $aFilter['showAll'] = true;
     $aLoggers = LoggerManager::getLoggersOnlyByFilter($aFilter);
-    $aCustomers = CustomerManager::getAllCustomers();                                    
-    
+    $aCustomers = CustomerManager::getAllCustomers();    
+
     $oPageLayout->sViewPath = getAdminView('inventarisations/inventarisation_form', 'inventarisations');
 
 } elseif (Request::param('ID') == 'verwijderen' && is_numeric(Request::param('OtherID'))) {

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
     <link rel="shortcut icon" href="/themes/default/images/icons/favicon.ico" />
     <link rel="apple-touch-icon" sizes="57x57" href="/themes/default/images/icons/apple-icon-57x57.png">

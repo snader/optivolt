@@ -85,18 +85,25 @@
                         
                         if (isset($aInventarisations) && !empty($aInventarisations)) {
 
+                            
                             foreach ($aInventarisations as $oSubInventarisation) {
 
+                                // reset the array
+                                $aSubFreeFieldAmpExtra = []; 
+                              
                                 if (empty($oSubInventarisation->name) && 
                                     empty($oSubInventarisation->kva) && 
                                     empty($oSubInventarisation->loggerId) && 
                                     empty($oSubInventarisation->position) && 
                                     empty($oSubInventarisation->freeFieldAmp) && 
                                     empty($oSubInventarisation->stroomTrafo) 
-                                    ) {           
-                                                      
-                                        continue;
-                                    }
+                                    ) 
+                                {                  
+                                                                                  
+                                    continue;
+                                }
+
+                                $aSubFreeFieldAmpExtra[] = explode("|", $oSubInventarisation->freeFieldAmp ?? '');
                         ?>
                             
                             <div class="row">
@@ -126,17 +133,32 @@
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
-                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control select2" name="freeFieldAmpExtra[]" id="freeFieldAmpExtra[]" style="width:100%;">
-                                        <option value="">- Selecteer &raquo; </option>                                            
-                                        <option value='NH0 160A'>NH0 160A</option>
-                                        <option value='NH1 250A'>NH1 250A</option>  
-                                        <option value='NH2 400A'>NH2 400A</option>
-                                        <option value='NH3 630A'>NH3 630A</option>
-                                        <option value='MCCB'>MCCB</option>  
-                                        <option value='-'>Overig</option>                              
+                                    <?php
+                                    $aOptions = ['NH0 160A','NH1 250A','NH2 400A','NH3 630A','MCCB'];
+                                    foreach ($aSubFreeFieldAmpExtra as $aSubFreeFieldAmpExtraStr) {
+                                        
+                                    ?>
+                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control select2 freeFieldAmpExtra" name="freeFieldAmpExtra[]" style="width:100%;">
+                                        <option value="">- Selecteer &raquo; </option> 
+                                        <?php
+                                        $bSelected = false;
+                                        foreach ($aOptions as $sOption) { 
+                                            if ($aSubFreeFieldAmpExtraStr[0]==$sOption) {
+                                                $bSelected = true;
+                                            }
+                                            ?>
+                                            <option <?= $aSubFreeFieldAmpExtraStr[0]==$sOption ? 'selected ' : ''?>value='<?=$sOption?>'><?=$sOption?></option>
+                                        <?php
+                                        }
+                                        
+                                        ?>                                                                                   
+                                        <option <?= !$bSelected ? 'selected' : '' ?> value=''>Overig</option>                              
                                     </select>
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" class="form-control" id="freeFieldAmpExtra[]" value="<?= _e($oSubInventarisation->freeFieldAmp) ?>" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"></span>
+                                                                        
+                                    <input required <?= $bSelected ? 'style="display:none;" ' : '' ?><?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" class="form-control freeFieldAmpExtraOverig" value="<?= _e($aSubFreeFieldAmpExtraStr[0]) ?>" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    
+                                    <?php 
+                                } ?>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
                                     <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="stroomTrafoExtra[]" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
@@ -192,7 +214,7 @@
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
-                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control select2" name="freeFieldAmpExtra[]" id="freeFieldAmpExtra[]" style="width:100%;">
+                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control select2" name="freeFieldAmpExtra[]" style="width:100%;">
                                         <option value="">- Selecteer &raquo; </option>                                            
                                         <option value='NH0 160A'>NH0 160A</option>
                                         <option value='NH1 250A'>NH1 250A</option>  
@@ -201,7 +223,7 @@
                                         <option value='MCCB'>MCCB</option>  
                                         <option value='-'>Overig</option>                              
                                     </select>
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" class="form-control" id="freeFieldAmpExtra[]" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" class="form-control freeFieldAmpExtraOverig" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
@@ -480,8 +502,6 @@ $(document).on("click", ".removeRowSecond" , function() {
     
 });
 
-
-
 $('#customerId').on( "change", function() {
     if ($(this).val()!='') {
         $("input").prop('required',false);
@@ -491,6 +511,16 @@ $('#customerId').on( "change", function() {
         $("input").prop('required',true);
     }
 });
+
+$('.freeFieldAmpExtra').on( "change", function() {
+    elementOverig = $(this).parent().find(".freeFieldAmpExtraOverig");
+    if ($(this).val()!='') {
+        elementOverig.val('').prop('required',false).hide();        
+    } else {
+        elementOverig.val('').show().prop('required',true);
+    }
+});
+
 
 </script>
 EOT;
