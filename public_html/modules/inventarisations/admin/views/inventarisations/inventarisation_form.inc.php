@@ -60,22 +60,22 @@
                         <!-- first table -->
                         <div class="row">
                             <div class="col-sm-4 col-md-3 form-group">
-                                <label for="name">Transformator naam/nr</label>
+                                <label>Transformator naam/nr</label>
                             </div>
                             <div class="col-sm-4 col-md-1 form-group">
-                                <label for="kva">KV/Ampere</label>
+                                <label>KV/Ampere</label>
                             </div>
                             <div class="col-sm-4 col-md-1 form-group">
-                                <label for="loggerId">Logger?</label>
+                                <label>Logger?</label>
                             </div>
                             <div class="col-sm-4 col-md-3 form-group">
-                                <label for="position">Remark</label>
+                                <label>Remark</label>
                             </div>
                             <div class="col-sm-4 col-md-2 form-group">
-                                <label for="freeFieldAmp">Vrij veld?</label>
+                                <label>Vrij veld?</label>
                             </div>
                             <div class="col-sm-4 col-md-2 form-group">
-                                <label for="stroomTrafo">Stroomtrafo?</label>
+                                <label>Stroomtrafo?</label>
                             </div>
                         </div>
                         <!-- first table row -->
@@ -110,15 +110,15 @@
                                 <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtraTableOne[]">
                                 <span style="<?= ($oInventarisation->isReadOnly() ? 'display:none; ' : '') ?>float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow" id="<?= _e($oSubInventarisation->inventarisationId) ?>"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                                 <div class="col-sm-4 col-md-3 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="nameExtra[]" class="form-control" id="nameExtra[]" value="<?= _e($oSubInventarisation->name) ?>" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="nameExtra[]" class="form-control"  value="<?= _e($oSubInventarisation->name) ?>" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>  
                                 <div class="col-sm-4 col-md-1 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="number" name="kvaExtra[]" class="form-control" id="kvaExtra[]" value="<?= _e($oSubInventarisation->kva) ?>" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="number" name="kvaExtra[]" class="form-control"  value="<?= _e($oSubInventarisation->kva) ?>" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
-                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="loggerIdExtra[]" name="loggerIdExtra[]" title="Selecteer een logger">
+                                    <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="loggerIdExtra[]" title="Selecteer een logger">
                                         <option value="">- Kies</option>
                                         <?php
                                         foreach ($aLoggers as $oLogger) {
@@ -129,7 +129,7 @@
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-3 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="positionExtra[]" class="form-control" id="positionExtra[]" value="<?= _e($oSubInventarisation->position) ?>" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="positionExtra[]" class="form-control" value="<?= _e($oSubInventarisation->position) ?>" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
@@ -138,12 +138,12 @@
                                     foreach ($aSubFreeFieldAmpExtra as $aSubFreeFieldAmpExtraStr) {
                                         
                                     ?>
-                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control select2 freeFieldAmpExtra" name="freeFieldAmpExtra[]" style="width:100%;">
+                                    <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra" name="freeFieldAmpExtra[]" style="width:100%;">
                                         <option value="">- Selecteer &raquo; </option> 
                                         <?php
                                         $bSelected = false;
                                         foreach ($aOptions as $sOption) { 
-                                            if ($aSubFreeFieldAmpExtraStr[0]==$sOption) {
+                                            if ($sOption!='-' && $aSubFreeFieldAmpExtraStr[0]==$sOption) {
                                                 $bSelected = true;
                                             }
                                             ?>
@@ -152,7 +152,7 @@
                                         }
                                         
                                         ?>                                                                                   
-                                        <option <?= !$bSelected ? 'selected' : '' ?> value=''>Overig</option>                              
+                                        <option <?= !$bSelected ? 'selected' : '' ?> value='-'>Overig</option>                              
                                     </select>
                                                                         
                                     <input required <?= $bSelected ? 'style="display:none;" ' : '' ?><?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" class="form-control freeFieldAmpExtraOverig" value="<?= _e($aSubFreeFieldAmpExtraStr[0]) ?>" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
@@ -161,7 +161,7 @@
                                 } ?>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
-                                    <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="stroomTrafoExtra[]" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
+                                    <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
                                         <option value="">- Kies</option>
                                         <option <?= $oSubInventarisation->stroomTrafo == "J" ? 'selected' : ''?> value="J">Ja</option>
                                         <option <?= $oSubInventarisation->stroomTrafo == "N" ? 'selected' : ''?> value="N">Nee</option>
@@ -191,15 +191,15 @@
                                 <input type="hidden" value="" name="inventarisationIdExtraTableOne[]">
                                 <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                                 <div class="col-sm-4 col-md-3 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="nameExtra[]" class="form-control" id="nameExtra[]" value="" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="nameExtra[]" class="form-control" value="" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>  
                                 <div class="col-sm-4 col-md-1 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="number" name="kvaExtra[]" class="form-control" id="kvaExtra[]" value="" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="number" name="kvaExtra[]" class="form-control" value="" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
-                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="loggerIdExtra[]" name="loggerIdExtra[]" title="Selecteer een logger">
+                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="loggerIdExtra[]" title="Selecteer een logger">
                                         <option value="">- Kies</option>
                                         <?php
                                         foreach ($aLoggers as $oLogger) {
@@ -207,61 +207,82 @@
                                         }
                                         ?>
                                     </select>                                    
-                                    <span class="error invalid-feedback show"></span>
+                                    
                                 </div>
                                 <div class="col-sm-4 col-md-3 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="positionExtra[]" class="form-control" id="positionExtra[]" value="" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"></span>
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="positionExtra[]" class="form-control" value="" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    
                                 </div>
-                                <div class="col-sm-4 col-md-2 form-group">
-                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control select2" name="freeFieldAmpExtra[]" style="width:100%;">
+                                
+                                <div class="col-sm-3 col-md-2 form-group" >  
+                                                             
+                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra" name="freeFieldAmpExtra[]" style="width:100%;">
                                         <option value="">- Selecteer &raquo; </option>                                            
-                                        <option value='NH0 160A'>NH0 160A</option>
-                                        <option value='NH1 250A'>NH1 250A</option>  
-                                        <option value='NH2 400A'>NH2 400A</option>
-                                        <option value='NH3 630A'>NH3 630A</option>
-                                        <option value='MCCB'>MCCB</option>  
-                                        <option value='-'>Overig</option>                              
+                                        <option value="NH0 160A">NH0 160A</option>
+                                        <option value="NH1 250A">NH1 250A</option>  
+                                        <option value="NH2 400A">NH2 400A</option>
+                                        <option value="NH3 630A">NH3 630A</option>
+                                        <option value="MCCB">MCCB</option>  
+                                        <option value="-">Overig</option>                              
                                     </select>
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" class="form-control freeFieldAmpExtraOverig" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
-                                    <span class="error invalid-feedback show"></span>
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" style="display:none;" class="form-control freeFieldAmpExtraOverig" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="addhere"></span>
+                                    <span class="addFreeFieldAmp" style="float:left;">+</span>
                                 </div>
-                                <div class="col-sm-4 col-md-2 form-group">
-                                    <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="stroomTrafoExtra[]" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
+                                
+                                <div class="col-sm-3 col-md-2 form-group">
+                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
                                         <option value="">- Kies</option>
-                                        <option <?= $oSubInventarisation->stroomTrafo == "J" ? 'selected' : ''?> value="J">Ja</option>
-                                        <option <?= $oSubInventarisation->stroomTrafo == "N" ? 'selected' : ''?> value="N">Nee</option>
-                                        <option <?= $oSubInventarisation->stroomTrafo == "NVT" ? 'selected' : ''?> value="NVT">NVT</option>                                        
+                                        <option <?= $oInventarisation->stroomTrafo == "J" ? 'selected' : ''?> value="J">Ja</option>
+                                        <option <?= $oInventarisation->stroomTrafo == "N" ? 'selected' : ''?> value="N">Nee</option>
+                                        <option <?= $oInventarisation->stroomTrafo == "NVT" ? 'selected' : ''?> value="NVT">NVT</option>                                        
                                     </select>                                             
-                                    <span class="error invalid-feedback show"></span>
+                                    
                                 </div>
+                            </div>
+                        </div>
+                        <div style="display:none;" >
+                            <div class="col-sm-3 col-md-2 form-group" id="freeFieldAmpDiv">
+                                <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra" name="freeFieldAmpExtra[]" style="width:100%;">
+                                    <option value="">- Selecteer &raquo; </option>                                            
+                                    <option value="NH0 160A">NH0 160A</option>
+                                    <option value="NH1 250A">NH1 250A</option>  
+                                    <option value="NH2 400A">NH2 400A</option>
+                                    <option value="NH3 630A">NH3 630A</option>
+                                    <option value="MCCB">MCCB</option>  
+                                    <option value="-">Overig</option>                              
+                                </select>
+                                <input type="text" name="freeFieldAmpExtra[]" style="display:none;" class="form-control freeFieldAmpExtraOverig" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                
                             </div>
                         </div>
 
                         <!-- **************************************************************************** -->
+                         <!-- **************************************************************************** -->
+                          <!-- **************************************************************************** -->
 
                         <!-- second table -->
                         <div class="row">
                             <div class="col-sm-3 col-md-3 form-group">
-                                <label for="type">Type engine</label>
+                                <label>Type engine</label>
                             </div>
                             <div class="col-sm-1 col-md-1 form-group">
-                                <label for="control">Control</label>
+                                <label>Control</label>
                             </div>
                             <div class="col-sm-1 col-md-1 form-group">
-                                <label for="relaisNr">Relais#</label>
+                                <label>Relais#</label>
                             </div>
-                            <div class="col-sm-3 col-md-1 form-group">
-                                <label for="engineKw">KW Engine+30kW</label>
+                            <div class="col-sm-4 col-md-1 form-group">
+                                <label>KW&nbsp;Engine+30kW</label>
                             </div>
-                            <div class="col-sm-3 col-md-1 form-group">
-                                <label for="turningHours">Turning hours</label>
+                            <div class="col-sm-2 col-md-1 form-group">
+                                <label>Turning hours</label>
                             </div>
                             <div class="col-sm-3 col-md-3 form-group">
-                                <label for="photoNrs">Remark</label>
+                                <label>Remark</label>
                             </div>
                             <div class="col-sm-3 col-md-1 form-group">
-                                <label for="trafoNr">Trafo#</label>
+                                <label>Trafo#</label>
                             </div>
                         
                         </div>
@@ -296,14 +317,14 @@
                                 <div class="col-sm-1 col-md-1 form-group">
                                 <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="controlExtra[]" name="controlExtra[]" title="Control">
                                         <option value="">- Kies</option>
-                                        <option<?= $oSubInventarisation->control == 'SD' ? ' selected' : '' ?> value="SD">SD</option>
-                                        <option<?= $oSubInventarisation->control == 'D' ? ' selected' : '' ?>  value="D">D</option>
-                                        <option<?= $oSubInventarisation->control == 'SS' ? ' selected' : '' ?>  value="SS">SS</option>
-                                        <option<?= $oSubInventarisation->control == 'YY' ? ' selected' : '' ?>  value="YY">YY</option>                                        
+                                        <option<?= ($oInventarisation->control == 'SD' ? ' selected' : '') ?> value="SD">SD</option>
+                                        <option<?= ($oInventarisation->control == 'D' ? ' selected' : '') ?>  value="D">D</option>
+                                        <option<?= ($oInventarisation->control == 'SS' ? ' selected' : '') ?>  value="SS">SS</option>
+                                        <option<?= ($oInventarisation->control == 'YY' ? ' selected' : '') ?>  value="YY">YY</option>                                        
                                     </select>                                    
                                     <span class="error invalid-feedback show"></span>
                                 </div>
-                                <div class="col-sm-4 col-md-1 form-group">
+                                <div class="col-sm-1 col-md-1 form-group">
                                 <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="relaisNrExtra[]" class="form-control" id="relaisNrExtra[]" value="<?= _e($oSubInventarisation->relaisNr) ?>" title="Relais nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
@@ -311,15 +332,15 @@
                                     <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="engineKwExtra[]" class="form-control" id="engineKwExtra[]" value="<?= _e($oSubInventarisation->engineKw) ?>" title="KW engine +30 kW" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
-                                <div class="col-sm-4 col-md-1 form-group">
+                                <div class="col-sm-3 col-md-1 form-group">
                                     <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="turningHoursExtra[]"  class="form-control" id="turningHoursExtra[]" value="<?= _e($oSubInventarisation->turningHours) ?>" title="Turning hours" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
-                                <div class="col-sm-4 col-md-3 form-group">
+                                <div class="col-sm-2 col-md-3 form-group">
                                     <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="photoNrsExtra[]"  class="form-control" id="photoNrsExtra[]" value="<?= _e($oSubInventarisation->photoNrs) ?>" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
-                                <div class="col-sm-4 col-md-1 form-group">
+                                <div class="col-sm-2 col-md-1 form-group">
                                 <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="trafoNrExtra[]"  class="form-control" id="trafoNrExtra[]" value="<?= _e($oSubInventarisation->trafoNr) ?>" title="Which trafo number?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
@@ -387,7 +408,7 @@
                                 <label for="remarks">Extra notes/remarks</label>
                             </div>
                             <div class="col-md-12 form-group">
-                                <textarea <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>name="remarks" id="remarks" class="form-control" rows="6"><?= _e($oInventarisation->remarks);?></textarea>
+                                <textarea <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>name="remarks" id="remarks" class="form-control" rows="6"></textarea>
                             </div>
                         </div>                      
                     </div>
@@ -435,14 +456,27 @@
 $sBottomJavascript = <<<EOT
 <script type="text/javascript">
 
-$('#addRow').on( "click", function() {
+
+$('#addRow').on( "click", function(event){
     rowToBeAdded = $("#rowToBeAdded").html();
     
     countRows = $("#addRowsHere").children(".row").length + 1;
     aantalRows = "K" + countRows;
     rowToBeAdded = rowToBeAdded.replace("replace", aantalRows);
-
+    
     $( "#addRowsHere" ).append( rowToBeAdded );
+
+    $('input:visible, select:visible').each(function() {
+        $(this).attr('required', true);
+    });
+    
+});
+
+
+$(document).on("click", ".addFreeFieldAmp" , function() {
+var freeFieldAmpDiv = $('#freeFieldAmpDiv').html();    
+    $(this).parent().find('.addhere').append( freeFieldAmpDiv );
+
 });
 
 $(document).on("click", ".removeRow" , function() {
@@ -480,7 +514,7 @@ $(document).on("click", ".removeRow" , function() {
     
 });
 
-$('#addRowSecond').on( "click", function() {
+$('#addRowSecond').on( "click", function(event){
     rowToBeAdded = $("#rowToBeAddedSecond").html();
     
     countRows = $("#addRowsHereSecond").children(".row").length + 1;
@@ -512,12 +546,14 @@ $('#customerId').on( "change", function() {
     }
 });
 
-$('.freeFieldAmpExtra').on( "change", function() {
-    elementOverig = $(this).parent().find(".freeFieldAmpExtraOverig");
-    if ($(this).val()!='') {
+$(document).on("change", ".freeFieldAmpExtra", function(event) {
+
+    elementOverig = $(this).next(".freeFieldAmpExtraOverig");
+
+    if ($(this).val()!='-') {
         elementOverig.val('').prop('required',false).hide();        
     } else {
-        elementOverig.val('').show().prop('required',true);
+        elementOverig.val('').prop('required',true).show();
     }
 });
 
