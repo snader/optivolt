@@ -271,9 +271,9 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         Router::redirect(ADMIN_FOLDER . '/' . Request::getControllerSegment());
     }
 
-    # add language to filter
+    # add isParent to filter
     $aInventarisationFilter['isParent'] = 1;
-
+  
     #display overview
     $aInventarisations      = InventarisationManager::getInventarisationsByFilter($aInventarisationFilter, $iPerPage, $iStart, $iFoundRows);
     $iPageCount             = !empty($iPerPage) ? (ceil($iFoundRows / $iPerPage)) : 0;

@@ -222,6 +222,9 @@ class InventarisationManager
         $sWhere   = '';
         $sGroupBy = '';
 
+        $sFrom = 'LEFT JOIN `customers` AS `c` ON `c`.`customerId` = `i`.`customerId`
+        LEFT JOIN `users` AS `u` ON `u`.`userId` = `i`.`userId`
+        ';
         
 
         // no show all? only show online items
@@ -242,7 +245,7 @@ class InventarisationManager
 
         # search for q
         if (!empty($aFilter['q'])) {
-            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`i`.`name` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `i`.`customerName` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `i`.`remarks` LIKE ' . db_str(
+            $sWhere .= ($sWhere != '' ? ' AND ' : '') . '(`u`.`name` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `c`.`companyName` LIKE ' . db_str('%' . $aFilter['q'] . '%') . ' OR `i`.`remarks` LIKE ' . db_str(
                     '%' . $aFilter['q'] . '%'
                 ) . ')';
         }
@@ -272,15 +275,17 @@ class InventarisationManager
         $sLimit = ($sLimit !== '' ? 'LIMIT ' : '') . $sLimit;
 
         $sQuery = ' SELECT ' . ($iFoundRows !== false ? 'SQL_CALC_FOUND_ROWS' : '') . '
-                        `i`.*
+                        `i`.*,
+                        `c`.`companyName` AS `customerName`
                     FROM
                         `inventarisations` AS `i`
                     ' . $sFrom . '
+
                     ' . ($sWhere != '' ? 'WHERE ' . $sWhere : '') . '
                     ' . ($sGroupBy != '' ? 'GROUP BY ' . $sGroupBy : '') . '
                     ' . $sOrderBy . '
                     ' . $sLimit . '
-                    ;';
+                    ;';                   
 
         $oDb        = DBConnections::get();
         $aInventarisations = $oDb->query($sQuery, QRY_OBJECT, "Inventarisation");
