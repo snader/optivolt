@@ -1,10 +1,37 @@
+<!-- form start -->
+<form method="POST" action="" class="validateForm" id="quickForm" autocomplete="off">
+                <input autocomplete="false" name="hidden" type="text" style="display:none;">
+                <input type="hidden" value="save" name="action" />                
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-12">
+            <div class="col-sm-2">
+
                 <h1 class="m-0"><i aria-hidden="true" class="fa fa-check-double fa-th-large"></i>&nbsp;&nbsp;
                     Inventarisatie
-                </h1>               
+                </h1>
+   
+            </div>
+            <div class="col-sm-4 form-group">
+                <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>required class="form-control" name="userId" id="userId" style="width:100%;">
+                    <option value="">- Selecteer uitvoerende </option>
+                    <?php
+                    foreach (UserManager::getUsersByFilter() as $oUser) {
+                        if ($oUser->userId>1) {
+                            echo "<option" . ($oInventarisation->userId == $oUser->userId ? ' selected=\'selected\'' : '') . " value='" . $oUser->userId . "'>" . _e($oUser->name) . "</option>";
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="col-sm-2 form-group">
+                          
+                <div class="input-group date" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker" <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>required id="created" name="created" data-target="#created" value="<?= !empty($oInventarisation->created) ? date('d-m-Y', strtotime($oInventarisation->created)) : '' ?>">
+                <div class="input-group-append" data-target="#created" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+                </div>
             </div>
         </div>
     </div>
@@ -14,10 +41,7 @@
     <div class="row">
         
         <div class="col-md-12">
-            <!-- form start -->
-            <form method="POST" action="" class="validateForm" id="quickForm" autocomplete="off">
-                <input autocomplete="false" name="hidden" type="text" style="display:none;">
-                <input type="hidden" value="save" name="action" />                
+            
                                 
                 <!-- Card and header -->
                 <div class="card">
@@ -34,7 +58,8 @@
                             <div class="col-md-9" >
                                
                                 <div class="row ">
-                                    <div class="col-md-<?= ($oInventarisation->customerId ? 'style="12"' : '8') ?> form-group">
+                                    
+                                    <div class="col-md-<?= ($oInventarisation->customerId ? 'style="8"' : '4') ?> form-group">
                                         <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control select2" name="customerId" id="customerId" style="width:100%;">
                                         <option value="">- Selecteer bestaande klant of &raquo; &raquo; &raquo; </option>
                                             <?php
@@ -423,13 +448,13 @@
                             ?>                    
                     </div>
                 </div>
-            </form>
+            
         </div>
 
 
     </div>
 </div>
-
+</form>
 <div class="modal fade" id="modal-record-del">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -455,6 +480,14 @@
 <?php
 $sBottomJavascript = <<<EOT
 <script type="text/javascript">
+
+$('#created').datetimepicker({
+    format: 'DD-MM-YYYY'
+}); 
+
+$('#created').datetimepicker({
+    format: 'DD-MM-YYYY'
+}); 
 
 
 $('#addRow').on( "click", function(event){
@@ -561,4 +594,3 @@ $(document).on("change", ".freeFieldAmpExtra", function(event) {
 </script>
 EOT;
 $oPageLayout->addJavascript($sBottomJavascript);
-?>

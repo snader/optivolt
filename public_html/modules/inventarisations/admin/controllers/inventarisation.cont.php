@@ -72,15 +72,22 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                
         # parent inventarisation has only Id, remarks, userId and customerId
    
-        $oInventarisation->remarks = _e(Request::postVar('remarks'));
-        $oInventarisation->userId = UserManager::getCurrentUser()->userId;
+        $oInventarisation->remarks = _e(Request::postVar('remarks'));        
         $oInventarisation->customerId = Request::postVar('customerId');
+        $oInventarisation->userId = Request::postVar('userId');
         $oInventarisation->customerName = _e(Request::postVar('customerName'));
+
+        if (!empty(Request::postVar('created'))) {
+            $oInventarisation->created = date('Y-m-d', strtotime(Request::postVar('created')));
+        } else {
+            $oInventarisation->created = date('Y-m-d', time());
+        }
         
-
-
         # if object is valid, save
         if ($oInventarisation->isValid()) {
+
+
+            
             InventarisationManager::saveInventarisation($oInventarisation); //save item
 
             saveLog(
