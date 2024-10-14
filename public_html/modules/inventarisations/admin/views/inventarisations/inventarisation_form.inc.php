@@ -27,7 +27,7 @@
             <div class="col-sm-2 form-group">
                           
                 <div class="input-group date" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker" required id="created" name="created" data-target="#created" value="<?= !empty($oInventarisation->created) ? date('d-m-Y', strtotime($oInventarisation->created)) : '' ?>">
+                <input type="text" class="form-control datetimepicker" <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>required id="created" name="created" data-target="#created" value="<?= !empty($oInventarisation->created) ? date('d-m-Y', strtotime($oInventarisation->created)) : '' ?>">
                 <div class="input-group-append" data-target="#created" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                 </div>
