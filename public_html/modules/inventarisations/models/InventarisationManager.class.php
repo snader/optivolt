@@ -78,7 +78,7 @@ class InventarisationManager
                         ' . db_str($oInventarisation->trafoNr) . ',
                         ' . db_str($oInventarisation->mlProposed) . ',
                         ' . db_str($oInventarisation->remarks) . ',
-                        ' . 'NOW()' . '
+                        ' . db_str($oInventarisation->created) . '
                     )
                     ON DUPLICATE KEY UPDATE
                         `parentInventarisationId`= VALUES(`parentInventarisationId`),
@@ -99,7 +99,8 @@ class InventarisationManager
                         `photoNrs`=VALUES(`photoNrs`),
                         `trafoNr`=VALUES(`trafoNr`),
                         `mlProposed`=VALUES(`mlProposed`),
-                        `remarks`=VALUES(`remarks`)
+                        `remarks`=VALUES(`remarks`),
+                        `created`=VALUES(`created`)
                     ;';
 
                     //if (is_int($oInventarisation->parentInventarisationId)) {

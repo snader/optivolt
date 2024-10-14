@@ -1,7 +1,7 @@
 <table style="width:100%;">
   <tr>
     <th colspan="3"><?= ($oInventarisation->customerName ? _e($oInventarisation->customerName) : CustomerManager::getCustomerById($oInventarisation->customerId)->companyName) ?></th>
-    <th colspan="3">Optivolt - <?= Usermanager::getUserById($oInventarisation->userId)->name ?> - <?= date('d-m-Y H:i', strtotime($oInventarisation->created)) ?></th>
+    <th colspan="3">Optivolt - <?= Usermanager::getUserById($oInventarisation->userId)->name ?> - <?= date('d-m-Y', strtotime($oInventarisation->created)) ?></th>
   </tr>
   <tr>
     <th style="width:20%">Transformator naam/nr</th>
