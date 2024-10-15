@@ -3,7 +3,7 @@
 class Inventarisation extends Model
 {
 
-    
+    public const A_OPTIONS = ['NH0 160A', 'NH1 250A', 'NH2 400A', 'NH3 630A', 'MCCB'];
 
     public  $inventarisationId;
     public  $parentInventarisationId;

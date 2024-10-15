@@ -106,7 +106,7 @@ class InventarisationManager
                     //if (is_int($oInventarisation->parentInventarisationId)) {
                     //_d($sQuery);
                     //}
-
+                  
         $oDb = DBConnections::get();
         $oDb->query($sQuery, QRY_NORESULT);
 

@@ -128,10 +128,12 @@
                                     continue;
                                 }
 
-                                $aSubFreeFieldAmpExtra[] = explode("|", $oSubInventarisation->freeFieldAmp ?? '');
+                                $aSubFreeFieldAmpExtra = explode("|", $oSubInventarisation->freeFieldAmp ?? '');
+                                
+                                
                         ?>
                             
-                            <div class="row">
+                            <div class="row tableOne">
                                 <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtraTableOne[]">
                                 <span style="<?= ($oInventarisation->isReadOnly() ? 'display:none; ' : '') ?>float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow" id="<?= _e($oSubInventarisation->inventarisationId) ?>"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                                 <div class="col-sm-4 col-md-3 form-group">
@@ -158,21 +160,25 @@
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
-                                    <?php
-                                    $aOptions = ['NH0 160A','NH1 250A','NH2 400A','NH3 630A','MCCB'];
-                                    foreach ($aSubFreeFieldAmpExtra as $aSubFreeFieldAmpExtraStr) {
-                                        
-                                    ?>
-                                    <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra" name="freeFieldAmpExtra[]" style="width:100%;">
+                                    <textarea name="freeFieldAmpExtraTotal[]" style="display:block;"><?= _e($oSubInventarisation->freeFieldAmp) ?></textarea>
+                                    <?php                               
+                                    $iCount=0;
+                                    foreach ($aSubFreeFieldAmpExtra as $sSubFreeFieldAmpExtraStr) {
+                                        $iCount++;
+                                        if ($iCount>1) {
+                                        ?>
+                                        <i class="fas fa-minus-circle removeFreeFieldAmp" style="float:left;"></i>
+                                        <?php } ?>
+                                    <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra selplmi" name="freeFieldAmpExtra[]">
                                         <option value="">- Selecteer &raquo; </option> 
                                         <?php
                                         $bSelected = false;
                                         foreach ($aOptions as $sOption) { 
-                                            if ($sOption!='-' && $aSubFreeFieldAmpExtraStr[0]==$sOption) {
+                                            if ($sOption!='-' && $sSubFreeFieldAmpExtraStr==$sOption) {
                                                 $bSelected = true;
                                             }
                                             ?>
-                                            <option <?= $aSubFreeFieldAmpExtraStr[0]==$sOption ? 'selected ' : ''?>value='<?=$sOption?>'><?=$sOption?></option>
+                                            <option <?= $sSubFreeFieldAmpExtraStr==$sOption ? 'selected ' : ''?>value='<?=$sOption?>'><?=$sOption?></option>
                                         <?php
                                         }
                                         
@@ -180,10 +186,12 @@
                                         <option <?= !$bSelected ? 'selected' : '' ?> value='-'>Overig</option>                              
                                     </select>
                                                                         
-                                    <input required <?= $bSelected ? 'style="display:none;" ' : '' ?><?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" class="form-control freeFieldAmpExtraOverig" value="<?= _e($aSubFreeFieldAmpExtraStr[0]) ?>" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input required <?= $bSelected ? 'style="display:none;" ' : '' ?><?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" class="form-control freeFieldAmpExtraOverig selplmi" value="<?= _e($sSubFreeFieldAmpExtraStr) ?>" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     
                                     <?php 
                                 } ?>
+                                    <span class="addhere"></span>
+                                    <span class="addFreeFieldAmp" style="float:left;">+</span>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
                                     <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
@@ -212,7 +220,7 @@
 
                         <!-- rowToBeAdded to table one -->
                         <div style="display:none;" id="rowToBeAdded">
-                            <div class="row">
+                            <div class="row tableOne">
                                 <input type="hidden" value="" name="inventarisationIdExtraTableOne[]">
                                 <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                                 <div class="col-sm-4 col-md-3 form-group">
@@ -240,17 +248,18 @@
                                 </div>
                                 
                                 <div class="col-sm-3 col-md-2 form-group" >  
-                                                             
-                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra" name="freeFieldAmpExtra[]" style="width:100%;">
-                                        <option value="">- Selecteer &raquo; </option>                                            
-                                        <option value="NH0 160A">NH0 160A</option>
-                                        <option value="NH1 250A">NH1 250A</option>  
-                                        <option value="NH2 400A">NH2 400A</option>
-                                        <option value="NH3 630A">NH3 630A</option>
-                                        <option value="MCCB">MCCB</option>  
+                                    <textarea name="freeFieldAmpExtraTotal[]" style="display:block;"></textarea>    
+                                                                                            
+                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra selplmi" name="freeFieldAmpExtra[]">
+                                        <option value="">- Selecteer &raquo; </option>
+                                        <?php
+                                        foreach ($aOptions as $sOption) {
+                                            echo '<option value="' . $sOption . '">' . $sOption . '</option>';
+                                        }
+                                        ?>                                                                                    
                                         <option value="-">Overig</option>                              
                                     </select>
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" style="display:none;" class="form-control freeFieldAmpExtraOverig" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="freeFieldAmpExtra[]" style="display:none;" class="form-control freeFieldAmpExtraOverig selplmi" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="addhere"></span>
                                     <span class="addFreeFieldAmp" style="float:left;">+</span>
                                 </div>
@@ -266,18 +275,21 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- THIS ONE IS ADDED DYNAMICALLY -->
                         <div style="display:none;" >
                             <div class="col-sm-3 col-md-2 form-group" id="freeFieldAmpDiv">
-                                <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra" name="freeFieldAmpExtra[]" style="width:100%;">
+                                <i class="fas fa-minus-circle removeFreeFieldAmp" style="float:left;"></i>
+                                 
+                                <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra selplmi" name="freeFieldAmpExtra[]">
                                     <option value="">- Selecteer &raquo; </option>                                            
-                                    <option value="NH0 160A">NH0 160A</option>
-                                    <option value="NH1 250A">NH1 250A</option>  
-                                    <option value="NH2 400A">NH2 400A</option>
-                                    <option value="NH3 630A">NH3 630A</option>
-                                    <option value="MCCB">MCCB</option>  
+                                    <?php
+                                    foreach ($aOptions as $sOption) {
+                                        echo '<option value="' . $sOption . '">' . $sOption . '</option>';
+                                    }
+                                    ?> 
                                     <option value="-">Overig</option>                              
                                 </select>
-                                <input type="text" name="freeFieldAmpExtra[]" style="display:none;" class="form-control freeFieldAmpExtraOverig" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                <input type="text" name="freeFieldAmpExtra[]" style="display:none;" class="form-control freeFieldAmpExtraOverig selplmi" value="" title="Vrij veld aanwezig + hoeveel Amp. (NH0, NH1, NH3)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                 
                             </div>
                         </div>
@@ -336,37 +348,37 @@
                                 <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtraTableTwo[]">
                                 <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" id="<?= _e($oSubInventarisation->inventarisationId) ?>" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
                                 <div class="col-sm-3 col-md-3 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="typeExtra[]" class="form-control" id="typeExtra[]" value="<?= _e($oSubInventarisation->type) ?>" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="typeExtra[]" class="form-control" value="<?= _e($oSubInventarisation->type) ?>" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>  
                                 <div class="col-sm-1 col-md-1 form-group">
-                                <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="controlExtra[]" name="controlExtra[]" title="Control">
+                                <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control"  name="controlExtra[]" title="Control">
                                         <option value="">- Kies</option>
-                                        <option<?= ($oInventarisation->control == 'SD' ? ' selected' : '') ?> value="SD">SD</option>
-                                        <option<?= ($oInventarisation->control == 'D' ? ' selected' : '') ?>  value="D">D</option>
-                                        <option<?= ($oInventarisation->control == 'SS' ? ' selected' : '') ?>  value="SS">SS</option>
-                                        <option<?= ($oInventarisation->control == 'YY' ? ' selected' : '') ?>  value="YY">YY</option>                                        
+                                        <option <?= ($oSubInventarisation->control == 'SD' ? 'selected' : '') ?> value="SD">SD</option>
+                                        <option <?= ($oSubInventarisation->control == 'D' ? 'selected' : '') ?>  value="D">D</option>
+                                        <option <?= ($oSubInventarisation->control == 'SS' ? 'selected' : '') ?>  value="SS">SS</option>
+                                        <option <?= ($oSubInventarisation->control == 'YY' ? 'selected' : '') ?>  value="YY">YY</option>                                        
                                     </select>                                    
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-1 col-md-1 form-group">
-                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="relaisNrExtra[]" class="form-control" id="relaisNrExtra[]" value="<?= _e($oSubInventarisation->relaisNr) ?>" title="Relais nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="relaisNrExtra[]" class="form-control"  value="<?= _e($oSubInventarisation->relaisNr) ?>" title="Relais nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="engineKwExtra[]" class="form-control" id="engineKwExtra[]" value="<?= _e($oSubInventarisation->engineKw) ?>" title="KW engine +30 kW" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="engineKwExtra[]" class="form-control"  value="<?= _e($oSubInventarisation->engineKw) ?>" title="KW engine +30 kW" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-3 col-md-1 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="turningHoursExtra[]"  class="form-control" id="turningHoursExtra[]" value="<?= _e($oSubInventarisation->turningHours) ?>" title="Turning hours" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="turningHoursExtra[]"  class="form-control"  value="<?= _e($oSubInventarisation->turningHours) ?>" title="Turning hours" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-2 col-md-3 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="photoNrsExtra[]"  class="form-control" id="photoNrsExtra[]" value="<?= _e($oSubInventarisation->photoNrs) ?>" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="photoNrsExtra[]"  class="form-control"  value="<?= _e($oSubInventarisation->photoNrs) ?>" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-2 col-md-1 form-group">
-                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="trafoNrExtra[]"  class="form-control" id="trafoNrExtra[]" value="<?= _e($oSubInventarisation->trafoNr) ?>" title="Which trafo number?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="trafoNrExtra[]"  class="form-control"  value="<?= _e($oSubInventarisation->trafoNr) ?>" title="Which trafo number?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 
@@ -433,7 +445,7 @@
                                 <label for="remarks">Extra notes/remarks</label>
                             </div>
                             <div class="col-md-12 form-group">
-                                <textarea <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>name="remarks" id="remarks" class="form-control" rows="6"></textarea>
+                                <textarea <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>name="remarks" id="remarks" class="form-control" rows="6"><?= _e($oInventarisation->remarks) ?></textarea>
                             </div>
                         </div>                      
                     </div>
@@ -485,10 +497,6 @@ $('#created').datetimepicker({
     format: 'DD-MM-YYYY'
 }); 
 
-$('#created').datetimepicker({
-    format: 'DD-MM-YYYY'
-}); 
-
 
 $('#addRow').on( "click", function(event){
     rowToBeAdded = $("#rowToBeAdded").html();
@@ -499,50 +507,69 @@ $('#addRow').on( "click", function(event){
     
     $( "#addRowsHere" ).append( rowToBeAdded );
 
-    $('input:visible, select:visible').each(function() {
-        $(this).attr('required', true);
-    });
+    updateRequiredFields(); 
+
     
 });
 
 
 $(document).on("click", ".addFreeFieldAmp" , function() {
-var freeFieldAmpDiv = $('#freeFieldAmpDiv').html();    
+    var freeFieldAmpDiv = $('#freeFieldAmpDiv').html();    
     $(this).parent().find('.addhere').append( freeFieldAmpDiv );
+   
+    updateRequiredFields();
 
 });
 
+
+$(document).on('click', '.removeFreeFieldAmp', function() {
+      
+    // Verwijder het volgende select-element
+    $(this).next('select').remove();
+
+    // Verwijder het input-element dat na het select-element komt
+    $(this).next('input.freeFieldAmpExtra').remove();
+    $(this).next('input.freeFieldAmpExtraOverig').remove();
+
+    // update de textarea met een opsomming
+     mergeValuesForTable($(this).closest('.tableOne'));
+
+    // Verwijder het geselecteerde .removeFreeFieldAmp element zelf
+    $(this).remove();
+});
+
+
 $(document).on("click", ".removeRow" , function() {
-        therow = $(this);       
-        therowId = therow.attr('id')       
-        event.preventDefault();
-        $('#modal-record-del').modal('show');
-        $('#do-finish-del').on( "click", function() {
+    therow = $(this);       
+    therowId = therow.attr('id')       
+    event.preventDefault();
+    $('#modal-record-del').modal('show');
+    $('#do-finish-del').on( "click", function() {
 
-            if (therowId>1) {
-                // delete database record
-    
-                $.ajax('/dashboard/inventarisations/deleterow', {
-                    type: 'POST',  // http method
-                    data: { therowId: therowId },  // data to submit
-                    success: function (data, status, xhr) {
-                        $('#modal-record-del').modal('hide');           
-                        therow.parent().remove();
-                    },
-                    error: function (jqXhr, textStatus, errorMessage) {
-                            alert("Something went wrong...");
-                    }
-                });      
-            } else {
+        if (therowId>1) {
+            // delete database record
 
-                // delete a record that has not yet been saved
-                $('#modal-record-del').modal('hide');           
-                therow.parent().remove();
-            }           
+            $.ajax('/dashboard/inventarisations/deleterow', {
+                type: 'POST',  // http method
+                data: { therowId: therowId },  // data to submit
+                success: function (data, status, xhr) {
+                    $('#modal-record-del').modal('hide');           
+                    therow.parent().remove();
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                        alert("Something went wrong...");
+                }
+            });      
+        } else {
+
+            // delete a record that has not yet been saved
+            $('#modal-record-del').modal('hide');           
+            therow.parent().remove();
+        }           
 
 
-            
-        });
+        
+    });
 
     
 });
@@ -579,16 +606,54 @@ $('#customerId').on( "change", function() {
     }
 });
 
-$(document).on("change", ".freeFieldAmpExtra", function(event) {
+$(document).on("change", ".freeFieldAmpExtra", function(event) {    
 
     elementOverig = $(this).next(".freeFieldAmpExtraOverig");
 
     if ($(this).val()!='-') {
         elementOverig.val('').prop('required',false).hide();        
     } else {
-        elementOverig.val('').prop('required',true).show();
+        elementOverig.val('').prop('required',true).show().focus();
     }
 });
+
+
+// Functie om de waarden van de input- en select-velden per `tableOne` samen te voegen
+function mergeValuesForTable(table) {
+    // Selecteer alle zichtbare input- en select-velden met name="freeFieldAmpExtra[]" binnen de specifieke `tableOne`-div
+    let values = $(table).find('input[name="freeFieldAmpExtra[]"]:visible, select[name="freeFieldAmpExtra[]"]:visible')
+        .map(function() {
+            const val = $(this).val().trim(); // Haal de waarde op en trim eventuele spaties
+            return val !== '-' && val !== '' ? val : null; // Negeer lege waarden en '-'
+        })
+        .get(); // Converteer naar een array
+
+    // Voeg de waarden samen, gescheiden door '|'
+    let uniqueValues = values.join('|');
+
+    // Zet de samengestelde string in de textarea binnen dezelfde `tableOne`-div
+    $(table).find('textarea[name="freeFieldAmpExtraTotal[]"]').val(uniqueValues);
+}
+
+
+// Voeg een event listener toe voor input- en select-velden binnen elke `tableOne`-div, inclusief dynamisch toegevoegde elementen
+$(document).on('input change', '.tableOne input[name="freeFieldAmpExtra[]"], .tableOne select[name="freeFieldAmpExtra[]"]', function() {
+    // Roep de mergeValuesForTable-functie aan voor de `tableOne`-div waar het veld is veranderd
+    mergeValuesForTable($(this).closest('.tableOne'));
+});
+
+
+function updateRequiredFields() {
+    $('input, select').each(function() {
+        if ($(this).is(':visible')) {
+            // Voor zichtbare elementen, voeg 'required' toe
+            $(this).attr('required', true);
+        } else {
+            // Voor niet-zichtbare elementen, verwijder 'required'
+            $(this).removeAttr('required');
+        }
+    });
+}
 
 
 </script>

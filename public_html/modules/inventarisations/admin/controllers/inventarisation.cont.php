@@ -43,6 +43,8 @@ if (Request::postVar('resetFilter') || empty($aInventarisationFilter)) {
 # handle add/edit
 if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
+    $aOptions = Inventarisation::A_OPTIONS;
+
     # set crop referrer for pages module
     Session::set('cropReferrer', ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . Request::param('OtherID'));
 
@@ -82,19 +84,20 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         } else {
             $oInventarisation->created = date('Y-m-d', time());
         }
+
+        
         
         # if object is valid, save
         if ($oInventarisation->isValid()) {
-
-
             
             InventarisationManager::saveInventarisation($oInventarisation); //save item
 
-            saveLog(
+              saveLog(
                 ADMIN_FOLDER . '/' . Request::getControllerSegment() . '/bewerken/' . $oInventarisation->inventarisationId,
                 ' Inventarisatie opgeslagen #' . $oInventarisation->inventarisationId . ' ',
                 arrayToReadableText(object_to_array($oInventarisation))
               );
+              
 
             // save extra rows of table one
             if (isset($_POST['inventarisationIdExtraTableOne'])) {
@@ -105,7 +108,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                         empty($_POST['kvaExtra'][$iKey]) &&
                         empty($_POST['loggerIdExtra'][$iKey]) && 
                         empty($_POST['positionExtra'][$iKey]) && 
-                        empty($_POST['freeFieldAmpExtra'][$iKey]) && 
+                        empty($_POST['freeFieldAmpExtraTotal'][$iKey]) && 
                         empty($_POST['stroomTrafoExtra'][$iKey]) 
                         ) {
                         continue;
@@ -127,7 +130,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                     $oSubInventarisation->kva = $_POST['kvaExtra'][$iKey];
                     $oSubInventarisation->loggerId = $_POST['loggerIdExtra'][$iKey];
                     $oSubInventarisation->position = $_POST['positionExtra'][$iKey];
-                    $oSubInventarisation->freeFieldAmp = $_POST['freeFieldAmpExtra'][$iKey];
+                    $oSubInventarisation->freeFieldAmp = $_POST['freeFieldAmpExtraTotal'][$iKey];
                     $oSubInventarisation->stroomTrafo = $_POST['stroomTrafoExtra'][$iKey];
                     
                     // first table
@@ -142,9 +145,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
             // save extra rows of table one
             if (isset($_POST['inventarisationIdExtraTableTwo'])) {
-
                
-
                 foreach ($_POST['inventarisationIdExtraTableTwo'] as $iKey => $iInventarisationId) {
 
                     if (empty($_POST['typeExtra'][$iKey]) && 
@@ -181,7 +182,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                     $oSubInventarisation->turningHours = $_POST['turningHoursExtra'][$iKey];
                     $oSubInventarisation->photoNrs = $_POST['photoNrsExtra'][$iKey];
                     $oSubInventarisation->trafoNr = $_POST['trafoNrExtra'][$iKey];
-                    $oSubInventarisation->mlProposed = $_POST['mlProposedExtra'][$iKey];   
+                    //$oSubInventarisation->mlProposed = $_POST['mlProposedExtra'][$iKey];   
                     
                     
 
@@ -196,6 +197,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                 }
             }
 
+        
             /////////
             Session::set('statusUpdate', sysTranslations::get('inventarisation_saved')); //save status update into session
 

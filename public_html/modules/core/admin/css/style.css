@@ -727,3 +727,46 @@ transition: all 0.1s ease-in-out;
 .show-detail {
     cursor:pointer;
 }
+
+.freeFieldAmpExtraOverig {
+    
+    padding: 0 0 0 35px!important;
+    background: url(/modules/core/admin/images/icons/sub_icon.png) no-repeat 15px 12px;
+   
+    
+}
+
+.selplmi {
+    width:90%;margin-left:25px;
+}
+
+
+.addFreeFieldAmp {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+    border-radius: 50%; /* Maakt het element rond */
+    border: 0px solid #000; /* Zwarte rand */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Zachte overgang voor kleuren */
+    color: #fff; /* Kleur van de tekst */
+    font-weight:bold;
+}
+
+.addFreeFieldAmp {
+    background-color: #2ecc71; /* Groen bij hover */
+}
+
+.removeFreeFieldAmp {
+    margin-top:10px;
+}
+.removeFreeFieldAmp:hover {
+    cursor: pointer;
+}
+
+.addFreeFieldAmp:hover {
+    
+    color: #fff; /* Tekstkleur wit bij hover */
+}
