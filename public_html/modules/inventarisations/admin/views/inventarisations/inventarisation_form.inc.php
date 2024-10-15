@@ -160,7 +160,7 @@
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-2 form-group">
-                                    <textarea name="freeFieldAmpExtraTotal[]" style="display:block;"><?= _e($oSubInventarisation->freeFieldAmp) ?></textarea>
+                                    <textarea name="freeFieldAmpExtraTotal[]" style="display:none;"><?= _e($oSubInventarisation->freeFieldAmp) ?></textarea>
                                     <?php                               
                                     $iCount=0;
                                     foreach ($aSubFreeFieldAmpExtra as $sSubFreeFieldAmpExtraStr) {
@@ -248,7 +248,7 @@
                                 </div>
                                 
                                 <div class="col-sm-3 col-md-2 form-group" >  
-                                    <textarea name="freeFieldAmpExtraTotal[]" style="display:block;"></textarea>    
+                                    <textarea name="freeFieldAmpExtraTotal[]" style="display:none;"></textarea>    
                                                                                             
                                     <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control freeFieldAmpExtra selplmi" name="freeFieldAmpExtra[]">
                                         <option value="">- Selecteer &raquo; </option>
