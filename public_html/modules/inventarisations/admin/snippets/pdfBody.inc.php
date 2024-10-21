@@ -5,10 +5,10 @@
   </tr>
   <tr>
     <th style="width:20%">Transformator naam/nr</th>
-    <th style="width:6%">KV/Amp</th>
+    <th style="width:6%">kVA/A</th>
     <th style="width:6%">Logger</th>
-    <th style="width:19%">Positie? Foto#</th>
-    <th style="width:20%">Vrij veld aanwezig + hoeveel Amp</th>
+    <th style="width:19%">Remark</th>
+    <th style="width:20%">Vrij veld?</th>
     <th style="width:10%">Stroomtrafo</th>
   </tr>
   <?php
@@ -31,12 +31,12 @@
       
       <tr>
         
-          <td><?= _e($oSubInventarisation->name) ?></td>  
-          <td><?= _e($oSubInventarisation->kva) ?></td>
-          <td><?= $oSubInventarisation->loggerId ? LoggerManager::getLoggerById($oSubInventarisation->loggerId)->name : '' ?></td>
-          <td><?= _e($oSubInventarisation->position) ?></td>
-          <td><?= _e($oSubInventarisation->freeFieldAmp) ?></td>
-          <td><?= _e($oSubInventarisation->stroomTrafo) ?></td>
+          <td valign="top"><?= _e($oSubInventarisation->name) ?></td>  
+          <td valign="top"><?= _e($oSubInventarisation->kva) ?></td>
+          <td valign="top"><?= $oSubInventarisation->loggerId ? LoggerManager::getLoggerById($oSubInventarisation->loggerId)->name : '' ?></td>
+          <td valign="top"><?= _e($oSubInventarisation->position) ?></td>
+          <td valign="top"><?= (str_replace("|", "<br />", $oSubInventarisation->freeFieldAmp)) ?></td>
+          <td valign="top"><?= _e($oSubInventarisation->stroomTrafo) ?></td>
       
         </tr>
       <?php
@@ -54,9 +54,9 @@
       <th style="width:14%">Relais#</th>
       <th style="width:15%">KW Engine+30kW</th>
       <th style="width:15%">Turning hours</th>
-      <th style="width:20%">Position, Foto#</th>
+      <th style="width:20%">Remark</th>
       <th style="width:11%">Trafo#</th>
-      <th style="width:12%">ML Proposed</th>
+      
   </tr>
 
   <?php
@@ -71,8 +71,7 @@
                 empty($oSubInventarisation->engineKw) && 
                 empty($oSubInventarisation->turningHours) && 
                 empty($oSubInventarisation->photoNrs) && 
-                empty($oSubInventarisation->trafoNr) && 
-                empty($oSubInventarisation->mlProposed)
+                empty($oSubInventarisation->trafoNr) 
 
                 ) {
                     continue;
@@ -89,7 +88,7 @@
             <td><?= _e($oSubInventarisation->turningHours) ?></td>
             <td><?= _e($oSubInventarisation->photoNrs) ?></td>
             <td><?= _e($oSubInventarisation->trafoNr) ?></td>
-            <td><?= _e($oSubInventarisation->mlProposed) ?></td>
+            
         
         </tr>
     <?php
