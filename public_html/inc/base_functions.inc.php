@@ -675,14 +675,19 @@ function slugify($text, string $divider = '-')
  */
 function addHttp($sValue, $bForceHttp = false)
 {
-    if (!preg_match("#^http(s)?:\/\/#", $sValue) && $sValue) {
-        $sValue = "http://" . $sValue;
-    }
-    if ($bForceHttp) {
-        return preg_replace('#^(https://)#i', 'http://', $sValue);
-    }
-
-    return $sValue;
+        // Zorg ervoor dat $sValue een string is
+        if (!is_string($sValue) || trim($sValue) === '') {
+            return '';
+        }
+    
+        if (!preg_match("#^http(s)?:\/\/#", $sValue)) {
+            $sValue = "http://" . $sValue;
+        }
+        if ($bForceHttp) {
+            return preg_replace('#^(https://)#i', 'http://', $sValue);
+        }
+    
+        return $sValue;
 }
 
 /**

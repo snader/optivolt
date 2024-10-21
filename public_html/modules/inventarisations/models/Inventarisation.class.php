@@ -4,6 +4,8 @@ class Inventarisation extends Model
 {
 
     public const A_OPTIONS = ['NH0 160A', 'NH1 250A', 'NH2 400A', 'NH3 630A', 'MCCB'];
+    public const KVA_OPTIONS = ['160 kVA / 250 A', '250 kVA / 400 A', '400 kVA / 630 A', '630 kVA / 1000 A', '1000 kVA / 1600 A', 
+                                '1250 kVA / 2000 A', '1600 kVA / 2500 A', '2500 kVA / 3200 A'];
 
     public  $inventarisationId;
     public  $parentInventarisationId;

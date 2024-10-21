@@ -771,3 +771,7 @@ transition: all 0.1s ease-in-out;
     
     color: #fff; /* Tekstkleur wit bij hover */
 }
+
+.originalvalue {
+    font-size:12px; color: gray;
+}

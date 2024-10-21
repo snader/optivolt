@@ -65,7 +65,7 @@ class InventarisationManager
                         ' . db_int($oInventarisation->customerId) . ', 
                         ' . db_str($oInventarisation->customerName) . ',                       
                         ' . db_str($oInventarisation->name) . ',
-                        ' . db_int($oInventarisation->kva) . ',
+                        ' . db_str($oInventarisation->kva) . ',
                         ' . db_str($oInventarisation->position) . ',
                         ' . db_str($oInventarisation->freeFieldAmp) . ',
                         ' . db_str($oInventarisation->stroomTrafo) . ',
@@ -107,6 +107,7 @@ class InventarisationManager
                     //_d($sQuery);
                     //}
                   
+                 
         $oDb = DBConnections::get();
         $oDb->query($sQuery, QRY_NORESULT);
 

@@ -89,7 +89,8 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
         
         # if object is valid, save
         if ($oInventarisation->isValid()) {
-            
+
+                    
             InventarisationManager::saveInventarisation($oInventarisation); //save item
 
               saveLog(

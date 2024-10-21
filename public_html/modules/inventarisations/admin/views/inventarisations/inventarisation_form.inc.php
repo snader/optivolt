@@ -87,8 +87,8 @@
                             <div class="col-sm-4 col-md-3 form-group">
                                 <label>Transformator naam/nr</label>
                             </div>
-                            <div class="col-sm-4 col-md-1 form-group">
-                                <label>KV/Ampere</label>
+                            <div class="col-sm-4 col-md-2 form-group">
+                                <label>kVA/A</label>
                             </div>
                             <div class="col-sm-4 col-md-1 form-group">
                                 <label>Logger?</label>
@@ -99,7 +99,7 @@
                             <div class="col-sm-4 col-md-2 form-group">
                                 <label>Vrij veld?</label>
                             </div>
-                            <div class="col-sm-4 col-md-2 form-group">
+                            <div class="col-sm-4 col-md-1 form-group">
                                 <label>Stroomtrafo?</label>
                             </div>
                         </div>
@@ -140,13 +140,30 @@
                                     <input required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="nameExtra[]" class="form-control"  value="<?= _e($oSubInventarisation->name) ?>" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>  
-                                <div class="col-sm-4 col-md-1 form-group">
-                                    <input required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="number" name="kvaExtra[]" class="form-control"  value="<?= _e($oSubInventarisation->kva) ?>" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                <div class="col-sm-4 col-md-2 form-group">
+                                    <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="kvaExtra[]" title="kVA/A">
+                                        <option value="">- Selecteer</option>
+                                        <?php
+                                        $bWasSelected = false;
+                                        foreach (Inventarisation::KVA_OPTIONS as $sOption) {
+                                            $bSelected = false;
+                                            if (!empty($oSubInventarisation->kva)) {
+                                                if ($sOption == $oSubInventarisation->kva) { $bSelected = true; $bWasSelected = true; }
+                                                //if (substr_count($sOption, $oSubInventarisation->kva)>0) { $bSelected = true; }
+                                            }
+                                            echo "<option" . ($bSelected ? ' selected' : '') . " value='" . $sOption . "'>" . $sOption . "</option>";
+                                        }
+                                        ?>
+                                    </select><?php
+                                    if (!$bWasSelected && !empty($oSubInventarisation->kva)) {
+                                        echo '<span class="originalvalue">' . $oSubInventarisation->kva . '</span>';
+                                    }
+                                    ?>                               
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
                                     <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="loggerIdExtra[]" title="Selecteer een logger">
-                                        <option value="">- Kies</option>
+                                        <option value="">- Selecteer</option>
                                         <?php
                                         foreach ($aLoggers as $oLogger) {
                                             echo "<option" . ($oSubInventarisation->loggerId == $oLogger->loggerId ? ' selected' : '') . ($oLogger->online ? '' : ' style=\'color:red;\'') . " value='" . $oLogger->loggerId . "'>" . $oLogger->name . "</option>";
@@ -193,9 +210,9 @@
                                     <span class="addhere"></span>
                                     <span class="addFreeFieldAmp" style="float:left;">+</span>
                                 </div>
-                                <div class="col-sm-4 col-md-2 form-group">
+                                <div class="col-sm-4 col-md-1 form-group">
                                     <select required <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
-                                        <option value="">- Kies</option>
+                                        <option value="">- Selecteer</option>
                                         <option <?= $oSubInventarisation->stroomTrafo == "J" ? 'selected' : ''?> value="J">Ja</option>
                                         <option <?= $oSubInventarisation->stroomTrafo == "N" ? 'selected' : ''?> value="N">Nee</option>
                                         <option <?= $oSubInventarisation->stroomTrafo == "NVT" ? 'selected' : ''?> value="NVT">NVT</option>                                        
@@ -227,13 +244,20 @@
                                     <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="nameExtra[]" class="form-control" value="" title="Transformator naam/nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>  
-                                <div class="col-sm-4 col-md-1 form-group">
-                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="number" name="kvaExtra[]" class="form-control" value="" title="KV/Ampere" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                <div class="col-sm-4 col-md-2 form-group">
+                                    <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="kvaExtra[]" title="kVA/A">
+                                        <option value="">- Selecteer</option>
+                                        <?php
+                                        foreach (Inventarisation::KVA_OPTIONS as $sOption) {
+                                            echo "<option value='" . $sOption . "'>" . $sOption . "</option>";
+                                        }
+                                        ?>
+                                    </select> 
                                     <span class="error invalid-feedback show"></span>
                                 </div>
                                 <div class="col-sm-4 col-md-1 form-group">
                                     <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="loggerIdExtra[]" title="Selecteer een logger">
-                                        <option value="">- Kies</option>
+                                        <option value="">- Selecteer</option>
                                         <?php
                                         foreach ($aLoggers as $oLogger) {
                                             echo "<option" . ($oLogger->online ? '' : ' style=\'color:red;\'') . " value='" . $oLogger->loggerId . "'>" . $oLogger->name . "</option>";
@@ -264,9 +288,9 @@
                                     <span class="addFreeFieldAmp" style="float:left;">+</span>
                                 </div>
                                 
-                                <div class="col-sm-3 col-md-2 form-group">
+                                <div class="col-sm-3 col-md-1 form-group">
                                     <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="stroomTrafoExtra[]" title="Stroomtrafo beschikbaar?">
-                                        <option value="">- Kies</option>
+                                        <option value="">- Selecteer</option>
                                         <option <?= $oInventarisation->stroomTrafo == "J" ? 'selected' : ''?> value="J">Ja</option>
                                         <option <?= $oInventarisation->stroomTrafo == "N" ? 'selected' : ''?> value="N">Nee</option>
                                         <option <?= $oInventarisation->stroomTrafo == "NVT" ? 'selected' : ''?> value="NVT">NVT</option>                                        
@@ -353,7 +377,7 @@
                                 </div>  
                                 <div class="col-sm-1 col-md-1 form-group">
                                 <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control"  name="controlExtra[]" title="Control">
-                                        <option value="">- Kies</option>
+                                        <option value="">- Selecteer</option>
                                         <option <?= ($oSubInventarisation->control == 'SD' ? 'selected' : '') ?> value="SD">SD</option>
                                         <option <?= ($oSubInventarisation->control == 'D' ? 'selected' : '') ?>  value="D">D</option>
                                         <option <?= ($oSubInventarisation->control == 'SS' ? 'selected' : '') ?>  value="SS">SS</option>
@@ -409,7 +433,7 @@
                             </div>  
                             <div class="col-sm-1 col-md-1 form-group">
                             <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="controlExtra[]" name="controlExtra[]" title="Control">
-                                    <option value="">- Kies</option>
+                                    <option value="">- Selecteer</option>
                                     <option value="SD">SD</option>
                                     <option value="D">D</option>
                                     <option value="SS">SS</option>
