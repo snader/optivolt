@@ -150,6 +150,7 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
                 foreach ($_POST['inventarisationIdExtraTableTwo'] as $iKey => $iInventarisationId) {
 
                     if (empty($_POST['typeExtra'][$iKey]) && 
+                        empty($_POST['deviceExtra'][$iKey]) &&
                         empty($_POST['controlExtra'][$iKey]) &&
                         empty($_POST['relaisNrExtra'][$iKey]) && 
                         empty($_POST['engineKwExtra'][$iKey]) && 
@@ -176,7 +177,8 @@ if (Request::param('ID') == 'bewerken' || Request::param('ID') == 'toevoegen') {
 
                     // second table
                     $oSubInventarisation->parentInventarisationId  = $oInventarisation->inventarisationId;
-                    $oSubInventarisation->type = $_POST['typeExtra'][$iKey];
+                    $oSubInventarisation->device = $_POST['deviceExtra'][$iKey];
+                    $oSubInventarisation->type = $_POST['typeExtra'][$iKey];                    
                     $oSubInventarisation->control = $_POST['controlExtra'][$iKey];                    
                     $oSubInventarisation->relaisNr = $_POST['relaisNrExtra'][$iKey];
                     $oSubInventarisation->engineKw = $_POST['engineKwExtra'][$iKey];

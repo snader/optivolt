@@ -19,6 +19,7 @@ class Inventarisation extends Model
     public  $freeFieldAmp    = null;
     public  $stroomTrafo     = null;
     public  $control;
+    public  $device          = null;
     public  $type;
     public  $relaisNr;
     public  $engineKw;

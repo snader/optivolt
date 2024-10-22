@@ -228,7 +228,7 @@
 
                         <div id="addRowsHere"></div>
                         <div class="input-group-append" <?= $oInventarisation->isReadOnly() ? 'style="display:none;"' : '' ?>>
-                        <a class="addBtn" id="addRow" href="#" title="Regel toevoegen">
+                        <a class="addBtn" id="addRow" href="#plusRowFirst" title="Regel toevoegen">
                             <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
                             <i class="fas fa-plus-circle"></i>
                             </button>
@@ -324,7 +324,10 @@
 
                         <!-- second table -->
                         <div class="row">
-                            <div class="col-sm-3 col-md-3 form-group">
+                            <div class="col-sm-2 col-md-2 form-group">
+                                <label>Device</label>
+                            </div>
+                            <div class="col-sm-2 col-md-2 form-group">
                                 <label>Type engine</label>
                             </div>
                             <div class="col-sm-1 col-md-1 form-group">
@@ -348,10 +351,12 @@
                         
                         </div>
                         <!-- second table first row -->
-                                                
+                        <div id="addRowsHereSecond">                 
                         <?php
                         // Table 2 - SUB systemReports here with parentID = $oInventarisation->inventarisationId
                         if (isset($aInventarisations) && !empty($aInventarisations)) {
+
+                            $sPreviousDevice = "";
 
                             foreach ($aInventarisations as $oSubInventarisation) {
 
@@ -366,12 +371,19 @@
                                     ) {
                                         continue;
                                     }
+
+
+                                   
                         ?>
                             
                             <div class="row">
                                 <input type="hidden" value="<?= _e($oSubInventarisation->inventarisationId) ?>" name="inventarisationIdExtraTableTwo[]">
                                 <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" id="<?= _e($oSubInventarisation->inventarisationId) ?>" class="removeRow"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
-                                <div class="col-sm-3 col-md-3 form-group">
+                                <div class="col-sm-2 col-md-2 form-group">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="<?= $sPreviousDevice == $oSubInventarisation->device ? 'text' : 'text'?>" <?= $sPreviousDevice == $oSubInventarisation->device ? 'readonly' : ''?> name="deviceExtra[]" class="form-control device" value="<?= _e($oSubInventarisation->device) ?>" title="Apparaat/Device" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <?= $sPreviousDevice == $oSubInventarisation->device ? '<span class="devicearrow" style="display: inline;"><img src="/modules/core/admin/images/icons/sub_icon.png"></span>' : ''?>
+                                </div>
+                                <div class="col-sm-2 col-md-2 form-group">
                                     <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="typeExtra[]" class="form-control" value="<?= _e($oSubInventarisation->type) ?>" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                     <span class="error invalid-feedback show"></span>
                                 </div>  
@@ -409,13 +421,15 @@
                             
                             </div>
                         <?php
+
+                            $sPreviousDevice = $oSubInventarisation->device;
                             }
                         }
                         ?> 
 
-                        <div id="addRowsHereSecond"></div>
+                        </div>
                         <div class="input-group-append" <?= $oInventarisation->isReadOnly() ? 'style="display:none;"' : '' ?>>
-                        <a class="addBtn" id="addRowSecond" href="#" title="Regel toevoegen">
+                        <a class="addBtn" id="addRowSecond" href="#addRowSecond" title="Regel toevoegen">
                             <button type="button" class="btn btn-default btn-sm" style="min-width:32px;">
                             <i class="fas fa-plus-circle"></i>
                             </button>
@@ -427,12 +441,17 @@
                         <div class="row">
                             <input type="hidden" value="" class="inventarisationIdExtraTableTwo" name="inventarisationIdExtraTableTwo[]">
                             <span style="float:left;position:absolute;margin: 10px 0px 0px -8px;font-size:12px;" class="removeRowSecond"><a href="#"><i class="fas fa-minus-circle"></i></a>&nbsp;</span>
-                            <div class="col-sm-3 col-md-3 form-group">
-                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="typeExtra[]" class="form-control" id="typeExtra[]" value="" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                            <div class="col-sm-2 col-md-2 form-group input-wrapper">
+                                    <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="deviceExtra[]" class="form-control device" value="" title="Apparaat/Device" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                    <span class="iconexpand" title="Zelfde device als hierboven"><img src="/modules/core/admin/images/icons/sub_icon.png"></span>
+                                    <span class="devicearrow" style="display: none;"><img src="/modules/core/admin/images/icons/sub_icon.png"></span>
+                                </div>
+                            <div class="col-sm-2 col-md-2 form-group">
+                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="typeExtra[]" class="form-control" value="" title="Type engine (mixer, compressor..)" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                 <span class="error invalid-feedback show"></span>
                             </div>  
                             <div class="col-sm-1 col-md-1 form-group">
-                            <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" id="controlExtra[]" name="controlExtra[]" title="Control">
+                            <select <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>class="form-control" name="controlExtra[]" title="Control">
                                     <option value="">- Selecteer</option>
                                     <option value="SD">SD</option>
                                     <option value="D">D</option>
@@ -442,23 +461,23 @@
                                 <span class="error invalid-feedback show"></span>
                             </div>
                             <div class="col-sm-4 col-md-1 form-group">
-                            <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="relaisNrExtra[]" class="form-control" id="relaisNrExtra[]" value="" title="Relais nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                            <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="relaisNrExtra[]" class="form-control" value="" title="Relais nr" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                 <span class="error invalid-feedback show"></span>
                             </div>
                             <div class="col-sm-4 col-md-1 form-group">
-                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="engineKwExtra[]" class="form-control" id="engineKwExtra[]" value="" title="KW engine +30 kW" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="engineKwExtra[]" class="form-control" value="" title="KW engine +30 kW" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                 <span class="error invalid-feedback show"></span>
                             </div>
                             <div class="col-sm-4 col-md-1 form-group">
-                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="turningHoursExtra[]"  class="form-control" id="turningHoursExtra[]" value="" title="Turning hours" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="turningHoursExtra[]"  class="form-control" value="" title="Turning hours" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                 <span class="error invalid-feedback show"></span>
                             </div>
                             <div class="col-sm-4 col-md-3 form-group">
-                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="photoNrsExtra[]"  class="form-control" id="photoNrsExtra[]" value="" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                                <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="photoNrsExtra[]"  class="form-control" value="" title="Remark" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                 <span class="error invalid-feedback show"></span>
                             </div>
                             <div class="col-sm-4 col-md-1 form-group">
-                            <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="trafoNrExtra[]"  class="form-control" id="trafoNrExtra[]" value="" title="Which trafo number?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
+                            <input <?= ($oInventarisation->isReadOnly() ? 'readonly disabled ' : '') ?>type="text" name="trafoNrExtra[]"  class="form-control" value="" title="Which trafo number?" data-msg="<?= sysTranslations::get('global_field_not_completed') ?>">
                                 <span class="error invalid-feedback show"></span>
                             </div>
                             
@@ -530,6 +549,7 @@ $('#addRow').on( "click", function(event){
     rowToBeAdded = rowToBeAdded.replace("replace", aantalRows);
     
     $( "#addRowsHere" ).append( rowToBeAdded );
+
 
     updateRequiredFields(); 
 
@@ -610,14 +630,16 @@ $('#addRowSecond').on( "click", function(event){
 
 
 $(document).on("click", ".removeRowSecond" , function() {
-        therow = $(this);
-        event.preventDefault();
-        $('#modal-record-del').modal('show');
-        $('#do-finish-del').on( "click", function() {
-            $('#modal-record-del').modal('hide');                
-            therow.parent().remove();
-        });
-    
+
+    therow = $(this);
+    event.preventDefault();
+    $('#modal-record-del').modal('show');
+    $('#do-finish-del').on( "click", function() {
+        $('#modal-record-del').modal('hide');       
+       
+        therow.parent().remove();
+    });
+   
 });
 
 $('#customerId').on( "change", function() {
@@ -679,6 +701,51 @@ function updateRequiredFields() {
     });
 }
 
+
+$(document).on("click", ".iconexpand", function(event) {    
+
+        // Vind de huidige rij waarin het icoon is geklikt
+        var currentRow = $(this).closest(".row");
+        
+        // Vind het inputveld in de huidige rij
+        var currentInput = currentRow.find(".device");    
+
+        // Vind het inputveld in de rij erboven
+        var previousInput = currentRow.prev(".row").find(".device");
+
+        // Controleer of er een rij erboven is en vul de waarde
+
+        if (previousInput.val().length>1) {
+            currentInput.val(previousInput.val());
+            $(this).remove();  // Verwijder het icoon
+            //currentInput.attr("type", "hidden");
+            currentInput.attr('readonly', true);
+            currentRow.find(".devicearrow").show();
+            currentRow.find(".devicearrow").attr("title", currentInput.val());
+        } else {
+            alert("Het bronveld voor device is leeg.");
+        }
+
+        
+    });
+
+
+    $(document).ready(function() {
+  $('.device').on('input', function() {
+    var newValue = $(this).val();
+    var originalValue = $(this).data('originalValue'); // Sla de oorspronkelijke waarde op
+
+    // Vind alle andere elementen met dezelfde oorspronkelijke waarde
+    $('.device').filter(function() {
+      return $(this).data('originalValue') === originalValue;
+    }).val(newValue);
+  });
+
+  // Sla de oorspronkelijke waarde op bij het laden van de pagina
+  $('.device').each(function() {
+    $(this).data('originalValue', $(this).val());
+  });
+});
 
 </script>
 EOT;

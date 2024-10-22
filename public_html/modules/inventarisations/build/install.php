@@ -194,6 +194,15 @@ if ($oDb->tableExists('inventarisations')) {
             }
         }
     }
+
+
+    if (!$oDb->columnExists('inventarisations', 'device')) {
+        $aLogs[$sModuleName]['errors'][] = ' Missing column device';
+        if ($bInstall) {
+            $oDb->addColumn('inventarisations', 'device', 'VARCHAR', 100, 'type');
+        }
+    }
+
 }
 
 $aInventarisations = InventarisationManager::getInventarisationsByFilter();
